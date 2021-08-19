@@ -14,8 +14,11 @@ download.file(path, temp_file)
 
 # extract tables
 
-cover_tbl <- read_ods(temp_file, sheet = "Cover_sheet", skip = 1) %>%
-  tibble()
+cover_tbl <- read_ods(
+  temp_file, sheet = "Cover_sheet", skip = 1, col_names = FALSE
+) %>%
+  tibble() %>%
+  slice(-c(1, 4, 7, 18, 21))  # so subheaders alternate from row 2
 
 contents_tbl <- read_ods(temp_file, sheet = "Table_of_contents", skip = 1) %>%
   tibble() %>%
