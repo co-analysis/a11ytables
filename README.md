@@ -11,9 +11,9 @@ or
 proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
 <!-- badges: end -->
 
-{a11ytables} is a work-in-progress R package to construct spreadsheets
-that comply with the latest guidance (June 2021) on [releasing
-statistics in
+{a11ytables} is a work-in-progress R package built around {openxlsx}
+that constructs spreadsheets that comply with the latest guidance (June
+2021) on [releasing statistics in
 spreadsheets](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)
 from the Best Practice and Impact Division (BPID) of the UK’s Government
 Statistical Service.
@@ -31,6 +31,10 @@ in mind, but the goal is to generalise it and perhaps have some
 functionality absorbed into the development of
 [gptables](https://github.com/best-practice-and-impact/gptables) in some
 way.
+
+Assumptions have been made while trying to generalise and many features
+are opinionated. Certain things may not work as you intend and you may
+need to tweak your final workbook object after creation.
 
 ## Install
 

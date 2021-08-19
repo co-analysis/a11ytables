@@ -1,6 +1,6 @@
 Package: a11ytables
 Title: Create Best Practice Spreadsheets
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: 
     person(given = "Matt",
            family = "Dray",
@@ -19,5 +19,6 @@ RoxygenNote: 7.1.1
 Depends: 
     R (>= 2.10)
 Imports: 
+    magrittr,
     openxlsx,
     purrr
