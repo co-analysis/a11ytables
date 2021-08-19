@@ -24,9 +24,10 @@ The 'content' object should adhere to the form demonstrated in
 \code{\link{lfs_tables}}
 }
 \examples{
-\dontrun{openxlsx::createWorkbook |>
-  add_tabs(content) |>
-  add_cover(content) |>
-  add_contents(content) |>
+\dontrun{
+openxlsx::createWorkbook() \%>\%
+  add_tabs(content) \%>\%
+  add_cover(content) \%>\%
+  add_contents(content) \%>\%
   add_notes(content)}
 }

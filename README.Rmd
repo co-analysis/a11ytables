@@ -21,11 +21,13 @@ library(a11ytables)
 [![Project Status: Concept – Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
 <!-- badges: end -->
 
-{a11ytables} is a work-in-progress R package to construct spreadsheets that comply with the latest guidance (June 2021) on [releasing statistics in spreadsheets](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/) from the Best Practice and Impact Division (BPID) of the UK's Government Statistical Service.
+{a11ytables} is a work-in-progress R package built around {openxlsx} that constructs spreadsheets that comply with the latest guidance (June 2021) on [releasing statistics in spreadsheets](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/) from the Best Practice and Impact Division (BPID) of the UK's Government Statistical Service.
 
 BPID have themselves released [a Python package called 'gptables'](https://github.com/best-practice-and-impact/gptables) to help users produce such spreadsheets, but it's based on a prior version of the guidance. [That package will be updated](https://github.com/best-practice-and-impact/gptables/issues/145), but there's a gap for this functionality—and for a dedicated R package—at the time of writing (August 2021).
 
 {a11ytables} is being developed with Cabinet Office statistical releases in mind, but the goal is to generalise it and perhaps have some functionality absorbed into the development of [gptables](https://github.com/best-practice-and-impact/gptables) in some way.
+
+Assumptions have been made while trying to generalise and many features are opinionated. Certain things may not work as you intend and you may need to tweak your final workbook object after creation.
 
 ## Install
 
@@ -42,12 +44,12 @@ The package depends on {openxlsx} for constructing workbooks and {purrr} for rea
 At time of writing, you would do something like this to generate a publication:
 
 ```{r ex-piped, eval=FALSE}
-example_wb <- openxlsx::createWorkbook() |>
-  add_tabs(lfs_tables) |>
-  add_cover(lfs_tables) |>
-  add_contents(lfs_tables) |>
-  add_notes(lfs_tables) |>
-  add_tables(lfs_tables, "1a")
+example_wb <- openxlsx::createWorkbook() %>% 
+  add_tabs(lfs_tables) %>% 
+  add_cover(lfs_tables) %>% 
+  add_contents(lfs_tables) %>% 
+  add_notes(lfs_tables) %>% 
+  add_tables(lfs_tables, "Labour_market_summary_for_16_and_over")
 
 openxlsx::saveWorkbook(example_wb, "output/publication.xlsx")
 ```
