@@ -3,6 +3,7 @@
 
   list(
     bold   = openxlsx::createStyle(textDecoration = "Bold"),
+    lalign = openxlsx::createStyle(halign = "left"),
     pt14  = openxlsx::createStyle(fontSize = 14),
     pt16  = openxlsx::createStyle(fontSize = 16),
     ralign = openxlsx::createStyle(halign = "right"),
@@ -56,13 +57,13 @@
   table <- content[content$tab_title == "cover", "table"][[1]][[1]]
   table_height <- nrow(table)
 
-  # Cover columns are SET-WIDTH and WRAPPED
+  # The cover column is SET-WIDTH and WRAPPED
 
   openxlsx::setColWidths(
     wb = wb,
     sheet = tab_name,
     cols = 1,
-    widths = 100
+    widths = 80
   )
 
   openxlsx::addStyle(
@@ -106,7 +107,6 @@
   return(wb)
 
 }
-
 
 .style_table <- function(wb, content, table_name, style_ref) {
 
@@ -160,5 +160,89 @@
 
 
   return(wb)
+
+}
+
+.style_contents <- function(wb, content, style_ref) {
+
+  tab_name <- "contents"
+  table <- content[content$tab_title == "contents", "table"][[1]][[1]]
+  table_height <- nrow(table)
+  table_width <- ncol(table)
+
+  # Contents columns are SET-WIDTH, WRAPPED and LEFT ALIGNED
+
+  openxlsx::setColWidths(
+    wb = wb,
+    sheet = tab_name,
+    cols = seq(table_width),
+    widths = 30
+  )
+
+  openxlsx::addStyle(
+    wb = wb,
+    sheet = tab_name,
+    rows = seq(table_height + 1) + 2,
+    cols = seq(table_width),
+    gridExpand = TRUE,
+    style = style_ref$wrap,
+    stack = TRUE
+  )
+
+  openxlsx::addStyle(
+    wb = wb,
+    sheet = tab_name,
+    rows = seq(table_height + 1) + 2,
+    cols = seq(table_width),
+    gridExpand = TRUE,
+    style = style_ref$lalign,
+    stack = TRUE
+  )
+
+}
+
+
+.style_notes <- function(wb, content, style_ref) {
+
+  tab_name <- "notes"
+  table <- content[content$tab_title == "notes", "table"][[1]][[1]]
+  table_height <- nrow(table)
+  table_width <- ncol(table)
+
+  # Notes columns are SET-WIDTH, WRAPPED and LEFT ALIGNED
+
+  openxlsx::setColWidths(
+    wb = wb,
+    sheet = tab_name,
+    cols = 1,
+    widths = 15
+  )
+
+  openxlsx::setColWidths(
+    wb = wb,
+    sheet = tab_name,
+    cols = 2,
+    widths = 80
+  )
+
+  openxlsx::addStyle(
+    wb = wb,
+    sheet = tab_name,
+    rows = seq(table_height + 1) + 2,
+    cols = seq(table_width),
+    gridExpand = TRUE,
+    style = style_ref$wrap,
+    stack = TRUE
+  )
+
+  openxlsx::addStyle(
+    wb = wb,
+    sheet = tab_name,
+    rows = seq(table_height + 1) + 2,
+    cols = seq(table_width),
+    gridExpand = TRUE,
+    style = style_ref$lalign,
+    stack = TRUE
+  )
 
 }

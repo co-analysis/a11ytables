@@ -91,6 +91,7 @@ add_contents <- function(wb, content) {
   .style_workbook(wb)
   .style_sheet_title(wb, tab_title, styles)
   .style_table(wb, content, table_name, styles)
+  .style_contents(wb, content, styles)
 
   return(wb)
 
@@ -130,6 +131,7 @@ add_notes <- function(wb, content) {
   .style_workbook(wb)
   .style_sheet_title(wb, tab_title, styles)
   .style_table(wb, content, table_name, styles)
+  .style_notes(wb, content, styles)
 
   return(wb)
 
