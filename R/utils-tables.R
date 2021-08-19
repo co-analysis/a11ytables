@@ -1,3 +1,22 @@
+.stop_bad_input <- function(wb, contents, table_name = NULL) {
+
+  if (class(wb)[1] != "Workbook") {
+    stop("'wb' must be a Workbook-class object.")
+  }
+
+  if (!any(class(contents) %in% "data.frame")) {
+    stop("'contents' must have class data.frame.")
+  }
+
+  if (!is.null(table_name) &
+      class(table_name) != "character" &
+      length(table_name != 1)
+  ) {
+    stop("'table_name' must be a string of length 1")
+  }
+
+}
+
 .insert_title <- function(wb, content, tab_title) {
 
   sheet_title <- content[content$tab_title == tab_title, "sheet_title"][[1]]
