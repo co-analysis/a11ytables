@@ -44,8 +44,11 @@ add_tabs <- function(wb, content) {
 #'   add_cover(content)}
 add_cover <- function(wb, content) {
 
-  .insert_title(wb, content, "cover")
-  .insert_table(wb, content, "cover")
+  tab_title <- "cover"
+  table_name <- content[content$tab_title == "cover", "table_name"][[1]]
+
+  .insert_title(wb, content, tab_title)
+  .insert_table(wb, content, table_name)
 
   return(wb)
 
@@ -74,7 +77,7 @@ add_contents <- function(wb, content) {
 
   .insert_title(wb, content, "contents")
   .insert_prelim_a11y(wb, content, "contents")
-  .insert_table(wb, content, "contents")
+  .insert_table(wb, content, "Table_of_contents")
 
   return(wb)
 
@@ -105,7 +108,7 @@ add_notes <- function(wb, content) {
 
   .insert_title(wb, content, "notes")
   .insert_prelim_a11y(wb, content, "notes")
-  .insert_table(wb, content, "notes")
+  .insert_table(wb, content, "Notes_table")
 
   return(wb)
 
@@ -137,10 +140,17 @@ add_notes <- function(wb, content) {
 #'   add_tables(content, "1a")}
 add_tables <- function(wb, content, table_name) {
 
-  .insert_title(wb, content, table_name)
-  .insert_prelim_a11y(wb, content, table_name)
-  .insert_source(wb, content, table_name)
+  tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
+
+  .insert_title(wb, content, tab_title)
+  .insert_prelim_a11y(wb, content, tab_title)
+  .insert_source(wb, content, tab_title)
   .insert_table(wb, content, table_name)
+
+  styles <- .style_create()
+  .style_workbook(wb)
+  .style_sheet_title(wb, tab_title, styles)
+  .style_table(wb, content, table_name, styles)
 
   return(wb)
 

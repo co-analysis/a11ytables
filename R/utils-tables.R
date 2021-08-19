@@ -1,11 +1,15 @@
 .insert_title <- function(wb, content, tab_title) {
 
-  text <- content[content$tab_title == tab_title, "sheet_title"][[1]]
+  sheet_title <- content[content$tab_title == tab_title, "sheet_title"][[1]]
+
+  if (content[content$tab_title == tab_title, "sheet_type"][[1]] == "tables") {
+    sheet_title <- paste0("Worksheet ", tab_title, ": ", sheet_title)
+  }
 
   openxlsx::writeData(
     wb = wb,
     sheet = tab_title,
-    x = text,
+    x = sheet_title,
     startCol = 1,
     startRow = 1,
     colNames = TRUE
@@ -71,18 +75,18 @@
 
 }
 
-.insert_table <- function(wb, content, tab_title, subtable_num = NULL) {
+.insert_table <- function(wb, content, table_name, subtable_num = NULL) {
 
-  table <- content[content$tab_title == tab_title, "table"][[1]][[1]]
-  table_name <- content[content$tab_title == tab_title, "table_name"][[1]]
+  table <- content[content$table_name == table_name, "table"][[1]][[1]]
+  sheet <- content[content$table_name == table_name, "tab_title"][[1]]
 
-  if (tab_title == "cover") start_row <- 2
-  if (tab_title %in% c("contents", "notes")) start_row <- 3
-  if (!tab_title %in% c("cover", "contents", "notes")) start_row <- 4
+  if (sheet == "cover") start_row <- 2
+  if (sheet %in% c("contents", "notes")) start_row <- 3
+  if (!sheet %in% c("cover", "contents", "notes")) start_row <- 4
 
   openxlsx::writeDataTable(
     wb = wb,
-    sheet = tab_title,
+    sheet = sheet,
     x = table,
     tableName = table_name,
     startCol = 1,
@@ -97,4 +101,3 @@
 
 }
 
-# .insert_prelim_other <- function() {}
