@@ -9,14 +9,21 @@
 yet, or the repository is only intended to be a limited example, demo,
 or
 proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/a11ytables)](https://CRAN.R-project.org/package=a11ytables)
+[![R-CMD-check](https://github.com/matt-dray/a11ytables/workflows/R-CMD-check/badge.svg)](https://github.com/matt-dray/a11ytables/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/matt-dray/a11ytables/branch/main/graph/badge.svg)](https://codecov.io/gh/matt-dray/a11ytables?branch=main)
 <!-- badges: end -->
 
-{a11ytables} is a work-in-progress R package built around {openxlsx}
-that constructs spreadsheets that comply with the latest guidance (June
-2021) on [releasing statistics in
+{a11ytables} is a work-in-progress R package built around
+[{openxlsx}](https://ycphs.github.io/openxlsx/) that aims to comply with
+the latest guidance (June 2021) on [releasing statistics in
 spreadsheets](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)
-from the Best Practice and Impact Division (BPID) of the UK’s Government
-Statistical Service.
+from the [Best Practice and Impact
+Division](https://github.com/best-practice-and-impact?language=html)
+(BPID) of the UK’s [Government Statistical
+Service](https://gss.civilservice.gov.uk/).
 
 BPID have themselves released [a Python package called
 ‘gptables’](https://github.com/best-practice-and-impact/gptables) to
@@ -26,8 +33,8 @@ updated](https://github.com/best-practice-and-impact/gptables/issues/145),
 but there’s a gap for this functionality—and for a dedicated R
 package—at the time of writing (August 2021).
 
-{a11ytables} is being developed with Cabinet Office statistical releases
-in mind, but the goal is to generalise it and perhaps have some
+{a11ytables} is being developed with specific statistical releases in
+mind, but the goal is to generalise it and perhaps have some
 functionality absorbed into the development of
 [gptables](https://github.com/best-practice-and-impact/gptables) in some
 way.
@@ -54,15 +61,19 @@ At time of writing, you would do something like this to generate a
 publication:
 
 ``` r
-example_wb <- openxlsx::createWorkbook() |>
-  add_tabs(lfs_tables) |>
-  add_cover(lfs_tables) |>
-  add_contents(lfs_tables) |>
-  add_notes(lfs_tables) |>
-  add_tables(lfs_tables, "1a")
+example_wb <- openxlsx::createWorkbook() %>% 
+  add_tabs(lfs_tables) %>% 
+  add_cover(lfs_tables) %>% 
+  add_contents(lfs_tables) %>% 
+  add_notes(lfs_tables) %>% 
+  add_tables(lfs_tables, table_name = "Labour_market_summary_for_16_and_over") %>%
+  add_tables(lfs_tables, table_name = "Labour_market_activity_groups_16_and_over")
 
-openxlsx::saveWorkbook(example_wb, "output/publication.xlsx")
+openxlsx::openXL(example_wb)  # open temp copy
+openxlsx::saveWorkbook(example_wb, "publication.xlsx")
 ```
+
+The {magrittr} pipe (`%>%`) is exported for convenience.
 
 ## Concept
 
@@ -105,45 +116,20 @@ which is a ‘hidden’ title applied to the marked-up cells of table; and
 data.frame/tibble-class object. For example:
 
 ``` r
-library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
-
 lfs_tables %>% 
-  filter(tab_title == "1a") %>%
-  pull("table")
-#> [[1]]
-#> # A tibble: 6 × 10
-#>   `Time period and d… `Number of people… `Economically acti… `Employment\nlevel…
-#>   <chr>                            <dbl>               <dbl>               <dbl>
-#> 1 Mar to May 2020              53534074.           34127374.           32743577.
-#> 2 Apr to Jun 2020              53556401.           34051489.           32670800.
-#> 3 May to Jul 2020              53579793.           34116254.           32665420.
-#> 4 Jun to Aug 2020              53603157.           34112847.           32590593.
-#> 5 Jul to Sep 2020              53626130            34130192.           32506683.
-#> 6 Aug to Oct 2020              53649283            34213332.           32521742.
-#> # … with 6 more variables: Unemployment
-#> level
-#> (thousands) [note 2] <dbl>,
-#> #   Economically inactive (thousands) [note 3] <dbl>,
-#> #   Economically active rate
-#> (%)
-#>  <dbl>, Employment
-#> rate
-#> (%)
-#> [note 4] <dbl>,
-#> #   Unemployment rate
-#> (%)
-#> [note 4] <dbl>,
-#> #   Economically inactive rate
-#> (%)
-#> [note 4] <dbl>
+  dplyr::filter(tab_title == "1a") %>%
+  dplyr::pull("table") %>% 
+  `[[`(., 1) %>%  # extract from list form
+  dplyr::select(1:3)  # first few cols
+#> # A tibble: 6 × 3
+#>   `Time period and dataset code row` `Number of people (… `Economically active\…
+#>   <chr>                                             <dbl>                  <dbl>
+#> 1 Mar to May 2020                               53534074.              34127374.
+#> 2 Apr to Jun 2020                               53556401.              34051489.
+#> 3 May to Jul 2020                               53579793.              34116254.
+#> 4 Jun to Aug 2020                               53603157.              34112847.
+#> 5 Jul to Sep 2020                               53626130               34130192.
+#> 6 Aug to Oct 2020                               53649283               34213332.
 ```
 
 ## Code of Conduct
