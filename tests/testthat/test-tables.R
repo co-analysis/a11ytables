@@ -70,11 +70,37 @@ test_that("add_tables() works", {
   wb_tabs <- add_tabs(wb, lfs_tables)
   wb_table <- add_tables(wb_tabs, lfs_tables, table_name)
 
+  lfs_tables_misnamed <- lfs_tables
+  names(lfs_tables_misnamed)[1] <- "foo"
+
+  lfs_tables_bad_table <- lfs_tables
+  lfs_tables_bad_table$table <- rep("foo", nrow(lfs_tables_bad_table))
+
+  lfs_tables_nonchar <- lfs_tables
+  lfs_tables_nonchar$tab_title <- 1:nrow(lfs_tables_nonchar)
+
+  lfs_tables_bad_listcol <- lfs_tables
+  lfs_tables_bad_listcol$table[[1]] <- list("foo")
+
+  lfs_tables_wrong_tabnames <- lfs_tables
+  lfs_tables_wrong_tabnames$tab_title[1:3] <- c("foo", "bar", "baz")
+
+  lfs_tables_na <- lfs_tables
+  lfs_tables_na[1, c(1:3, 7)] <- NA
+
   expect_equal(class(wb_tabs)[1], "Workbook")
 
   expect_error(add_tables("x", lfs_tables, table_name))
   expect_error(add_tables(wb, "x", table_name))
   expect_error(add_tables(wb, lfs_tables, c("x", "y")))
   expect_error(add_tables(wb, lfs_tables, 1))
+
+  expect_error(add_tables(wb, beaver1, table_name))
+  expect_error(add_tables(wb, lfs_tables_misnamed, table_name))
+  expect_error(add_tables(wb, lfs_tables_bad_table, table_name))
+  expect_error(add_tables(wb, lfs_tables_nonchar, table_name))
+  expect_error(add_tables(wb, lfs_tables_bad_listcol, table_name))
+  expect_error(add_tables(wb, lfs_tables_wrong_tabnames, table_name))
+  expect_error(add_tables(wb, lfs_tables_na, table_name))
 
 })
