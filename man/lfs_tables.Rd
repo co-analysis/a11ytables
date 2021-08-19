@@ -8,6 +8,7 @@
 A data frame with 6 rows and 7 columns:
 \describe{
 \item{tab_title}{Character. Text to appear on the sheet's tab.}
+\item{sheet_type}{Character. Either "meta" or "tables".}
 \item{sheet_title}{Character. Title that will appear in the top-left of each sheet}
 \item{source}{Character. The origin of the data.}
 \item{subtable_num}{Character. A letter. Identifier for tables when there's more than one per sheet.}
