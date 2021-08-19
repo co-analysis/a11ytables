@@ -78,24 +78,41 @@
 .insert_table <- function(wb, content, table_name, subtable_num = NULL) {
 
   table <- content[content$table_name == table_name, "table"][[1]][[1]]
-  sheet <- content[content$table_name == table_name, "tab_title"][[1]]
+  tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
 
-  if (sheet == "cover") start_row <- 2
-  if (sheet %in% c("contents", "notes")) start_row <- 3
-  if (!sheet %in% c("cover", "contents", "notes")) start_row <- 4
+  if (tab_title == "cover") { start_row <- 2 }
+  if (tab_title %in% c("contents", "notes")) { start_row <- 3 }
+  if (!tab_title %in% c("cover", "contents", "notes")) { start_row <- 4 }
 
-  openxlsx::writeDataTable(
-    wb = wb,
-    sheet = sheet,
-    x = table,
-    tableName = table_name,
-    startCol = 1,
-    startRow = start_row,
-    colNames = TRUE,
-    tableStyle = "none",
-    withFilter = FALSE,
-    bandedRows = FALSE
-  )
+  if (tab_title == "cover") {
+
+    openxlsx::writeData(
+      wb = wb,
+      sheet = tab_title,
+      x = table,
+      startCol = 1,
+      startRow = start_row,
+      colNames = FALSE  # assumes cover df uses a dummy header
+    )
+
+  }
+
+  if (tab_title != "cover") {
+
+    openxlsx::writeDataTable(
+      wb = wb,
+      sheet = tab_title,
+      x = table,
+      tableName = table_name,
+      startCol = 1,
+      startRow = start_row,
+      colNames = TRUE,
+      tableStyle = "none",
+      withFilter = FALSE,
+      bandedRows = FALSE
+    )
+
+  }
 
   return(wb)
 

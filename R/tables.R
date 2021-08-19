@@ -12,7 +12,7 @@
 #' @return A Workbook-class object.
 #' @export
 #'
-#' @examples \dontrun{openxlsx::createWorkbook() |> add_tabs(content)}
+#' @examples \dontrun{openxlsx::createWorkbook() %>% add_tabs(content)}
 add_tabs <- function(wb, content) {
 
   purrr::walk(
@@ -39,8 +39,8 @@ add_tabs <- function(wb, content) {
 #' @export
 #'
 #' @examples \dontrun{
-#' openxlsx::createWorkbook() |>
-#'   add_tabs(content) |>
+#' openxlsx::createWorkbook() %>%
+#'   add_tabs(content) %>%
 #'   add_cover(content)}
 add_cover <- function(wb, content) {
 
@@ -49,6 +49,11 @@ add_cover <- function(wb, content) {
 
   .insert_title(wb, content, tab_title)
   .insert_table(wb, content, table_name)
+
+  styles <- .style_create()
+  .style_workbook(wb)
+  .style_sheet_title(wb, tab_title, styles)
+  .style_cover(wb, content, styles)
 
   return(wb)
 
@@ -69,15 +74,23 @@ add_cover <- function(wb, content) {
 #' @export
 #'
 #' @examples \dontrun{
-#' openxlsx::createWorkbook() |>
-#'   add_tabs(content) |>
-#'   add_cover(content) |>
+#' openxlsx::createWorkbook() %>%
+#'   add_tabs(content) %>%
+#'   add_cover(content) %>%
 #'   add_contents(content)}
 add_contents <- function(wb, content) {
 
-  .insert_title(wb, content, "contents")
-  .insert_prelim_a11y(wb, content, "contents")
-  .insert_table(wb, content, "Table_of_contents")
+  tab_title <- "contents"
+  table_name <- content[content$tab_title == "contents", "table_name"][[1]]
+
+  .insert_title(wb, content, tab_title)
+  .insert_prelim_a11y(wb, content, tab_title)
+  .insert_table(wb, content, table_name)
+
+  styles <- .style_create()
+  .style_workbook(wb)
+  .style_sheet_title(wb, tab_title, styles)
+  .style_table(wb, content, table_name, styles)
 
   return(wb)
 
@@ -99,16 +112,24 @@ add_contents <- function(wb, content) {
 #' @export
 #'
 #' @examples \dontrun{
-#' openxlsx::createWorkbook() |>
-#'   add_tabs(content) |>
-#'   add_cover(content) |>
-#'   add_contents(content) |>
+#' openxlsx::createWorkbook() %>%
+#'   add_tabs(content) %>%
+#'   add_cover(content) %>%
+#'   add_contents(content) %>%
 #'   add_notes(content)}
 add_notes <- function(wb, content) {
 
-  .insert_title(wb, content, "notes")
-  .insert_prelim_a11y(wb, content, "notes")
-  .insert_table(wb, content, "Notes_table")
+  tab_title <- "notes"
+  table_name <- content[content$tab_title == "notes", "table_name"][[1]]
+
+  .insert_title(wb, content, tab_title)
+  .insert_prelim_a11y(wb, content, tab_title)
+  .insert_table(wb, content, table_name)
+
+  styles <- .style_create()
+  .style_workbook(wb)
+  .style_sheet_title(wb, tab_title, styles)
+  .style_table(wb, content, table_name, styles)
 
   return(wb)
 
@@ -132,11 +153,11 @@ add_notes <- function(wb, content) {
 #' @export
 #'
 #' @examples \dontrun{
-#' openxlsx::createWorkbook() |>
-#'   add_tabs(content) |>
-#'   add_cover(content) |>
-#'   add_contents(content) |>
-#'   add_notes(content) |>
+#' openxlsx::createWorkbook() %>%
+#'   add_tabs(content) %>%
+#'   add_cover(content) %>%
+#'   add_contents(content) %>%
+#'   add_notes(content) %>%
 #'   add_tables(content, "1a")}
 add_tables <- function(wb, content, table_name) {
 
