@@ -4,3 +4,8 @@
 ^README\.Rmd$
 ^CODE_OF_CONDUCT\.md$
 ^LICENSE\.md$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
+^codecov\.yml$
