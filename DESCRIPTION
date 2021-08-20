@@ -1,14 +1,16 @@
 Package: a11ytables
-Title: Create Best Practice Spreadsheets
+Title: Create Spreadsheet Publications Following GSS Best Practice
 Version: 0.0.0.9001
 Authors@R: 
     person(given = "Matt",
            family = "Dray",
            role = c("aut", "cre"),
            email = "mattdray@gmail.com")
-Description: Generate spreadsheet publications following best practice guidance
-    from the UK's Government Statistical Service (GSS), with a focus on
-    accessibility for all users.
+Description: Generate spreadsheet publications for official release by UK
+    government following best practice guidance from the UK's Government 
+    Statistical Service (GSS), with a focus on accessibility for all users.
+    Based on {openxlsx}. See also the Python package 'gptables' by the Best 
+    Practice and Impact Division.
 URL: https://github.com/co-analysis/a11ytables
 BugReports: https://github.com/co-analysis/a11ytables/issues
 License: MIT + file LICENSE
