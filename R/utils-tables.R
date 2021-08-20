@@ -29,8 +29,8 @@
     stop("'contents' must have class data.frame.")
   }
 
-  # must have dimensions
-  if (length(names_req) != length(content) | nrow(content) < 4) {
+  # must have particular dimensions (must have cover, contents table, at least)
+  if (length(names_req) != length(content) | nrow(content) < 3) {
     stop("'contents' must have 8 columns and at least 4 rows.")
   }
 

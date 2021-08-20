@@ -1,9 +1,11 @@
 # a11ytables 0.0.0.9001
 
 * Added un-exported `.style_*()` utils functions to style worksheets (#1)
-* Incorporated style functions into `add_table()` function for testing
+* Incorporated style functions into `add_*table()*` functions
 * Updated README
-* Adjusted internal example data so that subheader rows alternate in the cover sheet
+* Basic tests, defensive stops (#10, #11)
+* Added GitHub Actions for RMD check, coverge and {pkgdown} (#7)
+* Transferred ownership from matt-dray to co-analysis (#9)
 
 # a11ytables 0.0.0.9000
 

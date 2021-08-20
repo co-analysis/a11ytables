@@ -5,16 +5,17 @@
 
 <!-- badges: start -->
 
-[![Project Status: Concept – Minimal or no implementation has been done
-yet, or the repository is only intended to be a limited example, demo,
-or
-proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
+[![Project Status: WIP – Initial development is in progress, but there
+has not yet been a stable, usable release suitable for the
+public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/a11ytables)](https://CRAN.R-project.org/package=a11ytables)
-[![R-CMD-check](https://github.com/matt-dray/a11ytables/workflows/R-CMD-check/badge.svg)](https://github.com/matt-dray/a11ytables/actions)
+[![R-CMD-check](https://github.com/co-analysis/a11ytables/workflows/R-CMD-check/badge.svg)](https://github.com/co-analysis/a11ytables/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/matt-dray/a11ytables/branch/main/graph/badge.svg)](https://codecov.io/gh/matt-dray/a11ytables?branch=main)
+coverage](https://codecov.io/gh/co-analysis/a11ytables/branch/main/graph/badge.svg)](https://codecov.io/gh/co-analysis/a11ytables?branch=main)
 <!-- badges: end -->
+
+## Purpose
 
 {a11ytables} is a work-in-progress R package built around
 [{openxlsx}](https://ycphs.github.io/openxlsx/) that aims to comply with
@@ -24,6 +25,14 @@ from the [Best Practice and Impact
 Division](https://github.com/best-practice-and-impact?language=html)
 (BPID) of the UK’s [Government Statistical
 Service](https://gss.civilservice.gov.uk/).
+
+Features are in-development and opinionated. Certain things may not work
+as you intend and you may need to tweak your final workbook object after
+creation. The onus is on the user to check their work. See [the package
+website](https://co-analysis.github.io/a11ytables/) for online
+documentation.
+
+## Similar projects
 
 BPID have themselves released [a Python package called
 ‘gptables’](https://github.com/best-practice-and-impact/gptables) to
@@ -39,14 +48,9 @@ functionality absorbed into the development of
 [gptables](https://github.com/best-practice-and-impact/gptables) in some
 way.
 
-Assumptions have been made while trying to generalise and many features
-are opinionated. Certain things may not work as you intend and you may
-need to tweak your final workbook object after creation.
+## Install and use
 
-## Install
-
-You can install the in-development version of {a11ytables} from GitHub.
-The remotes package is a good way to achieve this.
+You can install {a11ytables} from GitHub. using {remotes}.
 
 ``` r
 install.packages("remotes")
@@ -56,6 +60,7 @@ library(a11ytables)
 
 The package depends on {openxlsx} for constructing workbooks and {purrr}
 for readable function iteration. Both are imported with {a11ytables}.
+The {magrittr} pipe (`%>%`) is exported for convenience.
 
 At time of writing, you would do something like this to generate a
 publication:
@@ -69,28 +74,36 @@ example_wb <- openxlsx::createWorkbook() %>%
   add_tables(lfs_tables, table_name = "Labour_market_summary_for_16_and_over") %>%
   add_tables(lfs_tables, table_name = "Labour_market_activity_groups_16_and_over")
 
-openxlsx::openXL(example_wb)  # open temp copy
+openxlsx::openXL(example_wb)  # optionally open temp copy
 openxlsx::saveWorkbook(example_wb, "publication.xlsx")
 ```
 
-The {magrittr} pipe (`%>%`) is exported for convenience.
+In other words, you create an {openxlsx} Workbook-class object, then add
+each sheet one by one with {allytables} functions. An important user
+input is the information required to populate each sheet, which must be
+provided in a particular format. The package’s built-in `lfs_tables`
+data set provides an example (see the next section for a preview).
 
 ## Concept
 
 A *workbook* is made of *sheets*. There are two types of sheet: *meta*
-(*cover*, *contents* and optional *notes*) and *tables*. Sheets are
-built from *elements*, which includes the title, an announcement on the
-number of tables/presence of notes, an announcement of the source, and
-the tables themselves
+(*cover*, *contents* and optional *notes*) and *tables*.
+
+Sheets are built from *elements*, which includes the title, an
+announcement on the number of tables/presence of notes, an announcement
+of the source, and the tables themselves
 
 You can build each *sheet* type using the `add_*()` functions. Each one
 creates a sheet that is inserted into a named {openxlsx} Workbook-class
 object using data from a user-supplied *contents* object.
 
-The *contents* object has a very particular format. It’s a
+The *contents* object has a very strict format. It’s a
 data.frame/tibble-class object that contains the information needed to
-construct each sheet. The package contains a dummy dataset with the
-correct format; it’s a truncated version of the example provided in [the
+construct each sheet. The columns and certain contents must follow
+particular requirements.
+
+The package contains a dummy dataset with the correct format; it’s a
+truncated version of the example provided in [the
 guidance](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/).
 
 ``` r
