@@ -5,16 +5,18 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Create Best Practice Spreadsheets • a11ytables</title>
+<title>Create Spreadsheet Publications Following GSS Best Practice • a11ytables</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Create Best Practice Spreadsheets">
-<meta property="og:description" content="Generate spreadsheet publications following best practice guidance
-    from the UK's Government Statistical Service (GSS), with a focus on
-    accessibility for all users.">
+<script src="pkgdown.js"></script><meta property="og:title" content="Create Spreadsheet Publications Following GSS Best Practice">
+<meta property="og:description" content="Generate spreadsheet publications for official release by UK
+    government following best practice guidance from the UKs Government 
+    Statistical Service (GSS), with a focus on accessibility for all users.
+    Based on {openxlsx}. See also the Python package gptables' by the Best 
+    Practice and Impact Division.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -76,19 +78,27 @@
 <a href="#a11ytables" class="anchor"></a>{a11ytables}</h1></div>
 <!-- badges: start -->
 
+<div id="purpose" class="section level2">
+<h2 class="hasAnchor">
+<a href="#purpose" class="anchor"></a>Purpose</h2>
 <p>{a11ytables} is a work-in-progress R package built around <a href="https://ycphs.github.io/openxlsx/">{openxlsx}</a> that aims to comply with the latest guidance (June 2021) on <a href="https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/">releasing statistics in spreadsheets</a> from the <a href="https://github.com/best-practice-and-impact?language=html">Best Practice and Impact Division</a> (BPID) of the UK’s <a href="https://gss.civilservice.gov.uk/">Government Statistical Service</a>.</p>
+<p>Features are in-development and opinionated. Certain things may not work as you intend and you may need to tweak your final workbook object after creation. The onus is on the user to check their work. See <a href="https://co-analysis.github.io/a11ytables/">the package website</a> for online documentation.</p>
+</div>
+<div id="similar-projects" class="section level2">
+<h2 class="hasAnchor">
+<a href="#similar-projects" class="anchor"></a>Similar projects</h2>
 <p>BPID have themselves released <a href="https://github.com/best-practice-and-impact/gptables">a Python package called ‘gptables’</a> to help users produce such spreadsheets, but it’s based on a prior version of the guidance. <a href="https://github.com/best-practice-and-impact/gptables/issues/145">That package will be updated</a>, but there’s a gap for this functionality—and for a dedicated R package—at the time of writing (August 2021).</p>
 <p>{a11ytables} is being developed with specific statistical releases in mind, but the goal is to generalise it and perhaps have some functionality absorbed into the development of <a href="https://github.com/best-practice-and-impact/gptables">gptables</a> in some way.</p>
-<p>Assumptions have been made while trying to generalise and many features are opinionated. Certain things may not work as you intend and you may need to tweak your final workbook object after creation.</p>
-<div id="install" class="section level2">
+</div>
+<div id="install-and-use" class="section level2">
 <h2 class="hasAnchor">
-<a href="#install" class="anchor"></a>Install</h2>
-<p>You can install the in-development version of {a11ytables} from GitHub. The remotes package is a good way to achieve this.</p>
+<a href="#install-and-use" class="anchor"></a>Install and use</h2>
+<p>You can install {a11ytables} from GitHub. using {remotes}.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"co-analysis/a11ytables"</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/co-analysis/a11ytables">a11ytables</a></span><span class="op">)</span></code></pre></div>
-<p>The package depends on {openxlsx} for constructing workbooks and {purrr} for readable function iteration. Both are imported with {a11ytables}.</p>
+<p>The package depends on {openxlsx} for constructing workbooks and {purrr} for readable function iteration. Both are imported with {a11ytables}. The {magrittr} pipe (<code><a href="reference/%&gt;%.html">%&gt;%</a></code>) is exported for convenience.</p>
 <p>At time of writing, you would do something like this to generate a publication:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">example_wb</span> <span class="op">&lt;-</span> <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/createWorkbook.html">createWorkbook</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -99,16 +109,18 @@
   <span class="fu"><a href="reference/add_tables.html">add_tables</a></span><span class="op">(</span><span class="va">lfs_tables</span>, table_name <span class="op">=</span> <span class="st">"Labour_market_summary_for_16_and_over"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/add_tables.html">add_tables</a></span><span class="op">(</span><span class="va">lfs_tables</span>, table_name <span class="op">=</span> <span class="st">"Labour_market_activity_groups_16_and_over"</span><span class="op">)</span>
 
-<span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/openXL.html">openXL</a></span><span class="op">(</span><span class="va">example_wb</span><span class="op">)</span>  <span class="co"># open temp copy</span>
+<span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/openXL.html">openXL</a></span><span class="op">(</span><span class="va">example_wb</span><span class="op">)</span>  <span class="co"># optionally open temp copy</span>
 <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html">saveWorkbook</a></span><span class="op">(</span><span class="va">example_wb</span>, <span class="st">"publication.xlsx"</span><span class="op">)</span></code></pre></div>
-<p>The {magrittr} pipe (<code><a href="reference/%&gt;%.html">%&gt;%</a></code>) is exported for convenience.</p>
+<p>In other words, you create an {openxlsx} Workbook-class object, then add each sheet one by one with {allytables} functions. An important user input is the information required to populate each sheet, which must be provided in a particular format. The package’s built-in <code>lfs_tables</code> data set provides an example (see the next section for a preview).</p>
 </div>
 <div id="concept" class="section level2">
 <h2 class="hasAnchor">
 <a href="#concept" class="anchor"></a>Concept</h2>
-<p>A <em>workbook</em> is made of <em>sheets</em>. There are two types of sheet: <em>meta</em> (<em>cover</em>, <em>contents</em> and optional <em>notes</em>) and <em>tables</em>. Sheets are built from <em>elements</em>, which includes the title, an announcement on the number of tables/presence of notes, an announcement of the source, and the tables themselves</p>
+<p>A <em>workbook</em> is made of <em>sheets</em>. There are two types of sheet: <em>meta</em> (<em>cover</em>, <em>contents</em> and optional <em>notes</em>) and <em>tables</em>.</p>
+<p>Sheets are built from <em>elements</em>, which includes the title, an announcement on the number of tables/presence of notes, an announcement of the source, and the tables themselves</p>
 <p>You can build each <em>sheet</em> type using the <code>add_*()</code> functions. Each one creates a sheet that is inserted into a named {openxlsx} Workbook-class object using data from a user-supplied <em>contents</em> object.</p>
-<p>The <em>contents</em> object has a very particular format. It’s a data.frame/tibble-class object that contains the information needed to construct each sheet. The package contains a dummy dataset with the correct format; it’s a truncated version of the example provided in <a href="https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/">the guidance</a>.</p>
+<p>The <em>contents</em> object has a very strict format. It’s a data.frame/tibble-class object that contains the information needed to construct each sheet. The columns and certain contents must follow particular requirements.</p>
+<p>The package contains a dummy dataset with the correct format; it’s a truncated version of the example provided in <a href="https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/">the guidance</a>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span><span class="va">lfs_tables</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 × 8</span>
@@ -187,10 +199,10 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.repostatus.org/#concept"><img src="https://www.repostatus.org/badges/latest/concept.svg" alt="Project Status: Concept – Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept."></a></li>
+<li><a href="https://www.repostatus.org/#wip"><img src="https://www.repostatus.org/badges/latest/wip.svg" alt="Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public."></a></li>
 <li><a href="https://CRAN.R-project.org/package=a11ytables"><img src="https://www.r-pkg.org/badges/version/a11ytables" alt="CRAN status"></a></li>
-<li><a href="https://github.com/matt-dray/a11ytables/actions"><img src="https://github.com/matt-dray/a11ytables/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://codecov.io/gh/matt-dray/a11ytables?branch=main"><img src="https://codecov.io/gh/matt-dray/a11ytables/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/co-analysis/a11ytables/actions"><img src="https://github.com/co-analysis/a11ytables/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/co-analysis/a11ytables?branch=main"><img src="https://codecov.io/gh/co-analysis/a11ytables/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 </div>
