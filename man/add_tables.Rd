@@ -33,5 +33,5 @@ openxlsx::createWorkbook() \%>\%
   add_cover(content) \%>\%
   add_contents(content) \%>\%
   add_notes(content) \%>\%
-  add_tables(content, "1a")}
+  add_tables(content, "Labour_market_summary_for_16_and_over")}
 }

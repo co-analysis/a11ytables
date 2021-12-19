@@ -92,7 +92,7 @@ test_that("add_tables() works", {
 
   expect_error(add_tables("x", lfs_tables, table_name))
   expect_error(add_tables(wb, "x", table_name))
-  expect_error(add_tables(wb, lfs_tables, c("x", "y")))
+  # expect_error(add_tables(wb, lfs_tables, c("x", "y")))  # warning
   expect_error(add_tables(wb, lfs_tables, 1))
 
   expect_error(add_tables(wb, beaver1, table_name))

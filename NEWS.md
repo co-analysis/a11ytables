@@ -1,10 +1,16 @@
+# a11ytables 0.0.0.9002
+
+* Simplify all `add_*()` functions to a single `create_a11y_wb()` function (moving towards #15), though `add_*()` functions are all still exported
+* Split supplied data into two, with and without sub-table examples: `lfs_tables` and `lfs_subtables`, respectively
+* Update README to detail simplified approach
+
 # a11ytables 0.0.0.9001
 
 * Added un-exported `.style_*()` utils functions to style worksheets (#1)
 * Incorporated style functions into `add_*table()*` functions
 * Updated README
 * Basic tests, defensive stops (#10, #11)
-* Added GitHub Actions for RMD check, coverge and {pkgdown} (#7)
+* Added GitHub Actions for RMD check, coverage and {pkgdown} (#7)
 * Transferred ownership from matt-dray to co-analysis (#9)
 
 # a11ytables 0.0.0.9000

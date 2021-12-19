@@ -168,7 +168,7 @@ add_notes <- function(wb, content) {
 #'   add_cover(content) %>%
 #'   add_contents(content) %>%
 #'   add_notes(content) %>%
-#'   add_tables(content, "1a")}
+#'   add_tables(content, "Labour_market_summary_for_16_and_over")}
 add_tables <- function(wb, content, table_name) {
 
   .stop_bad_input(wb, content, table_name)
@@ -184,6 +184,45 @@ add_tables <- function(wb, content, table_name) {
   .style_workbook(wb)
   .style_sheet_title(wb, tab_title, styles)
   .style_table(wb, content, table_name, styles)
+
+  return(wb)
+
+}
+
+#' Create An Accessible Workbook
+#'
+#' Given a correctly-formatted dataframe input, create a workbook object with
+#' the required tab content (cover, contents, notes (optional) and one tab
+#' per table). A shortcut for building workbooks with the add_*() functions.
+#'
+#' @param content A data.frame-class object containing your data.
+#'
+#' @details The 'content' object should adhere to the form demonstrated in
+#'     \code{\link{lfs_tables}}
+#'
+#' @return A Workbook-class object.
+#' @export
+#'
+#' @examples \dontrun{ create_a11y_wb(content) }
+create_a11y_wb <- function(content) {
+
+  # Create workbook, add tabs, cover, contents (required for all workbooks)
+  wb <- openxlsx::createWorkbook()
+  wb <- add_tabs(wb, content)
+  wb <- add_cover(wb, content)
+  wb <- add_contents(wb, content)
+
+  # There won't always be a notes tab
+  if (any(content$tab_title %in% "notes")) {
+    wb <- add_notes(wb, content)
+  }
+
+  # Iterable titles for tabs containing tables
+  table_sheets <- content[content$sheet_type == "tables", ][["table_name"]]
+
+  for (i in table_sheets) {
+    wb <- add_tables(wb, content, table_name = i)
+  }
 
   return(wb)
 

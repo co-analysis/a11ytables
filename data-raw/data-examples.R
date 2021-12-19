@@ -3,8 +3,8 @@ library(purrr)
 library(readODS)
 
 path <- paste0(
-  "https://gss.civilservice.gov.uk/wp-content/uploads/2021/05/",
-  "Labour-market-overview-accessibility-example.ods"
+  "https://gss.civilservice.gov.uk/wp-content/uploads/2021/11/",
+  "Labour-market-overview-accessibility-example-Nov21.ods"
 )
 
 temp_dir <- tempdir()
@@ -37,7 +37,7 @@ s2_t2b_tbl <- read_ods(temp_file, sheet = "2", range = "K5:S348") %>%
 
 # Prepare listcol tibble
 
-lfs_tables <- tibble(
+lfs_subtables <- tibble(
   tab_title = c("cover", "contents", "notes", "1a", "2", "2"),
   sheet_type = c(rep("meta", 3), rep("tables", 3)),
   sheet_title = c(
@@ -85,4 +85,9 @@ lfs_tables <- tibble(
   )
 )
 
+lfs_tables <- lfs_subtables[-nrow(lfs_subtables), ]
+lfs_tables$subtable_num <- NA_character_
+lfs_tables$subtable_title <- NA_character_
+
+usethis::use_data(lfs_subtables, overwrite = TRUE)
 usethis::use_data(lfs_tables, overwrite = TRUE)
