@@ -24,7 +24,7 @@ cover_tbl <- read_ods(
 
 contents_tbl <- read_ods(temp_file, sheet = "Table_of_contents", skip = 1) %>%
   tibble() %>%
-  filter(`Worksheet number` %in% c("1", 2))
+  filter(`Worksheet number` %in% c("1a", "2"))
 
 notes_tbl <- read_ods(temp_file, sheet = "Notes", skip = 2) %>% tibble()
 
