@@ -26,53 +26,38 @@ Division](https://github.com/best-practice-and-impact?language=html)
 (BPID) of the UK’s [Government Statistical
 Service](https://gss.civilservice.gov.uk/).
 
-## Install
+## Install and use
 
-You can install {a11ytables} from GitHub using {remotes}:
+You can install {a11ytables} from GitHub using {remotes}. {openxlsx}
+will be installed too.
 
 ``` r
-install.packages("remotes")  # if not yet installed
+install.packages("remotes")
 remotes::install_github("co-analysis/a11ytables")
 library(a11ytables)
 ```
 
-The package depends on {openxlsx} for constructing workbooks and {purrr}
-for human-readable function iteration. Both are imported with
-{a11ytables}. The {magrittr} pipe (`%>%`) is exported for convenience.
+To use:
 
-## How to
+1.  Create an a11ytables-class dataframe object containing your data
+    (TODO: make the class)
+2.  Pass that object to `create_a11y_wb()` to populate an {openxlsx}
+    Workbook-class object
+3.  Write that object with `openxlsx::saveWorkbook()`
 
-### Concept
+## Detail
 
-At simplest, there are two steps:
+The information required to build the output can be arranged into a
+single dataframe with class ‘a11ytables’ (TODO: explain how to construct
+these objects). You pass that object to the `create_a11y_wb()` function,
+which in turn creates an {openxlsx} Workbook-class object with the
+required sheets, their content and styling in accordance with
+accessibility best practice (TODO: make all features accessible).
 
-1.  Create an input dataframe—the *contents* object—with a specific
-    format
-2.  Pass that dataframe to `create_a11y_wb()`
-
-Conceptually, a *workbook* is made of *sheets*. There are two types of
-sheet: *meta* (*cover*, *contents* and optional *notes*) and *tables*.
-
-Sheets are built from *elements*, which includes the title, an
-announcement on the number of tables/presence of notes, an announcement
-of the source, and the tables themselves
-
-The `create_a11y_wb()` function takes a user-supplied *contents* object
-and creates an {openxlsx} Workbook-class object for you, then generates
-the tabs and fills them with content based on the supplied *contents*
-object.
-
-The *contents* object has a very strict format. It’s a data.frame object
-that contains the information needed to construct each sheet. The
-columns and certain contents must follow particular requirements.
-
-### Input
-
-The input dataframe `content` should contain all the information you
-need to populate your workbook. As an example, here is the built-in
-dataset `lfs_tables`, adapted from [the releasing statistics in
-spreadsheets
-guidance](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/):
+Here is the built-in dataset `lfs_tables`, adapted from [the releasing
+statistics in spreadsheets
+guidance](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)
+(TODO: actually convert this a11ytables-class):
 
 ``` r
 dplyr::glimpse(tibble::as_tibble(lfs_tables))
@@ -88,8 +73,12 @@ dplyr::glimpse(tibble::as_tibble(lfs_tables))
 #> $ table          <list> [<tbl_df[17 x 1]>], [<tbl_df[2 x 5]>], [<tbl_df[11 x 2]…
 ```
 
-In short, your dataframe should have one row per workbook tab and must
-contain the columns:
+<details>
+<summary>
+Click here to view an explanation of the variables.
+</summary>
+
+Columns in the a11ytables-class dataframe are:
 
 -   `tab_title`: the name of the tab (i.e. the text that will appear on
     each tab of the output workbook), a column that must include ‘cover’
@@ -107,17 +96,18 @@ contain the columns:
     added to a given sheet
 
 Optionally, for tabs that contain more than one table (not recommended,
-not yet supported):
+also TODO):
 
 -   `subtable_num`: string to append to the tab\_title to identify this
     sub-table, for example ‘a’ and ‘b’
 -   `subtable_title`: title to be added above the sub-table within the
     sheet
 
-### Create
+</details>
+<p>
 
-And then to create the accessible workbook output, you would pass your
-*content* object to this single function:
+And so, this can be passed to a single function to create an {openxlsx}
+Workbook-class object:
 
 ``` r
 example_wb <- create_a11y_wb(lfs_tables)
@@ -125,8 +115,7 @@ example_wb <- create_a11y_wb(lfs_tables)
 
 <details>
 <summary>
-This creates an {openxlsx} Workbook-class object; click here to view the
-contents.
+Click here to view the contents of the output.
 </summary>
 
 ``` r
@@ -175,8 +164,8 @@ example_wb
 </details>
 <p>
 
-This object can be saved to a spreadsheet. Open a temporary copy with
-`openXL()` or write it with `saveWorkbook()`:
+This output can be written to disk or opened temporarily with
+spreadsheet software.
 
 ``` r
 openxlsx::openXL(example_wb)  # optionally open temp copy
@@ -198,6 +187,10 @@ mind, but the goal is to generalise it and perhaps have some
 functionality absorbed into the development of
 [gptables](https://github.com/best-practice-and-impact/gptables) in some
 way.
+
+The code is under development and current API features may change in
+future releases. Please see the NEWS file for details of any breaking
+changes.
 
 ## Code of Conduct
 

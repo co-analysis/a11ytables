@@ -21,9 +21,7 @@ RoxygenNote: 7.1.2
 Depends: 
     R (>= 2.10)
 Imports: 
-    magrittr,
-    openxlsx,
-    purrr
+    openxlsx
 Suggests: 
     testthat (>= 3.0.0),
     covr

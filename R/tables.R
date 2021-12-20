@@ -12,15 +12,14 @@
 #' @return A Workbook-class object.
 #' @export
 #'
-#' @examples \dontrun{openxlsx::createWorkbook() %>% add_tabs(content)}
+#' @examples \dontrun{openxlsx::createWorkbook() |> add_tabs(content)}
 add_tabs <- function(wb, content) {
 
   .stop_bad_input(wb, content)
 
-  purrr::walk(
-    unique(content$tab_title),
-    ~ openxlsx::addWorksheet(wb, .x)
-  )
+  for (i in unique(content$tab_title)) {
+    openxlsx::addWorksheet(wb, i)
+  }
 
   return(wb)
 
@@ -41,8 +40,8 @@ add_tabs <- function(wb, content) {
 #' @export
 #'
 #' @examples \dontrun{
-#' openxlsx::createWorkbook() %>%
-#'   add_tabs(content) %>%
+#' openxlsx::createWorkbook() |>
+#'   add_tabs(content) |>
 #'   add_cover(content)}
 add_cover <- function(wb, content) {
 
@@ -78,9 +77,9 @@ add_cover <- function(wb, content) {
 #' @export
 #'
 #' @examples \dontrun{
-#' openxlsx::createWorkbook() %>%
-#'   add_tabs(content) %>%
-#'   add_cover(content) %>%
+#' openxlsx::createWorkbook() |>
+#'   add_tabs(content) |>
+#'   add_cover(content) |>
 #'   add_contents(content)}
 add_contents <- function(wb, content) {
 
@@ -119,10 +118,10 @@ add_contents <- function(wb, content) {
 #' @export
 #'
 #' @examples \dontrun{
-#' openxlsx::createWorkbook() %>%
-#'   add_tabs(content) %>%
-#'   add_cover(content) %>%
-#'   add_contents(content) %>%
+#' openxlsx::createWorkbook() |>
+#'   add_tabs(content) |>
+#'   add_cover(content) |>
+#'   add_contents(content) |>
 #'   add_notes(content)}
 add_notes <- function(wb, content) {
 
@@ -163,11 +162,11 @@ add_notes <- function(wb, content) {
 #' @export
 #'
 #' @examples \dontrun{
-#' openxlsx::createWorkbook() %>%
-#'   add_tabs(content) %>%
-#'   add_cover(content) %>%
-#'   add_contents(content) %>%
-#'   add_notes(content) %>%
+#' openxlsx::createWorkbook() |>
+#'   add_tabs(content) |>
+#'   add_cover(content) |>
+#'   add_contents(content) |>
+#'   add_notes(content) |>
 #'   add_tables(content, "Labour_market_summary_for_16_and_over")}
 add_tables <- function(wb, content, table_name) {
 
