@@ -26,11 +26,151 @@ Division](https://github.com/best-practice-and-impact?language=html)
 (BPID) of the UK’s [Government Statistical
 Service](https://gss.civilservice.gov.uk/).
 
-Features are in-development and opinionated. Certain things may not work
-as you intend and you may need to tweak your final workbook object after
-creation. The onus is on the user to check their work. See [the package
-website](https://co-analysis.github.io/a11ytables/) for online
-documentation.
+## Install and use
+
+You can install {a11ytables} from GitHub using {remotes}. {openxlsx}
+will be installed too.
+
+``` r
+install.packages("remotes")
+remotes::install_github("co-analysis/a11ytables")
+library(a11ytables)
+```
+
+To use:
+
+1.  Create an a11ytables-class dataframe object containing your data
+    (TODO: make the class)
+2.  Pass that object to `create_a11y_wb()` to populate an {openxlsx}
+    Workbook-class object
+3.  Write that object with `openxlsx::saveWorkbook()`
+
+## Detail
+
+The information required to build the output can be arranged into a
+single dataframe with class ‘a11ytables’ (TODO: explain how to construct
+these objects). You pass that object to the `create_a11y_wb()` function,
+which in turn creates an {openxlsx} Workbook-class object with the
+required sheets, their content and styling in accordance with
+accessibility best practice (TODO: make all features accessible).
+
+Here is the built-in dataset `lfs_tables`, adapted from [the releasing
+statistics in spreadsheets
+guidance](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)
+(TODO: actually convert this a11ytables-class):
+
+``` r
+dplyr::glimpse(tibble::as_tibble(lfs_tables))
+#> Rows: 5
+#> Columns: 8
+#> $ tab_title      <chr> "cover", "contents", "notes", "1a", "2"
+#> $ sheet_type     <chr> "meta", "meta", "meta", "tables", "tables"
+#> $ sheet_title    <chr> "Labour market overview data tables, UK, December 2020 …
+#> $ source         <chr> NA, NA, NA, "Labour Force Survey", "Labour Force Survey"
+#> $ subtable_num   <chr> NA, NA, NA, NA, NA
+#> $ subtable_title <chr> NA, NA, NA, NA, NA
+#> $ table_name     <chr> "Cover_content", "Table_of_contents", "Notes_table", "L…
+#> $ table          <list> [<tbl_df[17 x 1]>], [<tbl_df[2 x 5]>], [<tbl_df[11 x 2]…
+```
+
+<details>
+<summary>
+Click here to view an explanation of the variables.
+</summary>
+
+Columns in the a11ytables-class dataframe are:
+
+-   `tab_title`: the name of the tab (i.e. the text that will appear on
+    each tab of the output workbook), a column that must include ‘cover’
+    and ‘contents’; optionally ‘notes’; and one row per table for
+    publication (numbers are recommended for tables)
+-   `sheet_type`: ‘cover’, ‘contents’ and ‘notes’ are ‘meta’ sheets;
+    tables for publication are ‘tables’
+-   `sheet_title`: the title of the sheet, displayed in cell A1
+-   `source`: the provenance of the data (optional), displayed in cell
+    A3
+-   `table_name`: a name to give the marked-up table (no spaces), which
+    will allow screenreaders to identify the table in the output
+    workbook
+-   `table`: a list-column containing a dataframe with the table to be
+    added to a given sheet
+
+Optionally, for tabs that contain more than one table (not recommended,
+also TODO):
+
+-   `subtable_num`: string to append to the tab\_title to identify this
+    sub-table, for example ‘a’ and ‘b’
+-   `subtable_title`: title to be added above the sub-table within the
+    sheet
+
+</details>
+<p>
+
+And so, this can be passed to a single function to create an {openxlsx}
+Workbook-class object:
+
+``` r
+example_wb <- create_a11y_wb(lfs_tables)
+```
+
+<details>
+<summary>
+Click here to view the contents of the output.
+</summary>
+
+``` r
+example_wb
+#> A Workbook object.
+#>  
+#> Worksheets:
+#>  Sheet 1: "cover"
+#>  
+#>  Custom row heights (row: height)
+#>   3: 34, 5: 34, 7: 34, 9: 34, 11: 34, 13: 34, 15: 34, 17: 34 
+#>  Custom column widths (column: width)
+#>    1: 80 
+#>  
+#> 
+#>  Sheet 2: "contents"
+#>  
+#>  Custom column widths (column: width)
+#>    1: 30, 2: 30, 3: 30, 4: 30, 5: 30 
+#>  
+#> 
+#>  Sheet 3: "notes"
+#>  
+#>  Custom column widths (column: width)
+#>    1: 15, 2: 80 
+#>  
+#> 
+#>  Sheet 4: "1a"
+#>  
+#>  Custom column widths (column: width)
+#>    1: 16, 2: 16, 3: 16, 4: 16, 5: 16, 6: 16, 7: 16, 8: 16, 9: 16, 10: 16 
+#>  
+#> 
+#>  Sheet 5: "2"
+#>  
+#>  Custom column widths (column: width)
+#>    1: 16, 2: 16, 3: 16, 4: 16, 5: 16, 6: 16, 7: 16, 8: 16, 9: 16 
+#>  
+#> 
+#>  
+#>  Worksheet write order: 1, 2, 3, 4, 5
+#>  Active Sheet 1: "cover" 
+#>  Position: 1
+```
+
+</details>
+<p>
+
+This output can be written to disk or opened temporarily with
+spreadsheet software.
+
+``` r
+openxlsx::openXL(example_wb)  # optionally open temp copy
+openxlsx::saveWorkbook(example_wb, "publication.xlsx")
+```
 
 ## Similar projects
 
@@ -48,102 +188,9 @@ functionality absorbed into the development of
 [gptables](https://github.com/best-practice-and-impact/gptables) in some
 way.
 
-## Install and use
-
-You can install {a11ytables} from GitHub. using {remotes}.
-
-``` r
-install.packages("remotes")
-remotes::install_github("co-analysis/a11ytables")
-library(a11ytables)
-```
-
-The package depends on {openxlsx} for constructing workbooks and {purrr}
-for readable function iteration. Both are imported with {a11ytables}.
-The {magrittr} pipe (`%>%`) is exported for convenience.
-
-At time of writing, you would do something like this to generate a
-publication:
-
-``` r
-example_wb <- openxlsx::createWorkbook() %>% 
-  add_tabs(lfs_tables) %>% 
-  add_cover(lfs_tables) %>% 
-  add_contents(lfs_tables) %>% 
-  add_notes(lfs_tables) %>% 
-  add_tables(lfs_tables, table_name = "Labour_market_summary_for_16_and_over") %>%
-  add_tables(lfs_tables, table_name = "Labour_market_activity_groups_16_and_over")
-
-openxlsx::openXL(example_wb)  # optionally open temp copy
-openxlsx::saveWorkbook(example_wb, "publication.xlsx")
-```
-
-In other words, you create an {openxlsx} Workbook-class object, then add
-each sheet one by one with {allytables} functions. An important user
-input is the information required to populate each sheet, which must be
-provided in a particular format. The package’s built-in `lfs_tables`
-data set provides an example (see the next section for a preview).
-
-## Concept
-
-A *workbook* is made of *sheets*. There are two types of sheet: *meta*
-(*cover*, *contents* and optional *notes*) and *tables*.
-
-Sheets are built from *elements*, which includes the title, an
-announcement on the number of tables/presence of notes, an announcement
-of the source, and the tables themselves
-
-You can build each *sheet* type using the `add_*()` functions. Each one
-creates a sheet that is inserted into a named {openxlsx} Workbook-class
-object using data from a user-supplied *contents* object.
-
-The *contents* object has a very strict format. It’s a
-data.frame/tibble-class object that contains the information needed to
-construct each sheet. The columns and certain contents must follow
-particular requirements.
-
-The package contains a dummy dataset with the correct format; it’s a
-truncated version of the example provided in [the
-guidance](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/).
-
-``` r
-tibble::tibble(lfs_tables)
-#> # A tibble: 6 × 8
-#>   tab_title sheet_type sheet_title source subtable_num subtable_title table_name
-#>   <chr>     <chr>      <chr>       <chr>  <chr>        <chr>          <chr>     
-#> 1 cover     meta       Labour mar… <NA>   <NA>         <NA>           Cover_con…
-#> 2 contents  meta       Table of c… <NA>   <NA>         <NA>           Table_of_…
-#> 3 notes     meta       Notes       <NA>   <NA>         <NA>           Notes_tab…
-#> 4 1a        tables     Number and… Labou… <NA>         <NA>           Labour_ma…
-#> 5 2         tables     Number and… Labou… a            Number and pe… Labour_ma…
-#> 6 2         tables     Number and… Labou… b            Number and pe… Labour_ma…
-#> # … with 1 more variable: table <list>
-```
-
-Each row is a table to insert into the output. `tab_title` is needed to
-name the tabs in the workbook; `sheet_title` is inserted as the first
-sheet *element*; if there’s more than one table in a sheet (try to avoid
-this), you need a `subtable_num` and `subtable_title`; a `table_name`
-which is a ‘hidden’ title applied to the marked-up cells of table; and
-`table`, which is a listcol containing the data as a rectangular
-data.frame/tibble-class object. For example:
-
-``` r
-lfs_tables %>% 
-  dplyr::filter(tab_title == "1a") %>%
-  dplyr::pull("table") %>% 
-  `[[`(., 1) %>%  # extract from list form
-  dplyr::select(1:3)  # first few cols
-#> # A tibble: 6 × 3
-#>   `Time period and dataset code row` `Number of people (… `Economically active\…
-#>   <chr>                                             <dbl>                  <dbl>
-#> 1 Mar to May 2020                               53534074.              34127374.
-#> 2 Apr to Jun 2020                               53556401.              34051489.
-#> 3 May to Jul 2020                               53579793.              34116254.
-#> 4 Jun to Aug 2020                               53603157.              34112847.
-#> 5 Jul to Sep 2020                               53626130               34130192.
-#> 6 Aug to Oct 2020                               53649283               34213332.
-```
+The code is under development and current API features may change in
+future releases. Please see the NEWS file for details of any breaking
+changes.
 
 ## Code of Conduct
 

@@ -24,7 +24,7 @@ The 'content' object should adhere to the form demonstrated in
 }
 \examples{
 \dontrun{
-openxlsx::createWorkbook() \%>\%
-  add_tabs(content) \%>\%
+openxlsx::createWorkbook() |>
+  add_tabs(content) |>
   add_cover(content)}
 }

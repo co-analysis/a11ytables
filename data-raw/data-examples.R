@@ -1,18 +1,20 @@
+# This file generates and writes the in-built datasets lfs_tables and
+# lfs_subtables
+
+library(usethis)
 library(dplyr, warn.conflicts = FALSE)
-library(purrr)
 library(readODS)
 
-path <- paste0(
-  "https://gss.civilservice.gov.uk/wp-content/uploads/2021/05/",
-  "Labour-market-overview-accessibility-example.ods"
-)
+# Fetch example spreadsheet from online location:
+#   https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/
+
+path <- "https://gss.civilservice.gov.uk/wp-content/uploads/2021/11/Labour-market-overview-accessibility-example-Nov21.ods"
 
 temp_dir <- tempdir()
 temp_file <- file.path(temp_dir, "data.ods")
-
 download.file(path, temp_file)
 
-# extract tables
+# Extract subset of tables from spreadsheet
 
 cover_tbl <- read_ods(
   temp_file, sheet = "Cover_sheet", skip = 1, col_names = FALSE
@@ -22,11 +24,11 @@ cover_tbl <- read_ods(
 
 contents_tbl <- read_ods(temp_file, sheet = "Table_of_contents", skip = 1) %>%
   tibble() %>%
-  filter(`Worksheet number` %in% c("1a", 2))
+  filter(`Worksheet number` %in% c("1a", "2"))
 
 notes_tbl <- read_ods(temp_file, sheet = "Notes", skip = 2) %>% tibble()
 
-s1a_tbl <- read_ods(temp_file, sheet = "1a", skip = 3) %>%
+s1_tbl <- read_ods(temp_file, sheet = "1a", skip = 3) %>%
   tibble() %>% tail() %>% mutate(across(-1, as.numeric))
 
 s2_t2a_tbl <- read_ods(temp_file, sheet = "2", range = "A5:I348") %>%
@@ -35,10 +37,9 @@ s2_t2a_tbl <- read_ods(temp_file, sheet = "2", range = "A5:I348") %>%
 s2_t2b_tbl <- read_ods(temp_file, sheet = "2", range = "K5:S348") %>%
   tibble() %>% tail() %>% mutate(across(-1, as.numeric))
 
-# Prepare listcol tibble
-
-lfs_tables <- tibble(
-  tab_title = c("cover", "contents", "notes", "1a", "2", "2"),
+# Prepare listcol tibble with sub-tables: lfs_subtables
+lfs_subtables <- tibble(
+  tab_title = c("cover", "contents", "notes", "1", "2", "2"),
   sheet_type = c(rep("meta", 3), rep("tables", 3)),
   sheet_title = c(
     paste(
@@ -81,8 +82,15 @@ lfs_tables <- tibble(
     "Labour_market_activity_groups_16_to_64"
   ),
   table = list(
-    cover_tbl, contents_tbl, notes_tbl, s1a_tbl, s2_t2a_tbl, s2_t2b_tbl
+    cover_tbl, contents_tbl, notes_tbl, s1_tbl, s2_t2a_tbl, s2_t2b_tbl
   )
 )
 
-usethis::use_data(lfs_tables, overwrite = TRUE)
+# Prepare a version without subtables: lfs_tables
+lfs_tables <- lfs_subtables[-nrow(lfs_subtables), ]
+lfs_tables$subtable_num <- NA_character_
+lfs_tables$subtable_title <- NA_character_
+
+# Write to data/
+use_data(lfs_subtables, overwrite = TRUE)
+use_data(lfs_tables, overwrite = TRUE)

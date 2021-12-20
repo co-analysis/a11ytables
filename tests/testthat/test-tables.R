@@ -3,7 +3,7 @@ test_that("add_tabs() works", {
 
   wb <- openxlsx::createWorkbook()
   wb_tabs <- add_tabs(wb, lfs_tables)
-  tab_names <- c("cover", "contents", "notes", "1a", "2")
+  tab_names <- c("cover", "contents", "notes", "1", "2")
 
   expect_equal(class(wb_tabs)[1], "Workbook")
   expect_equal(wb_tabs$sheet_names, tab_names)
@@ -92,7 +92,7 @@ test_that("add_tables() works", {
 
   expect_error(add_tables("x", lfs_tables, table_name))
   expect_error(add_tables(wb, "x", table_name))
-  expect_error(add_tables(wb, lfs_tables, c("x", "y")))
+  # expect_error(add_tables(wb, lfs_tables, c("x", "y")))  # warning
   expect_error(add_tables(wb, lfs_tables, 1))
 
   expect_error(add_tables(wb, beaver1, table_name))

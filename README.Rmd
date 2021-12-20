@@ -30,17 +30,9 @@ coverage](https://codecov.io/gh/co-analysis/a11ytables/branch/main/graph/badge.s
 
 {a11ytables} is a work-in-progress R package built around [{openxlsx}](https://ycphs.github.io/openxlsx/) that aims to comply with the latest guidance (June 2021) on [releasing statistics in spreadsheets](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/) from the [Best Practice and Impact Division](https://github.com/best-practice-and-impact?language=html) (BPID) of the UK's [Government Statistical Service](https://gss.civilservice.gov.uk/).
 
-Features are in-development and opinionated. Certain things may not work as you intend and you may need to tweak your final workbook object after creation. The onus is on the user to check their work. See [the package website](https://co-analysis.github.io/a11ytables/) for online documentation.
-
-## Similar projects
-
-BPID have themselves released [a Python package called 'gptables'](https://github.com/best-practice-and-impact/gptables) to help users produce such spreadsheets, but it's based on a prior version of the guidance. [That package will be updated](https://github.com/best-practice-and-impact/gptables/issues/145), but there's a gap for this functionality—and for a dedicated R package—at the time of writing (August 2021).
-
-{a11ytables} is being developed with specific statistical releases in mind, but the goal is to generalise it and perhaps have some functionality absorbed into the development of [gptables](https://github.com/best-practice-and-impact/gptables) in some way.
-
 ## Install and use
 
-You can install {a11ytables} from GitHub. using {remotes}.
+You can install {a11ytables} from GitHub using {remotes}. {openxlsx} will be installed too.
 
 ```{r install, eval=FALSE}
 install.packages("remotes")
@@ -48,50 +40,69 @@ remotes::install_github("co-analysis/a11ytables")
 library(a11ytables)
 ```
 
-The package depends on {openxlsx} for constructing workbooks and {purrr} for readable function iteration. Both are imported with {a11ytables}. The {magrittr} pipe (`%>%`) is exported for convenience.
+To use:
 
-At time of writing, you would do something like this to generate a publication:
+1. Create an a11ytables-class dataframe object containing your data (TODO: make the class)
+2. Pass that object to `create_a11y_wb()` to populate an {openxlsx} Workbook-class object
+3. Write that object with `openxlsx::saveWorkbook()`
 
-```{r ex-piped, eval=FALSE}
-example_wb <- openxlsx::createWorkbook() %>% 
-  add_tabs(lfs_tables) %>% 
-  add_cover(lfs_tables) %>% 
-  add_contents(lfs_tables) %>% 
-  add_notes(lfs_tables) %>% 
-  add_tables(lfs_tables, table_name = "Labour_market_summary_for_16_and_over") %>%
-  add_tables(lfs_tables, table_name = "Labour_market_activity_groups_16_and_over")
+## Detail
 
+The information required to build the output can be arranged into a single dataframe with class 'a11ytables' (TODO: explain how to construct these objects). You pass that object to the `create_a11y_wb()` function, which in turn creates an {openxlsx} Workbook-class object with the required sheets, their content and styling in accordance with accessibility best practice (TODO: make all features accessible).
+
+Here is the built-in dataset `lfs_tables`, adapted from [the releasing statistics in spreadsheets guidance](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/) (TODO: actually convert this a11ytables-class):
+
+```{r glimpse-lfs-tables}
+dplyr::glimpse(tibble::as_tibble(lfs_tables))
+```
+
+<details><summary>Click here to view an explanation of the variables.</summary>
+
+Columns in the a11ytables-class dataframe are:
+
+* `tab_title`: the name of the tab (i.e. the text that will appear on each tab of the output workbook), a column that must include 'cover' and 'contents'; optionally 'notes'; and one row per table for publication (numbers are recommended for tables)
+* `sheet_type`: 'cover', 'contents' and 'notes' are 'meta' sheets; tables for publication are 'tables'
+* `sheet_title`: the title of the sheet, displayed in cell A1
+* `source`: the provenance of the data (optional), displayed in cell A3
+* `table_name`: a name to give the marked-up table (no spaces), which will allow screenreaders to identify the table in the output workbook
+* `table`: a list-column containing a dataframe with the table to be added to  a given sheet
+
+Optionally, for tabs that contain more than one table (not recommended, also TODO):
+
+* `subtable_num`: string to append to the tab_title to identify this sub-table, for example 'a' and 'b'
+* `subtable_title`: title to be added above the sub-table within the sheet
+</details>
+<p>
+
+And so, this can be passed to a single function to create an {openxlsx} Workbook-class object:
+
+```{r example_wb}
+example_wb <- create_a11y_wb(lfs_tables)
+```
+
+<details><summary>Click here to view the contents of the output.</summary>
+
+```{r}
+example_wb
+```
+
+</details>
+<p>
+
+This output can be written to disk or opened temporarily with spreadsheet software.
+
+```{r open-wb, eval=FALSE}
 openxlsx::openXL(example_wb)  # optionally open temp copy
 openxlsx::saveWorkbook(example_wb, "publication.xlsx")
 ```
 
-In other words, you create an {openxlsx} Workbook-class object, then add each sheet one by one with {allytables} functions. An important user input is the information required to populate each sheet, which must be provided in a particular format. The package's built-in `lfs_tables` data set provides an example (see the next section for a preview).
+## Similar projects
 
-## Concept
+BPID have themselves released [a Python package called 'gptables'](https://github.com/best-practice-and-impact/gptables) to help users produce such spreadsheets, but it's based on a prior version of the guidance. [That package will be updated](https://github.com/best-practice-and-impact/gptables/issues/145), but there's a gap for this functionality—and for a dedicated R package—at the time of writing (August 2021).
 
-A _workbook_ is made of _sheets_. There are two types of sheet: _meta_ (_cover_, _contents_ and optional _notes_) and _tables_. 
+{a11ytables} is being developed with specific statistical releases in mind, but the goal is to generalise it and perhaps have some functionality absorbed into the development of [gptables](https://github.com/best-practice-and-impact/gptables) in some way.
 
-Sheets are built from _elements_, which includes the title, an announcement on the number of tables/presence of notes, an announcement of the source, and the tables themselves
-
-You can build each _sheet_ type using the `add_*()` functions. Each one creates a sheet that is inserted into a named {openxlsx} Workbook-class object using data from a user-supplied _contents_ object.
-
-The _contents_ object has a very strict format. It's a data.frame/tibble-class object that contains the information needed to construct each sheet. The columns and certain contents must follow particular requirements. 
-
-The package contains a dummy dataset with the correct format; it's a truncated version of the example provided in [the guidance](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/).
-
-```{r lfs-tables-data}
-tibble::tibble(lfs_tables)
-```
-
-Each row is a table to insert into the output. `tab_title` is needed to name the tabs in the workbook; `sheet_title` is inserted as the first sheet _element_; if there's more than one table in a sheet (try to avoid this), you need a `subtable_num` and `subtable_title`; a `table_name` which is a 'hidden' title applied to the marked-up cells of table; and `table`, which is a listcol containing the data as a rectangular data.frame/tibble-class object. For example:
-
-```{r lfs-tables-table}
-lfs_tables %>% 
-  dplyr::filter(tab_title == "1a") %>%
-  dplyr::pull("table") %>% 
-  `[[`(., 1) %>%  # extract from list form
-  dplyr::select(1:3)  # first few cols
-```
+The code is under development and current API features may change in future releases. Please see the NEWS file for details of any breaking changes.
 
 ## Code of Conduct
 
