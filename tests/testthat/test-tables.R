@@ -3,7 +3,7 @@ test_that("add_tabs() works", {
 
   wb <- openxlsx::createWorkbook()
   wb_tabs <- add_tabs(wb, lfs_tables)
-  tab_names <- c("cover", "contents", "notes", "1a", "2")
+  tab_names <- c("cover", "contents", "notes", "1", "2")
 
   expect_equal(class(wb_tabs)[1], "Workbook")
   expect_equal(wb_tabs$sheet_names, tab_names)
