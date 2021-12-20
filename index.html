@@ -23,6 +23,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -35,18 +37,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">a11ytables</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9002</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -56,7 +52,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/co-analysis/a11ytables/">
+  <a href="https://github.com/co-analysis/a11ytables/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -73,148 +69,208 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="a11ytables" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#a11ytables" class="anchor"></a>{a11ytables}</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="a11ytables">{a11ytables}<a class="anchor" aria-label="anchor" href="#a11ytables"></a>
+</h1></div>
 <!-- badges: start -->
 
-<div id="purpose" class="section level2">
-<h2 class="hasAnchor">
-<a href="#purpose" class="anchor"></a>Purpose</h2>
-<p>{a11ytables} is a work-in-progress R package built around <a href="https://ycphs.github.io/openxlsx/">{openxlsx}</a> that aims to comply with the latest guidance (June 2021) on <a href="https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/">releasing statistics in spreadsheets</a> from the <a href="https://github.com/best-practice-and-impact?language=html">Best Practice and Impact Division</a> (BPID) of the UK’s <a href="https://gss.civilservice.gov.uk/">Government Statistical Service</a>.</p>
-<p>Features are in-development and opinionated. Certain things may not work as you intend and you may need to tweak your final workbook object after creation. The onus is on the user to check their work. See <a href="https://co-analysis.github.io/a11ytables/">the package website</a> for online documentation.</p>
+<div class="section level2">
+<h2 id="purpose">Purpose<a class="anchor" aria-label="anchor" href="#purpose"></a>
+</h2>
+<p>{a11ytables} is a work-in-progress R package built around <a href="https://ycphs.github.io/openxlsx/" class="external-link">{openxlsx}</a> that aims to comply with the latest guidance (June 2021) on <a href="https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/" class="external-link">releasing statistics in spreadsheets</a> from the <a href="https://github.com/best-practice-and-impact?language=html" class="external-link">Best Practice and Impact Division</a> (BPID) of the UK’s <a href="https://gss.civilservice.gov.uk/" class="external-link">Government Statistical Service</a>.</p>
 </div>
-<div id="similar-projects" class="section level2">
-<h2 class="hasAnchor">
-<a href="#similar-projects" class="anchor"></a>Similar projects</h2>
-<p>BPID have themselves released <a href="https://github.com/best-practice-and-impact/gptables">a Python package called ‘gptables’</a> to help users produce such spreadsheets, but it’s based on a prior version of the guidance. <a href="https://github.com/best-practice-and-impact/gptables/issues/145">That package will be updated</a>, but there’s a gap for this functionality—and for a dedicated R package—at the time of writing (August 2021).</p>
-<p>{a11ytables} is being developed with specific statistical releases in mind, but the goal is to generalise it and perhaps have some functionality absorbed into the development of <a href="https://github.com/best-practice-and-impact/gptables">gptables</a> in some way.</p>
-</div>
-<div id="install-and-use" class="section level2">
-<h2 class="hasAnchor">
-<a href="#install-and-use" class="anchor"></a>Install and use</h2>
-<p>You can install {a11ytables} from GitHub. using {remotes}.</p>
+<div class="section level2">
+<h2 id="install-and-use">Install and use<a class="anchor" aria-label="anchor" href="#install-and-use"></a>
+</h2>
+<p>You can install {a11ytables} from GitHub using {remotes}. {openxlsx} will be installed too.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"co-analysis/a11ytables"</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/co-analysis/a11ytables">a11ytables</a></span><span class="op">)</span></code></pre></div>
-<p>The package depends on {openxlsx} for constructing workbooks and {purrr} for readable function iteration. Both are imported with {a11ytables}. The {magrittr} pipe (<code><a href="reference/%&gt;%.html">%&gt;%</a></code>) is exported for convenience.</p>
-<p>At time of writing, you would do something like this to generate a publication:</p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"co-analysis/a11ytables"</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/co-analysis/a11ytables" class="external-link">a11ytables</a></span><span class="op">)</span></code></pre></div>
+<p>To use:</p>
+<ol style="list-style-type: decimal">
+<li>Create an a11ytables-class dataframe object containing your data (TODO: make the class)</li>
+<li>Pass that object to <code><a href="reference/create_a11y_wb.html">create_a11y_wb()</a></code> to populate an {openxlsx} Workbook-class object</li>
+<li>Write that object with <code><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html" class="external-link">openxlsx::saveWorkbook()</a></code>
+</li>
+</ol>
+</div>
+<div class="section level2">
+<h2 id="detail">Detail<a class="anchor" aria-label="anchor" href="#detail"></a>
+</h2>
+<p>The information required to build the output can be arranged into a single dataframe with class ‘a11ytables’ (TODO: explain how to construct these objects). You pass that object to the <code><a href="reference/create_a11y_wb.html">create_a11y_wb()</a></code> function, which in turn creates an {openxlsx} Workbook-class object with the required sheets, their content and styling in accordance with accessibility best practice (TODO: make all features accessible).</p>
+<p>Here is the built-in dataset <code>lfs_tables</code>, adapted from <a href="https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/" class="external-link">the releasing statistics in spreadsheets guidance</a> (TODO: actually convert this a11ytables-class):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">example_wb</span> <span class="op">&lt;-</span> <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/createWorkbook.html">createWorkbook</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/add_tabs.html">add_tabs</a></span><span class="op">(</span><span class="va">lfs_tables</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/add_cover.html">add_cover</a></span><span class="op">(</span><span class="va">lfs_tables</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/add_contents.html">add_contents</a></span><span class="op">(</span><span class="va">lfs_tables</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/add_notes.html">add_notes</a></span><span class="op">(</span><span class="va">lfs_tables</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/add_tables.html">add_tables</a></span><span class="op">(</span><span class="va">lfs_tables</span>, table_name <span class="op">=</span> <span class="st">"Labour_market_summary_for_16_and_over"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/add_tables.html">add_tables</a></span><span class="op">(</span><span class="va">lfs_tables</span>, table_name <span class="op">=</span> <span class="st">"Labour_market_activity_groups_16_and_over"</span><span class="op">)</span>
-
-<span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/openXL.html">openXL</a></span><span class="op">(</span><span class="va">example_wb</span><span class="op">)</span>  <span class="co"># optionally open temp copy</span>
-<span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html">saveWorkbook</a></span><span class="op">(</span><span class="va">example_wb</span>, <span class="st">"publication.xlsx"</span><span class="op">)</span></code></pre></div>
-<p>In other words, you create an {openxlsx} Workbook-class object, then add each sheet one by one with {allytables} functions. An important user input is the information required to populate each sheet, which must be provided in a particular format. The package’s built-in <code>lfs_tables</code> data set provides an example (see the next section for a preview).</p>
-</div>
-<div id="concept" class="section level2">
-<h2 class="hasAnchor">
-<a href="#concept" class="anchor"></a>Concept</h2>
-<p>A <em>workbook</em> is made of <em>sheets</em>. There are two types of sheet: <em>meta</em> (<em>cover</em>, <em>contents</em> and optional <em>notes</em>) and <em>tables</em>.</p>
-<p>Sheets are built from <em>elements</em>, which includes the title, an announcement on the number of tables/presence of notes, an announcement of the source, and the tables themselves</p>
-<p>You can build each <em>sheet</em> type using the <code>add_*()</code> functions. Each one creates a sheet that is inserted into a named {openxlsx} Workbook-class object using data from a user-supplied <em>contents</em> object.</p>
-<p>The <em>contents</em> object has a very strict format. It’s a data.frame/tibble-class object that contains the information needed to construct each sheet. The columns and certain contents must follow particular requirements.</p>
-<p>The package contains a dummy dataset with the correct format; it’s a truncated version of the example provided in <a href="https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/">the guidance</a>.</p>
+<code class="sourceCode R"><span class="fu">dplyr</span><span class="fu">::</span><span class="fu">glimpse</span><span class="op">(</span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">lfs_tables</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; Rows: 5</span>
+<span class="co">#&gt; Columns: 8</span>
+<span class="co">#&gt; $ tab_title      &lt;chr&gt; "cover", "contents", "notes", "1a", "2"</span>
+<span class="co">#&gt; $ sheet_type     &lt;chr&gt; "meta", "meta", "meta", "tables", "tables"</span>
+<span class="co">#&gt; $ sheet_title    &lt;chr&gt; "Labour market overview data tables, UK, December 2020 …</span>
+<span class="co">#&gt; $ source         &lt;chr&gt; NA, NA, NA, "Labour Force Survey", "Labour Force Survey"</span>
+<span class="co">#&gt; $ subtable_num   &lt;chr&gt; NA, NA, NA, NA, NA</span>
+<span class="co">#&gt; $ subtable_title &lt;chr&gt; NA, NA, NA, NA, NA</span>
+<span class="co">#&gt; $ table_name     &lt;chr&gt; "Cover_content", "Table_of_contents", "Notes_table", "L…</span>
+<span class="co">#&gt; $ table          &lt;list&gt; [&lt;tbl_df[17 x 1]&gt;], [&lt;tbl_df[2 x 5]&gt;], [&lt;tbl_df[11 x 2]…</span></code></pre></div>
+<details><p><summary> Click here to view an explanation of the variables. </summary></p>
+<p>Columns in the a11ytables-class dataframe are:</p>
+<ul>
+<li>
+<code>tab_title</code>: the name of the tab (i.e. the text that will appear on each tab of the output workbook), a column that must include ‘cover’ and ‘contents’; optionally ‘notes’; and one row per table for publication (numbers are recommended for tables)</li>
+<li>
+<code>sheet_type</code>: ‘cover’, ‘contents’ and ‘notes’ are ‘meta’ sheets; tables for publication are ‘tables’</li>
+<li>
+<code>sheet_title</code>: the title of the sheet, displayed in cell A1</li>
+<li>
+<code>source</code>: the provenance of the data (optional), displayed in cell A3</li>
+<li>
+<code>table_name</code>: a name to give the marked-up table (no spaces), which will allow screenreaders to identify the table in the output workbook</li>
+<li>
+<code>table</code>: a list-column containing a dataframe with the table to be added to a given sheet</li>
+</ul>
+<p>Optionally, for tabs that contain more than one table (not recommended, also TODO):</p>
+<ul>
+<li>
+<code>subtable_num</code>: string to append to the tab_title to identify this sub-table, for example ‘a’ and ‘b’</li>
+<li>
+<code>subtable_title</code>: title to be added above the sub-table within the sheet</li>
+</ul></details><p>
+</p>
+<p>And so, this can be passed to a single function to create an {openxlsx} Workbook-class object:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span><span class="va">lfs_tables</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 × 8</span>
-<span class="co">#&gt;   tab_title sheet_type sheet_title source subtable_num subtable_title table_name</span>
-<span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;          &lt;chr&gt;     </span>
-<span class="co">#&gt; 1 cover     meta       Labour mar… &lt;NA&gt;   &lt;NA&gt;         &lt;NA&gt;           Cover_con…</span>
-<span class="co">#&gt; 2 contents  meta       Table of c… &lt;NA&gt;   &lt;NA&gt;         &lt;NA&gt;           Table_of_…</span>
-<span class="co">#&gt; 3 notes     meta       Notes       &lt;NA&gt;   &lt;NA&gt;         &lt;NA&gt;           Notes_tab…</span>
-<span class="co">#&gt; 4 1a        tables     Number and… Labou… &lt;NA&gt;         &lt;NA&gt;           Labour_ma…</span>
-<span class="co">#&gt; 5 2         tables     Number and… Labou… a            Number and pe… Labour_ma…</span>
-<span class="co">#&gt; 6 2         tables     Number and… Labou… b            Number and pe… Labour_ma…</span>
-<span class="co">#&gt; # … with 1 more variable: table &lt;list&gt;</span></code></pre></div>
-<p>Each row is a table to insert into the output. <code>tab_title</code> is needed to name the tabs in the workbook; <code>sheet_title</code> is inserted as the first sheet <em>element</em>; if there’s more than one table in a sheet (try to avoid this), you need a <code>subtable_num</code> and <code>subtable_title</code>; a <code>table_name</code> which is a ‘hidden’ title applied to the marked-up cells of table; and <code>table</code>, which is a listcol containing the data as a rectangular data.frame/tibble-class object. For example:</p>
+<code class="sourceCode R"><span class="va">example_wb</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_a11y_wb.html">create_a11y_wb</a></span><span class="op">(</span><span class="va">lfs_tables</span><span class="op">)</span></code></pre></div>
+<details><p><summary> Click here to view the contents of the output. </summary></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lfs_tables</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">filter</span><span class="op">(</span><span class="va">tab_title</span> <span class="op">==</span> <span class="st">"1a"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">pull</span><span class="op">(</span><span class="st">"table"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">`[[`</span><span class="op">(</span><span class="va">.</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span>  <span class="co"># extract from list form</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">select</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>  <span class="co"># first few cols</span>
-<span class="co">#&gt; # A tibble: 6 × 3</span>
-<span class="co">#&gt;   `Time period and dataset code row` `Number of people (… `Economically active\…</span>
-<span class="co">#&gt;   &lt;chr&gt;                                             &lt;dbl&gt;                  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 Mar to May 2020                               53534074.              34127374.</span>
-<span class="co">#&gt; 2 Apr to Jun 2020                               53556401.              34051489.</span>
-<span class="co">#&gt; 3 May to Jul 2020                               53579793.              34116254.</span>
-<span class="co">#&gt; 4 Jun to Aug 2020                               53603157.              34112847.</span>
-<span class="co">#&gt; 5 Jul to Sep 2020                               53626130               34130192.</span>
-<span class="co">#&gt; 6 Aug to Oct 2020                               53649283               34213332.</span></code></pre></div>
+<code class="sourceCode R"><span class="va">example_wb</span>
+<span class="co">#&gt; A Workbook object.</span>
+<span class="co">#&gt;  </span>
+<span class="co">#&gt; Worksheets:</span>
+<span class="co">#&gt;  Sheet 1: "cover"</span>
+<span class="co">#&gt;  </span>
+<span class="co">#&gt;  Custom row heights (row: height)</span>
+<span class="co">#&gt;   3: 34, 5: 34, 7: 34, 9: 34, 11: 34, 13: 34, 15: 34, 17: 34 </span>
+<span class="co">#&gt;  Custom column widths (column: width)</span>
+<span class="co">#&gt;    1: 80 </span>
+<span class="co">#&gt;  </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Sheet 2: "contents"</span>
+<span class="co">#&gt;  </span>
+<span class="co">#&gt;  Custom column widths (column: width)</span>
+<span class="co">#&gt;    1: 30, 2: 30, 3: 30, 4: 30, 5: 30 </span>
+<span class="co">#&gt;  </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Sheet 3: "notes"</span>
+<span class="co">#&gt;  </span>
+<span class="co">#&gt;  Custom column widths (column: width)</span>
+<span class="co">#&gt;    1: 15, 2: 80 </span>
+<span class="co">#&gt;  </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Sheet 4: "1a"</span>
+<span class="co">#&gt;  </span>
+<span class="co">#&gt;  Custom column widths (column: width)</span>
+<span class="co">#&gt;    1: 16, 2: 16, 3: 16, 4: 16, 5: 16, 6: 16, 7: 16, 8: 16, 9: 16, 10: 16 </span>
+<span class="co">#&gt;  </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Sheet 5: "2"</span>
+<span class="co">#&gt;  </span>
+<span class="co">#&gt;  Custom column widths (column: width)</span>
+<span class="co">#&gt;    1: 16, 2: 16, 3: 16, 4: 16, 5: 16, 6: 16, 7: 16, 8: 16, 9: 16 </span>
+<span class="co">#&gt;  </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  </span>
+<span class="co">#&gt;  Worksheet write order: 1, 2, 3, 4, 5</span>
+<span class="co">#&gt;  Active Sheet 1: "cover" </span>
+<span class="co">#&gt;  Position: 1</span></code></pre></div>
+</details><p>
+</p>
+<p>This output can be written to disk or opened temporarily with spreadsheet software.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/openXL.html" class="external-link">openXL</a></span><span class="op">(</span><span class="va">example_wb</span><span class="op">)</span>  <span class="co"># optionally open temp copy</span>
+<span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html" class="external-link">saveWorkbook</a></span><span class="op">(</span><span class="va">example_wb</span>, <span class="st">"publication.xlsx"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="code-of-conduct" class="section level2">
-<h2 class="hasAnchor">
-<a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
-<p>Please note that the {a11ytables} project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
-<p>Cabinet Office users, please adhere to <a href="https://docs.google.com/document/d/1CuNgKla1BwSVOmGkPmsq0S-OM4emP-iXrgnm7EeILWM/edit?usp=sharing">the co-analysis Git and GitHub code of conduct and usage policy</a>.</p>
-<p>Please <a href="https://github.com/co-analysis/csstatsbulletin/issues">file an issue</a> where possible and provide meaningful commentary in any commits and pull requests.</p>
+<div class="section level2">
+<h2 id="similar-projects">Similar projects<a class="anchor" aria-label="anchor" href="#similar-projects"></a>
+</h2>
+<p>BPID have themselves released <a href="https://github.com/best-practice-and-impact/gptables" class="external-link">a Python package called ‘gptables’</a> to help users produce such spreadsheets, but it’s based on a prior version of the guidance. <a href="https://github.com/best-practice-and-impact/gptables/issues/145" class="external-link">That package will be updated</a>, but there’s a gap for this functionality—and for a dedicated R package—at the time of writing (August 2021).</p>
+<p>{a11ytables} is being developed with specific statistical releases in mind, but the goal is to generalise it and perhaps have some functionality absorbed into the development of <a href="https://github.com/best-practice-and-impact/gptables" class="external-link">gptables</a> in some way.</p>
+<p>The code is under development and current API features may change in future releases. Please see the NEWS file for details of any breaking changes.</p>
 </div>
-<div id="copyright" class="section level2">
-<h2 class="hasAnchor">
-<a href="#copyright" class="anchor"></a>Copyright</h2>
+<div class="section level2">
+<h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
+</h2>
+<p>Please note that the {a11ytables} project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>Cabinet Office users, please adhere to <a href="https://docs.google.com/document/d/1CuNgKla1BwSVOmGkPmsq0S-OM4emP-iXrgnm7EeILWM/edit?usp=sharing" class="external-link">the co-analysis Git and GitHub code of conduct and usage policy</a>.</p>
+<p>Please <a href="https://github.com/co-analysis/csstatsbulletin/issues" class="external-link">file an issue</a> where possible and provide meaningful commentary in any commits and pull requests.</p>
+</div>
+<div class="section level2">
+<h2 id="copyright">Copyright<a class="anchor" aria-label="anchor" href="#copyright"></a>
+</h2>
 <p>Copyright (c) 2021 Crown Copyright (Cabinet Office).</p>
-<p>The code in this repository is released under the MIT license as per <a href="https://gds-way.cloudapps.digital/manuals/licensing.html#use-mit">The GDS Way</a>.</p>
+<p>The code in this repository is released under the MIT license as per <a href="https://gds-way.cloudapps.digital/manuals/licensing.html#use-mit" class="external-link">The GDS Way</a>.</p>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/co-analysis/a11ytables/">https://​github.com/​co-analysis/​a11ytables/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/co-analysis/a11ytables/issues">https://​github.com/​co-analysis/​a11ytables/​issues</a>
-</li>
+<li><a href="https://github.com/co-analysis/a11ytables/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/co-analysis/a11ytables/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing a11ytables</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Matt Dray <br><small class="roles"> Author, maintainer </small>  </li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.repostatus.org/#wip"><img src="https://www.repostatus.org/badges/latest/wip.svg" alt="Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public."></a></li>
-<li><a href="https://CRAN.R-project.org/package=a11ytables"><img src="https://www.r-pkg.org/badges/version/a11ytables" alt="CRAN status"></a></li>
-<li><a href="https://github.com/co-analysis/a11ytables/actions"><img src="https://github.com/co-analysis/a11ytables/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://codecov.io/gh/co-analysis/a11ytables?branch=main"><img src="https://codecov.io/gh/co-analysis/a11ytables/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://www.repostatus.org/#wip" class="external-link"><img src="https://www.repostatus.org/badges/latest/wip.svg" alt="Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public."></a></li>
+<li><a href="https://CRAN.R-project.org/package=a11ytables" class="external-link"><img src="https://www.r-pkg.org/badges/version/a11ytables" alt="CRAN status"></a></li>
+<li><a href="https://github.com/co-analysis/a11ytables/actions" class="external-link"><img src="https://github.com/co-analysis/a11ytables/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/co-analysis/a11ytables?branch=main" class="external-link"><img src="https://codecov.io/gh/co-analysis/a11ytables/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Matt Dray.</p>
+  <p></p>
+<p>Developed by Matt Dray.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -222,6 +278,8 @@
 
   
 
+
+  
 
   </body>
 </html>
