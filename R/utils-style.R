@@ -2,13 +2,13 @@
 .style_create <- function() {
 
   list(
-    bold   = openxlsx::createStyle(textDecoration = "Bold"),
-    lalign = openxlsx::createStyle(halign = "left"),
-    pt14  = openxlsx::createStyle(fontSize = 14),
-    pt16  = openxlsx::createStyle(fontSize = 16),
-    ralign = openxlsx::createStyle(halign = "right"),
+    bold       = openxlsx::createStyle(textDecoration = "Bold"),
+    lalign     = openxlsx::createStyle(halign = "left"),
+    pt14       = openxlsx::createStyle(fontSize = 14),
+    pt16       = openxlsx::createStyle(fontSize = 16),
+    ralign     = openxlsx::createStyle(halign = "right"),
     row_height = openxlsx::createStyle(halign = "right"),
-    wrap   = openxlsx::createStyle(wrapText = TRUE)
+    wrap       = openxlsx::createStyle(wrapText = TRUE)
   )
 
 }
@@ -54,7 +54,7 @@
 .style_cover <- function(wb, content, style_ref) {
 
   tab_name <- "cover"
-  table <- content[content$tab_title == "cover", "table"][[1]][[1]]
+  table <- content[content$tab_title == "cover", "table"][[1]]
   table_height <- nrow(table)
 
   # The cover column is SET-WIDTH and WRAPPED
@@ -110,7 +110,7 @@
 
 .style_table <- function(wb, content, table_name, style_ref) {
 
-  table <- content[content$table_name == table_name, "table"][[1]][[1]]
+  table <- content[content$table_name == table_name, "table"][[1]]
   tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
   sheet_type <- content[content$table_name == table_name, "sheet_type"][[1]]
   table_height <- nrow(table)
@@ -166,7 +166,7 @@
 .style_contents <- function(wb, content, style_ref) {
 
   tab_name <- "contents"
-  table <- content[content$tab_title == "contents", "table"][[1]][[1]]
+  table <- content[content$tab_title == "contents", "table"][[1]]
   table_height <- nrow(table)
   table_width <- ncol(table)
 
@@ -205,7 +205,7 @@
 .style_notes <- function(wb, content, style_ref) {
 
   tab_name <- "notes"
-  table <- content[content$tab_title == "notes", "table"][[1]][[1]]
+  table <- content[content$tab_title == "notes", "table"][[1]]
   table_height <- nrow(table)
   table_width <- ncol(table)
 

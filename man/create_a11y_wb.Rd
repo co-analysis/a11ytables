@@ -7,19 +7,19 @@
 create_a11y_wb(content)
 }
 \arguments{
-\item{content}{A data.frame-class object containing your data.}
+\item{content}{An a11ytable-class object containing the data and information
+needed to create your workbook.}
 }
 \value{
 A Workbook-class object.
 }
 \description{
-Given a correctly-formatted dataframe input, create a workbook object with
-the required tab content (cover, contents, notes (optional) and one tab
-per table). A shortcut for building workbooks with the add_*() functions.
+Populate an {openxlsx} workbook object with content from a a11ytable-class
+input.
 }
 \details{
-The 'content' object should adhere to the form demonstrated in
-\code{\link{lfs_tables}}
+You can create an a11ytable object with
+\code{\link{new_a11ytable}} (or \code{\link{as_a11ytable}}).
 }
 \examples{
 \dontrun{ create_a11y_wb(content) }
