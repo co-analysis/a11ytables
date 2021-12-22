@@ -22,19 +22,7 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
-    <loc>/reference/add_contents.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_cover.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_notes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_tables.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_tabs.html</loc>
+    <loc>/reference/as_a11ytable.html</loc>
   </url>
   <url>
     <loc>/reference/create_a11y_wb.html</loc>
@@ -43,9 +31,18 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
+    <loc>/reference/is_a11ytable.html</loc>
+  </url>
+  <url>
     <loc>/reference/lfs_subtables.html</loc>
   </url>
   <url>
     <loc>/reference/lfs_tables.html</loc>
+  </url>
+  <url>
+    <loc>/reference/new_a11ytable.html</loc>
+  </url>
+  <url>
+    <loc>/reference/print.a11ytable.html</loc>
   </url>
 </urlset>
