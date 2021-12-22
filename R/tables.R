@@ -16,6 +16,10 @@
 #' @examples \dontrun{ create_a11y_wb(content) }
 create_a11y_wb <- function(content) {
 
+  if (!is_a11ytable(content)) {
+    stop("The object passed to argument 'content' must have class 'a11ytable'")
+  }
+
   # Create workbook, add tabs, cover, contents (required for all workbooks)
   wb <- openxlsx::createWorkbook()
   wb <- .add_tabs(wb, content)

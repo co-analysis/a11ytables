@@ -101,7 +101,7 @@ print.a11ytable <- function(x, ...) {
 
   x_dims <- lapply(
     lapply(x$table, dim),
-    function(x) paste(x, collapse = " × ")
+    function(x) paste(x, collapse = " x ")
   )
 
   out_tab_title <- paste0("\n", paste("  -", x$tab_title, collapse = "\n"))
