@@ -18,18 +18,22 @@ coverage](https://codecov.io/gh/co-analysis/a11ytables/branch/main/graph/badge.s
 ## Purpose
 
 {a11ytables} is a work-in-progress R package built around
-[{openxlsx}](https://ycphs.github.io/openxlsx/) that aims to comply with
-the latest guidance (June 2021) on [releasing statistics in
+[{openxlsx}](https://ycphs.github.io/openxlsx/) that aims you to comply
+with the latest guidance (June 2021) on [releasing statistics in
 spreadsheets](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)
 from the [Best Practice and Impact
 Division](https://github.com/best-practice-and-impact?language=html)
 (BPID) of the UK’s [Government Statistical
 Service](https://gss.civilservice.gov.uk/).
 
+The code is under development and current API features may change in
+future releases. Please see the NEWS file for details of any breaking
+changes.
+
 ## Install and use
 
-You can install {a11ytables} from GitHub using {remotes}. {openxlsx}
-will be installed too.
+You can install {a11ytables} from GitHub using {remotes}. The {openxlsx}
+package will be installed too.
 
 ``` r
 install.packages("remotes")
@@ -39,31 +43,33 @@ library(a11ytables)
 
 To use:
 
-1.  Create an a11ytables-class dataframe object containing your data
-    (TODO: make the class)
-2.  Pass that object to `create_a11y_wb()` to populate an {openxlsx}
-    Workbook-class object
-3.  Write that object with `openxlsx::saveWorkbook()`
+1.  Get your data into an a11ytables-class object using
+    `new_a11ytable()`
+2.  Populate an {openxlsx} Workbook-class object from that object, using
+    `create_a11y_wb()`
+3.  Write the workbook to a spreadsheet output with
+    `openxlsx::saveWorkbook()`
 
-## Detail
+## Example
 
-The information required to build the output can be arranged into a
-single dataframe with class ‘a11ytables’ (TODO: explain how to construct
-these objects). You pass that object to the `create_a11y_wb()` function,
-which in turn creates an {openxlsx} Workbook-class object with the
-required sheets, their content and styling in accordance with
-accessibility best practice (TODO: make all features accessible).
+### 1. Create a11ytable object
 
-Here is the built-in dataset `lfs_tables`, adapted from [the releasing
-statistics in spreadsheets
-guidance](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)
-(TODO: actually convert this a11ytables-class):
+First, construct a special a11ytable-class object using
+`new_a11ytable()`. Ultimately, it’s a data.frame with strict
+requirements. It requires a row per sheet and columns for needed
+information, like the sheet title (character) and table of data (itself
+a data.frame); run `?new_a11ytable` for details.
+
+There’s a built-in demo dataset—`lfs_tables`, adapted from [the
+releasing statistics in spreadsheets
+guidance](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)—that
+is already in the correct data.frame format.
 
 ``` r
-dplyr::glimpse(tibble::as_tibble(lfs_tables))
+dplyr::glimpse(lfs_tables)
 #> Rows: 5
 #> Columns: 8
-#> $ tab_title      <chr> "cover", "contents", "notes", "1a", "2"
+#> $ tab_title      <chr> "cover", "contents", "notes", "1", "2"
 #> $ sheet_type     <chr> "meta", "meta", "meta", "tables", "tables"
 #> $ sheet_title    <chr> "Labour market overview data tables, UK, December 2020 …
 #> $ source         <chr> NA, NA, NA, "Labour Force Survey", "Labour Force Survey"
@@ -73,53 +79,34 @@ dplyr::glimpse(tibble::as_tibble(lfs_tables))
 #> $ table          <list> [<tbl_df[17 x 1]>], [<tbl_df[2 x 5]>], [<tbl_df[11 x 2]…
 ```
 
-<details>
-<summary>
-Click here to view an explanation of the variables.
-</summary>
-
-Columns in the a11ytables-class dataframe are:
-
--   `tab_title`: the name of the tab (i.e. the text that will appear on
-    each tab of the output workbook), a column that must include ‘cover’
-    and ‘contents’; optionally ‘notes’; and one row per table for
-    publication (numbers are recommended for tables)
--   `sheet_type`: ‘cover’, ‘contents’ and ‘notes’ are ‘meta’ sheets;
-    tables for publication are ‘tables’
--   `sheet_title`: the title of the sheet, displayed in cell A1
--   `source`: the provenance of the data (optional), displayed in cell
-    A3
--   `table_name`: a name to give the marked-up table (no spaces), which
-    will allow screenreaders to identify the table in the output
-    workbook
--   `table`: a list-column containing a dataframe with the table to be
-    added to a given sheet
-
-Optionally, for tabs that contain more than one table (not recommended,
-also TODO):
-
--   `subtable_num`: string to append to the tab\_title to identify this
-    sub-table, for example ‘a’ and ‘b’
--   `subtable_title`: title to be added above the sub-table within the
-    sheet
-
-</details>
-<p>
-
-And so, this can be passed to a single function to create an {openxlsx}
-Workbook-class object:
+It can be coerced to a11ytable class, since it’s already structured
+correctly.
 
 ``` r
-example_wb <- create_a11y_wb(lfs_tables)
+lfs_a11ytable <- as_a11ytable(lfs_tables)
+class(lfs_a11ytable)
+#> [1] "a11ytable"  "data.frame"
+is_a11ytable(lfs_a11ytable)
+#> [1] TRUE
+```
+
+### 2. Convert to workbook
+
+We can pass this a11ytable-class object to `create_a11y_wb()`, which
+constructs an {openxlsx} Workbook-class object with
+accessibility-appropriate styling.
+
+``` r
+lfs_wb <- create_a11y_wb(lfs_a11ytable)
 ```
 
 <details>
 <summary>
-Click here to view the contents of the output.
+Click here to view the contents of the workbook
 </summary>
 
 ``` r
-example_wb
+lfs_wb
 #> A Workbook object.
 #>  
 #> Worksheets:
@@ -143,7 +130,7 @@ example_wb
 #>    1: 15, 2: 80 
 #>  
 #> 
-#>  Sheet 4: "1a"
+#>  Sheet 4: "1"
 #>  
 #>  Custom column widths (column: width)
 #>    1: 16, 2: 16, 3: 16, 4: 16, 5: 16, 6: 16, 7: 16, 8: 16, 9: 16, 10: 16 
@@ -164,13 +151,21 @@ example_wb
 </details>
 <p>
 
+### 3. Save
+
 This output can be written to disk or opened temporarily with
 spreadsheet software.
 
 ``` r
-openxlsx::openXL(example_wb)  # optionally open temp copy
-openxlsx::saveWorkbook(example_wb, "publication.xlsx")
+openxlsx::openXL(lfs_wb)  # optionally open temp copy
+openxlsx::saveWorkbook(lfs_wb, "publication.xlsx")
 ```
+
+## Accessibility
+
+TODO: explain features that meet the GSS accessibilit guidance (named
+tables, no empty cells, the statement on table count and presence of
+notes, etc).
 
 ## Similar projects
 
@@ -187,10 +182,6 @@ mind, but the goal is to generalise it and perhaps have some
 functionality absorbed into the development of
 [gptables](https://github.com/best-practice-and-impact/gptables) in some
 way.
-
-The code is under development and current API features may change in
-future releases. Please see the NEWS file for details of any breaking
-changes.
 
 ## Code of Conduct
 

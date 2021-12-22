@@ -1,10 +1,12 @@
+
+# Validate ----------------------------------------------------------------
+
+
 .stop_bad_input <- function(wb, content, table_name = NULL) {
 
   if (class(wb)[1] != "Workbook") {
     stop("'wb' must be a Workbook-class object.")
   }
-
-  .stop_bad_content(content)
 
   if (!is.null(table_name) &
       class(table_name) != "character" &
@@ -15,70 +17,9 @@
 
 }
 
-.stop_bad_content <- function(content) {
 
-  names_req <- c(
-    "tab_title", "sheet_type", "sheet_title", "source",
-    "subtable_num","subtable_title", "table_name", "table"
-  )
+# Construct sheets --------------------------------------------------------
 
-  names_in <- names(content)
-
-  # must be of data.frame class
-  if (!any(class(content) %in% "data.frame")) {
-    stop("'contents' must have class data.frame.")
-  }
-
-  # must have particular dimensions (must have cover, contents table, at least)
-  if (length(names_req) != length(content) | nrow(content) < 3) {
-    stop("'contents' must have 8 columns and at least 4 rows.")
-  }
-
-  # column names must match expected format
-  if (!all(names_req %in% names_in)) {
-    stop("Content data.frame does not have the correct column names.")
-  }
-
-  # 'table' column class must be listcol
-  if (class(content[["table"]]) != "list") {
-    stop("Column 'table' must be a listcol of data.frame objects.")
-  }
-
-  # class must be character for all columns except 'table'
-  if (!all(unlist(lapply(content[-8], is.character)))) {
-    stop("All columns except 'table' must be character class.")
-  }
-
-  # content of listcol column must be single data.frame objects
-  if (!all(unlist(lapply(content[["table"]], is.data.frame)))) {
-    stop("List-column 'table' must contain data.frame objects only.")
-  }
-
-  # first three rows must be cover, contents and notes
-  if (
-    !any(
-      unlist(content[1:3, "tab_title"]) == c("cover", "contents", "notes")
-    )
-  ) {
-    stop(
-      paste(
-        "The first three elements of the 'table_name' column in 'content' must",
-        "be 'cover', 'contents' and 'notes'"
-      )
-    )
-  }
-
-  # there should be no empty rows for certain columns
-  if (!all(unlist(lapply(content[c(1:3, 7)], function(x) all(!is.na(x)))))) {
-    stop(
-      paste(
-        "Columns 'tab_title', 'sheet_type', 'sheet_tite', 'table_name', and",
-        "'table' must not contain NA."
-      )
-    )
-  }
-
-}
 
 .insert_title <- function(wb, content, tab_title) {
 
@@ -159,7 +100,7 @@
 
 .insert_table <- function(wb, content, table_name, subtable_num = NULL) {
 
-  table <- content[content$table_name == table_name, "table"][[1]][[1]]
+  table <- content[content$table_name == table_name, "table"][[1]]
   tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
 
   if (tab_title == "cover") { start_row <- 2 }
@@ -200,3 +141,102 @@
 
 }
 
+
+# Add sheets --------------------------------------------------------------
+
+
+
+.add_tabs <- function(wb, content) {
+
+  .stop_bad_input(wb, content)
+
+  for (i in unique(content$tab_title)) {
+    openxlsx::addWorksheet(wb, i)
+  }
+
+  return(wb)
+
+}
+
+.add_cover <- function(wb, content) {
+
+  .stop_bad_input(wb, content)
+
+  tab_title <- "cover"
+  table_name <- content[content$tab_title == "cover", "table_name"][[1]]
+
+  .insert_title(wb, content, tab_title)
+  .insert_table(wb, content, table_name)
+
+  styles <- .style_create()
+  .style_workbook(wb)
+  .style_sheet_title(wb, tab_title, styles)
+  .style_cover(wb, content, styles)
+
+  return(wb)
+
+}
+
+
+.add_contents <- function(wb, content) {
+
+  .stop_bad_input(wb, content)
+
+  tab_title <- "contents"
+  table_name <- content[content$tab_title == "contents", "table_name"][[1]]
+
+  .insert_title(wb, content, tab_title)
+  .insert_prelim_a11y(wb, content, tab_title)
+  .insert_table(wb, content, table_name)
+
+  styles <- .style_create()
+  .style_workbook(wb)
+  .style_sheet_title(wb, tab_title, styles)
+  .style_table(wb, content, table_name, styles)
+  .style_contents(wb, content, styles)
+
+  return(wb)
+
+}
+
+
+.add_notes <- function(wb, content) {
+
+  .stop_bad_input(wb, content)
+
+  tab_title <- "notes"
+  table_name <- content[content$tab_title == "notes", "table_name"][[1]]
+
+  .insert_title(wb, content, tab_title)
+  .insert_prelim_a11y(wb, content, tab_title)
+  .insert_table(wb, content, table_name)
+
+  styles <- .style_create()
+  .style_workbook(wb)
+  .style_sheet_title(wb, tab_title, styles)
+  .style_table(wb, content, table_name, styles)
+  .style_notes(wb, content, styles)
+
+  return(wb)
+
+}
+
+.add_tables <- function(wb, content, table_name) {
+
+  .stop_bad_input(wb, content, table_name)
+
+  tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
+
+  .insert_title(wb, content, tab_title)
+  .insert_prelim_a11y(wb, content, tab_title)
+  .insert_source(wb, content, tab_title)
+  .insert_table(wb, content, table_name)
+
+  styles <- .style_create()
+  .style_workbook(wb)
+  .style_sheet_title(wb, tab_title, styles)
+  .style_table(wb, content, table_name, styles)
+
+  return(wb)
+
+}
