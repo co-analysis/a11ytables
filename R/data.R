@@ -9,7 +9,7 @@
 #' @format A data frame with 6 rows and 7 columns:
 #' \describe{
 #'   \item{tab_title}{Character. Text to appear on the sheet's tab.}
-#'   \item{sheet_type}{Character. Either "meta" or "tables".}
+#'   \item{sheet_type}{Character. Either 'cover', 'contents', 'notes', or 'tables'.}
 #'   \item{sheet_title}{Character. Title that will appear in the top-left of each sheet}
 #'   \item{source}{Character. The origin of the data.}
 #'   \item{subtable_num}{Character. A letter. Identifier for tables when there's more than one per sheet.}
@@ -17,6 +17,9 @@
 #'   \item{table_name}{Character. A name applied to the marked-up table.}
 #'   \item{table}{List containing dataframes/tibbles. Rectangular table containing the data.}
 #' }
+#'
+#' @details The object is a data.frame and is formatted for easy coercion to
+#'     a11ytable class with \code{\link{as_a11ytable}}.
 #'
 #' @source \url{https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/}
 "lfs_subtables"
@@ -32,7 +35,7 @@
 #' @format A data frame with 5 rows and 7 columns:
 #' \describe{
 #'   \item{tab_title}{Character. Text to appear on the sheet's tab.}
-#'   \item{sheet_type}{Character. Either "meta" or "tables".}
+#'   \item{sheet_type}{Character. Either 'cover', 'contents', 'notes', or 'tables'.}
 #'   \item{sheet_title}{Character. Title that will appear in the top-left of each sheet}
 #'   \item{source}{Character. The origin of the data.}
 #'   \item{subtable_num}{Character. A letter. Identifier for tables when there's more than one per sheet.}
@@ -40,6 +43,9 @@
 #'   \item{table_name}{Character. A name applied to the marked-up table.}
 #'   \item{table}{List containing dataframes/tibbles. Rectangular table containing the data.}
 #' }
+#'
+#' @details The object is a data.frame and is formatted for easy coercion to
+#'     a11ytable class with \code{\link{as_a11ytable}}.
 #'
 #' @source \url{https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/}
 "lfs_tables"

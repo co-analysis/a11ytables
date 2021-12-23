@@ -22,5 +22,7 @@ You can create an a11ytable object with
 \code{\link{new_a11ytable}} (or \code{\link{as_a11ytable}}).
 }
 \examples{
-\dontrun{ create_a11y_wb(content) }
+x <- as_a11ytable(lfs_tables)
+create_a11y_wb(x)
+
 }

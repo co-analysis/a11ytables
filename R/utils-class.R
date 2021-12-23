@@ -10,17 +10,17 @@
 
   # must be of data.frame class
   if (!any(class(x) %in% "data.frame")) {
-    stop("'x' must have class data.frame.")
+    stop("Input must have class data.frame.")
   }
 
   # must have particular dimensions (must have cover, contents table, at least)
   if (length(names_req) != length(x) | nrow(x) < 3) {
-    stop("'x' must have 8 columns and at least 4 rows.")
+    stop("Input must be a data.frame with 8 columns and at least 4 rows.")
   }
 
   # column names must match expected format
   if (!all(names_req %in% names_in)) {
-    stop("Content data.frame does not have the correct column names.")
+    stop("Input data.frame does not have the required column names.")
   }
 
   # 'table' column class must be listcol
@@ -38,18 +38,9 @@
     stop("List-column 'table' must contain data.frame objects only.")
   }
 
-  # first three rows must be cover, contents and notes
-  if (
-    !any(
-      unlist(x[1:3, "tab_title"]) == c("cover", "contents", "notes")
-    )
-  ) {
-    stop(
-      paste(
-        "The first three elements of the 'table_name' column in 'x' must",
-        "be 'cover', 'contents' and 'notes'"
-      )
-    )
+  # There must be cover and contents sheets
+  if (sum(x[["sheet_type"]] %in% c("cover", "contents")) < 2) {
+    stop("The input data.frame must have sheet_type 'cover' and 'contents'.")
   }
 
   # there should be no empty rows for certain columns

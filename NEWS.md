@@ -1,4 +1,4 @@
-# a11ytables 0.0.0.9003
+# a11ytables 0.0.0.9004
 
 * BREAKING CHANGE: the `add_*()` function family for building a workbook are retired, given the introduction of `create_a11y_wb()`
 * Introduced S3 class 'a11ytable', including exported functions to generate (`new_a11ytable()`, `as_a11ytable`) and test (`is_a11ytable`) objects of this class

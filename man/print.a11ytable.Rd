@@ -11,10 +11,12 @@
 
 \item{...}{Other arguments to pass.}
 }
-\value{
-Nothing.
-}
 \description{
 Print an a11ytable object to see information about the
 sheet content.
+}
+\examples{
+x <- as_a11ytable(lfs_tables)
+print(x)
+
 }

@@ -116,7 +116,7 @@
   table_height <- nrow(table)
   table_width <- ncol(table)
 
-  if (sheet_type == "meta") table_header_row <- 3
+  if (sheet_type %in% c("cover", "contents", "notes")) table_header_row <- 3
   if (sheet_type == "tables") table_header_row <- 4
 
   # Table data columns are SET-WIDTH, WRAPPED and RIGHT ALIGNED

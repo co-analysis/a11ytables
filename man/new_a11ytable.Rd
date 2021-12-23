@@ -6,7 +6,7 @@
 \usage{
 new_a11ytable(
   tab_titles,
-  sheet_types = c("meta", "tables"),
+  sheet_types = c("cover", "contents", "notes", "tables"),
   sheet_titles,
   sources = NULL,
   subtable_nums = NULL,
@@ -20,8 +20,9 @@ new_a11ytable(
 that will appear on the tab interface of the when opened in spreadsheet
 software. Provide table sheets as numbers.}
 
-\item{sheet_types}{Required character vector, one value per sheet. Contents,
-cover and notes have type "meta"; publication tables are type "tables".}
+\item{sheet_types}{Required character vector, one value per sheet. Meta
+sheets (i.e. those that don't contain publication tables) should be
+'contents', 'cover' or 'notes'; publication tables are type 'tables'.}
 
 \item{sheet_titles}{Required character vector, one value per sheet. The main
 title of the sheet. Will appear in large text in cell A1 (top-left)
@@ -69,15 +70,15 @@ published
 }
 }
 \examples{
-\dontrun{
-    new_a11ytable(
-      tab_titles      = a11ytables::lfs_tables$tab_title,
-      sheet_types     = a11ytables::lfs_tables$sheet_type,
-      sheet_titles    = a11ytables::lfs_tables$sheet_title,
-      sources         = a11ytables::lfs_tables$source,
-      subtable_nums   = a11ytables::lfs_tables$subtable_num,
-      subtable_titles = a11ytables::lfs_tables$subtable_title,
-      table_names     = a11ytables::lfs_tables$table_name,
-    )
-}
+x <- new_a11ytable(
+    tab_titles      = lfs_tables$tab_title,
+    sheet_types     = lfs_tables$sheet_type,
+    sheet_titles    = lfs_tables$sheet_title,
+    sources         = lfs_tables$source,
+    subtable_nums   = lfs_tables$subtable_num,
+    subtable_titles = lfs_tables$subtable_title,
+    table_names     = lfs_tables$table_name,
+)
+is_a11ytable(x)
+
 }

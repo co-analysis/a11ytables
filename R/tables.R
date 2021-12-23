@@ -11,9 +11,12 @@
 #'     \code{\link{new_a11ytable}} (or \code{\link{as_a11ytable}}).
 #'
 #' @return A Workbook-class object.
-#' @export
 #'
-#' @examples \dontrun{ create_a11y_wb(content) }
+#' @examples
+#' x <- as_a11ytable(lfs_tables)
+#' create_a11y_wb(x)
+#'
+#' @export
 create_a11y_wb <- function(content) {
 
   if (!is_a11ytable(content)) {
