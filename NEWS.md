@@ -1,13 +1,18 @@
 # a11ytables 0.0.0.9004
 
-* BREAKING CHANGE: the `add_*()` function family for building a workbook are retired, given the introduction of `create_a11y_wb()`
-* Introduced S3 class 'a11ytable', including exported functions to generate (`new_a11ytable()`, `as_a11ytable`) and test (`is_a11ytable`) objects of this class
+* BREAKING CHANGE: the `sheet_type` column of an a11ytable-class object is now used to infer the sheet type as 'cover', 'contents', 'notes' or 'tables' (replacing 'meta'); it's no longer the `tab_title` that serves this role (#18).
+* Ensured styles and `.add_*()` now make internal references to `sheet_type` rather than `tab_title`
+
+# a11ytables 0.0.0.9003
+
+* BREAKING CHANGE: fully retired the `add_*()` function family for building a workbook 'by hand', given the introduction of `create_a11y_wb()`
+* Introduced S3 class 'a11ytable', including exported functions to generate (`new_a11ytable()`, `as_a11ytable()`) and test (`is_a11ytable()`) objects of this class
 
 # a11ytables 0.0.0.9002
 
-* Simplify all `add_*()` functions to a single `create_a11y_wb()` function (moving towards #15), though `add_*()` functions are all still exported
+* Simplified all `add_*()` functions to a single `create_a11y_wb()` function (moving towards #15), though `add_*()` functions are all still exported
 * Split supplied data into two, with and without sub-table examples: `lfs_tables` and `lfs_subtables`, respectively
-* Update README to detail simplified approach
+* Updated README to detail simplified approach
 
 # a11ytables 0.0.0.9001
 
