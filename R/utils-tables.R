@@ -162,8 +162,8 @@
 
   .stop_bad_input(wb, content)
 
-  tab_title <- "cover"
-  table_name <- content[content$tab_title == "cover", "table_name"][[1]]
+  tab_title <- content[content$sheet_type == "cover", "tab_title"][[1]]
+  table_name <- content[content$sheet_type == "cover", "table_name"][[1]]
 
   .insert_title(wb, content, tab_title)
   .insert_table(wb, content, table_name)
@@ -182,8 +182,9 @@
 
   .stop_bad_input(wb, content)
 
-  tab_title <- "contents"
-  table_name <- content[content$tab_title == "contents", "table_name"][[1]]
+  tab_title <- content[content$sheet_type == "contents", "tab_title"][[1]]
+  table_name <- content[content$sheet_type == "contents", "table_name"][[1]]
+
 
   .insert_title(wb, content, tab_title)
   .insert_prelim_a11y(wb, content, tab_title)
@@ -204,8 +205,8 @@
 
   .stop_bad_input(wb, content)
 
-  tab_title <- "notes"
-  table_name <- content[content$tab_title == "notes", "table_name"][[1]]
+  tab_title <- content[content$sheet_type == "notes", "tab_title"][[1]]
+  table_name <- content[content$sheet_type == "notes", "table_name"][[1]]
 
   .insert_title(wb, content, tab_title)
   .insert_prelim_a11y(wb, content, tab_title)

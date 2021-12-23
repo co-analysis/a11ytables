@@ -54,11 +54,11 @@ To use:
 
 ### 1. Create a11ytable object
 
-First, construct a special a11ytable-class object using
-`new_a11ytable()`. Ultimately, it’s a data.frame with strict
-requirements. It requires a row per sheet and columns for needed
-information, like the sheet title (character) and table of data (itself
-a data.frame); run `?new_a11ytable` for details.
+First, use `new_a11ytable()` to construct a special a11ytable-class
+object, which is just a data.frame with strict requirements. It must
+have a row per sheet, specific columns for meta information (e.g. sheet
+titles, data sources) and a list-column of data.frames that contain the
+actual data; run `?new_a11ytable` for details (TODO: a vignette).
 
 There’s a built-in demo dataset—`lfs_tables`, adapted from [the
 releasing statistics in spreadsheets
@@ -70,7 +70,7 @@ dplyr::glimpse(lfs_tables)
 #> Rows: 5
 #> Columns: 8
 #> $ tab_title      <chr> "cover", "contents", "notes", "1", "2"
-#> $ sheet_type     <chr> "meta", "meta", "meta", "tables", "tables"
+#> $ sheet_type     <chr> "cover", "contents", "notes", "tables", "tables"
 #> $ sheet_title    <chr> "Labour market overview data tables, UK, December 2020 …
 #> $ source         <chr> NA, NA, NA, "Labour Force Survey", "Labour Force Survey"
 #> $ subtable_num   <chr> NA, NA, NA, NA, NA
@@ -79,8 +79,8 @@ dplyr::glimpse(lfs_tables)
 #> $ table          <list> [<tbl_df[17 x 1]>], [<tbl_df[2 x 5]>], [<tbl_df[11 x 2]…
 ```
 
-It can be coerced to a11ytable class, since it’s already structured
-correctly.
+It can be coerced to a11ytable class with `as_a11ytable()`, since it’s
+already structured correctly.
 
 ``` r
 lfs_a11ytable <- as_a11ytable(lfs_tables)
@@ -89,6 +89,10 @@ class(lfs_a11ytable)
 is_a11ytable(lfs_a11ytable)
 #> [1] TRUE
 ```
+
+The `new_a11ytable()` and `as_a11ytable()` functions will run validation
+on the generated object to ensure it meets the requirements of the
+a11ytable class.
 
 ### 2. Convert to workbook
 
@@ -163,7 +167,7 @@ openxlsx::saveWorkbook(lfs_wb, "publication.xlsx")
 
 ## Accessibility
 
-TODO: explain features that meet the GSS accessibilit guidance (named
+TODO: explain features that meet the GSS accessibility guidance (named
 tables, no empty cells, the statement on table count and presence of
 notes, etc).
 

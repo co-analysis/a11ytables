@@ -2,17 +2,26 @@
 % Please edit documentation in R/class.R
 \name{as_a11ytable}
 \alias{as_a11ytable}
+\alias{is_a11ytable}
 \title{Coerce to an a11ytable}
 \usage{
 as_a11ytable(x)
+
+is_a11ytable(x)
 }
 \arguments{
 \item{x}{A data.frame object to coerce.}
 }
 \value{
-An object of class a11ytable.
+\code{as_a11ytable} returns an object of class a11ytable if possible.
+\code{is_a11ytable} returns \code{TRUE} if the object has class
+a11ytable, otherwise \code{FALSE}.
 }
 \description{
-Coerce a data.frame to an a11ytable-class object
-if possible.
+Functions to check if an object is an a11ytable, or coerce it if possible.
+}
+\examples{
+x <- as_a11ytable(lfs_tables)
+is_a11ytable(x)
+
 }

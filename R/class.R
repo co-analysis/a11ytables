@@ -7,8 +7,9 @@
 #' @param tab_titles Required character vector, one value per sheet. The text
 #'     that will appear on the tab interface of the when opened in spreadsheet
 #'     software. Provide table sheets as numbers.
-#' @param sheet_types Required character vector, one value per sheet. Contents,
-#'     cover and notes have type "meta"; publication tables are type "tables".
+#' @param sheet_types Required character vector, one value per sheet. Meta
+#'     sheets (i.e. those that don't contain publication tables) should be
+#'     'contents', 'cover' or 'notes'; publication tables are type 'tables'.
 #' @param sheet_titles Required character vector, one value per sheet. The main
 #'     title of the sheet. Will appear in large text in cell A1 (top-left)
 #'     corner of each sheet.
@@ -42,23 +43,24 @@
 #' }
 #'
 #' @return An a11ytables-class object.
-#' @export
 #'
-#' @examples \dontrun{
-#'     new_a11ytable(
-#'       tab_titles      = a11ytables::lfs_tables$tab_title,
-#'       sheet_types     = a11ytables::lfs_tables$sheet_type,
-#'       sheet_titles    = a11ytables::lfs_tables$sheet_title,
-#'       sources         = a11ytables::lfs_tables$source,
-#'       subtable_nums   = a11ytables::lfs_tables$subtable_num,
-#'       subtable_titles = a11ytables::lfs_tables$subtable_title,
-#'       table_names     = a11ytables::lfs_tables$table_name,
-#        tables          = a11ytables::lfs_tables$table
-#'     )
-#' }
+#' @examples
+#' x <- new_a11ytable(
+#'     tab_titles      = lfs_tables$tab_title,
+#'     sheet_types     = lfs_tables$sheet_type,
+#'     sheet_titles    = lfs_tables$sheet_title,
+#'     sources         = lfs_tables$source,
+#'     subtable_nums   = lfs_tables$subtable_num,
+#'     subtable_titles = lfs_tables$subtable_title,
+#'     table_names     = lfs_tables$table_name,
+#      tables          = lfs_tables$table
+#' )
+#' is_a11ytable(x)
+#'
+#' @export
 new_a11ytable <- function(
   tab_titles,
-  sheet_types = c("meta", "tables"),
+  sheet_types = c("cover", "contents", "notes", "tables"),
   sheet_titles,
   sources = NULL,
   subtable_nums = NULL,
@@ -66,6 +68,8 @@ new_a11ytable <- function(
   table_names,
   tables
 ) {
+
+  sheet_types <- match.arg(sheet_types)
 
   x <- data.frame(
     tab_title = unlist(tab_titles),
@@ -79,7 +83,6 @@ new_a11ytable <- function(
 
   x[["table"]] <- tables
 
-  # class(x) <- append(class(x), "a11ytable")
   class(x) <- c("a11ytable", "data.frame")
 
   .validate_a11ytable(x)
@@ -95,7 +98,11 @@ new_a11ytable <- function(
 #'
 #' @param x An a11ytable object to print.
 #' @param ... Other arguments to pass.
-#' @return Nothing.
+#'
+#' @examples
+#' x <- as_a11ytable(lfs_tables)
+#' print(x)
+#'
 #' @export
 print.a11ytable <- function(x, ...) {
 
@@ -119,15 +126,24 @@ print.a11ytable <- function(x, ...) {
     "* Table sizes:", out_tbl_dims, "\n"
   )
 
+  invisible(x)
+
 }
 
 #' Coerce to an a11ytable
 #'
-#' Coerce a data.frame to an a11ytable-class object
-#' if possible.
+#' Functions to check if an object is an a11ytable, or coerce it if possible.
 #'
 #' @param x A data.frame object to coerce.
-#' @return An object of class a11ytable.
+#'
+#' @return \code{as_a11ytable} returns an object of class a11ytable if possible.
+#'     \code{is_a11ytable} returns \code{TRUE} if the object has class
+#'     a11ytable, otherwise \code{FALSE}.
+#'
+#' @examples
+#' x <- as_a11ytable(lfs_tables)
+#' is_a11ytable(x)
+#'
 #' @export
 as_a11ytable <- function(x) {
 
@@ -137,14 +153,7 @@ as_a11ytable <- function(x) {
 
 }
 
-#' Check for a11ytable class
-#'
-#' Detect whether a given object has the class
-#' a11ytable.
-#'
-#' @param x An object to assess.
-#' @return Logical. \code{TRUE} if the object has class a11ytable,
-#'     otherwise \code{FALSE}.
+#' @rdname as_a11ytable
 #' @export
 is_a11ytable <- function(x) {
 

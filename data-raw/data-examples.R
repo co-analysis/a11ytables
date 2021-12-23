@@ -40,7 +40,7 @@ s2_t2b_tbl <- read_ods(temp_file, sheet = "2", range = "K5:S348") %>%
 # Prepare listcol tibble with sub-tables: lfs_subtables
 lfs_subtables <- tibble(
   tab_title = c("cover", "contents", "notes", "1", "2", "2"),
-  sheet_type = c(rep("meta", 3), rep("tables", 3)),
+  sheet_type = c("cover", "contents", "notes", rep("tables", 3)),
   sheet_title = c(
     paste(
     "Labour market overview data tables, UK,",
