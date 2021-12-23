@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">a11ytables</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9004</span>
       </span>
     </div>
 
@@ -104,27 +104,28 @@
 <div class="section level3">
 <h3 id="1-create-a11ytable-object">1. Create a11ytable object<a class="anchor" aria-label="anchor" href="#1-create-a11ytable-object"></a>
 </h3>
-<p>First, construct a special a11ytable-class object using <code><a href="reference/new_a11ytable.html">new_a11ytable()</a></code>. Ultimately, it’s a data.frame with strict requirements. It requires a row per sheet and columns for needed information, like the sheet title (character) and table of data (itself a data.frame); run <code><a href="reference/new_a11ytable.html">?new_a11ytable</a></code> for details.</p>
+<p>First, use <code><a href="reference/new_a11ytable.html">new_a11ytable()</a></code> to construct a special a11ytable-class object, which is just a data.frame with strict requirements. It must have a row per sheet, specific columns for meta information (e.g. sheet titles, data sources) and a list-column of data.frames that contain the actual data; run <code><a href="reference/new_a11ytable.html">?new_a11ytable</a></code> for details (TODO: a vignette).</p>
 <p>There’s a built-in demo dataset—<code>lfs_tables</code>, adapted from <a href="https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/" class="external-link">the releasing statistics in spreadsheets guidance</a>—that is already in the correct data.frame format.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">dplyr</span><span class="fu">::</span><span class="fu">glimpse</span><span class="op">(</span><span class="va">lfs_tables</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 5</span>
 <span class="co">#&gt; Columns: 8</span>
 <span class="co">#&gt; $ tab_title      &lt;chr&gt; "cover", "contents", "notes", "1", "2"</span>
-<span class="co">#&gt; $ sheet_type     &lt;chr&gt; "meta", "meta", "meta", "tables", "tables"</span>
+<span class="co">#&gt; $ sheet_type     &lt;chr&gt; "cover", "contents", "notes", "tables", "tables"</span>
 <span class="co">#&gt; $ sheet_title    &lt;chr&gt; "Labour market overview data tables, UK, December 2020 …</span>
 <span class="co">#&gt; $ source         &lt;chr&gt; NA, NA, NA, "Labour Force Survey", "Labour Force Survey"</span>
 <span class="co">#&gt; $ subtable_num   &lt;chr&gt; NA, NA, NA, NA, NA</span>
 <span class="co">#&gt; $ subtable_title &lt;chr&gt; NA, NA, NA, NA, NA</span>
 <span class="co">#&gt; $ table_name     &lt;chr&gt; "Cover_content", "Table_of_contents", "Notes_table", "L…</span>
 <span class="co">#&gt; $ table          &lt;list&gt; [&lt;tbl_df[17 x 1]&gt;], [&lt;tbl_df[2 x 5]&gt;], [&lt;tbl_df[11 x 2]…</span></code></pre></div>
-<p>It can be coerced to a11ytable class, since it’s already structured correctly.</p>
+<p>It can be coerced to a11ytable class with <code><a href="reference/as_a11ytable.html">as_a11ytable()</a></code>, since it’s already structured correctly.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lfs_a11ytable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/as_a11ytable.html">as_a11ytable</a></span><span class="op">(</span><span class="va">lfs_tables</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">lfs_a11ytable</span><span class="op">)</span>
 <span class="co">#&gt; [1] "a11ytable"  "data.frame"</span>
-<span class="fu"><a href="reference/is_a11ytable.html">is_a11ytable</a></span><span class="op">(</span><span class="va">lfs_a11ytable</span><span class="op">)</span>
+<span class="fu"><a href="reference/as_a11ytable.html">is_a11ytable</a></span><span class="op">(</span><span class="va">lfs_a11ytable</span><span class="op">)</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<p>The <code><a href="reference/new_a11ytable.html">new_a11ytable()</a></code> and <code><a href="reference/as_a11ytable.html">as_a11ytable()</a></code> functions will run validation on the generated object to ensure it meets the requirements of the a11ytable class.</p>
 </div>
 <div class="section level3">
 <h3 id="2-convert-to-workbook">2. Convert to workbook<a class="anchor" aria-label="anchor" href="#2-convert-to-workbook"></a>
@@ -189,7 +190,7 @@
 <div class="section level2">
 <h2 id="accessibility">Accessibility<a class="anchor" aria-label="anchor" href="#accessibility"></a>
 </h2>
-<p>TODO: explain features that meet the GSS accessibilit guidance (named tables, no empty cells, the statement on table count and presence of notes, etc).</p>
+<p>TODO: explain features that meet the GSS accessibility guidance (named tables, no empty cells, the statement on table count and presence of notes, etc).</p>
 </div>
 <div class="section level2">
 <h2 id="similar-projects">Similar projects<a class="anchor" aria-label="anchor" href="#similar-projects"></a>

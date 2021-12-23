@@ -18,7 +18,7 @@ for your publication, which will be used to populate a workbook."><!-- mathjax -
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">a11ytables</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9004</span>
       </span>
     </div>
 
@@ -57,7 +57,7 @@ for your publication, which will be used to populate a workbook.</p>
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">new_a11ytable</span><span class="op">(</span>
   <span class="va">tab_titles</span>,
-  sheet_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"meta"</span>, <span class="st">"tables"</span><span class="op">)</span>,
+  sheet_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cover"</span>, <span class="st">"contents"</span>, <span class="st">"notes"</span>, <span class="st">"tables"</span><span class="op">)</span>,
   <span class="va">sheet_titles</span>,
   sources <span class="op">=</span> <span class="cn">NULL</span>,
   subtable_nums <span class="op">=</span> <span class="cn">NULL</span>,
@@ -74,8 +74,9 @@ for your publication, which will be used to populate a workbook.</p>
 that will appear on the tab interface of the when opened in spreadsheet
 software. Provide table sheets as numbers.</p></dd>
 <dt>sheet_types</dt>
-<dd><p>Required character vector, one value per sheet. Contents,
-cover and notes have type "meta"; publication tables are type "tables".</p></dd>
+<dd><p>Required character vector, one value per sheet. Meta
+sheets (i.e. those that don't contain publication tables) should be
+'contents', 'cover' or 'notes'; publication tables are type 'tables'.</p></dd>
 <dt>sheet_titles</dt>
 <dd><p>Required character vector, one value per sheet. The main
 title of the sheet. Will appear in large text in cell A1 (top-left)
@@ -120,17 +121,19 @@ published</p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">    <span class="fu">new_a11ytable</span><span class="op">(</span></span>
-<span class="r-in">      tab_titles      <span class="op">=</span> <span class="fu">a11ytables</span><span class="fu">::</span><span class="va"><a href="lfs_tables.html">lfs_tables</a></span><span class="op">$</span><span class="va">tab_title</span>,</span>
-<span class="r-in">      sheet_types     <span class="op">=</span> <span class="fu">a11ytables</span><span class="fu">::</span><span class="va"><a href="lfs_tables.html">lfs_tables</a></span><span class="op">$</span><span class="va">sheet_type</span>,</span>
-<span class="r-in">      sheet_titles    <span class="op">=</span> <span class="fu">a11ytables</span><span class="fu">::</span><span class="va"><a href="lfs_tables.html">lfs_tables</a></span><span class="op">$</span><span class="va">sheet_title</span>,</span>
-<span class="r-in">      sources         <span class="op">=</span> <span class="fu">a11ytables</span><span class="fu">::</span><span class="va"><a href="lfs_tables.html">lfs_tables</a></span><span class="op">$</span><span class="va">source</span>,</span>
-<span class="r-in">      subtable_nums   <span class="op">=</span> <span class="fu">a11ytables</span><span class="fu">::</span><span class="va"><a href="lfs_tables.html">lfs_tables</a></span><span class="op">$</span><span class="va">subtable_num</span>,</span>
-<span class="r-in">      subtable_titles <span class="op">=</span> <span class="fu">a11ytables</span><span class="fu">::</span><span class="va"><a href="lfs_tables.html">lfs_tables</a></span><span class="op">$</span><span class="va">subtable_title</span>,</span>
-<span class="r-in">      table_names     <span class="op">=</span> <span class="fu">a11ytables</span><span class="fu">::</span><span class="va"><a href="lfs_tables.html">lfs_tables</a></span><span class="op">$</span><span class="va">table_name</span>,</span>
-<span class="r-in">    <span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">new_a11ytable</span><span class="op">(</span></span>
+<span class="r-in">    tab_titles      <span class="op">=</span> <span class="va">lfs_tables</span><span class="op">$</span><span class="va">tab_title</span>,</span>
+<span class="r-in">    sheet_types     <span class="op">=</span> <span class="va">lfs_tables</span><span class="op">$</span><span class="va">sheet_type</span>,</span>
+<span class="r-in">    sheet_titles    <span class="op">=</span> <span class="va">lfs_tables</span><span class="op">$</span><span class="va">sheet_title</span>,</span>
+<span class="r-in">    sources         <span class="op">=</span> <span class="va">lfs_tables</span><span class="op">$</span><span class="va">source</span>,</span>
+<span class="r-in">    subtable_nums   <span class="op">=</span> <span class="va">lfs_tables</span><span class="op">$</span><span class="va">subtable_num</span>,</span>
+<span class="r-in">    subtable_titles <span class="op">=</span> <span class="va">lfs_tables</span><span class="op">$</span><span class="va">subtable_title</span>,</span>
+<span class="r-in">    table_names     <span class="op">=</span> <span class="va">lfs_tables</span><span class="op">$</span><span class="va">table_name</span>,</span>
+<span class="r-in"><span class="op">)</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in match.arg(sheet_types):</span> 'arg' must be of length 1</span>
+<span class="r-in"><span class="fu"><a href="as_a11ytable.html">is_a11ytable</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in is_a11ytable(x):</span> object 'x' not found</span>
+<span class="r-in"></span>
 </code></pre></div>
     </div>
   </div>

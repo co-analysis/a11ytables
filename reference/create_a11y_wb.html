@@ -18,7 +18,7 @@ input."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/math
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">a11ytables</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9004</span>
       </span>
     </div>
 
@@ -76,7 +76,49 @@ needed to create your workbook.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span>  <span class="fu">create_a11y_wb</span><span class="op">(</span><span class="va">content</span><span class="op">)</span> </span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="as_a11ytable.html">as_a11ytable</a></span><span class="op">(</span><span class="va">lfs_tables</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">create_a11y_wb</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A Workbook object.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Worksheets:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Sheet 1: "cover"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Custom row heights (row: height)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	 3: 34, 5: 34, 7: 34, 9: 34, 11: 34, 13: 34, 15: 34, 17: 34 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Custom column widths (column: width)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	  1: 80 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Sheet 2: "contents"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Custom column widths (column: width)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	  1: 30, 2: 30, 3: 30, 4: 30, 5: 30 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Sheet 3: "notes"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Custom column widths (column: width)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	  1: 15, 2: 80 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Sheet 4: "1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Custom column widths (column: width)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	  1: 16, 2: 16, 3: 16, 4: 16, 5: 16, 6: 16, 7: 16, 8: 16, 9: 16, 10: 16 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Sheet 5: "2"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Custom column widths (column: width)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	  1: 16, 2: 16, 3: 16, 4: 16, 5: 16, 6: 16, 7: 16, 8: 16, 9: 16 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Worksheet write order: 1, 2, 3, 4, 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Active Sheet 1: "cover" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Position: 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"></span>
 </code></pre></div>
     </div>
   </div>

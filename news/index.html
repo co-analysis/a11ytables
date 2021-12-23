@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">a11ytables</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9004</span>
       </span>
     </div>
 
@@ -48,16 +48,22 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.0.0.9003" id="a11ytables-0009003">a11ytables 0.0.0.9003<a class="anchor" aria-label="anchor" href="#a11ytables-0009003"></a></h2>
-<ul><li>BREAKING CHANGE: the <code>add_*()</code> function family for building a workbook are retired, given the introduction of <code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code>
+<h2 class="page-header" data-toc-text="0.0.0.9004" id="a11ytables-0009004">a11ytables 0.0.0.9004<a class="anchor" aria-label="anchor" href="#a11ytables-0009004"></a></h2>
+<ul><li>BREAKING CHANGE: the <code>sheet_type</code> column of an a11ytable-class object is now used to infer the sheet type as ‘cover’, ‘contents’, ‘notes’ or ‘tables’ (replacing ‘meta’); it’s no longer the <code>tab_title</code> that serves this role (<a href="https://github.com/co-analysis/a11ytables/issues/18" class="external-link">#18</a>).</li>
+<li>Ensured styles and <code>.add_*()</code> now make internal references to <code>sheet_type</code> rather than <code>tab_title</code>
 </li>
-<li>Introduced S3 class ‘a11ytable’, including exported functions to generate (<code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code>, <code>as_a11ytable</code>) and test (<code>is_a11ytable</code>) objects of this class</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.0.9003" id="a11ytables-0009003">a11ytables 0.0.0.9003<a class="anchor" aria-label="anchor" href="#a11ytables-0009003"></a></h2>
+<ul><li>BREAKING CHANGE: fully retired the <code>add_*()</code> function family for building a workbook ‘by hand’, given the introduction of <code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code>
+</li>
+<li>Introduced S3 class ‘a11ytable’, including exported functions to generate (<code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code>, <code><a href="../reference/as_a11ytable.html">as_a11ytable()</a></code>) and test (<code><a href="../reference/as_a11ytable.html">is_a11ytable()</a></code>) objects of this class</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.0.9002" id="a11ytables-0009002">a11ytables 0.0.0.9002<a class="anchor" aria-label="anchor" href="#a11ytables-0009002"></a></h2>
-<ul><li>Simplify all <code>add_*()</code> functions to a single <code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code> function (moving towards <a href="https://github.com/co-analysis/a11ytables/issues/15" class="external-link">#15</a>), though <code>add_*()</code> functions are all still exported</li>
+<ul><li>Simplified all <code>add_*()</code> functions to a single <code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code> function (moving towards <a href="https://github.com/co-analysis/a11ytables/issues/15" class="external-link">#15</a>), though <code>add_*()</code> functions are all still exported</li>
 <li>Split supplied data into two, with and without sub-table examples: <code>lfs_tables</code> and <code>lfs_subtables</code>, respectively</li>
-<li>Update README to detail simplified approach</li>
+<li>Updated README to detail simplified approach</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.0.9001" id="a11ytables-0009001">a11ytables 0.0.0.9001<a class="anchor" aria-label="anchor" href="#a11ytables-0009001"></a></h2>
