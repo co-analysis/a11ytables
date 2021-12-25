@@ -69,7 +69,9 @@ new_a11ytable <- function(
   tables
 ) {
 
-  sheet_types <- match.arg(sheet_types)
+  if (!any(sheet_types %in% c("cover", "contents", "notes", "tables"))) {
+    stop("'sheet_type' must be one of 'cover', 'contents', 'notes', 'tables'")
+  }
 
   x <- data.frame(
     tab_title = unlist(tab_titles),
