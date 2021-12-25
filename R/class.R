@@ -45,6 +45,7 @@
 #' @return An a11ytables-class object.
 #'
 #' @examples
+#' \dontrun{
 #' x <- new_a11ytable(
 #'     tab_titles      = lfs_tables$tab_title,
 #'     sheet_types     = lfs_tables$sheet_type,
@@ -56,6 +57,7 @@
 #      tables          = lfs_tables$table
 #' )
 #' is_a11ytable(x)
+#' }
 #'
 #' @export
 new_a11ytable <- function(
@@ -102,8 +104,10 @@ new_a11ytable <- function(
 #' @param ... Other arguments to pass.
 #'
 #' @examples
+#' \dontrun{
 #' x <- as_a11ytable(lfs_tables)
 #' print(x)
+#' }
 #'
 #' @export
 print.a11ytable <- function(x, ...) {
@@ -143,8 +147,10 @@ print.a11ytable <- function(x, ...) {
 #'     a11ytable, otherwise \code{FALSE}.
 #'
 #' @examples
+#' \dontrun{
 #' x <- as_a11ytable(lfs_tables)
 #' is_a11ytable(x)
+#' }
 #'
 #' @export
 as_a11ytable <- function(x) {

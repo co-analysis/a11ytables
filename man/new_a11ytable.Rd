@@ -70,6 +70,7 @@ published
 }
 }
 \examples{
+\dontrun{
 x <- new_a11ytable(
     tab_titles      = lfs_tables$tab_title,
     sheet_types     = lfs_tables$sheet_type,
@@ -80,5 +81,6 @@ x <- new_a11ytable(
     table_names     = lfs_tables$table_name,
 )
 is_a11ytable(x)
+}
 
 }
