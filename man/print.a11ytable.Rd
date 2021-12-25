@@ -16,7 +16,9 @@ Print an a11ytable object to see information about the
 sheet content.
 }
 \examples{
+\dontrun{
 x <- as_a11ytable(lfs_tables)
 print(x)
+}
 
 }

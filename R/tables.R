@@ -13,8 +13,10 @@
 #' @return A Workbook-class object.
 #'
 #' @examples
+#' \dontrun{
 #' x <- as_a11ytable(lfs_tables)
 #' create_a11y_wb(x)
+#' }
 #'
 #' @export
 create_a11y_wb <- function(content) {
