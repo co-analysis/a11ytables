@@ -103,11 +103,21 @@
   table <- content[content$table_name == table_name, "table"][[1]]
   tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
 
-  if (tab_title == "cover") { start_row <- 2 }
-  if (tab_title %in% c("contents", "notes")) { start_row <- 3 }
-  if (!tab_title %in% c("cover", "contents", "notes")) { start_row <- 4 }
+  if (tab_title == "cover") {
+    start_row <- 2
+  }
+
+  if (tab_title %in% c("contents", "notes")) {
+    start_row <- 3
+  }
+
+  if (!tab_title %in% c("cover", "contents", "notes")) {
+    start_row <- 4
+  }
 
   if (tab_title == "cover") {
+
+    table <- data.frame(cover_content = as.vector(t(table)))
 
     openxlsx::writeData(
       wb = wb,

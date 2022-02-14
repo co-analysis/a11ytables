@@ -77,7 +77,7 @@
 
   # Subheader rows are also have LARGER ROW HEIGHT, are BOLD and 14PT
 
-  subheader_rows <- seq(3, table_height, 2)
+  subheader_rows <- seq(2, table_height * 2, 2)
 
   openxlsx::setRowHeights(
     wb = wb,
