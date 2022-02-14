@@ -76,7 +76,7 @@ dplyr::glimpse(lfs_tables)
 #> $ subtable_num   <chr> NA, NA, NA, NA, NA
 #> $ subtable_title <chr> NA, NA, NA, NA, NA
 #> $ table_name     <chr> "Cover_content", "Table_of_contents", "Notes_table", "L…
-#> $ table          <list> [<tbl_df[17 x 1]>], [<tbl_df[2 x 5]>], [<tbl_df[11 x 2]…
+#> $ table          <list> [<tbl_df[8 x 2]>], [<tbl_df[2 x 5]>], [<tbl_df[11 x 2]>…
 ```
 
 It can be coerced to a11ytable class with `as_a11ytable()`, since it’s
@@ -117,7 +117,7 @@ lfs_wb
 #>  Sheet 1: "cover"
 #>  
 #>  Custom row heights (row: height)
-#>   3: 34, 5: 34, 7: 34, 9: 34, 11: 34, 13: 34, 15: 34, 17: 34 
+#>   2: 34, 4: 34, 6: 34, 8: 34, 10: 34, 12: 34, 14: 34, 16: 34 
 #>  Custom column widths (column: width)
 #>    1: 80 
 #>  

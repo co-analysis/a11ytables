@@ -1,3 +1,8 @@
+# a11ytables 0.0.0.9005
+
+* BREAKING CHANGE: the user-supplied table for the cover sheet should now be supplied as a tidy two-column data.frame with a row per subsection, with columns for the `subsection_title` and `subsection_body` (suggesetd names)
+* The `lfs_tables` and `lfs_subtables` example datasets have been updated accordingly; for an example see `lfs_tables[lfs_tables$sheet_type == "cover", "table"][[1]]`
+
 # a11ytables 0.0.0.9004
 
 * BREAKING CHANGE: the `sheet_type` column of an a11ytable-class object is now used to infer the sheet type as 'cover', 'contents', 'notes' or 'tables' (replacing 'meta'); it's no longer the `tab_title` that serves this role (#18).

@@ -27,7 +27,7 @@ suppressMessages(
     slice(cover_tbl_long, seq(1, nrow(cover_tbl_long), 2)),
     slice(cover_tbl_long, seq(2, nrow(cover_tbl_long), 2))
   ) |>
-    rename(subsection_name = 1, subsection_body = 2)
+    rename(subsection_title = 1, subsection_body = 2)
 )
 
 contents_tbl <- read_ods(temp_file, sheet = "Table_of_contents", skip = 1) |>

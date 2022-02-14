@@ -69,7 +69,7 @@
   openxlsx::addStyle(
     wb = wb,
     sheet = tab_name,
-    rows = seq(table_height + 1), # include sheet title
+    rows = seq(table_height * 2 + 1), # include sheet title
     cols = 1,
     style = style_ref$wrap,
     stack = TRUE
