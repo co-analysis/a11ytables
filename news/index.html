@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">a11ytables</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9005</span>
       </span>
     </div>
 
@@ -47,6 +47,12 @@
       <small>Source: <a href="https://github.com/co-analysis/a11ytables/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.0.9005" id="a11ytables-0009005">a11ytables 0.0.0.9005<a class="anchor" aria-label="anchor" href="#a11ytables-0009005"></a></h2>
+<ul><li>BREAKING CHANGE: the user-supplied table for the cover sheet should now be supplied as a tidy two-column data.frame with a row per subsection, with columns for the <code>subsection_title</code> and <code>subsection_body</code> (suggesetd names)</li>
+<li>The <code>lfs_tables</code> and <code>lfs_subtables</code> example datasets have been updated accordingly; for an example see <code>lfs_tables[lfs_tables$sheet_type == "cover", "table"][[1]]</code>
+</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.0.9004" id="a11ytables-0009004">a11ytables 0.0.0.9004<a class="anchor" aria-label="anchor" href="#a11ytables-0009004"></a></h2>
 <ul><li>BREAKING CHANGE: the <code>sheet_type</code> column of an a11ytable-class object is now used to infer the sheet type as ‘cover’, ‘contents’, ‘notes’ or ‘tables’ (replacing ‘meta’); it’s no longer the <code>tab_title</code> that serves this role (<a href="https://github.com/co-analysis/a11ytables/issues/18" class="external-link">#18</a>).</li>
@@ -97,7 +103,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer></div>
