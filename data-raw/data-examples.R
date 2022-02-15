@@ -16,26 +16,34 @@ download.file(path, temp_file)
 
 # Extract subset of tables from spreadsheet
 
-cover_tbl <- read_ods(
+cover_tbl_long <- read_ods(
   temp_file, sheet = "Cover_sheet", skip = 1, col_names = FALSE
-) %>%
-  tibble() %>%
-  slice(-c(1, 4, 7, 18, 21))  # so subheaders alternate from row 2
+) |>
+  tibble() |>
+  slice(-c(1, 2, 4, 7, 18, 21))  # so subheaders alternate from row 2
 
-contents_tbl <- read_ods(temp_file, sheet = "Table_of_contents", skip = 1) %>%
-  tibble() %>%
+suppressMessages(
+  cover_tbl <- bind_cols(
+    slice(cover_tbl_long, seq(1, nrow(cover_tbl_long), 2)),
+    slice(cover_tbl_long, seq(2, nrow(cover_tbl_long), 2))
+  ) |>
+    rename(subsection_title = 1, subsection_body = 2)
+)
+
+contents_tbl <- read_ods(temp_file, sheet = "Table_of_contents", skip = 1) |>
+  tibble() |>
   filter(`Worksheet number` %in% c("1a", "2"))
 
-notes_tbl <- read_ods(temp_file, sheet = "Notes", skip = 2) %>% tibble()
+notes_tbl <- read_ods(temp_file, sheet = "Notes", skip = 2) |> tibble()
 
-s1_tbl <- read_ods(temp_file, sheet = "1a", skip = 3) %>%
-  tibble() %>% tail() %>% mutate(across(-1, as.numeric))
+s1_tbl <- read_ods(temp_file, sheet = "1a", skip = 3) |>
+  tibble() |> tail() |> mutate(across(-1, as.numeric))
 
-s2_t2a_tbl <- read_ods(temp_file, sheet = "2", range = "A5:I348") %>%
-  tibble() %>% tail() %>% mutate(across(-1, as.numeric))
+s2_t2a_tbl <- read_ods(temp_file, sheet = "2", range = "A5:I348") |>
+  tibble() |> tail() |> mutate(across(-1, as.numeric))
 
-s2_t2b_tbl <- read_ods(temp_file, sheet = "2", range = "K5:S348") %>%
-  tibble() %>% tail() %>% mutate(across(-1, as.numeric))
+s2_t2b_tbl <- read_ods(temp_file, sheet = "2", range = "K5:S348") |>
+  tibble() |> tail() |> mutate(across(-1, as.numeric))
 
 # Prepare listcol tibble with sub-tables: lfs_subtables
 lfs_subtables <- tibble(
@@ -43,8 +51,8 @@ lfs_subtables <- tibble(
   sheet_type = c("cover", "contents", "notes", rep("tables", 3)),
   sheet_title = c(
     paste(
-    "Labour market overview data tables, UK,",
-    "December 2020 (accessibility example)"
+      "Labour market overview data tables, UK,",
+      "December 2020 (accessibility example)"
     ),
     "Table of contents",
     "Notes",

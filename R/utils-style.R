@@ -69,7 +69,7 @@
   openxlsx::addStyle(
     wb = wb,
     sheet = tab_name,
-    rows = seq(table_height + 1), # include sheet title
+    rows = seq(table_height * 2 + 1), # include sheet title
     cols = 1,
     style = style_ref$wrap,
     stack = TRUE
@@ -77,7 +77,7 @@
 
   # Subheader rows are also have LARGER ROW HEIGHT, are BOLD and 14PT
 
-  subheader_rows <- seq(3, table_height, 2)
+  subheader_rows <- seq(2, table_height * 2, 2)
 
   openxlsx::setRowHeights(
     wb = wb,
