@@ -1,3 +1,7 @@
+# a11ytables 0.0.0.9006
+
+* HOTFIX: fixed a problem where the `tab_title` was being used to filter when it should have been `sheet_type`
+
 # a11ytables 0.0.0.9005
 
 * BREAKING CHANGE: the user-supplied table for the cover sheet should now be supplied as a tidy two-column data.frame with a row per subsection, with columns for the `subsection_title` and `subsection_body` (suggesetd names)
