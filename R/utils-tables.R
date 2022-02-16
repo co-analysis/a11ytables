@@ -65,6 +65,7 @@
 .insert_prelim_a11y <- function(wb, content, tab_title) {
 
   table_count <- nrow(content[content$tab_title == tab_title, ])
+
   has_notes <- any(
     grepl(
       "[note [0-9]{1,3}]",
@@ -100,22 +101,23 @@
 
 .insert_table <- function(wb, content, table_name, subtable_num = NULL) {
 
-  table <- content[content$table_name == table_name, "table"][[1]]
+  table <- content[content$table_name == table_name, ][["table"]][[1]]
+  sheet_type <- content[content$table_name == table_name, "sheet_type"][[1]]
   tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
 
-  if (tab_title == "cover") {
+  if (sheet_type == "cover") {
     start_row <- 2
   }
 
-  if (tab_title %in% c("contents", "notes")) {
+  if (sheet_type %in% c("contents", "notes")) {
     start_row <- 3
   }
 
-  if (!tab_title %in% c("cover", "contents", "notes")) {
+  if (!sheet_type %in% c("cover", "contents", "notes")) {
     start_row <- 4
   }
 
-  if (tab_title == "cover") {
+  if (sheet_type == "cover") {
 
     table <- data.frame(cover_content = as.vector(t(table)))
 
@@ -130,7 +132,7 @@
 
   }
 
-  if (tab_title != "cover") {
+  if (sheet_type != "cover") {
 
     openxlsx::writeDataTable(
       wb = wb,

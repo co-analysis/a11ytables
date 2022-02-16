@@ -53,8 +53,8 @@
 
 .style_cover <- function(wb, content, style_ref) {
 
-  tab_name <- "cover"
-  table <- content[content$tab_title == "cover", "table"][[1]]
+  tab_name <- content[content$sheet_type == "cover", "tab_title"][[1]]
+  table <- content[content$sheet_type == "cover", "table"][[1]]
   table_height <- nrow(table)
 
   # The cover column is SET-WIDTH and WRAPPED
@@ -165,8 +165,8 @@
 
 .style_contents <- function(wb, content, style_ref) {
 
-  tab_name <- "contents"
-  table <- content[content$tab_title == "contents", "table"][[1]]
+  tab_name <- content[content$sheet_type == "contents", "tab_title"][[1]]
+  table <- content[content$sheet_type == "contents", "table"][[1]]
   table_height <- nrow(table)
   table_width <- ncol(table)
 
@@ -204,8 +204,8 @@
 
 .style_notes <- function(wb, content, style_ref) {
 
-  tab_name <- "notes"
-  table <- content[content$tab_title == "notes", "table"][[1]]
+  tab_name <- content[content$sheet_type == "notes", "tab_title"][[1]]
+  table <- content[content$sheet_type == "notes", "table"][[1]]
   table_height <- nrow(table)
   table_width <- ncol(table)
 

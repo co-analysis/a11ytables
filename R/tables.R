@@ -32,7 +32,7 @@ create_a11y_wb <- function(content) {
   wb <- .add_contents(wb, content)
 
   # There won't always be a notes tab
-  if (any(content$tab_title %in% "notes")) {
+  if (any(content$sheet_type %in% "notes")) {
     wb <- .add_notes(wb, content)
   }
 
