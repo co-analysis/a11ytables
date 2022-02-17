@@ -15,11 +15,6 @@
 #'     corner of each sheet.
 #' @param sources Optional character vector, one value per sheet (NA is valid).
 #'     The origin of the data for a given sheet.
-#' @param subtable_nums Not currently implemented. Character vector. The table
-#'     numbers for when a sheet contains more than one table (not recommended).
-#' @param subtable_titles Not currently implemented. Character vector. The
-#'     table titles for when a sheet contains more than one table (not
-#'     recommended).
 #' @param table_names Required character vector, one value per sheet. A name to
 #'     give the 'named range' of cells that compose the table in the final
 #'     spreadsheet output. Makes sheet navigation easier.
@@ -51,8 +46,6 @@
 #'     sheet_types     = lfs_tables$sheet_type,
 #'     sheet_titles    = lfs_tables$sheet_title,
 #'     sources         = lfs_tables$source,
-#'     subtable_nums   = lfs_tables$subtable_num,
-#'     subtable_titles = lfs_tables$subtable_title,
 #'     table_names     = lfs_tables$table_name,
 #      tables          = lfs_tables$table
 #' )
@@ -65,8 +58,6 @@ new_a11ytable <- function(
   sheet_types = c("cover", "contents", "notes", "tables"),
   sheet_titles,
   sources = NULL,
-  subtable_nums = NULL,
-  subtable_titles = NULL,
   table_names,
   tables
 ) {
@@ -80,8 +71,6 @@ new_a11ytable <- function(
     sheet_type = unlist(sheet_types),
     sheet_title = unlist(sheet_titles),
     source = unlist(sources),
-    subtable_num = unlist(subtable_nums),
-    subtable_title = unlist(subtable_titles),
     table_name = unlist(table_names)
   )
 

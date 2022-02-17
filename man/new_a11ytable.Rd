@@ -9,8 +9,6 @@ new_a11ytable(
   sheet_types = c("cover", "contents", "notes", "tables"),
   sheet_titles,
   sources = NULL,
-  subtable_nums = NULL,
-  subtable_titles = NULL,
   table_names,
   tables
 )
@@ -30,13 +28,6 @@ corner of each sheet.}
 
 \item{sources}{Optional character vector, one value per sheet (NA is valid).
 The origin of the data for a given sheet.}
-
-\item{subtable_nums}{Not currently implemented. Character vector. The table
-numbers for when a sheet contains more than one table (not recommended).}
-
-\item{subtable_titles}{Not currently implemented. Character vector. The
-table titles for when a sheet contains more than one table (not
-recommended).}
 
 \item{table_names}{Required character vector, one value per sheet. A name to
 give the 'named range' of cells that compose the table in the final
@@ -76,8 +67,6 @@ x <- new_a11ytable(
     sheet_types     = lfs_tables$sheet_type,
     sheet_titles    = lfs_tables$sheet_title,
     sources         = lfs_tables$source,
-    subtable_nums   = lfs_tables$subtable_num,
-    subtable_titles = lfs_tables$subtable_title,
     table_names     = lfs_tables$table_name,
 )
 is_a11ytable(x)
