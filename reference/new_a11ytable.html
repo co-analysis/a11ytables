@@ -18,7 +18,7 @@ for your publication, which will be used to populate a workbook."><!-- mathjax -
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">a11ytables</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9007</span>
       </span>
     </div>
 
@@ -26,6 +26,16 @@ for your publication, which will be used to populate a workbook."><!-- mathjax -
       <ul class="nav navbar-nav"><li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/construct.html">Construct an a11ytable</a>
+    </li>
+  </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -60,8 +70,6 @@ for your publication, which will be used to populate a workbook.</p>
   sheet_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cover"</span>, <span class="st">"contents"</span>, <span class="st">"notes"</span>, <span class="st">"tables"</span><span class="op">)</span>,
   <span class="va">sheet_titles</span>,
   sources <span class="op">=</span> <span class="cn">NULL</span>,
-  subtable_nums <span class="op">=</span> <span class="cn">NULL</span>,
-  subtable_titles <span class="op">=</span> <span class="cn">NULL</span>,
   <span class="va">table_names</span>,
   <span class="va">tables</span>
 <span class="op">)</span></code></pre></div>
@@ -84,13 +92,6 @@ corner of each sheet.</p></dd>
 <dt>sources</dt>
 <dd><p>Optional character vector, one value per sheet (NA is valid).
 The origin of the data for a given sheet.</p></dd>
-<dt>subtable_nums</dt>
-<dd><p>Not currently implemented. Character vector. The table
-numbers for when a sheet contains more than one table (not recommended).</p></dd>
-<dt>subtable_titles</dt>
-<dd><p>Not currently implemented. Character vector. The
-table titles for when a sheet contains more than one table (not
-recommended).</p></dd>
 <dt>table_names</dt>
 <dd><p>Required character vector, one value per sheet. A name to
 give the 'named range' of cells that compose the table in the final
@@ -127,8 +128,6 @@ published</p></li>
 <span class="r-in">    sheet_types     <span class="op">=</span> <span class="va">lfs_tables</span><span class="op">$</span><span class="va">sheet_type</span>,</span>
 <span class="r-in">    sheet_titles    <span class="op">=</span> <span class="va">lfs_tables</span><span class="op">$</span><span class="va">sheet_title</span>,</span>
 <span class="r-in">    sources         <span class="op">=</span> <span class="va">lfs_tables</span><span class="op">$</span><span class="va">source</span>,</span>
-<span class="r-in">    subtable_nums   <span class="op">=</span> <span class="va">lfs_tables</span><span class="op">$</span><span class="va">subtable_num</span>,</span>
-<span class="r-in">    subtable_titles <span class="op">=</span> <span class="va">lfs_tables</span><span class="op">$</span><span class="va">subtable_title</span>,</span>
 <span class="r-in">    table_names     <span class="op">=</span> <span class="va">lfs_tables</span><span class="op">$</span><span class="va">table_name</span>,</span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="as_a11ytable.html">is_a11ytable</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>

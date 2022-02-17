@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">a11ytables</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9007</span>
       </span>
     </div>
 
@@ -45,6 +45,18 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/construct.html">Construct an a11ytable</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="news/index.html">Changelog</a>
@@ -109,15 +121,13 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">dplyr</span><span class="fu">::</span><span class="fu">glimpse</span><span class="op">(</span><span class="va">lfs_tables</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 5</span>
-<span class="co">#&gt; Columns: 8</span>
-<span class="co">#&gt; $ tab_title      &lt;chr&gt; "cover", "contents", "notes", "1", "2"</span>
-<span class="co">#&gt; $ sheet_type     &lt;chr&gt; "cover", "contents", "notes", "tables", "tables"</span>
-<span class="co">#&gt; $ sheet_title    &lt;chr&gt; "Labour market overview data tables, UK, December 2020 …</span>
-<span class="co">#&gt; $ source         &lt;chr&gt; NA, NA, NA, "Labour Force Survey", "Labour Force Survey"</span>
-<span class="co">#&gt; $ subtable_num   &lt;chr&gt; NA, NA, NA, NA, NA</span>
-<span class="co">#&gt; $ subtable_title &lt;chr&gt; NA, NA, NA, NA, NA</span>
-<span class="co">#&gt; $ table_name     &lt;chr&gt; "Cover_content", "Table_of_contents", "Notes_table", "L…</span>
-<span class="co">#&gt; $ table          &lt;list&gt; [&lt;tbl_df[8 x 2]&gt;], [&lt;tbl_df[2 x 5]&gt;], [&lt;tbl_df[11 x 2]&gt;…</span></code></pre></div>
+<span class="co">#&gt; Columns: 6</span>
+<span class="co">#&gt; $ tab_title   &lt;chr&gt; "cover", "contents", "notes", "1", "2"</span>
+<span class="co">#&gt; $ sheet_type  &lt;chr&gt; "cover", "contents", "notes", "tables", "tables"</span>
+<span class="co">#&gt; $ sheet_title &lt;chr&gt; "Labour market overview data tables, UK, December 2020 (ac…</span>
+<span class="co">#&gt; $ source      &lt;chr&gt; NA, NA, NA, "Labour Force Survey", "Labour Force Survey"</span>
+<span class="co">#&gt; $ table_name  &lt;chr&gt; "Cover_content", "Table_of_contents", "Notes_table", "Labo…</span>
+<span class="co">#&gt; $ table       &lt;list&gt; [&lt;tbl_df[8 x 2]&gt;], [&lt;tbl_df[2 x 5]&gt;], [&lt;tbl_df[11 x 2]&gt;], …</span></code></pre></div>
 <p>It can be coerced to a11ytable class with <code><a href="reference/as_a11ytable.html">as_a11ytable()</a></code>, since it’s already structured correctly.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lfs_a11ytable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/as_a11ytable.html">as_a11ytable</a></span><span class="op">(</span><span class="va">lfs_tables</span><span class="op">)</span>
