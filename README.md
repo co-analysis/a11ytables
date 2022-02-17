@@ -68,15 +68,13 @@ is already in the correct data.frame format.
 ``` r
 dplyr::glimpse(lfs_tables)
 #> Rows: 5
-#> Columns: 8
-#> $ tab_title      <chr> "cover", "contents", "notes", "1", "2"
-#> $ sheet_type     <chr> "cover", "contents", "notes", "tables", "tables"
-#> $ sheet_title    <chr> "Labour market overview data tables, UK, December 2020 …
-#> $ source         <chr> NA, NA, NA, "Labour Force Survey", "Labour Force Survey"
-#> $ subtable_num   <chr> NA, NA, NA, NA, NA
-#> $ subtable_title <chr> NA, NA, NA, NA, NA
-#> $ table_name     <chr> "Cover_content", "Table_of_contents", "Notes_table", "L…
-#> $ table          <list> [<tbl_df[8 x 2]>], [<tbl_df[2 x 5]>], [<tbl_df[11 x 2]>…
+#> Columns: 6
+#> $ tab_title   <chr> "cover", "contents", "notes", "1", "2"
+#> $ sheet_type  <chr> "cover", "contents", "notes", "tables", "tables"
+#> $ sheet_title <chr> "Labour market overview data tables, UK, December 2020 (ac…
+#> $ source      <chr> NA, NA, NA, "Labour Force Survey", "Labour Force Survey"
+#> $ table_name  <chr> "Cover_content", "Table_of_contents", "Notes_table", "Labo…
+#> $ table       <list> [<tbl_df[8 x 2]>], [<tbl_df[2 x 5]>], [<tbl_df[11 x 2]>], …
 ```
 
 It can be coerced to a11ytable class with `as_a11ytable()`, since it’s
