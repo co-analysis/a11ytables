@@ -1,6 +1,6 @@
 Package: a11ytables
 Title: Create Spreadsheet Publications Following GSS Best Practice
-Version: 0.0.0.9006
+Version: 0.0.0.9007
 Authors@R: 
     person(given = "Matt",
            family = "Dray",
@@ -23,6 +23,10 @@ Depends:
 Imports: 
     openxlsx
 Suggests: 
+    covr,
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0),
-    covr
+    tibble
 Config/testthat/edition: 3
+VignetteBuilder: knitr

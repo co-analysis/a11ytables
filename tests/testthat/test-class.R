@@ -6,8 +6,6 @@ test_that("a11ytable can be created by hand", {
     sheet_types     = lfs_tables$sheet_type,
     sheet_titles    = lfs_tables$sheet_title,
     sources         = lfs_tables$source,
-    subtable_nums   = lfs_tables$subtable_num,
-    subtable_titles = lfs_tables$subtable_title,
     table_names     = lfs_tables$table_name,
     tables          = lfs_tables$table
   )
@@ -21,8 +19,6 @@ test_that("a11ytable can be created by hand", {
       sheet_types     = "x",
       sheet_titles    = lfs_tables$sheet_title,
       sources         = lfs_tables$source,
-      subtable_nums   = lfs_tables$subtable_num,
-      subtable_titles = lfs_tables$subtable_title,
       table_names     = lfs_tables$table_name,
       tables          = lfs_tables$table
     )
@@ -52,7 +48,7 @@ test_that("suitable objects can be coerced", {
 
 test_that("class validation works", {
 
-  expect_length(as_a11ytable(lfs_tables), 8)
+  expect_length(as_a11ytable(lfs_tables), 6)
 
   expect_error(as_a11ytable(1))
   expect_error(as_a11ytable("x"))
@@ -65,7 +61,7 @@ test_that("class validation works", {
   x <- lfs_tables; x[["table"]] <- as.character(x[["table"]])
   expect_error(as_a11ytable(x))
 
-  x <- lfs_tables[, 1:7]
+  x <- lfs_tables[, 1:4]
   expect_error(as_a11ytable(x))
 
   x <- lfs_tables[1, ]

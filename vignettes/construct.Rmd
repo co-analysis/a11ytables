@@ -1,0 +1,202 @@
+---
+title: "Construct an a11ytable"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Construct an a11ytable}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#"
+)
+```
+
+## Purpose
+
+The purpose of this vignette is to demonstrate how to create an a11ytable-class object that provides the basis for generating an xlsx workbook.
+
+I'm going to demonstrate two approaches to construct an a11ytable-class object:
+
+1. Pass arguments drectly to `new_a11ytable()`
+1. Create a data.frame-class object for conversion to a11ytable-class with `as_a11ytable()`.
+
+## Workbook nomenclature
+
+It's worth a reminder of the terms used when working with {a11ytables}.
+
+An output _workbook_ contains _tabs_ that have _sheets_ in them. Each tab has a _tab title_.
+
+Sheets can be one of four _types_ that dictate the layout and content of a given sheet:
+
+* a _cover_ sheet contains the title of the workbook and miscellaneous details about the workbook, that data it contains, and its producers
+* a _contents_ sheet contains a table showing the contents of the workbook at a glance
+* a _notes_ sheet contains a table with a lookup of the note codes and explanations
+* one or more _tables_ sheets contain the statistical tables themselves
+
+Sheets are composed of _elements_:
+
+* a _sheet title_ to be displayed at the top of the sheet (user-provided)
+* a _source_ to explain where the data come from (user-provided)
+* a count of the number of tables in the sheet (auto-generated)
+* a warning that the sheet contains notes (if applicable, auto-generated)
+* a _table_ that contains information as rows and columns and has a _table name_ (both are user-provided)
+
+The `new_a11ytable()` function takes these elements as arguments to build an a11ytable-class object for you. For example, you pass a vector of tab titles to the `tab_titles` argument and a list of data.frames to the `table` argument.
+
+Alternatively, you can construct your own data.frame with columns for each element and coerce it to a11ytable-class using `as_a11ytable()`.
+
+## Example
+
+I'm going to create a workbook containing the example dataset 'mtcars'. To demonstrate, I'll:
+
+1. Prepare a table of information for each sheet
+1. Create an a11ytables-class object by:
+    a. passing data (including the data.frames mentioned above) as arguments to `new_a11ytable()`
+    a. building our own data.frame and coercing with `as_a11ytable()`
+
+Of course, we start by attaching the {a11ytables} package. I'm going to use {tibble} to construct tables, but you could use base R functions too.
+
+```{r setup}
+library(a11ytables)
+library(tibble)
+```
+
+### 1. Prepare tables
+
+The basic building block for an a11ytable is a tidy dataframe of information for each sheet.
+
+For sheet type 'cover', the table should contain a row per subsection with columns for the title and body text of each subsection. This will be arranged in the final output as a single column, alternating from title to body, with appropriate styling.
+
+```{r prep-cover-tbl}
+library(tibble)
+
+cover_df <- tribble(
+  ~"Subsection title", ~"Subsection body",
+  "Description", "The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)",
+  "Format", "A data frame with 32 observations on 11 (numeric) variables."
+)
+
+cover_df
+```
+
+For sheet type 'contents', the table should have a row per workbook sheet with columns for the tab title and the sheet title.
+
+```{r prep-contents-tbl}
+contents_df <- tribble(
+  ~"Sheet name", ~"Sheet title",
+  "Notes", "Notes",
+  "Table 1", "Civil Service People Survey 2020: demographic benchmarks"
+)
+
+contents_df
+```
+
+For sheet type 'notes', the table should have a row per note in your workbook, with columns for the note number and note text.
+
+```{r prep-notes-tbl}
+notes_df <- tribble(
+  ~"Note number", ~"Note text",
+  "[1]", "Hocking [original transcriber]'s noncrucial coding of the Mazda's rotary engine as a straight six-cylinder engine and the Porsche's flat engine as a V engine, as well as the inclusion of the diesel Mercedes 240D, have been retained to enable direct comparisons to be made with previous analyses."
+)
+
+notes_df
+```
+
+For sheet type 'tables', the table should have whatever rows and columns are in the statistical table being published. It should be a tidy, 'flat' table with one row of headers and no empty rows or columns.
+
+```{r prep-stats-tbl}
+stats_df <- mtcars %>% rownames_to_column("car")
+head(stats_df)
+```
+
+### 2a. From new with `new_a11ytable()`
+
+The first option for creating the a11ytable-class object is to create it 'from new' by passing arguments about sheet elements to the `new_a11ytable()` function.
+
+```{r new-a11ytable}
+content_new <- new_a11ytable(
+  tab_titles = c("Cover", "Contents", "Notes", "Table 1"),
+  sheet_types = c("cover", "contents", "notes", "tables"),
+  sheet_titles = c(
+    "The mtcars demo datset: 'Motor Trend Car Road Tests'",
+    "Table of contents",
+    "Notes",
+    "Motor Trend Car Road Tests"
+  ),
+  sources = c(
+    NA_character_,
+    NA_character_,
+    NA_character_, 
+    "Motor Trend (1974)"
+  ),
+  table_names = c(
+    "cover_sheet",
+    "table_of_contents",
+    "notes_table",
+    "demographic_benchmarks"
+  ),
+  tables = list(
+    cover_df,
+    contents_df,
+    notes_df,
+    stats_df
+  )
+)
+
+glimpse(content_new)
+```
+
+You can test for the class with `is_a11ytable()`.
+
+```{r new-a11ytable-2}
+is_a11ytable(content_new)
+```
+
+### 2b. Coerce with `as_a11ytable()`
+
+The second option is to create a data.frame with the appropriate variables and content and coerce it to a11ytable class with `as_a11ytable()`.  
+
+a11ytable objects are just a type of data.frame with an additional class, after all.
+
+Starting with a data.frame of your own construction is a more flexible way of creating an a11ytable, if you know what you're doing. There are validation checks within the function to catch anything that doesn't look right.
+
+```{r as-a11ytable-df}
+content_df <- tibble(
+  tab_title = c("Cover", "Contents", "Notes", "Table 1"),
+  sheet_type = c("cover", "contents", "notes", "tables"),
+  sheet_title = c(
+    "The mtcars demo dataset: 'Motor Trend Car Road Tests'",
+    "Table of contents",
+    "Notes",
+    "Motor Trend Car Road Tests"
+  ),
+  source = c(
+    NA_character_, NA_character_, NA_character_, 
+    "Motor Trend (1974)"
+  ),
+  table_name = c(
+    "cover_sheet",
+    "table_of_contents",
+    "notes_table",
+    "demographic_benchmarks"
+  ),
+  table = list(
+    cover_df,
+    contents_df,
+    notes_df,
+    stats_df
+  )
+)
+
+glimpse(content_df)
+```
+
+This data.frame object can be passed directly into the `as_a11ytable()` to add the a11ytable class, which again you can test with `is_a11ytable()`.
+
+```{r as-a11ytable-2}
+content_coerce <- as_a11ytable(content_df)
+is_a11ytable(content_coerce)
+```

@@ -1,3 +1,8 @@
+# a11ytables 0.0.0.9007
+
+* BREAKING CHANGE: subtable arguments removed because they're not being used for now and are confusing
+* Added the first draft vignette on how to create an a11ytable (see #22)
+
 # a11ytables 0.0.0.9006
 
 * HOTFIX: fixed a problem where the `tab_title` was being used to filter when it should have been `sheet_type`

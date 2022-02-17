@@ -2,8 +2,7 @@
 .validate_a11ytable <- function(x) {
 
   names_req <- c(
-    "tab_title", "sheet_type", "sheet_title", "source",
-    "subtable_num","subtable_title", "table_name", "table"
+    "tab_title", "sheet_type", "sheet_title", "source", "table_name", "table"
   )
 
   names_in <- names(x)
@@ -15,7 +14,7 @@
 
   # must have particular dimensions (must have cover, contents table, at least)
   if (length(names_req) != length(x) | nrow(x) < 3) {
-    stop("Input must be a data.frame with 8 columns and at least 4 rows.")
+    stop("Input must be a data.frame with 6 columns and at least 4 rows.")
   }
 
   # column names must match expected format
@@ -29,7 +28,7 @@
   }
 
   # class must be character for all columns except 'table'
-  if (!all(unlist(lapply(x[-8], is.character)))) {
+  if (!all(unlist(lapply(x[-6], is.character)))) {
     stop("All columns except 'table' must be character class.")
   }
 
@@ -44,10 +43,10 @@
   }
 
   # there should be no empty rows for certain columns
-  if (!all(unlist(lapply(x[c(1:3, 7)], function(x) all(!is.na(x)))))) {
+  if (!all(unlist(lapply(x[c(1:3, 5:6)], function(x) all(!is.na(x)))))) {
     stop(
       paste(
-        "Columns 'tab_title', 'sheet_type', 'sheet_tite', 'table_name', and",
+        "Columns 'tab_title', 'sheet_type', 'sheet_title', 'table_name', and",
         "'table' must not contain NA."
       )
     )

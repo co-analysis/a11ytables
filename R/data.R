@@ -11,9 +11,9 @@
 #'   \item{tab_title}{Character. Text to appear on the sheet's tab.}
 #'   \item{sheet_type}{Character. Either 'cover', 'contents', 'notes', or 'tables'.}
 #'   \item{sheet_title}{Character. Title that will appear in the top-left of each sheet}
-#'   \item{source}{Character. The origin of the data.}
 #'   \item{subtable_num}{Character. A letter. Identifier for tables when there's more than one per sheet.}
 #'   \item{subtable_title}{Character. A name to place above the table if there's more than one table per sheet.}
+#'   \item{source}{Character. The origin of the data.}
 #'   \item{table_name}{Character. A name applied to the marked-up table.}
 #'   \item{table}{List containing dataframes/tibbles. Rectangular table containing the data.}
 #' }
@@ -38,8 +38,6 @@
 #'   \item{sheet_type}{Character. Either 'cover', 'contents', 'notes', or 'tables'.}
 #'   \item{sheet_title}{Character. Title that will appear in the top-left of each sheet}
 #'   \item{source}{Character. The origin of the data.}
-#'   \item{subtable_num}{Character. A letter. Identifier for tables when there's more than one per sheet.}
-#'   \item{subtable_title}{Character. A name to place above the table if there's more than one table per sheet.}
 #'   \item{table_name}{Character. A name applied to the marked-up table.}
 #'   \item{table}{List containing dataframes/tibbles. Rectangular table containing the data.}
 #' }

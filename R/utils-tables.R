@@ -99,7 +99,7 @@
 
 }
 
-.insert_table <- function(wb, content, table_name, subtable_num = NULL) {
+.insert_table <- function(wb, content, table_name) {
 
   table <- content[content$table_name == table_name, ][["table"]][[1]]
   sheet_type <- content[content$table_name == table_name, "sheet_type"][[1]]
