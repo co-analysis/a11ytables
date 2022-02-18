@@ -54,6 +54,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="articles/accessibility.html">Accessibility guidance checklist</a>
+    </li>
+    <li>
       <a href="articles/construct.html">Construct an a11ytable</a>
     </li>
   </ul>
@@ -102,13 +105,13 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/co-analysis/a11ytables" class="external-link">a11ytables</a></span><span class="op">)</span></code></pre></div>
 <p>To use:</p>
 <ol style="list-style-type: decimal">
-<li>Get your data into an a11ytables-class object using <code><a href="reference/new_a11ytable.html">new_a11ytable()</a></code>
+<li>Get your data into an a11ytables-class object using <code><a href="reference/new_a11ytable.html">new_a11ytable()</a></code>, or create a data.frame in the required format and coerce it with <code><a href="reference/as_a11ytable.html">as_a11ytable()</a></code>
 </li>
-<li>Populate an {openxlsx} Workbook-class object from that object, using <code><a href="reference/create_a11y_wb.html">create_a11y_wb()</a></code>
-</li>
+<li>Pass your a11ytables-class object to <code><a href="reference/create_a11y_wb.html">create_a11y_wb()</a></code> to populate an {openxlsx} Workbook-class object</li>
 <li>Write the workbook to a spreadsheet output with <code><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html" class="external-link">openxlsx::saveWorkbook()</a></code>
 </li>
 </ol>
+<p>See <a href="https://co-analysis.github.io/a11ytables/articles/construct.html" class="external-link">the ‘construct an a11ytable’ vignette</a> to see how to set up an a11ytable-class object. See <a href="https://co-analysis.github.io/a11ytables/articles/accessibility.html" class="external-link">the ‘accessibilty guidance checklist’ vignette</a> to see how well the package adheres <a href="https://gss.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/" class="external-link">to best practice</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
@@ -116,7 +119,7 @@
 <div class="section level3">
 <h3 id="1-create-a11ytable-object">1. Create a11ytable object<a class="anchor" aria-label="anchor" href="#1-create-a11ytable-object"></a>
 </h3>
-<p>First, use <code><a href="reference/new_a11ytable.html">new_a11ytable()</a></code> to construct a special a11ytable-class object, which is just a data.frame with strict requirements. It must have a row per sheet, specific columns for meta information (e.g. sheet titles, data sources) and a list-column of data.frames that contain the actual data; run <code><a href="reference/new_a11ytable.html">?new_a11ytable</a></code> for details (TODO: a vignette).</p>
+<p>First, use <code><a href="reference/new_a11ytable.html">new_a11ytable()</a></code> to construct a special a11ytable-class object, which is just a data.frame with strict requirements. It must have a row per sheet, specific columns for meta information (e.g. sheet titles, data sources) and a list-column of data.frames that contain the actual data; run <code><a href="reference/new_a11ytable.html">?new_a11ytable</a></code> for details.</p>
 <p>There’s a built-in demo dataset—<code>lfs_tables</code>, adapted from <a href="https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/" class="external-link">the releasing statistics in spreadsheets guidance</a>—that is already in the correct data.frame format.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">dplyr</span><span class="fu">::</span><span class="fu">glimpse</span><span class="op">(</span><span class="va">lfs_tables</span><span class="op">)</span>
@@ -196,11 +199,6 @@
 <code class="sourceCode R"><span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/openXL.html" class="external-link">openXL</a></span><span class="op">(</span><span class="va">lfs_wb</span><span class="op">)</span>  <span class="co"># optionally open temp copy</span>
 <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html" class="external-link">saveWorkbook</a></span><span class="op">(</span><span class="va">lfs_wb</span>, <span class="st">"publication.xlsx"</span><span class="op">)</span></code></pre></div>
 </div>
-</div>
-<div class="section level2">
-<h2 id="accessibility">Accessibility<a class="anchor" aria-label="anchor" href="#accessibility"></a>
-</h2>
-<p>TODO: explain features that meet the GSS accessibility guidance (named tables, no empty cells, the statement on table count and presence of notes, etc).</p>
 </div>
 <div class="section level2">
 <h2 id="similar-projects">Similar projects<a class="anchor" aria-label="anchor" href="#similar-projects"></a>
