@@ -43,7 +43,7 @@ Status: Y = yes, P = partly, N = no, U = user's discretion, O = out of scope.
 | 5 | All tables should have one tagged header row | Y | P |
 | 6 | Wrap text within cells | Y | Y |
 | 7 | Avoid adding filters and freeze panes | | Y |
-| 8 | Only leave cells with no data empty in certain circumstances | Y | X |
+| 8 | Only leave cells with no data empty in certain circumstances | Y | O |
 | 9 | Avoid hiding rows or columns | | Y |
 
 ### Footnotes
