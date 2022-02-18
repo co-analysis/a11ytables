@@ -1,7 +1,7 @@
 # a11ytables 0.0.0.9007
 
 * BREAKING CHANGE: subtable arguments removed because they're not being used for now and are confusing
-* Added the first draft vignette on how to create an a11ytable (see #22)
+* Added the first draft vignettes on how to create an a11ytable and an accessibility guidance checklist (see #22)
 
 # a11ytables 0.0.0.9006
 

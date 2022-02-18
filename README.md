@@ -44,11 +44,20 @@ library(a11ytables)
 To use:
 
 1.  Get your data into an a11ytables-class object using
-    `new_a11ytable()`
-2.  Populate an {openxlsx} Workbook-class object from that object, using
-    `create_a11y_wb()`
+    `new_a11ytable()`, or create a data.frame in the required format and
+    coerce it with `as_a11ytable()`
+2.  Pass your a11ytables-class object to `create_a11y_wb()` to populate
+    an {openxlsx} Workbook-class object
 3.  Write the workbook to a spreadsheet output with
     `openxlsx::saveWorkbook()`
+
+See [the ‘construct an a11ytable’
+vignette](https://co-analysis.github.io/a11ytables/articles/construct.html)
+to see how to set up an a11ytable-class object. See [the ‘accessibilty
+guidance checklist’
+vignette](https://co-analysis.github.io/a11ytables/articles/accessibility.html)
+to see how well the package adheres [to best
+practice](https://gss.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/).
 
 ## Example
 
@@ -58,7 +67,7 @@ First, use `new_a11ytable()` to construct a special a11ytable-class
 object, which is just a data.frame with strict requirements. It must
 have a row per sheet, specific columns for meta information (e.g. sheet
 titles, data sources) and a list-column of data.frames that contain the
-actual data; run `?new_a11ytable` for details (TODO: a vignette).
+actual data; run `?new_a11ytable` for details.
 
 There’s a built-in demo dataset—`lfs_tables`, adapted from [the
 releasing statistics in spreadsheets
@@ -162,12 +171,6 @@ spreadsheet software.
 openxlsx::openXL(lfs_wb)  # optionally open temp copy
 openxlsx::saveWorkbook(lfs_wb, "publication.xlsx")
 ```
-
-## Accessibility
-
-TODO: explain features that meet the GSS accessibility guidance (named
-tables, no empty cells, the statement on table count and presence of
-notes, etc).
 
 ## Similar projects
 
