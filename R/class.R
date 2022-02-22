@@ -1,40 +1,46 @@
 
 #' Create An a11ytable-class Object
 #'
-#' Create an object containing all the input data and supporting information
-#' for your publication, which will be used to populate a workbook.
+#' Create a new a11ytable-class object, which is a data.frame that contains all
+#' the information needed in your publication. In turn, this will be used to
+#' populate an 'openxlsx' Workbook-class object with the function
+#' \code{\link{create_a11y_wb}}.
 #'
-#' @param tab_titles Required character vector, one value per sheet. The text
-#'     that will appear on the tab interface of the when opened in spreadsheet
-#'     software. Provide table sheets as numbers.
-#' @param sheet_types Required character vector, one value per sheet. Meta
-#'     sheets (i.e. those that don't contain publication tables) should be
-#'     'contents', 'cover' or 'notes'; publication tables are type 'tables'.
-#' @param sheet_titles Required character vector, one value per sheet. The main
-#'     title of the sheet. Will appear in large text in cell A1 (top-left)
-#'     corner of each sheet.
-#' @param sources Optional character vector, one value per sheet (NA is valid).
-#'     The origin of the data for a given sheet.
-#' @param table_names Required character vector, one value per sheet. A name to
+#' @param tab_titles Required character vector, one value per sheet to be
+#'     created. Each title will appear on each tab of the final spreadsheet
+#'     output. Keep brief.
+#' @param sheet_types Required character vector, one value per sheet to be
+#'     created. Sheets that don't contain publication tables ('meta' sheets)
+#'     should be of type 'contents', 'cover' or 'notes'. Sheets that contain
+#'     statistical tables of data are type 'tables'.
+#' @param sheet_titles Required character vector, one value per sheet to be
+#'     created. The main title of the sheet, which will appear in cell A1
+#'     (top-left corner) of each sheet.
+#' @param sources Optional character vector, one value per sheet to be created.
+#'     The origin of the data for a given sheet. Supply as \code{NA_character_}
+#'     if empty.
+#' @param table_names Required character vector, one value per table to be
+#'     created (i.e. one per sheet). A short, descriptive, identifying name to
 #'     give the 'named range' of cells that compose the table in the final
-#'     spreadsheet output. Makes sheet navigation easier.
+#'     spreadsheet output. Makes sheet navigation more accessible.
 #' @param tables Required list of data.frames, one per sheet. See details.
 #'
 #' @details Formats for data.frames in the 'tables' argument, depending on the
-#'     sheet type:
+#'     sheet type.
 #' \itemize{
-#'     \item cover: one column with a pair of rows for each point of information
-#'         (a section with contact details should have a row for the title of that
-#'         section, like 'Contact details' and one row containing the information;
-#'         use line breaks to separate information onto different lines, like a
-#'         telephone number and email address in this example)
-#'     \item contents: one row per sheet, five columns suggested ('Worksheet
-#'         number', 'Worksheet title', 'Data of first publication', 'Date of
-#'         next publication', 'Source')
-#'     \item notes: one row per note, two columns suggested ('Note number',
-#'         'Note text')
-#'     \item tables: a tidy, rectangular data.frame containing the data to be
-#'         published
+#'     \item Sheet type 'cover': one row per subsection, with columns for
+#'         'Subsection title' and 'Subsection text'. For example, a section with
+#'         contact details might have 'Contact details' as the subsection title
+#'         and a telephone number and email address in the body-text column. Use
+#'         linebreaks (i.e. '\n') to put multiple rows in the same body text.
+#'         Don't break information into separate spreadsheet rows if they belong
+#'         in the same subsection).
+#'     \item Sheet type 'contents': one row per sheet, two columns suggested at
+#'         least ('Tab title' and 'Worksheet title').
+#'     \item Sheet type 'notes': one row per note, two columns suggested ('Note
+#'         number', 'Note text').
+#'     \item Sheet type 'tables': a tidy, rectangular data.frame containing the
+#'         data to be published.
 #' }
 #'
 #' @return An a11ytables-class object.
@@ -42,12 +48,12 @@
 #' @examples
 #' \dontrun{
 #' x <- new_a11ytable(
-#'     tab_titles      = lfs_tables$tab_title,
-#'     sheet_types     = lfs_tables$sheet_type,
-#'     sheet_titles    = lfs_tables$sheet_title,
-#'     sources         = lfs_tables$source,
-#'     table_names     = lfs_tables$table_name,
-#      tables          = lfs_tables$table
+#'     tab_titles   = lfs_tables$tab_title,
+#'     sheet_types  = lfs_tables$sheet_type,
+#'     sheet_titles = lfs_tables$sheet_title,
+#'     sources      = lfs_tables$source,
+#'     table_names  = lfs_tables$table_name,
+#      tables       = lfs_tables$table
 #' )
 #' is_a11ytable(x)
 #' }
