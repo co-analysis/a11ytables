@@ -69,9 +69,7 @@
   has_notes <- any(
     grepl(
       "[note [0-9]{1,3}]",
-      names(
-        content[content$tab_title == tab_title, "table"][[1]][[1]]
-      )
+      names(content[content$tab_title == tab_title, "table"][[1]][[1]])
     )
   )
 
@@ -104,6 +102,16 @@
   table <- content[content$table_name == table_name, ][["table"]][[1]]
   sheet_type <- content[content$table_name == table_name, "sheet_type"][[1]]
   tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
+  source <- content[content$table_name == table_name, ][["source"]][[1]]
+
+  has_notes <- any(
+    grepl(
+      "[note [0-9]{1,3}]",
+      names(content[content$tab_title == tab_title, "table"][[1]][[1]])
+    )
+  )
+
+  has_source <- ifelse(is.na(source), FALSE, TRUE)
 
   if (sheet_type == "cover") {
     start_row <- 2
@@ -114,7 +122,23 @@
   }
 
   if (!sheet_type %in% c("cover", "contents", "notes")) {
-    start_row <- 4
+
+    if(has_notes & has_source) {
+      start_row <- 5
+    }
+
+    if(has_notes & !has_source) {
+      start_row <- 4
+    }
+
+    if(!has_notes & has_source) {
+      start_row <- 4
+    }
+
+    if(!has_notes & !has_source) {
+      start_row <- 3
+    }
+
   }
 
   if (sheet_type == "cover") {
@@ -127,7 +151,7 @@
       x = table,
       startCol = 1,
       startRow = start_row,
-      colNames = FALSE  # assumes cover df uses a dummy header
+      colNames = FALSE  # because cover df uses dummy column headers
     )
 
   }
