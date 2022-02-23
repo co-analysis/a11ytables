@@ -32,7 +32,7 @@
 #'         'Subsection title' and 'Subsection text'. For example, a section with
 #'         contact details might have 'Contact details' as the subsection title
 #'         and a telephone number and email address in the body-text column. Use
-#'         linebreaks (i.e. '\n') to put multiple rows in the same body text.
+#'         linebreaks (i.e. '\\n') to put multiple rows in the same body text.
 #'         Don't break information into separate spreadsheet rows if they belong
 #'         in the same subsection).
 #'     \item Sheet type 'contents': one row per sheet, two columns suggested at
