@@ -18,7 +18,7 @@
 }
 
 
-# Construct sheets --------------------------------------------------------
+# Insert sheet elements ---------------------------------------------------
 
 
 .insert_title <- function(wb, content, tab_title) {
@@ -26,7 +26,7 @@
   sheet_title <- content[content$tab_title == tab_title, "sheet_title"][[1]]
 
   if (content[content$tab_title == tab_title, "sheet_type"][[1]] == "tables") {
-    sheet_title <- paste0("Worksheet ", tab_title, ": ", sheet_title)
+    sheet_title <- paste0(tab_title, ": ", sheet_title)
   }
 
   openxlsx::writeData(
@@ -42,19 +42,18 @@
 
 }
 
-.insert_source <- function(wb, content, tab_title) {
+.insert_table_count <- function(wb, content, tab_title) {
 
-  text <- paste(
-    "Source:",
-    content[content$tab_title == tab_title, "source"][[1]]
-  )
+  table_count <- nrow(content[content$tab_title == tab_title, ])
+
+  text <- paste("This worksheet contains", table_count, "table.")
 
   openxlsx::writeData(
     wb = wb,
     sheet = tab_title,
     x = text,
     startCol = 1,
-    startRow = 3,
+    startRow = 2,  # table count will always be the second row
     colNames = TRUE
   )
 
@@ -62,28 +61,55 @@
 
 }
 
-.insert_prelim_a11y <- function(wb, content, tab_title) {
+.check_for_notes <- function(content, tab_title) {
 
-  table_count <- nrow(content[content$tab_title == tab_title, ])
+  table_names <-
+    names(content[content$tab_title == tab_title, "table"][[1]][[1]])
 
-  has_notes <- any(
-    grepl(
-      "[note [0-9]{1,3}]",
-      names(
-        content[content$tab_title == tab_title, "table"][[1]][[1]]
-      )
-    )
-  )
+  has_header_notes <- any(grepl("[[0-9]{1,3}]", table_names))
+  has_notes_column <- any(table_names %in% "Notes")
 
-  text <- paste("This worksheet contains", table_count, "table.")
+  has_header_notes | has_notes_column
+
+}
+
+.insert_notes_statement <- function(wb, content, tab_title) {
+
+  has_notes <- .check_for_notes(content, tab_title)
 
   if (has_notes) {
+    text <-
+      "This table contains notes, which can be found in the Notes worksheet."
+  }
 
-    text <- paste(
-      text,
-      "Some cells refer to notes which can be found on the notes worksheet."
-    )
+  if (!has_notes) {
+    text <- "There are no notes in this table."
+  }
 
+openxlsx::writeData(
+  wb = wb,
+  sheet = tab_title,
+  x = text,
+  startCol = 1,
+  startRow = 3,  # TODO: can we make this dynamic depending on whether source exists?
+  colNames = TRUE
+)
+
+return(wb)
+
+}
+
+.insert_source <- function(wb, content, tab_title) {
+
+  source_text <- content[content$tab_title == tab_title, "source"][[1]]
+  has_source_text <- ifelse(!is.na(source_text), TRUE, FALSE)
+
+  if (has_source_text) {
+    text <- paste("Source:", source_text)
+  }
+
+  if (!has_source_text) {
+    text <- "No data source has been provided for this table."
   }
 
   openxlsx::writeData(
@@ -91,7 +117,7 @@
     sheet = tab_title,
     x = text,
     startCol = 1,
-    startRow = 2,
+    startRow = 4,  # TODO: can we make this dynamic depending on whether notes exists?
     colNames = TRUE
   )
 
@@ -104,18 +130,7 @@
   table <- content[content$table_name == table_name, ][["table"]][[1]]
   sheet_type <- content[content$table_name == table_name, "sheet_type"][[1]]
   tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
-
-  if (sheet_type == "cover") {
-    start_row <- 2
-  }
-
-  if (sheet_type %in% c("contents", "notes")) {
-    start_row <- 3
-  }
-
-  if (!sheet_type %in% c("cover", "contents", "notes")) {
-    start_row <- 4
-  }
+  source <- content[content$table_name == table_name, ][["source"]][[1]]
 
   if (sheet_type == "cover") {
 
@@ -126,13 +141,21 @@
       sheet = tab_title,
       x = table,
       startCol = 1,
-      startRow = start_row,
-      colNames = FALSE  # assumes cover df uses a dummy header
+      startRow = 2,
+      colNames = FALSE  # because cover df uses dummy column headers
     )
 
   }
 
   if (sheet_type != "cover") {
+
+    if (sheet_type %in% c("contents", "notes")) {
+      start_row <- 3
+    }
+
+    if (sheet_type == "tables") {
+      start_row <- 5
+    }
 
     openxlsx::writeDataTable(
       wb = wb,
@@ -154,8 +177,7 @@
 }
 
 
-# Add sheets --------------------------------------------------------------
-
+# Add sheets to workbook --------------------------------------------------
 
 
 .add_tabs <- function(wb, content) {
@@ -199,7 +221,7 @@
 
 
   .insert_title(wb, content, tab_title)
-  .insert_prelim_a11y(wb, content, tab_title)
+  .insert_table_count(wb, content, tab_title)
   .insert_table(wb, content, table_name)
 
   styles <- .style_create()
@@ -221,7 +243,7 @@
   table_name <- content[content$sheet_type == "notes", "table_name"][[1]]
 
   .insert_title(wb, content, tab_title)
-  .insert_prelim_a11y(wb, content, tab_title)
+  .insert_table_count(wb, content, tab_title)
   .insert_table(wb, content, table_name)
 
   styles <- .style_create()
@@ -241,8 +263,9 @@
   tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
 
   .insert_title(wb, content, tab_title)
-  .insert_prelim_a11y(wb, content, tab_title)
+  .insert_table_count(wb, content, tab_title)
   .insert_source(wb, content, tab_title)
+  .insert_notes_statement(wb, content, tab_title)
   .insert_table(wb, content, table_name)
 
   styles <- .style_create()

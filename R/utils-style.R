@@ -113,11 +113,35 @@
   table <- content[content$table_name == table_name, "table"][[1]]
   tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
   sheet_type <- content[content$table_name == table_name, "sheet_type"][[1]]
-  table_height <- nrow(table)
-  table_width <- ncol(table)
 
-  if (sheet_type %in% c("cover", "contents", "notes")) table_header_row <- 3
-  if (sheet_type == "tables") table_header_row <- 4
+  table_height <- nrow(table)
+  table_width  <- ncol(table)
+
+  # Some columns may contain numbers but have suppression text in them, e.g.
+  # '[c]', which makes the column character class. Find the likely numeric cols.
+  suppressWarnings(  # coercion to numeric may trigger a warning
+    likely_num_cols <-
+      names(  # return names of columns that a remost likely numeric
+        Filter(
+          isTRUE,  # isolate the columns that are likely numeric
+          lapply(
+            lapply(table, as.numeric),  # coerce cols to numeric
+            function(x) any(!is.na(x))  # at least one number after coercion?
+          )
+        )
+      )
+  )
+
+  # Get the index of columns that are likely, so styles can be applied
+  num_cols_index <- which(names(table) %in% likely_num_cols)
+
+  if (sheet_type %in% c("cover", "contents", "notes")) {
+    table_header_row <- 3
+  }
+
+  if (sheet_type == "tables") {
+    table_header_row <- 5
+  }
 
   # Table data columns are SET-WIDTH, WRAPPED and RIGHT ALIGNED
 
@@ -141,7 +165,7 @@
     wb = wb,
     sheet = tab_title,
     rows = seq(table_header_row, table_header_row + table_height),
-    cols = seq(table_width)[-1],  # assumes first col is row labels
+    cols = num_cols_index,
     gridExpand = TRUE,
     style = style_ref$ralign,
     stack = TRUE
@@ -157,7 +181,6 @@
     style = style_ref$bold,
     stack = TRUE
   )
-
 
   return(wb)
 
