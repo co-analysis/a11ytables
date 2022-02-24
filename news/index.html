@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">a11ytables</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9008</span>
       </span>
     </div>
 
@@ -61,9 +61,14 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.0.9008" id="a11ytables-0009008">a11ytables 0.0.0.9008<a class="anchor" aria-label="anchor" href="#a11ytables-0009008"></a></h2>
+<ul><li>Ensured numeric columns (even if they contain a string like ‘[c]’ to indicate a suppressed value) are right-aligned (<a href="https://github.com/co-analysis/a11ytables/issues/32" class="external-link">#32</a>)</li>
+<li>Isolated out .insert_*() functions for table count and note presence from <code>.insert_prelim_a11y()</code>, for clarity</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.0.9007" id="a11ytables-0009007">a11ytables 0.0.0.9007<a class="anchor" aria-label="anchor" href="#a11ytables-0009007"></a></h2>
 <ul><li>BREAKING CHANGE: subtable arguments removed because they’re not being used for now and are confusing</li>
-<li>Added the first draft vignettes on how to create an a11ytable and an accessibility guidance checklist (see <a href="https://github.com/co-analysis/a11ytables/issues/22" class="external-link">#22</a>)</li>
+<li>Added the first draft vignettes on how to create an a11ytable and an accessibility guidance checklist (<a href="https://github.com/co-analysis/a11ytables/issues/22" class="external-link">#22</a>)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.0.9006" id="a11ytables-0009006">a11ytables 0.0.0.9006<a class="anchor" aria-label="anchor" href="#a11ytables-0009006"></a></h2>
@@ -72,7 +77,7 @@
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.0.9005" id="a11ytables-0009005">a11ytables 0.0.0.9005<a class="anchor" aria-label="anchor" href="#a11ytables-0009005"></a></h2>
-<ul><li>BREAKING CHANGE: the user-supplied table for the cover sheet should now be supplied as a tidy two-column data.frame with a row per subsection, with columns for the <code>subsection_title</code> and <code>subsection_body</code> (suggesetd names)</li>
+<ul><li>BREAKING CHANGE: the user-supplied table for the cover sheet should now be supplied as a tidy two-column data.frame with a row per subsection, with columns for the <code>subsection_title</code> and <code>subsection_body</code> (suggestd names)</li>
 <li>The <code>lfs_tables</code> and <code>lfs_subtables</code> example datasets have been updated accordingly; for an example see <code>lfs_tables[lfs_tables$sheet_type == "cover", "table"][[1]]</code>
 </li>
 </ul></div>
