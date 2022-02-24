@@ -1,6 +1,6 @@
 Package: a11ytables
 Title: Create Spreadsheet Publications Following GSS Best Practice
-Version: 0.0.0.9007
+Version: 0.0.0.9008
 Authors@R: 
     person(given = "Matt",
            family = "Dray",

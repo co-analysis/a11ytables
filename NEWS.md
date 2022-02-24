@@ -1,7 +1,12 @@
+# a11ytables 0.0.0.9008
+
+* Ensured numeric columns (even if they contain a string like '[c]' to indicate a suppressed value) are right-aligned (#32)
+* Isolated out .insert_*() functions for table count and note presence from `.insert_prelim_a11y()`, for clarity
+
 # a11ytables 0.0.0.9007
 
 * BREAKING CHANGE: subtable arguments removed because they're not being used for now and are confusing
-* Added the first draft vignettes on how to create an a11ytable and an accessibility guidance checklist (see #22)
+* Added the first draft vignettes on how to create an a11ytable and an accessibility guidance checklist (#22)
 
 # a11ytables 0.0.0.9006
 
@@ -9,7 +14,7 @@
 
 # a11ytables 0.0.0.9005
 
-* BREAKING CHANGE: the user-supplied table for the cover sheet should now be supplied as a tidy two-column data.frame with a row per subsection, with columns for the `subsection_title` and `subsection_body` (suggesetd names)
+* BREAKING CHANGE: the user-supplied table for the cover sheet should now be supplied as a tidy two-column data.frame with a row per subsection, with columns for the `subsection_title` and `subsection_body` (suggestd names)
 * The `lfs_tables` and `lfs_subtables` example datasets have been updated accordingly; for an example see `lfs_tables[lfs_tables$sheet_type == "cover", "table"][[1]]`
 
 # a11ytables 0.0.0.9004
