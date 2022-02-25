@@ -61,21 +61,21 @@
 
 }
 
-.check_for_notes <- function(content, tab_title) {
+.detect_notes <- function(content, tab_title) {
 
   table_names <-
-    names(content[content$tab_title == tab_title, "table"][[1]][[1]])
+    names(content[content$tab_title == tab_title, "table"][[1]])
 
-  has_header_notes <- any(grepl("[[0-9]{1,3}]", table_names))
-  has_notes_column <- any(table_names %in% "Notes")
+  has_header_notes <- grepl("[[0-9]{1,3}]", table_names)
+  has_notes_column <- tolower(table_names) %in% "notes"
 
-  has_header_notes | has_notes_column
+  any(has_header_notes, has_notes_column)
 
 }
 
 .insert_notes_statement <- function(wb, content, tab_title) {
 
-  has_notes <- .check_for_notes(content, tab_title)
+  has_notes <- .detect_notes(content, tab_title)
 
   if (has_notes) {
     text <-
