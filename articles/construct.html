@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">a11ytables</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9008</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9009</span>
       </span>
     </div>
 
@@ -94,10 +94,10 @@
 <div class="section level2">
 <h2 id="purpose">Purpose<a class="anchor" aria-label="anchor" href="#purpose"></a>
 </h2>
-<p>The purpose of this vignette is to demonstrate how to create an a11ytable-class object, which provides the basis for generating an xlsx workbook.</p>
-<p>There are two approaches to construct an a11ytable-class object:</p>
+<p>The purpose of this vignette is to demonstrate how to create an a11ytable-class object, which provides the basis for generating an Excel workbook (xlsx).</p>
+<p>Two approaches to constructing an a11ytable-class object are described in this document:</p>
 <ol style="list-style-type: decimal">
-<li>Pass arguments drectly to <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code>
+<li>Pass arguments directly to <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code>
 </li>
 <li>Create a data.frame-class object for conversion to a11ytable-class with <code><a href="../reference/as_a11ytable.html">as_a11ytable()</a></code>.</li>
 </ol>
@@ -105,10 +105,10 @@
 <div class="section level2">
 <h2 id="workbook-nomenclature">Workbook nomenclature<a class="anchor" aria-label="anchor" href="#workbook-nomenclature"></a>
 </h2>
-<p>An output <em>workbook</em> contains <em>tabs</em> that have <em>sheets</em> in them. Each tab has a <em>tab title</em>.</p>
+<p>An output <em>workbook</em> contains <em>tabs</em> that have <em>sheets</em> in them. Each tab has a unique <em>tab title</em>.</p>
 <p>Sheets can be one of four <em>types</em> that dictate the layout and content of a given sheet:</p>
 <ul>
-<li>a <em>cover</em> sheet (required) contains the title of the workbook and miscellaneous details about the workbook, that data it contains, and its producers</li>
+<li>a <em>cover</em> sheet (required) contains the title of the workbook and miscellaneous details about the workbook, the data it contains and its producers</li>
 <li>a <em>contents</em> sheet (required) contains a table showing the contents of the workbook at a glance</li>
 <li>a <em>notes</em> sheet (if applicable) contains a table with a lookup of the note codes and explanations</li>
 <li>one or more <em>tables</em> sheets (required) that contain statistical tables</li>
@@ -116,25 +116,25 @@
 <p>Sheets are composed of <em>elements</em>:</p>
 <ul>
 <li>a <em>sheet title</em> to be displayed at the top of the sheet (user-provided)</li>
-<li>a <em>source</em> to explain where the data come from (user-provided)</li>
-<li>a count of the number of tables in the sheet (auto-generated)</li>
-<li>a warning that the sheet contains notes (if applicable, auto-generated)</li>
-<li>a <em>table</em> that contains information as rows and columns and has a <em>table name</em> (both are user-provided)</li>
+<li>a count of the number of tables in the sheet (auto-generated sentence)</li>
+<li>a <em>source</em> to explain where the data come from (auto-generated based on user input)</li>
+<li>a warning that the sheet contains notes (auto-generated based on the presence of notes)</li>
+<li>a <em>table</em> that contains information as rows and columns and has a <em>table name</em> (both are user-provided, latter should be unique per table)</li>
 </ul>
 <p>The <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code> function takes these elements as arguments to build an a11ytable-class object for you. For example, you pass a vector of tab titles to the <code>tab_titles</code> argument and a list of data.frames to the <code>table</code> argument.</p>
-<p>Alternatively, you can construct your own data.frame with columns for each element and coerce it to a11ytable-class using <code><a href="../reference/as_a11ytable.html">as_a11ytable()</a></code>.</p>
+<p>Alternatively, you can construct your own data.frame with columns for each of these elements and coerce it to a11ytable-class using <code><a href="../reference/as_a11ytable.html">as_a11ytable()</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>To demonstrate with the ‘mtcars’ dataset:</p>
 <ol style="list-style-type: decimal">
-<li>Prepare a table of information for each sheet of the wrokbook</li>
+<li>Prepare a table of information for each sheet of the workbook</li>
 <li>Create an a11ytables-class object by either:
 <ol style="list-style-type: lower-alpha">
 <li>passing data (including the data.frames mentioned above) as arguments to <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code>
 </li>
-<li>building our own data.frame and coercing with <code><a href="../reference/as_a11ytable.html">as_a11ytable()</a></code>
+<li>building your own data.frame and coercing with <code><a href="../reference/as_a11ytable.html">as_a11ytable()</a></code>
 </li>
 </ol>
 </li>
@@ -146,8 +146,8 @@
 <div class="section level3">
 <h3 id="prepare-tables">1. Prepare tables<a class="anchor" aria-label="anchor" href="#prepare-tables"></a>
 </h3>
-<p>The basic building block for an a11ytable is a tidy dataframe of information for each sheet.</p>
-<p>For sheet type ‘cover’, the table should contain a row per subsection with columns for the title and body text of each subsection. This will be arranged in the final output as a single column, alternating from title to body, with appropriate styling.</p>
+<p>Each a11ytable sheet contains a tidy dataframe of information. Let’s prepare these first.</p>
+<p>For sheet type ‘cover’ (required), the table should contain a row per subsection with columns for the title and body text of each subsection. This will be arranged in the final output as a single column, alternating from title to body, with appropriate styling.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span>
 
@@ -163,43 +163,48 @@
 <span class="co">#   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                      </span>
 <span class="co"># <span style="color: #BCBCBC;">1</span> Description        The data was extracted from the 1974 Motor Trend US magazi…</span>
 <span class="co"># <span style="color: #BCBCBC;">2</span> Format             A data frame with 32 observations on 11 (numeric) variable…</span></code></pre></div>
-<p>For sheet type ‘contents’, the table should have a row per workbook sheet with columns for the tab title and the sheet title.</p>
+<p>For sheet type ‘contents’ (required), the table should have a row per workbook sheet with columns for the tab title and the sheet title.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">contents_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
   <span class="op">~</span><span class="st">"Sheet name"</span>, <span class="op">~</span><span class="st">"Sheet title"</span>,
   <span class="st">"Notes"</span>, <span class="st">"Notes"</span>,
-  <span class="st">"Table 1"</span>, <span class="st">"Civil Service People Survey 2020: demographic benchmarks"</span>
+  <span class="st">"Table 1"</span>, <span class="st">"Motor Trend Car Road Tests"</span>
 <span class="op">)</span>
 
 <span class="va">contents_df</span>
 <span class="co"># <span style="color: #949494;"># A tibble: 2 × 2</span></span>
-<span class="co">#   `Sheet name` `Sheet title`                                           </span>
-<span class="co">#   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                   </span>
-<span class="co"># <span style="color: #BCBCBC;">1</span> Notes        Notes                                                   </span>
-<span class="co"># <span style="color: #BCBCBC;">2</span> Table 1      Civil Service People Survey 2020: demographic benchmarks</span></code></pre></div>
-<p>For sheet type ‘notes’, the table should have a row per note in your workbook, with columns for the note number and note text.</p>
+<span class="co">#   `Sheet name` `Sheet title`             </span>
+<span class="co">#   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     </span>
+<span class="co"># <span style="color: #BCBCBC;">1</span> Notes        Notes                     </span>
+<span class="co"># <span style="color: #BCBCBC;">2</span> Table 1      Motor Trend Car Road Tests</span></code></pre></div>
+<p>For sheet type ‘notes’ (not required if there aren’t any notes), the table should have a row per note in your workbook, with columns for the note number and note text.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">notes_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
   <span class="op">~</span><span class="st">"Note number"</span>, <span class="op">~</span><span class="st">"Note text"</span>,
+  <span class="st">"[2]"</span>, <span class="st">"Where 0 is 'V-shaped' and 1 is 'straight'"</span>,
   <span class="st">"[1]"</span>, <span class="st">"Hocking [original transcriber]'s noncrucial coding of the Mazda's rotary engine as a straight six-cylinder engine and the Porsche's flat engine as a V engine, as well as the inclusion of the diesel Mercedes 240D, have been retained to enable direct comparisons to be made with previous analyses."</span>
 <span class="op">)</span>
 
 <span class="va">notes_df</span>
-<span class="co"># <span style="color: #949494;"># A tibble: 1 × 2</span></span>
+<span class="co"># <span style="color: #949494;"># A tibble: 2 × 2</span></span>
 <span class="co">#   `Note number` `Note text`                                                     </span>
 <span class="co">#   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                           </span>
-<span class="co"># <span style="color: #BCBCBC;">1</span> [1]           Hocking [original transcriber]'s noncrucial coding of the Mazda…</span></code></pre></div>
-<p>For sheet type ‘tables’, the table should have whatever rows and columns are in the statistical table being published. It should be a tidy, ‘flat’ table with one row of headers and no empty rows or columns.</p>
+<span class="co"># <span style="color: #BCBCBC;">1</span> [2]           Where 0 is 'V-shaped' and 1 is 'straight'                       </span>
+<span class="co"># <span style="color: #BCBCBC;">2</span> [1]           Hocking [original transcriber]'s noncrucial coding of the Mazda…</span></code></pre></div>
+<p>For sheet type ‘tables’ (required), the table should have whatever rows and columns are in the statistical table being published. It should be a tidy, ‘flat’ table with one row of headers and no empty rows or columns. This is an example using the ‘mtcars’ dataset.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">stats_df</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">rownames_to_column</a></span><span class="op">(</span><span class="st">"car"</span><span class="op">)</span>
+<span class="va">notes_cars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Mazda RX4"</span>, <span class="st">"Mazda RX4 Wag"</span>, <span class="st">"Porsche 914-2"</span>, <span class="st">"Merc 240D"</span><span class="op">)</span>
+<span class="va">stats_df</span><span class="op">[[</span><span class="st">"Notes"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">stats_df</span><span class="op">[[</span><span class="st">"car"</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">notes_cars</span>, <span class="st">"[2]"</span>, <span class="st">""</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">stats_df</span><span class="op">)</span><span class="op">[</span><span class="fl">8</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"vs [1]"</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">stats_df</span><span class="op">)</span>
-<span class="co">#                 car  mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="co"># 1         Mazda RX4 21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span>
-<span class="co"># 2     Mazda RX4 Wag 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span>
-<span class="co"># 3        Datsun 710 22.8   4  108  93 3.85 2.320 18.61  1  1    4    1</span>
-<span class="co"># 4    Hornet 4 Drive 21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</span>
-<span class="co"># 5 Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span>
-<span class="co"># 6           Valiant 18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span></code></pre></div>
+<span class="co">#                 car  mpg cyl disp  hp drat    wt vs [1] vs am gear carb Notes</span>
+<span class="co"># 1         Mazda RX4 21.0   6  160 110 3.90 2.620  16.46  0  1    4    4   [2]</span>
+<span class="co"># 2     Mazda RX4 Wag 21.0   6  160 110 3.90 2.875  17.02  0  1    4    4   [2]</span>
+<span class="co"># 3        Datsun 710 22.8   4  108  93 3.85 2.320  18.61  1  1    4    1      </span>
+<span class="co"># 4    Hornet 4 Drive 21.4   6  258 110 3.08 3.215  19.44  1  0    3    1      </span>
+<span class="co"># 5 Hornet Sportabout 18.7   8  360 175 3.15 3.440  17.02  0  0    3    2      </span>
+<span class="co"># 6           Valiant 18.1   6  225 105 2.76 3.460  20.22  1  0    3    1</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="a--from-new-with-new_a11ytable">2a. From new with <code>new_a11ytable()</code><a class="anchor" aria-label="anchor" href="#a--from-new-with-new_a11ytable"></a>
@@ -233,21 +238,12 @@
     <span class="va">notes_df</span>,
     <span class="va">stats_df</span>
   <span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">content_new</span><span class="op">)</span>
-<span class="co"># Rows: 4</span>
-<span class="co"># Columns: 6</span>
-<span class="co"># $ tab_title   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Cover", "Contents", "Notes", "Table 1"</span>
-<span class="co"># $ sheet_type  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "cover", "contents", "notes", "tables"</span>
-<span class="co"># $ sheet_title <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "The mtcars demo datset: 'Motor Trend Car Road Tests'", "T…</span>
-<span class="co"># $ source      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> NA, NA, NA, "Motor Trend (1974)"</span>
-<span class="co"># $ table_name  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "cover_sheet", "table_of_contents", "notes_table", "demogr…</span>
-<span class="co"># $ table       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> [&lt;tbl_df[2 x 2]&gt;], [&lt;tbl_df[2 x 2]&gt;], [&lt;tbl_df[1 x 2]&gt;], […</span></code></pre></div>
-<p>You can test for the class with <code><a href="../reference/as_a11ytable.html">is_a11ytable()</a></code>.</p>
+<span class="op">)</span></code></pre></div>
+<p>You can confirm the class with <code><a href="../reference/as_a11ytable.html">is_a11ytable()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/as_a11ytable.html">is_a11ytable</a></span><span class="op">(</span><span class="va">content_new</span><span class="op">)</span>
 <span class="co"># [1] TRUE</span></code></pre></div>
+<p>Success.</p>
 </div>
 <div class="section level3">
 <h3 id="b--coerce-with-as_a11ytable">2b. Coerce with <code>as_a11ytable()</code><a class="anchor" aria-label="anchor" href="#b--coerce-with-as_a11ytable"></a>
@@ -280,23 +276,19 @@
     <span class="va">notes_df</span>,
     <span class="va">stats_df</span>
   <span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">content_df</span><span class="op">)</span>
-<span class="co"># Rows: 4</span>
-<span class="co"># Columns: 6</span>
-<span class="co"># $ tab_title   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Cover", "Contents", "Notes", "Table 1"</span>
-<span class="co"># $ sheet_type  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "cover", "contents", "notes", "tables"</span>
-<span class="co"># $ sheet_title <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "The mtcars demo dataset: 'Motor Trend Car Road Tests'", "…</span>
-<span class="co"># $ source      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> NA, NA, NA, "Motor Trend (1974)"</span>
-<span class="co"># $ table_name  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "cover_sheet", "table_of_contents", "notes_table", "demogr…</span>
-<span class="co"># $ table       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> [&lt;tbl_df[2 x 2]&gt;], [&lt;tbl_df[2 x 2]&gt;], [&lt;tbl_df[1 x 2]&gt;], […</span></code></pre></div>
+<span class="op">)</span></code></pre></div>
 <p>This data.frame object can be passed directly into the <code><a href="../reference/as_a11ytable.html">as_a11ytable()</a></code> to add the a11ytable class, which again you can test with <code><a href="../reference/as_a11ytable.html">is_a11ytable()</a></code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">content_coerce</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/as_a11ytable.html">as_a11ytable</a></span><span class="op">(</span><span class="va">content_df</span><span class="op">)</span>
 <span class="fu"><a href="../reference/as_a11ytable.html">is_a11ytable</a></span><span class="op">(</span><span class="va">content_coerce</span><span class="op">)</span>
 <span class="co"># [1] TRUE</span></code></pre></div>
+<p>Success.</p>
 </div>
+</div>
+<div class="section level2">
+<h2 id="next-steps">Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
+</h2>
+<p>Regardless of whether <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code> or <code><a href="../reference/as_a11ytable.html">is_a11ytable()</a></code> was used, the a11ytable-class output can be passed to <code>new_a11y_wb()</code> to convert it to Workbook-class, before being written with <code><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html" class="external-link">openxlsx::saveWorkbook()</a></code> or opened as a temporary file with <code><a href="https://rdrr.io/pkg/openxlsx/man/openXL.html" class="external-link">openxlsx::openXL()</a></code>.</p>
 </div>
   </div>
 

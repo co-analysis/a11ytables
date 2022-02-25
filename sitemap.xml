@@ -49,6 +49,9 @@
     <loc>/reference/new_a11ytable.html</loc>
   </url>
   <url>
-    <loc>/reference/print.a11ytable.html</loc>
+    <loc>/reference/summary.a11ytable.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tbl_sum.a11ytable.html</loc>
   </url>
 </urlset>
