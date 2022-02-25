@@ -90,22 +90,22 @@ new_a11ytable <- function(
 
 }
 
-#' Print a11ytable Object For Reading
+#' Object Summaries
 #'
-#' Print an a11ytable object to see information about the
+#' A concise result summary of an a11ytable object to see nformation about the
 #' sheet content.
 #'
-#' @param x An a11ytable object to print.
+#' @param x An a11ytable object to get a summary for.
 #' @param ... Other arguments to pass.
 #'
 #' @examples
 #' \dontrun{
 #' x <- as_a11ytable(lfs_tables)
-#' print(x)
+#' summary(x)
 #' }
 #'
 #' @export
-print.a11ytable <- function(x, ...) {
+summary.a11ytable <- function(x, ...) {
 
   x_dims <- lapply(
     lapply(x$table, dim),
