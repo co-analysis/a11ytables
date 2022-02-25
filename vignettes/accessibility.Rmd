@@ -27,12 +27,10 @@ The 'status' column can take the following values for each feature:
 * Y = yes (completed)
 * P = partly (not fully implemented)
 * N = no (not yet handled)
-* U = user's discretion (the user's responsibility)
-* O = out of scope (not relevant to the purpose of the package)
+* U = user (the user's responsibility)
+* NA = not applicable (not relevant to how the package functions)
 
 ### Tables
-
-Status: Y = yes, P = partly, N = no, U = user's discretion, O = out of scope.
 
 | Number | Description | Essential? | Status |
 | :--- | :--- | :--- | :--- | 
@@ -40,26 +38,22 @@ Status: Y = yes, P = partly, N = no, U = user's discretion, O = out of scope.
 | 2 | Give tables meaningful names | | U |
 | 3 | Remove merged cells, split cells and nested tables | Y | Y |
 | 4 | Remove blank rows and columns within tables | Y | Y |
-| 5 | All tables should have one tagged header row | Y | P |
+| 5 | All tables should have one tagged header row | Y | Y |
 | 6 | Wrap text within cells | Y | Y |
 | 7 | Avoid adding filters and freeze panes | | Y |
-| 8 | Only leave cells with no data empty in certain circumstances | Y | O |
+| 8 | Only leave cells with no data empty in certain circumstances | Y | NA |
 | 9 | Avoid hiding rows or columns | | Y |
 
 ### Footnotes
 
-Status: Y = yes, P = partly, N = no, U = user's discretion, O = out of scope.
-
 | Number | Description | Essential? | Status |
 | :--- | :--- | :--- | :--- | 
 | 1 | Do not use symbols or superscript to signpost to notes | Y | Y |
-| 2 | Use the word ‘note’ when Numbererring to footnotes | | Y |
+| 2 | Use the word ‘note’ when referring to footnotes | | Y |
 | 3 | Avoid putting note markers in specific cells | | U |
 | 4 | Put note text in a notes table on a notes worksheet | | Y |
 
 ### Formatting
-
-Status: Y = yes, P = partly, N = no, U = user's discretion, O = out of scope.
 
 | Number | Description | Essential? | Status |
 | :--- | :--- | :--- | :--- | 
@@ -72,13 +66,11 @@ Status: Y = yes, P = partly, N = no, U = user's discretion, O = out of scope.
 | 7 | Do not use visual devices to divide data regions | | Y |
 | 8 | Do not use a background fill | | Y |
 | 9 | Do not use colour as the only way to convey a message | Y | Y |
-| 10 | When using colour for emphasis check the contrast | Y | O |
+| 10 | When using colour for emphasis check the contrast | Y | NA |
 | 11 | Avoid images in spreadsheets | | Y |
 | 12 | Remove macros | | Y |
 
 ### Structure
-
-Status: Y = yes, P = partly, N = no, U = user's discretion, O = out of scope.
 
 | Number | Description | Essential? | Status |
 | :--- | :--- | :--- | :--- | 
@@ -90,8 +82,6 @@ Status: Y = yes, P = partly, N = no, U = user's discretion, O = out of scope.
 | 6 | Avoid worksheets with multiple tables | | Y |
 
 ### Before publishing
-
-Status: Y = yes, P = partly, N = no, U = user's discretion, O = out of scope.
 
 | Number | Description | Essential? | Status |
 | :--- | :--- | :--- | :--- | 

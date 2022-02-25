@@ -1,5 +1,5 @@
 
-#' Create An a11ytable-class Object
+#' Create An 'a11ytable' Object
 #'
 #' Create a new a11ytable-class object, which is a data.frame that contains all
 #' the information needed in your publication. In turn, this will be used to
@@ -43,7 +43,7 @@
 #'         data to be published.
 #' }
 #'
-#' @return An a11ytables-class object.
+#' @return An a11ytable-class object.
 #'
 #' @examples
 #' \dontrun{
@@ -82,7 +82,7 @@ new_a11ytable <- function(
 
   x[["table"]] <- tables
 
-  class(x) <- c("a11ytable", "data.frame")
+  class(x) <- c("a11ytable", "tbl", "data.frame")
 
   .validate_a11ytable(x)
 
@@ -90,48 +90,48 @@ new_a11ytable <- function(
 
 }
 
-#' Print a11ytable Object For Reading
+#' Summarise An 'a11ytable' Object
 #'
-#' Print an a11ytable object to see information about the
-#' sheet content.
+#' A concise result summary of an a11ytable-class object to see information about
+#' the sheet content.
 #'
-#' @param x An a11ytable object to print.
+#' @param object An a11ytable-class object to get a summary for.
 #' @param ... Other arguments to pass.
 #'
 #' @examples
 #' \dontrun{
 #' x <- as_a11ytable(lfs_tables)
-#' print(x)
+#' summary(x)
 #' }
 #'
 #' @export
-print.a11ytable <- function(x, ...) {
+summary.a11ytable <- function(object, ...) {
 
   x_dims <- lapply(
-    lapply(x$table, dim),
-    function(x) paste(x, collapse = " x ")
+    lapply(object$table, dim),
+    function(object) paste(object, collapse = " x ")
   )
 
-  out_tab_title <- paste0("\n", paste("  -", x$tab_title, collapse = "\n"))
-  out_sh_type   <- paste0("\n", paste("  -", x$sheet_type, collapse = "\n"))
-  out_sh_title  <- paste0("\n", paste("  -", x$sheet_title, collapse = "\n"))
-  out_tbl_name  <- paste0("\n", paste("  -", x$table_name, collapse = "\n"))
-  out_tbl_dims  <- paste0("\n", paste("  -", unlist(x_dims), collapse = "\n"))
+  out_tab_title <- paste0("\n", paste("  -", object$tab_title,   collapse = "\n"))
+  out_sh_type   <- paste0("\n", paste("  -", object$sheet_type,  collapse = "\n"))
+  out_sh_title  <- paste0("\n", paste("  -", object$sheet_title, collapse = "\n"))
+  out_tbl_name  <- paste0("\n", paste("  -", object$table_name,  collapse = "\n"))
+  out_tbl_dims  <- paste0("\n", paste("  -", unlist(x_dims),     collapse = "\n"))
 
   cat(
-    "# An a11ytable with", nrow(x), "sheets\n",
-    "* Tab titles:", out_tab_title, "\n",
-    "* Sheet types:", out_sh_type, "\n",
-    "* Sheet titles:", out_sh_title, "\n",
-    "* Table names:", out_tbl_name, "\n",
-    "* Table sizes:", out_tbl_dims, "\n"
+    "# An a11ytable with", nrow(object), "sheets\n",
+    "* Tab titles:",   out_tab_title, "\n",
+    "* Sheet types:",  out_sh_type,   "\n",
+    "* Sheet titles:", out_sh_title,  "\n",
+    "* Table names:",  out_tbl_name,  "\n",
+    "* Table sizes:",  out_tbl_dims,  "\n"
   )
 
-  invisible(x)
+  invisible(object)
 
 }
 
-#' Coerce to an a11ytable
+#' Coerce To An 'a11ytable' Object
 #'
 #' Functions to check if an object is an a11ytable, or coerce it if possible.
 #'
@@ -150,7 +150,7 @@ print.a11ytable <- function(x, ...) {
 #' @export
 as_a11ytable <- function(x) {
 
-  class(x) <- c("a11ytable", "data.frame")
+  class(x) <- c("a11ytable", "tbl", "data.frame")
   .validate_a11ytable(x)
   return(x)
 
@@ -162,4 +162,32 @@ is_a11ytable <- function(x) {
 
   inherits(x, "a11ytable")
 
+}
+
+#' @importFrom pillar tbl_sum
+NULL
+
+#' Provide A Succinct Summary Of An 'a11ytable' Object
+#'
+#' A brief textual description of an a11ytable-class object.
+#'
+#' @param x An a11ytable-class object to summarise.
+#' @param ... Other arguments to pass.
+#'
+#' @return Named character vector.
+#'
+#' @examples
+#' \dontrun{
+#' x <- as_a11ytable(lfs_tables)
+#' tbl_sum(x)  # description only
+#' print(x)  # print with description
+#' }
+#' @export
+tbl_sum.a11ytable <- function(x, ...) {
+  header <- sprintf(
+    "%s x %s",
+    formatC(nrow(x), big.mark = ","),
+    formatC(ncol(x), big.mark = ",")
+  )
+  c("a11ytables" = header)
 }

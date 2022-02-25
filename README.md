@@ -18,17 +18,21 @@ coverage](https://codecov.io/gh/co-analysis/a11ytables/branch/main/graph/badge.s
 ## Purpose
 
 {a11ytables} is a work-in-progress R package built around
-[{openxlsx}](https://ycphs.github.io/openxlsx/) that aims you to comply
-with the latest guidance (June 2021) on [releasing statistics in
+[{openxlsx}](https://ycphs.github.io/openxlsx/) that aims helps you
+comply with the latest guidance (June 2021) on [releasing statistics in
 spreadsheets](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)
 from the [Best Practice and Impact
 Division](https://github.com/best-practice-and-impact?language=html)
 (BPID) of the UK’s [Government Statistical
 Service](https://gss.civilservice.gov.uk/).
 
+Visit [the {a11ytables}
+website](https://co-analysis.github.io/a11ytables/) for documentation.
+
 The code is under development and current API features may change in
-future releases. Please see the NEWS file for details of any breaking
-changes.
+future releases. Please see [the NEWS
+file](https://co-analysis.github.io/a11ytables/news/index.html) for
+details.
 
 ## Install and use
 
@@ -75,15 +79,19 @@ guidance](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-s
 is already in the correct data.frame format.
 
 ``` r
-dplyr::glimpse(lfs_tables)
-#> Rows: 5
-#> Columns: 6
-#> $ tab_title   <chr> "cover", "contents", "notes", "1", "2"
-#> $ sheet_type  <chr> "cover", "contents", "notes", "tables", "tables"
-#> $ sheet_title <chr> "Labour market overview data tables, UK, December 2020 (ac…
-#> $ source      <chr> NA, NA, NA, "Labour Force Survey", "Labour Force Survey"
-#> $ table_name  <chr> "Cover_content", "Table_of_contents", "Notes_table", "Labo…
-#> $ table       <list> [<tbl_df[8 x 2]>], [<tbl_df[2 x 5]>], [<tbl_df[11 x 2]>], …
+str(lfs_tables, max.level = 2)
+#> Classes 'tbl_df', 'tbl' and 'data.frame':    5 obs. of  6 variables:
+#>  $ tab_title  : chr  "cover" "contents" "notes" "1" ...
+#>  $ sheet_type : chr  "cover" "contents" "notes" "tables" ...
+#>  $ sheet_title: chr  "Labour market overview data tables, UK, December 2020 (accessibility example)" "Table of contents" "Notes" "Number and percentage of population aged 16 and over in each labour market activity group, UK, seasonally adjusted" ...
+#>  $ source     : chr  NA NA NA "Labour Force Survey" ...
+#>  $ table_name : chr  "Cover_content" "Table_of_contents" "Notes_table" "Labour_market_summary_for_16_and_over" ...
+#>  $ table      :List of 5
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 8 obs. of  2 variables:
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 2 obs. of  5 variables:
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 11 obs. of  2 variables:
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 6 obs. of  10 variables:
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 6 obs. of  9 variables:
 ```
 
 It can be coerced to a11ytable class with `as_a11ytable()`, since it’s
@@ -91,15 +99,33 @@ already structured correctly.
 
 ``` r
 lfs_a11ytable <- as_a11ytable(lfs_tables)
-class(lfs_a11ytable)
-#> [1] "a11ytable"  "data.frame"
-is_a11ytable(lfs_a11ytable)
+class(lfs_a11ytable)  # see classes
+#> [1] "a11ytable"  "tbl"        "data.frame"
+is_a11ytable(lfs_a11ytable)  # check if a11ytable class
 #> [1] TRUE
 ```
+
+Note that the object also has class ‘data.frame’ and can be manipulated
+as such.
 
 The `new_a11ytable()` and `as_a11ytable()` functions will run validation
 on the generated object to ensure it meets the requirements of the
 a11ytable class.
+
+The object is pretty-printed in {tibble} style thanks to the imported
+{pillar} package and the inheritance of the ‘tbl’ class.
+
+``` r
+lfs_a11ytable
+#> # a11ytables: 5 x 6
+#>   tab_title sheet_type sheet_title                    source table_name table   
+#>   <chr>     <chr>      <chr>                          <chr>  <chr>      <list>  
+#> 1 cover     cover      Labour market overview data t… <NA>   Cover_con… <tbl_df>
+#> 2 contents  contents   Table of contents              <NA>   Table_of_… <tbl_df>
+#> 3 notes     notes      Notes                          <NA>   Notes_tab… <tbl_df>
+#> 4 1         tables     Number and percentage of popu… Labou… Labour_ma… <tbl_df>
+#> 5 2         tables     Number and percentage of popu… Labou… Labour_ma… <tbl_df>
+```
 
 ### 2. Convert to workbook
 

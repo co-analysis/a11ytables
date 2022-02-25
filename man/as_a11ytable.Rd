@@ -3,7 +3,7 @@
 \name{as_a11ytable}
 \alias{as_a11ytable}
 \alias{is_a11ytable}
-\title{Coerce to an a11ytable}
+\title{Coerce To An 'a11ytable' Object}
 \usage{
 as_a11ytable(x)
 

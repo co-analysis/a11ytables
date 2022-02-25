@@ -16,20 +16,20 @@ knitr::opts_chunk$set(
 
 ## Purpose
 
-The purpose of this vignette is to demonstrate how to create an a11ytable-class object, which provides the basis for generating an xlsx workbook.
+The purpose of this vignette is to demonstrate how to create an a11ytable-class object, which provides the basis for generating an Excel workbook (xlsx).
 
-There are two approaches to construct an a11ytable-class object:
+Two approaches to constructing an a11ytable-class object are described in this document:
 
-1. Pass arguments drectly to `new_a11ytable()`
+1. Pass arguments directly to `new_a11ytable()`
 1. Create a data.frame-class object for conversion to a11ytable-class with `as_a11ytable()`.
 
 ## Workbook nomenclature
 
-An output _workbook_ contains _tabs_ that have _sheets_ in them. Each tab has a _tab title_.
+An output _workbook_ contains _tabs_ that have _sheets_ in them. Each tab has a unique _tab title_.
 
 Sheets can be one of four _types_ that dictate the layout and content of a given sheet:
 
-* a _cover_ sheet (required) contains the title of the workbook and miscellaneous details about the workbook, that data it contains, and its producers
+* a _cover_ sheet (required) contains the title of the workbook and miscellaneous details about the workbook, the data it contains and its producers
 * a _contents_ sheet (required) contains a table showing the contents of the workbook at a glance
 * a _notes_ sheet (if applicable) contains a table with a lookup of the note codes and explanations
 * one or more _tables_ sheets (required) that contain statistical tables
@@ -37,23 +37,23 @@ Sheets can be one of four _types_ that dictate the layout and content of a given
 Sheets are composed of _elements_:
 
 * a _sheet title_ to be displayed at the top of the sheet (user-provided)
-* a _source_ to explain where the data come from (user-provided)
-* a count of the number of tables in the sheet (auto-generated)
-* a warning that the sheet contains notes (if applicable, auto-generated)
-* a _table_ that contains information as rows and columns and has a _table name_ (both are user-provided)
+* a count of the number of tables in the sheet (auto-generated sentence)
+* a _source_ to explain where the data come from (auto-generated based on user input)
+* a warning that the sheet contains notes (auto-generated based on the presence of notes)
+* a _table_ that contains information as rows and columns and has a _table name_ (both are user-provided, latter should be unique per table)
 
 The `new_a11ytable()` function takes these elements as arguments to build an a11ytable-class object for you. For example, you pass a vector of tab titles to the `tab_titles` argument and a list of data.frames to the `table` argument.
 
-Alternatively, you can construct your own data.frame with columns for each element and coerce it to a11ytable-class using `as_a11ytable()`.
+Alternatively, you can construct your own data.frame with columns for each of these elements and coerce it to a11ytable-class using `as_a11ytable()`.
 
 ## Example
 
 To demonstrate with the 'mtcars' dataset:
 
-1. Prepare a table of information for each sheet of the wrokbook
+1. Prepare a table of information for each sheet of the workbook
 1. Create an a11ytables-class object by either:
     a. passing data (including the data.frames mentioned above) as arguments to `new_a11ytable()`
-    a. building our own data.frame and coercing with `as_a11ytable()`
+    a. building your own data.frame and coercing with `as_a11ytable()`
 
 Of course, we start by attaching the {a11ytables} package. I'm going to use {tibble} to construct tables, but you could use base R functions.
 
@@ -64,9 +64,9 @@ library(tibble)
 
 ### 1. Prepare tables
 
-The basic building block for an a11ytable is a tidy dataframe of information for each sheet.
+Each a11ytable sheet contains a tidy dataframe of information. Let's prepare these first.
 
-For sheet type 'cover', the table should contain a row per subsection with columns for the title and body text of each subsection. This will be arranged in the final output as a single column, alternating from title to body, with appropriate styling.
+For sheet type 'cover' (required), the table should contain a row per subsection with columns for the title and body text of each subsection. This will be arranged in the final output as a single column, alternating from title to body, with appropriate styling.
 
 ```{r prep-cover-tbl}
 library(tibble)
@@ -80,33 +80,37 @@ cover_df <- tribble(
 cover_df
 ```
 
-For sheet type 'contents', the table should have a row per workbook sheet with columns for the tab title and the sheet title.
+For sheet type 'contents' (required), the table should have a row per workbook sheet with columns for the tab title and the sheet title.
 
 ```{r prep-contents-tbl}
 contents_df <- tribble(
   ~"Sheet name", ~"Sheet title",
   "Notes", "Notes",
-  "Table 1", "Civil Service People Survey 2020: demographic benchmarks"
+  "Table 1", "Motor Trend Car Road Tests"
 )
 
 contents_df
 ```
 
-For sheet type 'notes', the table should have a row per note in your workbook, with columns for the note number and note text.
+For sheet type 'notes' (not required if there aren't any notes), the table should have a row per note in your workbook, with columns for the note number and note text.
 
 ```{r prep-notes-tbl}
 notes_df <- tribble(
   ~"Note number", ~"Note text",
+  "[2]", "Where 0 is 'V-shaped' and 1 is 'straight'",
   "[1]", "Hocking [original transcriber]'s noncrucial coding of the Mazda's rotary engine as a straight six-cylinder engine and the Porsche's flat engine as a V engine, as well as the inclusion of the diesel Mercedes 240D, have been retained to enable direct comparisons to be made with previous analyses."
 )
 
 notes_df
 ```
 
-For sheet type 'tables', the table should have whatever rows and columns are in the statistical table being published. It should be a tidy, 'flat' table with one row of headers and no empty rows or columns.
+For sheet type 'tables' (required), the table should have whatever rows and columns are in the statistical table being published. It should be a tidy, 'flat' table with one row of headers and no empty rows or columns. This is an example using the 'mtcars' dataset.
 
 ```{r prep-stats-tbl}
 stats_df <- mtcars %>% rownames_to_column("car")
+notes_cars <- c("Mazda RX4", "Mazda RX4 Wag", "Porsche 914-2", "Merc 240D")
+stats_df[["Notes"]] <- ifelse(stats_df[["car"]] %in% notes_cars, "[2]", "")
+names(stats_df)[8] <- "vs [1]"
 head(stats_df)
 ```
 
@@ -143,15 +147,15 @@ content_new <- new_a11ytable(
     stats_df
   )
 )
-
-glimpse(content_new)
 ```
 
-You can test for the class with `is_a11ytable()`.
+You can confirm the class with `is_a11ytable()`.
 
 ```{r new-a11ytable-2}
 is_a11ytable(content_new)
 ```
+
+Success.
 
 ### 2b. Coerce with `as_a11ytable()`
 
@@ -186,8 +190,6 @@ content_df <- tibble(
     stats_df
   )
 )
-
-glimpse(content_df)
 ```
 
 This data.frame object can be passed directly into the `as_a11ytable()` to add the a11ytable class, which again you can test with `is_a11ytable()`.
@@ -197,3 +199,8 @@ content_coerce <- as_a11ytable(content_df)
 is_a11ytable(content_coerce)
 ```
 
+Success.
+
+## Next steps
+
+Regardless of whether `new_a11ytable()` or `is_a11ytable()` was used, the a11ytable-class output can be passed to `new_a11y_wb()` to convert it to Workbook-class, before being written with `openxlsx::saveWorkbook()` or opened as a temporary file with `openxlsx::openXL()`. 

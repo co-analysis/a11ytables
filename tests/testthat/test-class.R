@@ -11,7 +11,7 @@ test_that("a11ytable can be created by hand", {
   )
 
   expect_s3_class(x, class = "a11ytable")
-  expect_identical(class(x), c("a11ytable", "data.frame"))
+  expect_identical(class(x), c("a11ytable", "tbl", "data.frame"))
 
   expect_error(
     new_a11ytable(
@@ -31,7 +31,7 @@ test_that("suitable objects can be coerced", {
   x <- as_a11ytable(lfs_tables)
 
   expect_s3_class(x, class = "a11ytable")
-  expect_identical(class(x), c("a11ytable", "data.frame"))
+  expect_identical(class(x), c("a11ytable", "tbl", "data.frame"))
 
   expect_identical(is_a11ytable(x), TRUE)
   expect_identical(is_a11ytable("x"), FALSE)
