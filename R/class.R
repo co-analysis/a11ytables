@@ -1,5 +1,5 @@
 
-#' Create An a11ytable-class Object
+#' Create An 'a11ytable' Object
 #'
 #' Create a new a11ytable-class object, which is a data.frame that contains all
 #' the information needed in your publication. In turn, this will be used to
@@ -43,7 +43,7 @@
 #'         data to be published.
 #' }
 #'
-#' @return An a11ytables-class object.
+#' @return An a11ytable-class object.
 #'
 #' @examples
 #' \dontrun{
@@ -82,7 +82,7 @@ new_a11ytable <- function(
 
   x[["table"]] <- tables
 
-  class(x) <- c("a11ytable", "data.frame")
+  class(x) <- c("a11ytable", "tbl", "data.frame")
 
   .validate_a11ytable(x)
 
@@ -90,12 +90,12 @@ new_a11ytable <- function(
 
 }
 
-#' Object Summaries
+#' Summarise An 'a11ytable' Object
 #'
-#' A concise result summary of an a11ytable object to see nformation about the
-#' sheet content.
+#' A concise result summary of an a11ytable-class object to see information about
+#' the sheet content.
 #'
-#' @param x An a11ytable object to get a summary for.
+#' @param x An a11ytable-class object to get a summary for.
 #' @param ... Other arguments to pass.
 #'
 #' @examples
@@ -131,7 +131,7 @@ summary.a11ytable <- function(x, ...) {
 
 }
 
-#' Coerce to an a11ytable
+#' Coerce To An 'a11ytable' Object
 #'
 #' Functions to check if an object is an a11ytable, or coerce it if possible.
 #'
@@ -162,4 +162,32 @@ is_a11ytable <- function(x) {
 
   inherits(x, "a11ytable")
 
+}
+
+#' @importFrom pillar tbl_sum
+NULL
+
+#' Provide A Succinct Summary Of An 'a11ytable' Object
+#'
+#' A brief textual description of an a11ytable-class object.
+#'
+#' @param x An a11ytable-class object to summarise.
+#' @param ... Other arguments to pass.
+#'
+#' @return Named character vector.
+#'
+#' @examples
+#' \dontrun{
+#' x <- as_a11ytable(lfs_tables)
+#' tbl_sum(x)  # description only
+#' print(x)  # print with description
+#' }
+#' @export
+tbl_sum.a11ytable <- function(x, ...) {
+  header <- sprintf(
+    "%s x %s",
+    formatC(nrow(x), big.mark = ","),
+    formatC(ncol(x), big.mark = ",")
+  )
+  c("a11ytables" = header)
 }

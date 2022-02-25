@@ -2,7 +2,7 @@
 % Please edit documentation in R/class.R
 \name{new_a11ytable}
 \alias{new_a11ytable}
-\title{Create An a11ytable-class Object}
+\title{Create An 'a11ytable' Object}
 \usage{
 new_a11ytable(
   tab_titles,
@@ -39,7 +39,7 @@ spreadsheet output. Makes sheet navigation more accessible.}
 \item{tables}{Required list of data.frames, one per sheet. See details.}
 }
 \value{
-An a11ytables-class object.
+An a11ytable-class object.
 }
 \description{
 Create a new a11ytable-class object, which is a data.frame that contains all

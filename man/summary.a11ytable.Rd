@@ -2,18 +2,18 @@
 % Please edit documentation in R/class.R
 \name{summary.a11ytable}
 \alias{summary.a11ytable}
-\title{Object Summaries}
+\title{Summarise An 'a11ytable' Object}
 \usage{
 \method{summary}{a11ytable}(x, ...)
 }
 \arguments{
-\item{x}{An a11ytable object to get a summary for.}
+\item{x}{An a11ytable-class object to get a summary for.}
 
 \item{...}{Other arguments to pass.}
 }
 \description{
-A concise result summary of an a11ytable object to see nformation about the
-sheet content.
+A concise result summary of an a11ytable-class object to see information about
+the sheet content.
 }
 \examples{
 \dontrun{
