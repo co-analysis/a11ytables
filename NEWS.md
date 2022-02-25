@@ -1,7 +1,15 @@
+# a11ytables 0.0.0.9009
+
+* The `print` method has become a `summary` method, as suggested by @TimTaylor (#23)
+* Imported {pillar} for {tibble}-style printing, as suggested by @TimTaylor (#26)
+* Added @TimTaylor as a contributor
+* Updated vignettes and README
+* HOTFIX: correct `.detect_notes()` so it actually works
+
 # a11ytables 0.0.0.9008
 
 * Ensured numeric columns (even if they contain a string like '[c]' to indicate a suppressed value) are right-aligned (#32)
-* Isolated out .insert_*() functions for table count and note presence from `.insert_prelim_a11y()`, for clarity
+* Isolated out `.insert_*()` functions for table count and note presence from `.insert_prelim_a11y()`, for clarity
 
 # a11ytables 0.0.0.9007
 
