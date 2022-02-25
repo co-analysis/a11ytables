@@ -150,7 +150,7 @@ summary.a11ytable <- function(x, ...) {
 #' @export
 as_a11ytable <- function(x) {
 
-  class(x) <- c("a11ytable", "data.frame")
+  class(x) <- c("a11ytable", "tbl", "data.frame")
   .validate_a11ytable(x)
   return(x)
 
