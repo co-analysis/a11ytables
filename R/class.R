@@ -95,7 +95,7 @@ new_a11ytable <- function(
 #' A concise result summary of an a11ytable-class object to see information about
 #' the sheet content.
 #'
-#' @param x An a11ytable-class object to get a summary for.
+#' @param object An a11ytable-class object to get a summary for.
 #' @param ... Other arguments to pass.
 #'
 #' @examples
@@ -105,29 +105,29 @@ new_a11ytable <- function(
 #' }
 #'
 #' @export
-summary.a11ytable <- function(x, ...) {
+summary.a11ytable <- function(object, ...) {
 
   x_dims <- lapply(
-    lapply(x$table, dim),
-    function(x) paste(x, collapse = " x ")
+    lapply(object$table, dim),
+    function(object) paste(object, collapse = " x ")
   )
 
-  out_tab_title <- paste0("\n", paste("  -", x$tab_title, collapse = "\n"))
-  out_sh_type   <- paste0("\n", paste("  -", x$sheet_type, collapse = "\n"))
-  out_sh_title  <- paste0("\n", paste("  -", x$sheet_title, collapse = "\n"))
-  out_tbl_name  <- paste0("\n", paste("  -", x$table_name, collapse = "\n"))
-  out_tbl_dims  <- paste0("\n", paste("  -", unlist(x_dims), collapse = "\n"))
+  out_tab_title <- paste0("\n", paste("  -", object$tab_title,   collapse = "\n"))
+  out_sh_type   <- paste0("\n", paste("  -", object$sheet_type,  collapse = "\n"))
+  out_sh_title  <- paste0("\n", paste("  -", object$sheet_title, collapse = "\n"))
+  out_tbl_name  <- paste0("\n", paste("  -", object$table_name,  collapse = "\n"))
+  out_tbl_dims  <- paste0("\n", paste("  -", unlist(x_dims),     collapse = "\n"))
 
   cat(
-    "# An a11ytable with", nrow(x), "sheets\n",
-    "* Tab titles:", out_tab_title, "\n",
-    "* Sheet types:", out_sh_type, "\n",
-    "* Sheet titles:", out_sh_title, "\n",
-    "* Table names:", out_tbl_name, "\n",
-    "* Table sizes:", out_tbl_dims, "\n"
+    "# An a11ytable with", nrow(object), "sheets\n",
+    "* Tab titles:",   out_tab_title, "\n",
+    "* Sheet types:",  out_sh_type,   "\n",
+    "* Sheet titles:", out_sh_title,  "\n",
+    "* Table names:",  out_tbl_name,  "\n",
+    "* Table sizes:",  out_tbl_dims,  "\n"
   )
 
-  invisible(x)
+  invisible(object)
 
 }
 

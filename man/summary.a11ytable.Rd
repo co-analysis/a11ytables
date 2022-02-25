@@ -4,10 +4,10 @@
 \alias{summary.a11ytable}
 \title{Summarise An 'a11ytable' Object}
 \usage{
-\method{summary}{a11ytable}(x, ...)
+\method{summary}{a11ytable}(object, ...)
 }
 \arguments{
-\item{x}{An a11ytable-class object to get a summary for.}
+\item{object}{An a11ytable-class object to get a summary for.}
 
 \item{...}{Other arguments to pass.}
 }
