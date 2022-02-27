@@ -53,3 +53,40 @@
   }
 
 }
+
+.warn_a11ytable <- function(x) {
+
+  # Sources
+
+  table_sources <- x[x$sheet_type == "tables", "source"]
+
+  if (any(is.na(table_sources))) {
+    warning(
+      "One of your tables is missing a source."
+    )
+  }
+
+  # Notes
+
+  notes_sheets  <- x[x$sheet_type == "notes", ]
+  tables_sheets <- x[x$sheet_type == "tables", ]
+
+  has_notes <-
+    any(
+      unlist(
+        lapply(
+          tables_sheets[, "tab_title"],
+          function(x) .detect_notes(tables_sheets, x)
+        )
+      )
+    )
+
+  if (nrow(notes_sheets) == 0 & has_notes) {
+    "You have in-table notes, but no notes sheet."
+  }
+
+  if (nrow(notes_sheets) > 0 & !has_notes) {
+    "You have a notes sheet, but no in-table notes."
+  }
+
+}
