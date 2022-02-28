@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">a11ytables</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.90010</span>
       </span>
     </div>
 
@@ -121,89 +121,81 @@
 <h3 id="1-create-a11ytable-object">1. Create a11ytable object<a class="anchor" aria-label="anchor" href="#1-create-a11ytable-object"></a>
 </h3>
 <p>First, use <code><a href="reference/new_a11ytable.html">new_a11ytable()</a></code> to construct a special a11ytable-class object, which is just a data.frame with strict requirements. It must have a row per sheet, specific columns for meta information (e.g. sheet titles, data sources) and a list-column of data.frames that contain the actual data; run <code><a href="reference/new_a11ytable.html">?new_a11ytable</a></code> for details.</p>
-<p>There’s a built-in demo dataset—<code>lfs_tables</code>, adapted from <a href="https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/" class="external-link">the releasing statistics in spreadsheets guidance</a>—that is already in the correct data.frame format.</p>
+<p>There’s a built-in demo dataset—<code>mtcars_df</code>, adapted from R’s built-in mtcars demo dataset—that is already in the correct data.frame format.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">lfs_tables</span>, max.level <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="co">#&gt; Classes 'tbl_df', 'tbl' and 'data.frame':    5 obs. of  6 variables:</span>
-<span class="co">#&gt;  $ tab_title  : chr  "cover" "contents" "notes" "1" ...</span>
-<span class="co">#&gt;  $ sheet_type : chr  "cover" "contents" "notes" "tables" ...</span>
-<span class="co">#&gt;  $ sheet_title: chr  "Labour market overview data tables, UK, December 2020 (accessibility example)" "Table of contents" "Notes" "Number and percentage of population aged 16 and over in each labour market activity group, UK, seasonally adjusted" ...</span>
-<span class="co">#&gt;  $ source     : chr  NA NA NA "Labour Force Survey" ...</span>
-<span class="co">#&gt;  $ table_name : chr  "Cover_content" "Table_of_contents" "Notes_table" "Labour_market_summary_for_16_and_over" ...</span>
-<span class="co">#&gt;  $ table      :List of 5</span>
-<span class="co">#&gt;   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 8 obs. of  2 variables:</span>
-<span class="co">#&gt;   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 2 obs. of  5 variables:</span>
-<span class="co">#&gt;   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 11 obs. of  2 variables:</span>
-<span class="co">#&gt;   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 6 obs. of  10 variables:</span>
-<span class="co">#&gt;   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 6 obs. of  9 variables:</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">mtcars_df</span>, max.level <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+<span class="co">#&gt; Classes 'tbl_df', 'tbl' and 'data.frame':    4 obs. of  6 variables:</span>
+<span class="co">#&gt;  $ tab_title  : chr  "Cover" "Contents" "Notes" "Table 1"</span>
+<span class="co">#&gt;  $ sheet_type : chr  "cover" "contents" "notes" "tables"</span>
+<span class="co">#&gt;  $ sheet_title: chr  "The mtcars demo datset: 'Motor Trend Car Road Tests'" "Table of contents" "Notes" "Motor Trend Car Road Tests"</span>
+<span class="co">#&gt;  $ source     : chr  NA NA NA "Motor Trend (1974)"</span>
+<span class="co">#&gt;  $ table_name : chr  "cover_sheet" "table_of_contents" "notes_table" "car_scores"</span>
+<span class="co">#&gt;  $ table      :List of 4</span>
+<span class="co">#&gt;   ..$ :'data.frame': 2 obs. of  2 variables:</span>
+<span class="co">#&gt;   ..$ :'data.frame': 2 obs. of  2 variables:</span>
+<span class="co">#&gt;   ..$ :'data.frame': 5 obs. of  2 variables:</span>
+<span class="co">#&gt;   ..$ :'data.frame': 32 obs. of  6 variables:</span></code></pre></div>
 <p>It can be coerced to a11ytable class with <code><a href="reference/as_a11ytable.html">as_a11ytable()</a></code>, since it’s already structured correctly.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lfs_a11ytable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/as_a11ytable.html">as_a11ytable</a></span><span class="op">(</span><span class="va">lfs_tables</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">lfs_a11ytable</span><span class="op">)</span>  <span class="co"># see classes</span>
+<code class="sourceCode R"><span class="va">mtcars_a11ytable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/as_a11ytable.html">as_a11ytable</a></span><span class="op">(</span><span class="va">mtcars_df</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">mtcars_a11ytable</span><span class="op">)</span>  <span class="co"># see classes</span>
 <span class="co">#&gt; [1] "a11ytable"  "tbl"        "data.frame"</span>
-<span class="fu"><a href="reference/as_a11ytable.html">is_a11ytable</a></span><span class="op">(</span><span class="va">lfs_a11ytable</span><span class="op">)</span>  <span class="co"># check if a11ytable class</span>
+<span class="fu"><a href="reference/as_a11ytable.html">is_a11ytable</a></span><span class="op">(</span><span class="va">mtcars_a11ytable</span><span class="op">)</span>  <span class="co"># check if a11ytable class</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
 <p>Note that the object also has class ‘data.frame’ and can be manipulated as such.</p>
 <p>The <code><a href="reference/new_a11ytable.html">new_a11ytable()</a></code> and <code><a href="reference/as_a11ytable.html">as_a11ytable()</a></code> functions will run validation on the generated object to ensure it meets the requirements of the a11ytable class.</p>
 <p>The object is pretty-printed in {tibble} style thanks to the imported {pillar} package and the inheritance of the ‘tbl’ class.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lfs_a11ytable</span>
-<span class="co">#&gt; # a11ytables: 5 x 6</span>
-<span class="co">#&gt;   tab_title sheet_type sheet_title                    source table_name table   </span>
-<span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;                          &lt;chr&gt;  &lt;chr&gt;      &lt;list&gt;  </span>
-<span class="co">#&gt; 1 cover     cover      Labour market overview data t… &lt;NA&gt;   Cover_con… &lt;tbl_df&gt;</span>
-<span class="co">#&gt; 2 contents  contents   Table of contents              &lt;NA&gt;   Table_of_… &lt;tbl_df&gt;</span>
-<span class="co">#&gt; 3 notes     notes      Notes                          &lt;NA&gt;   Notes_tab… &lt;tbl_df&gt;</span>
-<span class="co">#&gt; 4 1         tables     Number and percentage of popu… Labou… Labour_ma… &lt;tbl_df&gt;</span>
-<span class="co">#&gt; 5 2         tables     Number and percentage of popu… Labou… Labour_ma… &lt;tbl_df&gt;</span></code></pre></div>
+<code class="sourceCode R"><span class="va">mtcars_a11ytable</span>
+<span class="co">#&gt; # a11ytables: 4 x 6</span>
+<span class="co">#&gt;   tab_title sheet_type sheet_title                       source table_name table</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;                             &lt;chr&gt;  &lt;chr&gt;      &lt;lis&gt;</span>
+<span class="co">#&gt; 1 Cover     cover      The mtcars demo datset: 'Motor T… &lt;NA&gt;   cover_she… &lt;df&gt; </span>
+<span class="co">#&gt; 2 Contents  contents   Table of contents                 &lt;NA&gt;   table_of_… &lt;df&gt; </span>
+<span class="co">#&gt; 3 Notes     notes      Notes                             &lt;NA&gt;   notes_tab… &lt;df&gt; </span>
+<span class="co">#&gt; 4 Table 1   tables     Motor Trend Car Road Tests        Motor… car_scores &lt;df&gt;</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="2-convert-to-workbook">2. Convert to workbook<a class="anchor" aria-label="anchor" href="#2-convert-to-workbook"></a>
 </h3>
 <p>We can pass this a11ytable-class object to <code><a href="reference/create_a11y_wb.html">create_a11y_wb()</a></code>, which constructs an {openxlsx} Workbook-class object with accessibility-appropriate styling.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lfs_wb</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_a11y_wb.html">create_a11y_wb</a></span><span class="op">(</span><span class="va">lfs_a11ytable</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">mtcars_wb</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_a11y_wb.html">create_a11y_wb</a></span><span class="op">(</span><span class="va">mtcars_a11ytable</span><span class="op">)</span></code></pre></div>
 <details><p><summary> Click here to view the contents of the workbook </summary></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lfs_wb</span>
+<code class="sourceCode R"><span class="va">mtcars_wb</span>
 <span class="co">#&gt; A Workbook object.</span>
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; Worksheets:</span>
-<span class="co">#&gt;  Sheet 1: "cover"</span>
+<span class="co">#&gt;  Sheet 1: "Cover"</span>
 <span class="co">#&gt;  </span>
 <span class="co">#&gt;  Custom row heights (row: height)</span>
-<span class="co">#&gt;   2: 34, 4: 34, 6: 34, 8: 34, 10: 34, 12: 34, 14: 34, 16: 34 </span>
+<span class="co">#&gt;   2: 34, 4: 34 </span>
 <span class="co">#&gt;  Custom column widths (column: width)</span>
 <span class="co">#&gt;    1: 80 </span>
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  Sheet 2: "contents"</span>
+<span class="co">#&gt;  Sheet 2: "Contents"</span>
 <span class="co">#&gt;  </span>
 <span class="co">#&gt;  Custom column widths (column: width)</span>
-<span class="co">#&gt;    1: 30, 2: 30, 3: 30, 4: 30, 5: 30 </span>
+<span class="co">#&gt;    1: 30, 2: 30 </span>
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  Sheet 3: "notes"</span>
+<span class="co">#&gt;  Sheet 3: "Notes"</span>
 <span class="co">#&gt;  </span>
 <span class="co">#&gt;  Custom column widths (column: width)</span>
 <span class="co">#&gt;    1: 15, 2: 80 </span>
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  Sheet 4: "1"</span>
+<span class="co">#&gt;  Sheet 4: "Table 1"</span>
 <span class="co">#&gt;  </span>
 <span class="co">#&gt;  Custom column widths (column: width)</span>
-<span class="co">#&gt;    1: 16, 2: 16, 3: 16, 4: 16, 5: 16, 6: 16, 7: 16, 8: 16, 9: 16, 10: 16 </span>
-<span class="co">#&gt;  </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Sheet 5: "2"</span>
-<span class="co">#&gt;  </span>
-<span class="co">#&gt;  Custom column widths (column: width)</span>
-<span class="co">#&gt;    1: 16, 2: 16, 3: 16, 4: 16, 5: 16, 6: 16, 7: 16, 8: 16, 9: 16 </span>
+<span class="co">#&gt;    1: 16, 2: 16, 3: 16, 4: 16, 5: 16, 6: 16 </span>
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  </span>
-<span class="co">#&gt;  Worksheet write order: 1, 2, 3, 4, 5</span>
-<span class="co">#&gt;  Active Sheet 1: "cover" </span>
+<span class="co">#&gt;  Worksheet write order: 1, 2, 3, 4</span>
+<span class="co">#&gt;  Active Sheet 1: "Cover" </span>
 <span class="co">#&gt;  Position: 1</span></code></pre></div>
 </details><p>
 </p>
@@ -213,8 +205,8 @@
 </h3>
 <p>This output can be written to disk or opened temporarily with spreadsheet software.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/openXL.html" class="external-link">openXL</a></span><span class="op">(</span><span class="va">lfs_wb</span><span class="op">)</span>  <span class="co"># optionally open temp copy</span>
-<span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html" class="external-link">saveWorkbook</a></span><span class="op">(</span><span class="va">lfs_wb</span>, <span class="st">"publication.xlsx"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/openXL.html" class="external-link">openXL</a></span><span class="op">(</span><span class="va">mtcars_wb</span><span class="op">)</span>  <span class="co"># optionally open temp copy</span>
+<span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html" class="external-link">saveWorkbook</a></span><span class="op">(</span><span class="va">mtcars_wb</span>, <span class="st">"publication.xlsx"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div class="section level2">

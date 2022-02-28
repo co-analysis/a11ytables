@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">a11ytables</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.90010</span>
       </span>
     </div>
 
@@ -61,12 +61,20 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.0.90010" id="a11ytables-00090010">a11ytables 0.0.0.90010<a class="anchor" aria-label="anchor" href="#a11ytables-00090010"></a></h2>
+<ul><li>Added warnings if issues are detected when making an a11ytables-class object (<a href="https://github.com/co-analysis/a11ytables/issues/34" class="external-link">#34</a>)</li>
+<li>Added a modified-mtcars example dataset, <code>mtcars_df</code> (<a href="https://github.com/co-analysis/a11ytables/issues/20" class="external-link">#20</a>)</li>
+<li>Expunged <code>lfs_tables</code> (<a href="https://github.com/co-analysis/a11ytables/issues/20" class="external-link">#20</a>)</li>
+<li>Added ‘Crown Copyright’ to authors as the copyright holder</li>
+<li>Updated README and vignettes given these changes</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.0.9009" id="a11ytables-0009009">a11ytables 0.0.0.9009<a class="anchor" aria-label="anchor" href="#a11ytables-0009009"></a></h2>
-<ul><li>The <code>print</code> method has become a <code>summary</code> method, as suggested by <a href="https://github.com/TimTaylor" class="external-link">@TimTaylor</a> (<a href="https://github.com/co-analysis/a11ytables/issues/23" class="external-link">#23</a>)</li>
+<ul><li>Converted he <code>print</code> method to a <code>summary</code> method, as suggested by <a href="https://github.com/TimTaylor" class="external-link">@TimTaylor</a> (<a href="https://github.com/co-analysis/a11ytables/issues/23" class="external-link">#23</a>)</li>
 <li>Imported {pillar} for {tibble}-style printing, as suggested by <a href="https://github.com/TimTaylor" class="external-link">@TimTaylor</a> (<a href="https://github.com/co-analysis/a11ytables/issues/26" class="external-link">#26</a>)</li>
 <li>Added <a href="https://github.com/TimTaylor" class="external-link">@TimTaylor</a> as a contributor</li>
 <li>Updated vignettes and README</li>
-<li>HOTFIX: correct <code>.detect_notes()</code> so it actually works</li>
+<li>HOTFIX: corrected <code>.detect_notes()</code> so it actually works</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.0.9008" id="a11ytables-0009008">a11ytables 0.0.0.9008<a class="anchor" aria-label="anchor" href="#a11ytables-0009008"></a></h2>
@@ -75,7 +83,7 @@
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.0.9007" id="a11ytables-0009007">a11ytables 0.0.0.9007<a class="anchor" aria-label="anchor" href="#a11ytables-0009007"></a></h2>
-<ul><li>BREAKING CHANGE: subtable arguments removed because they’re not being used for now and are confusing</li>
+<ul><li>BREAKING CHANGE: removed subtables because they’re not being used for now and are confusing</li>
 <li>Added the first draft vignettes on how to create an a11ytable and an accessibility guidance checklist (<a href="https://github.com/co-analysis/a11ytables/issues/22" class="external-link">#22</a>)</li>
 </ul></div>
     <div class="section level2">
@@ -85,19 +93,19 @@
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.0.9005" id="a11ytables-0009005">a11ytables 0.0.0.9005<a class="anchor" aria-label="anchor" href="#a11ytables-0009005"></a></h2>
-<ul><li>BREAKING CHANGE: the user-supplied table for the cover sheet should now be supplied as a tidy two-column data.frame with a row per subsection, with columns for the <code>subsection_title</code> and <code>subsection_body</code> (suggestd names)</li>
-<li>The <code>lfs_tables</code> and <code>lfs_subtables</code> example datasets have been updated accordingly; for an example see <code>lfs_tables[lfs_tables$sheet_type == "cover", "table"][[1]]</code>
+<ul><li>BREAKING CHANGE: the user-supplied table for the cover sheet should now be supplied as a tidy two-column data.frame with a row per subsection, with columns for the ‘subsection title’ and ‘subsection body’</li>
+<li>Updated the <code>lfs_tables</code> and <code>lfs_subtables</code> example datasets given the above; for an example see <code>lfs_tables[lfs_tables$sheet_type == "cover", "table"][[1]]</code>
 </li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.0.9004" id="a11ytables-0009004">a11ytables 0.0.0.9004<a class="anchor" aria-label="anchor" href="#a11ytables-0009004"></a></h2>
-<ul><li>BREAKING CHANGE: the <code>sheet_type</code> column of an a11ytable-class object is now used to infer the sheet type as ‘cover’, ‘contents’, ‘notes’ or ‘tables’ (replacing ‘meta’); it’s no longer the <code>tab_title</code> that serves this role (<a href="https://github.com/co-analysis/a11ytables/issues/18" class="external-link">#18</a>).</li>
+<ul><li>BREAKING CHANGE: switched to using the <code>sheet_type</code> column of an a11ytable-class object to infer the sheet type as ‘cover’, ‘contents’, ‘notes’ or ‘tables’ (replacing ‘meta’); it’s no longer the <code>tab_title</code> that serves this role (<a href="https://github.com/co-analysis/a11ytables/issues/18" class="external-link">#18</a>).</li>
 <li>Ensured styles and <code>.add_*()</code> now make internal references to <code>sheet_type</code> rather than <code>tab_title</code>
 </li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.0.9003" id="a11ytables-0009003">a11ytables 0.0.0.9003<a class="anchor" aria-label="anchor" href="#a11ytables-0009003"></a></h2>
-<ul><li>BREAKING CHANGE: fully retired the <code>add_*()</code> function family for building a workbook ‘by hand’, given the introduction of <code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code>
+<ul><li>BREAKING CHANGE: retired fully the <code>add_*()</code> function family for building a workbook ‘by hand’, given the introduction of <code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code>
 </li>
 <li>Introduced S3 class ‘a11ytable’, including exported functions to generate (<code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code>, <code><a href="../reference/as_a11ytable.html">as_a11ytable()</a></code>) and test (<code><a href="../reference/as_a11ytable.html">is_a11ytable()</a></code>) objects of this class</li>
 </ul></div>
@@ -112,7 +120,7 @@
 <ul><li>Added un-exported <code>.style_*()</code> utils functions to style worksheets (<a href="https://github.com/co-analysis/a11ytables/issues/1" class="external-link">#1</a>)</li>
 <li>Incorporated style functions into <code>add_*table()*</code> functions</li>
 <li>Updated README</li>
-<li>Basic tests, defensive stops (<a href="https://github.com/co-analysis/a11ytables/issues/10" class="external-link">#10</a>, <a href="https://github.com/co-analysis/a11ytables/issues/11" class="external-link">#11</a>)</li>
+<li>Added basic tests, defensive stops (<a href="https://github.com/co-analysis/a11ytables/issues/10" class="external-link">#10</a>, <a href="https://github.com/co-analysis/a11ytables/issues/11" class="external-link">#11</a>)</li>
 <li>Added GitHub Actions for RMD check, coverage and {pkgdown} (<a href="https://github.com/co-analysis/a11ytables/issues/7" class="external-link">#7</a>)</li>
 <li>Transferred ownership from matt-dray to co-analysis (<a href="https://github.com/co-analysis/a11ytables/issues/9" class="external-link">#9</a>)</li>
 </ul></div>

@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">a11ytables</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.90010</span>
       </span>
     </div>
 
@@ -94,8 +94,9 @@
 <div class="section level2">
 <h2 id="purpose">Purpose<a class="anchor" aria-label="anchor" href="#purpose"></a>
 </h2>
-<p>The purpose of this vignette is to demonstrate how to create an a11ytable-class object, which provides the basis for generating an Excel workbook (xlsx).</p>
-<p>Two approaches to constructing an a11ytable-class object are described in this document:</p>
+<p>The purpose of this vignette is to demonstrate how to create an a11ytable-class object.</p>
+<p>An a11ytable can be converted to an {openxlsx} Workbook-class object and then an Excel workbook (xlsx).</p>
+<p>There are two approaches to constructing an a11ytable-class object:</p>
 <ol style="list-style-type: decimal">
 <li>Pass arguments directly to <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code>
 </li>
@@ -127,7 +128,7 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>To demonstrate with the ‘mtcars’ dataset:</p>
+<p>To demonstrate the paths to creating an a11ytable, we can:</p>
 <ol style="list-style-type: decimal">
 <li>Prepare a table of information for each sheet of the workbook</li>
 <li>Create an a11ytables-class object by either:
@@ -143,6 +144,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/co-analysis/a11ytables" class="external-link">a11ytables</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></code></pre></div>
+<p>The example below uses the ‘mtcars’ dataset as the basis for an imaginary publication.</p>
 <div class="section level3">
 <h3 id="prepare-tables">1. Prepare tables<a class="anchor" aria-label="anchor" href="#prepare-tables"></a>
 </h3>
@@ -155,63 +157,65 @@
   <span class="op">~</span><span class="st">"Subsection title"</span>, <span class="op">~</span><span class="st">"Subsection body"</span>,
   <span class="st">"Description"</span>, <span class="st">"The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)"</span>,
   <span class="st">"Format"</span>, <span class="st">"A data frame with 32 observations on 11 (numeric) variables."</span>
-<span class="op">)</span>
-
-<span class="va">cover_df</span>
-<span class="co"># <span style="color: #949494;"># A tibble: 2 × 2</span></span>
-<span class="co">#   `Subsection title` `Subsection body`                                          </span>
-<span class="co">#   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                      </span>
-<span class="co"># <span style="color: #BCBCBC;">1</span> Description        The data was extracted from the 1974 Motor Trend US magazi…</span>
-<span class="co"># <span style="color: #BCBCBC;">2</span> Format             A data frame with 32 observations on 11 (numeric) variable…</span></code></pre></div>
+<span class="op">)</span></code></pre></div>
 <p>For sheet type ‘contents’ (required), the table should have a row per workbook sheet with columns for the tab title and the sheet title.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">contents_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
   <span class="op">~</span><span class="st">"Sheet name"</span>, <span class="op">~</span><span class="st">"Sheet title"</span>,
   <span class="st">"Notes"</span>, <span class="st">"Notes"</span>,
   <span class="st">"Table 1"</span>, <span class="st">"Motor Trend Car Road Tests"</span>
-<span class="op">)</span>
-
-<span class="va">contents_df</span>
-<span class="co"># <span style="color: #949494;"># A tibble: 2 × 2</span></span>
-<span class="co">#   `Sheet name` `Sheet title`             </span>
-<span class="co">#   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     </span>
-<span class="co"># <span style="color: #BCBCBC;">1</span> Notes        Notes                     </span>
-<span class="co"># <span style="color: #BCBCBC;">2</span> Table 1      Motor Trend Car Road Tests</span></code></pre></div>
+<span class="op">)</span></code></pre></div>
 <p>For sheet type ‘notes’ (not required if there aren’t any notes), the table should have a row per note in your workbook, with columns for the note number and note text.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">notes_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
   <span class="op">~</span><span class="st">"Note number"</span>, <span class="op">~</span><span class="st">"Note text"</span>,
-  <span class="st">"[2]"</span>, <span class="st">"Where 0 is 'V-shaped' and 1 is 'straight'"</span>,
-  <span class="st">"[1]"</span>, <span class="st">"Hocking [original transcriber]'s noncrucial coding of the Mazda's rotary engine as a straight six-cylinder engine and the Porsche's flat engine as a V engine, as well as the inclusion of the diesel Mercedes 240D, have been retained to enable direct comparisons to be made with previous analyses."</span>
+  <span class="st">"[c]"</span>, <span class="st">"Confidential: suppressed."</span>,
+  <span class="st">"[z]"</span>, <span class="st">"Not applicable."</span>,
+  <span class="st">"[1]"</span>, <span class="st">"Hocking [original transcriber]'s noncrucial coding of the Mazda's rotary engine as a straight six-cylinder engine and the Porsche's flat engine as a V engine, as well as the inclusion of the diesel Mercedes 240D, have been retained to enable direct comparisons to be made with previous analyses."</span>,
+  <span class="st">"[2]"</span>, <span class="st">"Test note."</span>,
+  <span class="st">"[3]"</span>, <span class="st">"Test note."</span>
+<span class="op">)</span></code></pre></div>
+<p>For sheet type ‘tables’ (required), the table should have whatever rows and columns are in the statistical table being published. It should be a tidy, ‘flat’ table with one row of headers and no empty rows or columns.</p>
+<p>Below is a test example that builds on the ‘mtcars’ dataset (note that this example is provided in this package as the in-built data set <code>mtcars_df</code>).</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Select mtcars columns</span>
+<span class="va">cars_df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">rownames_to_column</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"car"</span><span class="op">)</span> |&gt;
+  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"car"</span>, <span class="st">"mpg"</span>, <span class="st">"cyl"</span>, <span class="st">"disp"</span>, <span class="st">"hp"</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># Add suppression examples</span>
+<span class="va">cars_df</span><span class="op">[</span><span class="fl">1</span>, <span class="st">"mpg"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"[c]"</span> <span class="co"># single</span>
+<span class="va">cars_df</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">cars_df</span><span class="op">)</span> , <span class="st">"cyl"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"[c]"</span>  <span class="co"># multi (all but one suppressed)</span>
+<span class="va">cars_df</span><span class="op">[</span>, <span class="st">"disp"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"[c]"</span>  <span class="co"># all suppressed</span>
+
+<span class="co"># Add notes column example</span>
+<span class="va">notes_cars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Mazda RX4"</span>, <span class="st">"Mazda RX4 Wag"</span>, <span class="st">"Porsche 914-2"</span>, <span class="st">"Merc 240D"</span><span class="op">)</span>
+<span class="va">cars_df</span><span class="op">[[</span><span class="st">"Notes"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">cars_df</span><span class="op">[[</span><span class="st">"car"</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">notes_cars</span>, <span class="st">"[1]"</span>, <span class="st">"[z]"</span><span class="op">)</span>
+
+<span class="co"># Provide better names</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">cars_df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
+  <span class="st">"Car"</span>,
+  <span class="st">"Miles per gallon [2]"</span>,
+  <span class="st">"Cylinders [2, 3]"</span>,
+  <span class="st">"Displacement [note 2]"</span>,
+  <span class="st">"Horsepower [note]"</span>,
+  <span class="st">"Notes"</span>
 <span class="op">)</span>
 
-<span class="va">notes_df</span>
-<span class="co"># <span style="color: #949494;"># A tibble: 2 × 2</span></span>
-<span class="co">#   `Note number` `Note text`                                                     </span>
-<span class="co">#   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                           </span>
-<span class="co"># <span style="color: #BCBCBC;">1</span> [2]           Where 0 is 'V-shaped' and 1 is 'straight'                       </span>
-<span class="co"># <span style="color: #BCBCBC;">2</span> [1]           Hocking [original transcriber]'s noncrucial coding of the Mazda…</span></code></pre></div>
-<p>For sheet type ‘tables’ (required), the table should have whatever rows and columns are in the statistical table being published. It should be a tidy, ‘flat’ table with one row of headers and no empty rows or columns. This is an example using the ‘mtcars’ dataset.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">stats_df</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">rownames_to_column</a></span><span class="op">(</span><span class="st">"car"</span><span class="op">)</span>
-<span class="va">notes_cars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Mazda RX4"</span>, <span class="st">"Mazda RX4 Wag"</span>, <span class="st">"Porsche 914-2"</span>, <span class="st">"Merc 240D"</span><span class="op">)</span>
-<span class="va">stats_df</span><span class="op">[[</span><span class="st">"Notes"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">stats_df</span><span class="op">[[</span><span class="st">"car"</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">notes_cars</span>, <span class="st">"[2]"</span>, <span class="st">""</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">stats_df</span><span class="op">)</span><span class="op">[</span><span class="fl">8</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"vs [1]"</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">stats_df</span><span class="op">)</span>
-<span class="co">#                 car  mpg cyl disp  hp drat    wt vs [1] vs am gear carb Notes</span>
-<span class="co"># 1         Mazda RX4 21.0   6  160 110 3.90 2.620  16.46  0  1    4    4   [2]</span>
-<span class="co"># 2     Mazda RX4 Wag 21.0   6  160 110 3.90 2.875  17.02  0  1    4    4   [2]</span>
-<span class="co"># 3        Datsun 710 22.8   4  108  93 3.85 2.320  18.61  1  1    4    1      </span>
-<span class="co"># 4    Hornet 4 Drive 21.4   6  258 110 3.08 3.215  19.44  1  0    3    1      </span>
-<span class="co"># 5 Hornet Sportabout 18.7   8  360 175 3.15 3.440  17.02  0  0    3    2      </span>
-<span class="co"># 6           Valiant 18.1   6  225 105 2.76 3.460  20.22  1  0    3    1</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">cars_df</span><span class="op">)</span>
+<span class="co"># 'data.frame': 32 obs. of  6 variables:</span>
+<span class="co">#  $ Car                  : chr  "Mazda RX4" "Mazda RX4 Wag" "Datsun 710" "Hornet 4 Drive" ...</span>
+<span class="co">#  $ Miles per gallon [2] : chr  "[c]" "21" "22.8" "21.4" ...</span>
+<span class="co">#  $ Cylinders [2, 3]     : chr  "6" "[c]" "[c]" "[c]" ...</span>
+<span class="co">#  $ Displacement [note 2]: chr  "[c]" "[c]" "[c]" "[c]" ...</span>
+<span class="co">#  $ Horsepower [note]    : num  110 110 93 110 175 105 245 62 95 123 ...</span>
+<span class="co">#  $ Notes                : chr  "[1]" "[1]" "[z]" "[z]" ...</span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="a--from-new-with-new_a11ytable">2a. From new with <code>new_a11ytable()</code><a class="anchor" aria-label="anchor" href="#a--from-new-with-new_a11ytable"></a>
+<h3 id="a--new-a11ytable-with-new_a11ytable">2a. New a11ytable with <code>new_a11ytable()</code><a class="anchor" aria-label="anchor" href="#a--new-a11ytable-with-new_a11ytable"></a>
 </h3>
 <p>The first option for creating the a11ytable-class object is to create it ‘from new’ by passing arguments about sheet elements to the <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code> function.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">content_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/new_a11ytable.html">new_a11ytable</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">a11ytable_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/new_a11ytable.html">new_a11ytable</a></span><span class="op">(</span>
   tab_titles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cover"</span>, <span class="st">"Contents"</span>, <span class="st">"Notes"</span>, <span class="st">"Table 1"</span><span class="op">)</span>,
   sheet_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cover"</span>, <span class="st">"contents"</span>, <span class="st">"notes"</span>, <span class="st">"tables"</span><span class="op">)</span>,
   sheet_titles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
@@ -236,20 +240,21 @@
     <span class="va">cover_df</span>,
     <span class="va">contents_df</span>,
     <span class="va">notes_df</span>,
-    <span class="va">stats_df</span>
+    <span class="va">cars_df</span>
   <span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 <p>You can confirm the class with <code><a href="../reference/as_a11ytable.html">is_a11ytable()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/as_a11ytable.html">is_a11ytable</a></span><span class="op">(</span><span class="va">content_new</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/as_a11ytable.html">is_a11ytable</a></span><span class="op">(</span><span class="va">a11ytable_new</span><span class="op">)</span>
 <span class="co"># [1] TRUE</span></code></pre></div>
 <p>Success.</p>
 </div>
 <div class="section level3">
-<h3 id="b--coerce-with-as_a11ytable">2b. Coerce with <code>as_a11ytable()</code><a class="anchor" aria-label="anchor" href="#b--coerce-with-as_a11ytable"></a>
+<h3 id="b--coerce-an-a11ytable-with-as_a11ytable">2b. Coerce an a11ytable with <code>as_a11ytable()</code><a class="anchor" aria-label="anchor" href="#b--coerce-an-a11ytable-with-as_a11ytable"></a>
 </h3>
 <p>The second option is to create a data.frame with the appropriate variables and content and coerce it to a11ytable class with <code><a href="../reference/as_a11ytable.html">as_a11ytable()</a></code> (a11ytable objects are just a type of data.frame with an additional class, after all).</p>
-<p>Starting with a data.frame of your own construction is a more flexible way of creating an a11ytable, if you know what you’re doing. There are validation checks within the function to catch anything that doesn’t look right.</p>
+<p>Starting with a data.frame of your own construction is a more flexible way of creating an a11ytable, if you know what you’re doing. There are validation checks within the function to catch anything that doesn’t look right, resulting in errors or warnings.</p>
+<p>Again, we can use the mtcars example from the section above (also available as the built-in dataset <code>mtcars_df</code>).</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">content_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>
   tab_title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cover"</span>, <span class="st">"Contents"</span>, <span class="st">"Notes"</span>, <span class="st">"Table 1"</span><span class="op">)</span>,
@@ -274,13 +279,13 @@
     <span class="va">cover_df</span>,
     <span class="va">contents_df</span>,
     <span class="va">notes_df</span>,
-    <span class="va">stats_df</span>
+    <span class="va">cars_df</span>
   <span class="op">)</span>
 <span class="op">)</span></code></pre></div>
-<p>This data.frame object can be passed directly into the <code><a href="../reference/as_a11ytable.html">as_a11ytable()</a></code> to add the a11ytable class, which again you can test with <code><a href="../reference/as_a11ytable.html">is_a11ytable()</a></code>.</p>
+<p>This data.frame object can be passed directly into the <code><a href="../reference/as_a11ytable.html">as_a11ytable()</a></code> function to add the a11ytable class, which again you can test with <code><a href="../reference/as_a11ytable.html">is_a11ytable()</a></code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">content_coerce</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/as_a11ytable.html">as_a11ytable</a></span><span class="op">(</span><span class="va">content_df</span><span class="op">)</span>
-<span class="fu"><a href="../reference/as_a11ytable.html">is_a11ytable</a></span><span class="op">(</span><span class="va">content_coerce</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">a11ytable_coerced</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/as_a11ytable.html">as_a11ytable</a></span><span class="op">(</span><span class="va">content_df</span><span class="op">)</span>
+<span class="fu"><a href="../reference/as_a11ytable.html">is_a11ytable</a></span><span class="op">(</span><span class="va">a11ytable_coerced</span><span class="op">)</span>
 <span class="co"># [1] TRUE</span></code></pre></div>
 <p>Success.</p>
 </div>
