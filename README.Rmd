@@ -59,18 +59,18 @@ See [the 'construct an a11ytable' vignette](https://co-analysis.github.io/a11yta
 
 First, use `new_a11ytable()` to construct a special a11ytable-class object, which is just a data.frame with strict requirements. It must have a row per sheet, specific columns for meta information (e.g. sheet titles, data sources) and a list-column of data.frames that contain the actual data; run `?new_a11ytable` for details.
 
-There's a built-in demo dataset---`lfs_tables`, adapted from [the releasing statistics in spreadsheets guidance](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)---that is already in the correct data.frame format.
+There's a built-in demo dataset---`mtcars_df`, adapted from R's built-in mtcars demo dataset---that is already in the correct data.frame format.
 
-```{r glimpse-lfs-tables}
-str(lfs_tables, max.level = 2)
+```{r glimpse-mtcars-tables}
+str(mtcars_df, max.level = 2)
 ```
 
 It can be coerced to a11ytable class with `as_a11ytable()`, since it's already structured correctly.
 
 ```{r as-a11ytable}
-lfs_a11ytable <- as_a11ytable(lfs_tables)
-class(lfs_a11ytable)  # see classes
-is_a11ytable(lfs_a11ytable)  # check if a11ytable class
+mtcars_a11ytable <- as_a11ytable(mtcars_df)
+class(mtcars_a11ytable)  # see classes
+is_a11ytable(mtcars_a11ytable)  # check if a11ytable class
 ```
 
 Note that the object also has class 'data.frame' and can be manipulated as such.
@@ -80,7 +80,7 @@ The `new_a11ytable()` and `as_a11ytable()` functions will run validation on the 
 The object is pretty-printed in {tibble} style thanks to the imported {pillar} package and the inheritance of the 'tbl' class.
 
 ```{r}
-lfs_a11ytable
+mtcars_a11ytable
 ```
 
 ### 2. Convert to workbook
@@ -88,13 +88,13 @@ lfs_a11ytable
 We can pass this a11ytable-class object to `create_a11y_wb()`, which constructs an {openxlsx} Workbook-class object with accessibility-appropriate styling.
 
 ```{r create-a11ytable-wb}
-lfs_wb <- create_a11y_wb(lfs_a11ytable)
+mtcars_wb <- create_a11y_wb(mtcars_a11ytable)
 ```
 
 <details><summary>Click here to view the contents of the workbook</summary>
 
 ```{r print-wb}
-lfs_wb
+mtcars_wb
 ```
 
 </details>
@@ -105,8 +105,8 @@ lfs_wb
 This output can be written to disk or opened temporarily with spreadsheet software.
 
 ```{r open-wb, eval=FALSE}
-openxlsx::openXL(lfs_wb)  # optionally open temp copy
-openxlsx::saveWorkbook(lfs_wb, "publication.xlsx")
+openxlsx::openXL(mtcars_wb)  # optionally open temp copy
+openxlsx::saveWorkbook(mtcars_wb, "publication.xlsx")
 ```
 
 ## Similar projects

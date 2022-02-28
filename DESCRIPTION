@@ -1,9 +1,10 @@
 Package: a11ytables
 Title: Create Spreadsheet Publications Following GSS Best Practice
-Version: 0.0.0.9009
+Version: 0.0.0.90010
 Authors@R: c(
     person(given = "Matt", family = "Dray", role = c("aut", "cre"), email = "mwdray@gmail.com"),
-    person(given = "Tim", family = "Taylor", role = "ctb"))
+    person(given = "Tim", family = "Taylor", role = "ctb"),
+    person(given = "Crown Copyright", role = "cph"))
 Description: Generate spreadsheet publications for official release by UK
     government organisations following best practice guidance from the UK's 
     Government Statistical Service (GSS), with a focus on accessibility for all

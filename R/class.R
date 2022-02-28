@@ -85,6 +85,7 @@ new_a11ytable <- function(
   class(x) <- c("a11ytable", "tbl", "data.frame")
 
   .validate_a11ytable(x)
+  .warn_a11ytable(x)
 
   return(x)
 
@@ -152,6 +153,7 @@ as_a11ytable <- function(x) {
 
   class(x) <- c("a11ytable", "tbl", "data.frame")
   .validate_a11ytable(x)
+  .warn_a11ytable(x)
   return(x)
 
 }
@@ -184,10 +186,13 @@ NULL
 #' }
 #' @export
 tbl_sum.a11ytable <- function(x, ...) {
+
   header <- sprintf(
     "%s x %s",
     formatC(nrow(x), big.mark = ","),
     formatC(ncol(x), big.mark = ",")
   )
+
   c("a11ytables" = header)
+
 }

@@ -1,7 +1,7 @@
 
 test_that("workbook object is created", {
 
-  x <- create_a11y_wb(as_a11ytable(lfs_tables))
+  x <- create_a11y_wb(as_a11ytable(mtcars_df))
 
   expect_s4_class(x, class = "Workbook")
   expect_identical(class(x)[1], "Workbook")
@@ -10,7 +10,7 @@ test_that("workbook object is created", {
 
 test_that("a11ytable is passed", {
 
-  x <- as_a11ytable(lfs_tables)
+  x <- as_a11ytable(mtcars_df)
 
   expect_error(create_a11y_wb("x"))
   expect_error(create_a11y_wb(1))
@@ -21,16 +21,10 @@ test_that("a11ytable is passed", {
 
 test_that("sheet_type notes is handled appropriately", {
 
-  x <- as_a11ytable(lfs_tables[lfs_tables$sheet_type != "notes", ])
+  df <- mtcars_df[mtcars_df$sheet_type != "notes", ]
+  expect_warning(as_a11ytable(df))
+  suppressWarnings(x <- as_a11ytable(df))
   expect_s3_class(x, "a11ytable")
   expect_s4_class(create_a11y_wb(x), "Workbook")
-
-  # x <- lfs_tables
-  # y <- data.frame(`V1 [note 1]` = "x", check.names = FALSE)
-  # x[4, 8][[1]][[1]] <- y
-  # z1 <- as_a11ytable(x)
-  # z2 <- create_a11y_wb(z1)
-  # expect_s3_class(z1, "a11ytable")
-  # expect_s4_class(z2, "Workbook")
 
 })
