@@ -18,6 +18,62 @@
 }
 
 
+# Detect notes in tables --------------------------------------------------
+
+
+.detect_notes <- function(content, tab_title) {
+
+  table_names <-
+    names(content[content$tab_title == tab_title, "table"][[1]])
+
+  has_header_notes <- grepl("[[0-9]{1,3}]", table_names)  # TODO must be surroudned by []!
+  has_notes_column <- tolower(table_names) %in% "notes"
+
+  any(has_header_notes, has_notes_column)
+
+}
+
+.extract_note_values <- function(content, tab_title) {
+
+  if (.detect_notes(content, tab_title)) {  # if there are notes in this table
+
+    # Isolate named table dataframe
+
+    table <- content[content$tab_title == tab_title, "table"][[1]]
+
+    # Vector with potential note values, e.g. '[1, 2]' to c(1, 2)
+
+    table_names <- names(table)
+    notes_column_index <- which(tolower(table_names) %in% "notes")
+    notes_column_content <- table[, notes_column_index]
+
+    possible_note_text <- c(table_names, notes_column_content)
+
+    square_bracket_contents <- unlist(
+      regmatches(
+        possible_note_text,
+        gregexpr("(?<=\\[).*(?=\\])", possible_note_text, perl = TRUE)
+      )
+    )
+
+    sort(
+      as.numeric(
+        unique(
+          unlist(
+            lapply(
+              square_bracket_contents,
+              function(x) unlist(regmatches(x, gregexpr("\\d", x, perl = TRUE)))
+            )
+          )
+        )
+      )
+    )
+
+  }
+
+}
+
+
 # Insert sheet elements ---------------------------------------------------
 
 
@@ -61,18 +117,6 @@
 
 }
 
-.detect_notes <- function(content, tab_title) {
-
-  table_names <-
-    names(content[content$tab_title == tab_title, "table"][[1]])
-
-  has_header_notes <- grepl("[[0-9]{1,3}]", table_names)
-  has_notes_column <- tolower(table_names) %in% "notes"
-
-  any(has_header_notes, has_notes_column)
-
-}
-
 .insert_notes_statement <- function(wb, content, tab_title) {
 
   has_notes <- .detect_notes(content, tab_title)
@@ -86,16 +130,16 @@
     text <- "There are no notes in this table."
   }
 
-openxlsx::writeData(
-  wb = wb,
-  sheet = tab_title,
-  x = text,
-  startCol = 1,
-  startRow = 3,  # TODO: can we make this dynamic depending on whether source exists?
-  colNames = TRUE
-)
+  openxlsx::writeData(
+    wb = wb,
+    sheet = tab_title,
+    x = text,
+    startCol = 1,
+    startRow = 3,  # TODO: can we make this dynamic depending on whether source exists?
+    colNames = TRUE
+  )
 
-return(wb)
+  return(wb)
 
 }
 

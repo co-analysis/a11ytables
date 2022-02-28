@@ -54,22 +54,25 @@
 
 }
 
-.warn_a11ytable <- function(x) {
+.warn_a11ytable <- function(content) {
 
   # Sources
 
-  table_sources <- x[x$sheet_type == "tables", "source"]
+  table_sources <- content[content$sheet_type == "tables", "source"]
 
   if (any(is.na(table_sources))) {
+
     warning(
-      "One of your tables is missing a source."
+      "One of your tables is missing a source.",
+      call. = FALSE
     )
+
   }
 
-  # Notes
+  # Notes (presence)
 
-  notes_sheets  <- x[x$sheet_type == "notes", ]
-  tables_sheets <- x[x$sheet_type == "tables", ]
+  notes_sheet  <- content[content$sheet_type == "notes", ]  # only one
+  tables_sheets <- content[content$sheet_type == "tables", ]  # maybe multiple
 
   has_notes <-
     any(
@@ -81,12 +84,69 @@
       )
     )
 
-  if (nrow(notes_sheets) == 0 & has_notes) {
-    "You have in-table notes, but no notes sheet."
+  if (nrow(notes_sheet) == 0 & has_notes) {
+
+    warning(
+      "You have in-table notes, but no notes sheet.",
+      call. = FALSE
+    )
+
   }
 
-  if (nrow(notes_sheets) > 0 & !has_notes) {
-    "You have a notes sheet, but no in-table notes."
+  if (nrow(notes_sheet) > 0 & !has_notes) {
+
+    warning(
+      "You have a notes sheet, but no in-table notes.",
+      call. = FALSE
+    )
+
+  }
+
+  # Notes mismatch
+
+  notes_sheet_notes <-
+    suppressWarnings(
+      as.numeric(
+        gsub("\\[|\\]", "", notes_sheet[, "table"][[1]][[1]])
+      )
+    )
+
+  notes_sheet_notes <- notes_sheet_notes[!is.na(notes_sheet_notes)]
+
+  tables_sheet_notes <- sort(
+    unique(
+      unlist(
+        lapply(
+          tables_sheets$tab_title,
+          function(x) .extract_note_values(content, x)
+        )
+      )
+    )
+  )
+
+  not_in_tables <- setdiff(notes_sheet_notes, tables_sheet_notes)
+  not_in_notes  <- setdiff(tables_sheet_notes, notes_sheet_notes)
+
+  if (length(not_in_tables) > 0) {
+
+    warning(
+      "Some notes are in the tables (",
+      paste(not_in_tables, collapse = ", "),
+      ") but are missing from the notes sheet.",
+      call. = FALSE
+    )
+
+  }
+
+  if (length(not_in_notes) > 0) {
+
+    warning(
+      "Some notes are in the notes sheets (",
+      paste(not_in_notes, collapse = ", "),
+      ") but are missing from the tables.",
+      call. = FALSE
+    )
+
   }
 
 }
