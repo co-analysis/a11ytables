@@ -16,9 +16,11 @@ knitr::opts_chunk$set(
 
 ## Purpose
 
-The purpose of this vignette is to demonstrate how to create an a11ytable-class object, which provides the basis for generating an Excel workbook (xlsx).
+The purpose of this vignette is to demonstrate how to create an a11ytable-class object.
 
-Two approaches to constructing an a11ytable-class object are described in this document:
+An a11ytable can be converted to an {openxlsx} Workbook-class object and then an Excel workbook (xlsx).
+
+There are two approaches to constructing an a11ytable-class object:
 
 1. Pass arguments directly to `new_a11ytable()`
 1. Create a data.frame-class object for conversion to a11ytable-class with `as_a11ytable()`.
@@ -48,7 +50,7 @@ Alternatively, you can construct your own data.frame with columns for each of th
 
 ## Example
 
-To demonstrate with the 'mtcars' dataset:
+To demonstrate the paths to creating an a11ytable, we can:
 
 1. Prepare a table of information for each sheet of the workbook
 1. Create an a11ytables-class object by either:
@@ -61,6 +63,8 @@ Of course, we start by attaching the {a11ytables} package. I'm going to use {tib
 library(a11ytables)
 library(tibble)
 ```
+
+The example below uses the 'mtcars' dataset as the basis for an imaginary publication.
 
 ### 1. Prepare tables
 
@@ -76,8 +80,6 @@ cover_df <- tribble(
   "Description", "The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)",
   "Format", "A data frame with 32 observations on 11 (numeric) variables."
 )
-
-cover_df
 ```
 
 For sheet type 'contents' (required), the table should have a row per workbook sheet with columns for the tab title and the sheet title.
@@ -88,8 +90,6 @@ contents_df <- tribble(
   "Notes", "Notes",
   "Table 1", "Motor Trend Car Road Tests"
 )
-
-contents_df
 ```
 
 For sheet type 'notes' (not required if there aren't any notes), the table should have a row per note in your workbook, with columns for the note number and note text.
@@ -97,29 +97,51 @@ For sheet type 'notes' (not required if there aren't any notes), the table shoul
 ```{r prep-notes-tbl}
 notes_df <- tribble(
   ~"Note number", ~"Note text",
-  "[2]", "Where 0 is 'V-shaped' and 1 is 'straight'",
-  "[1]", "Hocking [original transcriber]'s noncrucial coding of the Mazda's rotary engine as a straight six-cylinder engine and the Porsche's flat engine as a V engine, as well as the inclusion of the diesel Mercedes 240D, have been retained to enable direct comparisons to be made with previous analyses."
+  "[c]", "Confidential: suppressed.",
+  "[z]", "Not applicable.",
+  "[1]", "Hocking [original transcriber]'s noncrucial coding of the Mazda's rotary engine as a straight six-cylinder engine and the Porsche's flat engine as a V engine, as well as the inclusion of the diesel Mercedes 240D, have been retained to enable direct comparisons to be made with previous analyses.",
+  "[2]", "Test note.",
+  "[3]", "Test note."
 )
-
-notes_df
 ```
 
-For sheet type 'tables' (required), the table should have whatever rows and columns are in the statistical table being published. It should be a tidy, 'flat' table with one row of headers and no empty rows or columns. This is an example using the 'mtcars' dataset.
+For sheet type 'tables' (required), the table should have whatever rows and columns are in the statistical table being published. It should be a tidy, 'flat' table with one row of headers and no empty rows or columns. 
+
+Below is a test example that builds on the 'mtcars' dataset (note that this example is provided in this package as the in-built data set `mtcars_df`).
 
 ```{r prep-stats-tbl}
-stats_df <- mtcars %>% rownames_to_column("car")
+# Select mtcars columns
+cars_df <- tibble::rownames_to_column(mtcars, "car") |>
+  subset(select = c("car", "mpg", "cyl", "disp", "hp"))
+
+# Add suppression examples
+cars_df[1, "mpg"] <- "[c]" # single
+cars_df[2:nrow(cars_df) , "cyl"] <- "[c]"  # multi (all but one suppressed)
+cars_df[, "disp"] <- "[c]"  # all suppressed
+
+# Add notes column example
 notes_cars <- c("Mazda RX4", "Mazda RX4 Wag", "Porsche 914-2", "Merc 240D")
-stats_df[["Notes"]] <- ifelse(stats_df[["car"]] %in% notes_cars, "[2]", "")
-names(stats_df)[8] <- "vs [1]"
-head(stats_df)
+cars_df[["Notes"]] <- ifelse(cars_df[["car"]] %in% notes_cars, "[1]", "[z]")
+
+# Provide better names
+names(cars_df) <- c(
+  "Car",
+  "Miles per gallon [2]",
+  "Cylinders [2, 3]",
+  "Displacement [note 2]",
+  "Horsepower [note]",
+  "Notes"
+)
+
+str(cars_df)
 ```
 
-### 2a. From new with `new_a11ytable()`
+### 2a. New a11ytable with `new_a11ytable()`
 
 The first option for creating the a11ytable-class object is to create it 'from new' by passing arguments about sheet elements to the `new_a11ytable()` function.
 
 ```{r new-a11ytable}
-content_new <- new_a11ytable(
+a11ytable_new <- new_a11ytable(
   tab_titles = c("Cover", "Contents", "Notes", "Table 1"),
   sheet_types = c("cover", "contents", "notes", "tables"),
   sheet_titles = c(
@@ -144,7 +166,7 @@ content_new <- new_a11ytable(
     cover_df,
     contents_df,
     notes_df,
-    stats_df
+    cars_df
   )
 )
 ```
@@ -152,16 +174,18 @@ content_new <- new_a11ytable(
 You can confirm the class with `is_a11ytable()`.
 
 ```{r new-a11ytable-2}
-is_a11ytable(content_new)
+is_a11ytable(a11ytable_new)
 ```
 
 Success.
 
-### 2b. Coerce with `as_a11ytable()`
+### 2b. Coerce an a11ytable with `as_a11ytable()`
 
 The second option is to create a data.frame with the appropriate variables and content and coerce it to a11ytable class with `as_a11ytable()` (a11ytable objects are just a type of data.frame with an additional class, after all).
 
-Starting with a data.frame of your own construction is a more flexible way of creating an a11ytable, if you know what you're doing. There are validation checks within the function to catch anything that doesn't look right.
+Starting with a data.frame of your own construction is a more flexible way of creating an a11ytable, if you know what you're doing. There are validation checks within the function to catch anything that doesn't look right, resulting in errors or warnings.
+
+Again, we can use the mtcars example from the section above (also available as the built-in dataset `mtcars_df`).
 
 ```{r as-a11ytable-df}
 content_df <- tibble(
@@ -187,16 +211,16 @@ content_df <- tibble(
     cover_df,
     contents_df,
     notes_df,
-    stats_df
+    cars_df
   )
 )
 ```
 
-This data.frame object can be passed directly into the `as_a11ytable()` to add the a11ytable class, which again you can test with `is_a11ytable()`.
+This data.frame object can be passed directly into the `as_a11ytable()` function to add the a11ytable class, which again you can test with `is_a11ytable()`.
 
 ```{r as-a11ytable-2}
-content_coerce <- as_a11ytable(content_df)
-is_a11ytable(content_coerce)
+a11ytable_coerced <- as_a11ytable(content_df)
+is_a11ytable(a11ytable_coerced)
 ```
 
 Success.

@@ -73,35 +73,32 @@ have a row per sheet, specific columns for meta information (e.g. sheet
 titles, data sources) and a list-column of data.frames that contain the
 actual data; run `?new_a11ytable` for details.
 
-There’s a built-in demo dataset—`lfs_tables`, adapted from [the
-releasing statistics in spreadsheets
-guidance](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)—that
-is already in the correct data.frame format.
+There’s a built-in demo dataset—`mtcars_df`, adapted from R’s built-in
+mtcars demo dataset—that is already in the correct data.frame format.
 
 ``` r
-str(lfs_tables, max.level = 2)
-#> Classes 'tbl_df', 'tbl' and 'data.frame':    5 obs. of  6 variables:
-#>  $ tab_title  : chr  "cover" "contents" "notes" "1" ...
-#>  $ sheet_type : chr  "cover" "contents" "notes" "tables" ...
-#>  $ sheet_title: chr  "Labour market overview data tables, UK, December 2020 (accessibility example)" "Table of contents" "Notes" "Number and percentage of population aged 16 and over in each labour market activity group, UK, seasonally adjusted" ...
-#>  $ source     : chr  NA NA NA "Labour Force Survey" ...
-#>  $ table_name : chr  "Cover_content" "Table_of_contents" "Notes_table" "Labour_market_summary_for_16_and_over" ...
-#>  $ table      :List of 5
-#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 8 obs. of  2 variables:
-#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 2 obs. of  5 variables:
-#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 11 obs. of  2 variables:
-#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 6 obs. of  10 variables:
-#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 6 obs. of  9 variables:
+str(mtcars_df, max.level = 2)
+#> Classes 'tbl_df', 'tbl' and 'data.frame':    4 obs. of  6 variables:
+#>  $ tab_title  : chr  "Cover" "Contents" "Notes" "Table 1"
+#>  $ sheet_type : chr  "cover" "contents" "notes" "tables"
+#>  $ sheet_title: chr  "The mtcars demo datset: 'Motor Trend Car Road Tests'" "Table of contents" "Notes" "Motor Trend Car Road Tests"
+#>  $ source     : chr  NA NA NA "Motor Trend (1974)"
+#>  $ table_name : chr  "cover_sheet" "table_of_contents" "notes_table" "car_scores"
+#>  $ table      :List of 4
+#>   ..$ :'data.frame': 2 obs. of  2 variables:
+#>   ..$ :'data.frame': 2 obs. of  2 variables:
+#>   ..$ :'data.frame': 6 obs. of  2 variables:
+#>   ..$ :'data.frame': 32 obs. of  6 variables:
 ```
 
 It can be coerced to a11ytable class with `as_a11ytable()`, since it’s
 already structured correctly.
 
 ``` r
-lfs_a11ytable <- as_a11ytable(lfs_tables)
-class(lfs_a11ytable)  # see classes
+mtcars_a11ytable <- as_a11ytable(mtcars_df)
+class(mtcars_a11ytable)  # see classes
 #> [1] "a11ytable"  "tbl"        "data.frame"
-is_a11ytable(lfs_a11ytable)  # check if a11ytable class
+is_a11ytable(mtcars_a11ytable)  # check if a11ytable class
 #> [1] TRUE
 ```
 
@@ -116,15 +113,14 @@ The object is pretty-printed in {tibble} style thanks to the imported
 {pillar} package and the inheritance of the ‘tbl’ class.
 
 ``` r
-lfs_a11ytable
-#> # a11ytables: 5 x 6
-#>   tab_title sheet_type sheet_title                    source table_name table   
-#>   <chr>     <chr>      <chr>                          <chr>  <chr>      <list>  
-#> 1 cover     cover      Labour market overview data t… <NA>   Cover_con… <tbl_df>
-#> 2 contents  contents   Table of contents              <NA>   Table_of_… <tbl_df>
-#> 3 notes     notes      Notes                          <NA>   Notes_tab… <tbl_df>
-#> 4 1         tables     Number and percentage of popu… Labou… Labour_ma… <tbl_df>
-#> 5 2         tables     Number and percentage of popu… Labou… Labour_ma… <tbl_df>
+mtcars_a11ytable
+#> # a11ytables: 4 x 6
+#>   tab_title sheet_type sheet_title                       source table_name table
+#>   <chr>     <chr>      <chr>                             <chr>  <chr>      <lis>
+#> 1 Cover     cover      The mtcars demo datset: 'Motor T… <NA>   cover_she… <df> 
+#> 2 Contents  contents   Table of contents                 <NA>   table_of_… <df> 
+#> 3 Notes     notes      Notes                             <NA>   notes_tab… <df> 
+#> 4 Table 1   tables     Motor Trend Car Road Tests        Motor… car_scores <df>
 ```
 
 ### 2. Convert to workbook
@@ -134,7 +130,7 @@ constructs an {openxlsx} Workbook-class object with
 accessibility-appropriate styling.
 
 ``` r
-lfs_wb <- create_a11y_wb(lfs_a11ytable)
+mtcars_wb <- create_a11y_wb(mtcars_a11ytable)
 ```
 
 <details>
@@ -143,45 +139,39 @@ Click here to view the contents of the workbook
 </summary>
 
 ``` r
-lfs_wb
+mtcars_wb
 #> A Workbook object.
 #>  
 #> Worksheets:
-#>  Sheet 1: "cover"
+#>  Sheet 1: "Cover"
 #>  
 #>  Custom row heights (row: height)
-#>   2: 34, 4: 34, 6: 34, 8: 34, 10: 34, 12: 34, 14: 34, 16: 34 
+#>   2: 34, 4: 34 
 #>  Custom column widths (column: width)
 #>    1: 80 
 #>  
 #> 
-#>  Sheet 2: "contents"
+#>  Sheet 2: "Contents"
 #>  
 #>  Custom column widths (column: width)
-#>    1: 30, 2: 30, 3: 30, 4: 30, 5: 30 
+#>    1: 30, 2: 30 
 #>  
 #> 
-#>  Sheet 3: "notes"
+#>  Sheet 3: "Notes"
 #>  
 #>  Custom column widths (column: width)
 #>    1: 15, 2: 80 
 #>  
 #> 
-#>  Sheet 4: "1"
+#>  Sheet 4: "Table 1"
 #>  
 #>  Custom column widths (column: width)
-#>    1: 16, 2: 16, 3: 16, 4: 16, 5: 16, 6: 16, 7: 16, 8: 16, 9: 16, 10: 16 
-#>  
-#> 
-#>  Sheet 5: "2"
-#>  
-#>  Custom column widths (column: width)
-#>    1: 16, 2: 16, 3: 16, 4: 16, 5: 16, 6: 16, 7: 16, 8: 16, 9: 16 
+#>    1: 16, 2: 16, 3: 16, 4: 16, 5: 16, 6: 16 
 #>  
 #> 
 #>  
-#>  Worksheet write order: 1, 2, 3, 4, 5
-#>  Active Sheet 1: "cover" 
+#>  Worksheet write order: 1, 2, 3, 4
+#>  Active Sheet 1: "Cover" 
 #>  Position: 1
 ```
 
@@ -194,8 +184,8 @@ This output can be written to disk or opened temporarily with
 spreadsheet software.
 
 ``` r
-openxlsx::openXL(lfs_wb)  # optionally open temp copy
-openxlsx::saveWorkbook(lfs_wb, "publication.xlsx")
+openxlsx::openXL(mtcars_wb)  # optionally open temp copy
+openxlsx::saveWorkbook(mtcars_wb, "publication.xlsx")
 ```
 
 ## Similar projects

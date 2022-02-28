@@ -13,7 +13,7 @@ cover_df <- tibble::tribble(
 contents_df <- tibble::tribble(
   ~"Sheet name", ~"Sheet title",
   "Notes", "Notes",
-  "Table 1", "Civil Service People Survey 2020: demographic benchmarks"
+  "Table 1", "Motor Trend Car Road Tests"
 ) |>
   as.data.frame()
 
@@ -24,8 +24,7 @@ notes_df <- tibble::tribble(
   "[z]", "Not applicable.",
   "[1]", "Hocking [original transcriber]'s noncrucial coding of the Mazda's rotary engine as a straight six-cylinder engine and the Porsche's flat engine as a V engine, as well as the inclusion of the diesel Mercedes 240D, have been retained to enable direct comparisons to be made with previous analyses.",
   "[2]", "Test note.",
-  "[3]", "Test note.",
-  "[4]", "Test note."
+  "[3]", "Test note."
 ) |>
   as.data.frame()
 
@@ -33,7 +32,7 @@ notes_df <- tibble::tribble(
 cars_df <- tibble::rownames_to_column(mtcars, "car") |>
   subset(select = c("car", "mpg", "cyl", "disp", "hp"))
 
-# Add duppression examples
+# Add suppression examples
 cars_df[1, "mpg"] <- "[c]" # single
 cars_df[2:nrow(cars_df) , "cyl"] <- "[c]"  # multi (all but one suppressed)
 cars_df[, "disp"] <- "[c]"  # all suppressed
@@ -47,7 +46,7 @@ names(cars_df) <- c(
   "Car",
   "Miles per gallon [2]",
   "Cylinders [2, 3]",
-  "Displacement [note 4]",
+  "Displacement [note 2]",
   "Horsepower [note]",
   "Notes"
 )
@@ -78,4 +77,4 @@ mtcars_df <- tibble::tibble(
 )
 
 # Write to data/
-use_data(mtcars_df, overwrite = TRUE)
+usethis::use_data(mtcars_df, overwrite = TRUE)

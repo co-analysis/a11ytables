@@ -12,11 +12,11 @@ A data frame with 5 rows and 7 columns:
 \item{sheet_title}{Character. The title that will appear in the top-left of each sheet.}
 \item{source}{Character. The origin of the data, if relevant.}
 \item{table_name}{Character. A name applied to the marked-up table when opened in a spreadsheet program.}
-\item{table}{List-column of data.frames. }
+\item{table}{List-column of data.frames.}
 }
 }
 \source{
-\code{\link[datasets:mtcars]}
+\code{\link[datasets:mtcars]{mtcars}}
 }
 \usage{
 mtcars_df
