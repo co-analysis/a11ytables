@@ -87,7 +87,7 @@ str(mtcars_df, max.level = 2)
 #>  $ table      :List of 4
 #>   ..$ :'data.frame': 2 obs. of  2 variables:
 #>   ..$ :'data.frame': 2 obs. of  2 variables:
-#>   ..$ :'data.frame': 6 obs. of  2 variables:
+#>   ..$ :'data.frame': 5 obs. of  2 variables:
 #>   ..$ :'data.frame': 32 obs. of  6 variables:
 ```
 
