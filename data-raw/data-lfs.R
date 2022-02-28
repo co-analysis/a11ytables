@@ -103,5 +103,5 @@ lfs_tables$subtable_title <- NA_character_
 lfs_tables <- subset(lfs_tables, select = -c(subtable_num, subtable_title))
 
 # Write to data/
-use_data(lfs_subtables, overwrite = TRUE)
+# use_data(lfs_subtables, overwrite = TRUE)  # ignore subtables for now
 use_data(lfs_tables, overwrite = TRUE)

@@ -58,94 +58,114 @@
 
   # Sources
 
-  table_sources <- content[content$sheet_type == "tables", "source"]
+  table_sources <- content[content$sheet_type == "tables", "source"][[1]]
 
   if (any(is.na(table_sources))) {
 
     warning(
-      "One of your tables is missing a source.",
+      "One of your tables is missing a source statement.",
       call. = FALSE
     )
 
   }
 
-  # Notes (presence)
+  # Notes (missing notes sheet, or notes in table)
 
-  notes_sheet  <- content[content$sheet_type == "notes", ]  # only one
-  tables_sheets <- content[content$sheet_type == "tables", ]  # maybe multiple
+  has_notes_sheet <- ifelse(
+    nrow(content[content$sheet_type == "notes", ]) > 0,
+    TRUE, FALSE
+  )
+
+  tables_sheets <- content[content$sheet_type == "tables", ]
 
   has_notes <-
     any(
       unlist(
         lapply(
-          tables_sheets[, "tab_title"],
-          function(x) .detect_notes(tables_sheets, x)
+          tables_sheets[, "tab_title"][[1]],
+          function(x) .detect_notes(content, x)
         )
       )
     )
 
-  if (nrow(notes_sheet) == 0 & has_notes) {
 
-    warning(
-      "You have in-table notes, but no notes sheet.",
-      call. = FALSE
-    )
+  if (has_notes_sheet) {
 
-  }
+    if (!has_notes) {
 
-  if (nrow(notes_sheet) > 0 & !has_notes) {
-
-    warning(
-      "You have a notes sheet, but no in-table notes.",
-      call. = FALSE
-    )
-
-  }
-
-  # Notes mismatch
-
-  notes_sheet_notes <-
-    suppressWarnings(
-      as.numeric(
-        gsub("\\[|\\]", "", notes_sheet[, "table"][[1]][[1]])
+      warning(
+        "You have a 'notes' sheet, but no notes in your tables.",
+        call. = FALSE
       )
-    )
 
-  notes_sheet_notes <- notes_sheet_notes[!is.na(notes_sheet_notes)]
+    }
 
-  tables_sheet_notes <- sort(
-    unique(
-      unlist(
-        lapply(
-          tables_sheets$tab_title,
-          function(x) .extract_note_values(content, x)
+  }
+
+  if (has_notes) {
+
+    if (!has_notes_sheet) {
+
+      warning(
+        "You have notes in your tables, but no 'notes' sheet.",
+        call. = FALSE
+      )
+
+    }
+
+  }
+
+
+  # Notes (note sheet present, but mismatches exist)
+
+  if (has_notes_sheet) {
+
+    notes_sheet  <- content[content$sheet_type == "notes", ]  # only one
+
+    notes_sheet_values <-
+      suppressWarnings(
+        as.numeric(
+          gsub("\\[|\\]", "", notes_sheet[, "table"][[1]][[1]])
+        )
+      )
+
+    notes_sheet_values <- notes_sheet_values[!is.na(notes_sheet_values)]
+
+    tables_sheet_notes <- sort(
+      unique(
+        unlist(
+          lapply(
+            tables_sheets$tab_title,
+            function(x) .extract_note_values(content, x)
+          )
         )
       )
     )
-  )
 
-  not_in_tables <- setdiff(notes_sheet_notes, tables_sheet_notes)
-  not_in_notes  <- setdiff(tables_sheet_notes, notes_sheet_notes)
+    not_in_tables <- setdiff(notes_sheet_values, tables_sheet_notes)
+    not_in_notes  <- setdiff(tables_sheet_notes, notes_sheet_values)
 
-  if (length(not_in_tables) > 0) {
+    if (length(not_in_tables) > 0) {
 
-    warning(
-      "Some notes are in the tables (",
-      paste(not_in_tables, collapse = ", "),
-      ") but are missing from the notes sheet.",
-      call. = FALSE
-    )
+      warning(
+        "Some notes are in the tables (",
+        paste(not_in_tables, collapse = ", "),
+        ") but are missing from the notes sheet.",
+        call. = FALSE
+      )
 
-  }
+    }
 
-  if (length(not_in_notes) > 0) {
+    if (length(not_in_notes) > 0) {
 
-    warning(
-      "Some notes are in the notes sheets (",
-      paste(not_in_notes, collapse = ", "),
-      ") but are missing from the tables.",
-      call. = FALSE
-    )
+      warning(
+        "Some notes are in the notes sheets (",
+        paste(not_in_notes, collapse = ", "),
+        ") but are missing from the tables.",
+        call. = FALSE
+      )
+
+    }
 
   }
 

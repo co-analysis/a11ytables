@@ -2,12 +2,12 @@
 test_that("a11ytable can be created by hand", {
 
   x <- new_a11ytable(
-    tab_titles      = lfs_tables$tab_title,
-    sheet_types     = lfs_tables$sheet_type,
-    sheet_titles    = lfs_tables$sheet_title,
-    sources         = lfs_tables$source,
-    table_names     = lfs_tables$table_name,
-    tables          = lfs_tables$table
+    tab_titles   = mtcars_df$tab_title,
+    sheet_types  = mtcars_df$sheet_type,
+    sheet_titles = mtcars_df$sheet_title,
+    sources      = mtcars_df$source,
+    table_names  = mtcars_df$table_name,
+    tables       = mtcars_df$table
   )
 
   expect_s3_class(x, class = "a11ytable")
@@ -15,12 +15,12 @@ test_that("a11ytable can be created by hand", {
 
   expect_error(
     new_a11ytable(
-      tab_titles      = lfs_tables$tab_title,
+      tab_titles      = mtcars_df$tab_title,
       sheet_types     = "x",
-      sheet_titles    = lfs_tables$sheet_title,
-      sources         = lfs_tables$source,
-      table_names     = lfs_tables$table_name,
-      tables          = lfs_tables$table
+      sheet_titles    = mtcars_df$sheet_title,
+      sources         = mtcars_df$source,
+      table_names     = mtcars_df$table_name,
+      tables          = mtcars_df$table
     )
   )
 
@@ -28,7 +28,7 @@ test_that("a11ytable can be created by hand", {
 
 test_that("suitable objects can be coerced", {
 
-  x <- as_a11ytable(lfs_tables)
+  x <- as_a11ytable(mtcars_df)
 
   expect_s3_class(x, class = "a11ytable")
   expect_identical(class(x), c("a11ytable", "tbl", "data.frame"))
@@ -38,7 +38,7 @@ test_that("suitable objects can be coerced", {
 
   expect_identical(
     structure(x, class = "data.frame"),
-    structure(lfs_tables, class = "data.frame")
+    structure(mtcars_df, class = "data.frame")
   )
 
   expect_true(is_a11ytable(x))
@@ -48,40 +48,40 @@ test_that("suitable objects can be coerced", {
 
 test_that("class validation works", {
 
-  expect_length(as_a11ytable(lfs_tables), 6)
+  expect_length(as_a11ytable(mtcars_df), 6)
 
   expect_error(as_a11ytable(1))
   expect_error(as_a11ytable("x"))
   expect_error(as_a11ytable(list()))
   expect_error(as_a11ytable(data.frame()))
 
-  x <- lfs_tables; names(x)[1] <- "foo"
+  x <- mtcars_df; names(x)[1] <- "foo"
   expect_error(as_a11ytable(x))
 
-  x <- lfs_tables; x[["table"]] <- as.character(x[["table"]])
+  x <- mtcars_df; x[["table"]] <- as.character(x[["table"]])
   expect_error(as_a11ytable(x))
 
-  x <- lfs_tables[, 1:4]
+  x <- mtcars_df[, 1:4]
   expect_error(as_a11ytable(x))
 
-  x <- lfs_tables[1, ]
+  x <- mtcars_df[1, ]
   expect_error(as_a11ytable(x))
 
-  x <- lfs_tables; x[1] <- 1:nrow(x)
+  x <- mtcars_df; x[1] <- 1:nrow(x)
   expect_error(as_a11ytable(x))
 
-  x <- lfs_tables; x[x$sheet_type %in% c("cover", "contents"), "sheet_type"] <- "foo"
+  x <- mtcars_df; x[x$sheet_type %in% c("cover", "contents"), "sheet_type"] <- "foo"
   expect_error(as_a11ytable(x))
 
-  x <- lfs_tables; x$sheet_type <- NA_character_
+  x <- mtcars_df; x$sheet_type <- NA_character_
   expect_error(as_a11ytable(x))
 
 })
 
-test_that("print method works", {
+test_that("summary method works", {
 
-  x <- as_a11ytable(lfs_tables)
+  x <- as_a11ytable(mtcars_df)
 
-  expect_output(print(x))
+  expect_output(summary(x))
 
 })
