@@ -48,12 +48,12 @@
 #' @examples
 #' \dontrun{
 #' x <- new_a11ytable(
-#'     tab_titles   = lfs_tables$tab_title,
-#'     sheet_types  = lfs_tables$sheet_type,
-#'     sheet_titles = lfs_tables$sheet_title,
-#'     sources      = lfs_tables$source,
-#'     table_names  = lfs_tables$table_name,
-#      tables       = lfs_tables$table
+#'     tab_titles   = mtcars_df$tab_title,
+#'     sheet_types  = mtcars_df$sheet_type,
+#'     sheet_titles = mtcars_df$sheet_title,
+#'     sources      = mtcars_df$source,
+#'     table_names  = mtcars_df$table_name,
+#      tables       = mtcars_df$table
 #' )
 #' is_a11ytable(x)
 #' }
@@ -101,7 +101,7 @@ new_a11ytable <- function(
 #'
 #' @examples
 #' \dontrun{
-#' x <- as_a11ytable(lfs_tables)
+#' x <- as_a11ytable(mtcars_df)
 #' summary(x)
 #' }
 #'
@@ -144,7 +144,7 @@ summary.a11ytable <- function(object, ...) {
 #'
 #' @examples
 #' \dontrun{
-#' x <- as_a11ytable(lfs_tables)
+#' x <- as_a11ytable(mtcars_df)
 #' is_a11ytable(x)
 #' }
 #'
@@ -180,7 +180,7 @@ NULL
 #'
 #' @examples
 #' \dontrun{
-#' x <- as_a11ytable(lfs_tables)
+#' x <- as_a11ytable(mtcars_df)
 #' tbl_sum(x)  # description only
 #' print(x)  # print with description
 #' }

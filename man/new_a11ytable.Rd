@@ -69,11 +69,11 @@ data to be published.
 \examples{
 \dontrun{
 x <- new_a11ytable(
-    tab_titles   = lfs_tables$tab_title,
-    sheet_types  = lfs_tables$sheet_type,
-    sheet_titles = lfs_tables$sheet_title,
-    sources      = lfs_tables$source,
-    table_names  = lfs_tables$table_name,
+    tab_titles   = mtcars_df$tab_title,
+    sheet_types  = mtcars_df$sheet_type,
+    sheet_titles = mtcars_df$sheet_title,
+    sources      = mtcars_df$source,
+    table_names  = mtcars_df$table_name,
 )
 is_a11ytable(x)
 }
