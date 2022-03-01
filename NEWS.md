@@ -5,10 +5,11 @@
 * Expunged `lfs_tables` (#20)
 * Added 'Crown Copyright' to authors as the copyright holder 
 * Updated README and vignettes given these changes
+* Handle plurals and periods in meta sheet elements, update detection of notes in column headers
 
 # a11ytables 0.0.0.9009
 
-* Converted he `print` method to a `summary` method, as suggested by @TimTaylor (#23)
+* Converted the `print` method to a `summary` method, as suggested by @TimTaylor (#23)
 * Imported {pillar} for {tibble}-style printing, as suggested by @TimTaylor (#26)
 * Added @TimTaylor as a contributor
 * Updated vignettes and README

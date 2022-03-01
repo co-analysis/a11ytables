@@ -23,11 +23,11 @@
 
 .detect_notes <- function(content, tab_title) {
 
-  table_names <-
-    names(content[content$tab_title == tab_title, "table"][[1]])
+  table_names <- names(content[content$tab_title == tab_title, "table"][[1]])
 
-  has_header_notes <- grepl("[[0-9]{1,3}]", table_names)  # TODO must be surroudned by []!
-  has_notes_column <- tolower(table_names) %in% "notes"
+  has_header_notes <- any(grepl("(?<=\\[).*(?=\\])", table_names, perl = TRUE))
+
+  has_notes_column <- any(tolower(table_names) %in% "notes")
 
   any(has_header_notes, has_notes_column)
 
@@ -102,7 +102,10 @@
 
   table_count <- nrow(content[content$tab_title == tab_title, ])
 
-  text <- paste("This worksheet contains", table_count, "table.")
+  text <- paste(
+    "This worksheet contains", table_count,
+    ifelse(table_count == 1, "table.", "tables.")
+  )
 
   openxlsx::writeData(
     wb = wb,
@@ -149,7 +152,17 @@
   has_source_text <- ifelse(!is.na(source_text), TRUE, FALSE)
 
   if (has_source_text) {
-    text <- paste("Source:", source_text)
+
+    last_char <- strsplit(source_text, "")[[1]][nchar(source_text)]
+
+    if (last_char == ".") {
+      text <- paste("Source:", source_text)
+    }
+
+    if (last_char != ".") {
+      text <- paste0("Source: ", source_text, ".")
+    }
+
   }
 
   if (!has_source_text) {

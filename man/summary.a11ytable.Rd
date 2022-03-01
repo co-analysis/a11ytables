@@ -17,7 +17,7 @@ the sheet content.
 }
 \examples{
 \dontrun{
-x <- as_a11ytable(lfs_tables)
+x <- as_a11ytable(mtcars_df)
 summary(x)
 }
 

@@ -19,7 +19,7 @@ A brief textual description of an a11ytable-class object.
 }
 \examples{
 \dontrun{
-x <- as_a11ytable(lfs_tables)
+x <- as_a11ytable(mtcars_df)
 tbl_sum(x)  # description only
 print(x)  # print with description
 }

@@ -22,7 +22,7 @@ Functions to check if an object is an a11ytable, or coerce it if possible.
 }
 \examples{
 \dontrun{
-x <- as_a11ytable(lfs_tables)
+x <- as_a11ytable(mtcars_df)
 is_a11ytable(x)
 }
 
