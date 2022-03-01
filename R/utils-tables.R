@@ -23,11 +23,11 @@
 
 .detect_notes <- function(content, tab_title) {
 
-  table_names <-
-    names(content[content$tab_title == tab_title, "table"][[1]])
+  table_names <- names(content[content$tab_title == tab_title, "table"][[1]])
 
-  has_header_notes <- grepl("[[0-9]{1,3}]", table_names)  # TODO must be surroudned by []!
-  has_notes_column <- tolower(table_names) %in% "notes"
+  has_header_notes <- any(grepl("(?<=\\[).*(?=\\])", table_names, perl = TRUE))
+
+  has_notes_column <- any(tolower(table_names) %in% "notes")
 
   any(has_header_notes, has_notes_column)
 
