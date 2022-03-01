@@ -152,7 +152,17 @@
   has_source_text <- ifelse(!is.na(source_text), TRUE, FALSE)
 
   if (has_source_text) {
-    text <- paste("Source:", source_text)
+
+    last_char <- strsplit(source_text, "")[[1]][nchar(source_text)]
+
+    if (last_char == ".") {
+      text <- paste("Source:", source_text)
+    }
+
+    if (last_char != ".") {
+      text <- paste0("Source: ", source_text, ".")
+    }
+
   }
 
   if (!has_source_text) {
