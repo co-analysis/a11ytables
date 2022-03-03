@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -54,6 +54,9 @@
     </li>
     <li>
       <a href="../articles/construct.html">Construct an a11ytable</a>
+    </li>
+    <li>
+      <a href="../articles/quickstart.html">Get started</a>
     </li>
   </ul>
 </li>
@@ -94,10 +97,14 @@
 <div class="section level2">
 <h2 id="purpose">Purpose<a class="anchor" aria-label="anchor" href="#purpose"></a>
 </h2>
-<p>The aim of the {a11ytables} package is to make it easier to create publication-quality workbooks that meet accessibility guidance.</p>
-<p>The tables below show which features of the package meet <a href="https://gss.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/" class="external-link">the GSS Best Practice and Impacts Division’s ‘Making spreadsheets accessible: checklist of the basics’</a>.</p>
+<p>The purpose of this vignette is to provide a light-tough way of showing how the {a11ytables} package adheres to best practice to create publication-quality workbooks that meet accessibility guidance.</p>
+</div>
+<div class="section level2">
+<h2 id="checklists">Checklists<a class="anchor" aria-label="anchor" href="#checklists"></a>
+</h2>
+<p>The tables below show how the features of the {a11ytables} package meet <a href="https://gss.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/" class="external-link">the GSS Best Practice and Impacts Division’s ‘Making spreadsheets accessible: checklist of the basics’</a>.</p>
 <p>This assessment is based on the unedited output from a typical {a11ytables} workflow: a <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code> passed to <code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code> and then <code><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html" class="external-link">openxlsx::saveWorkbook()</a></code>.</p>
-<p>The ‘status’ column can take the following values for each feature:</p>
+<p>The ‘status’ column in these tables takes the following values for each feature, depending on their implementation:</p>
 <ul>
 <li>Y = yes (completed)</li>
 <li>P = partly (not fully implemented)</li>
@@ -106,7 +113,7 @@
 <li>NA = not applicable (not relevant to how the package functions)</li>
 </ul>
 <div class="section level3">
-<h3 id="tables">Tables<a class="anchor" aria-label="anchor" href="#tables"></a>
+<h3 id="tables">1. Tables<a class="anchor" aria-label="anchor" href="#tables"></a>
 </h3>
 <table class="table">
 <thead><tr class="header">
@@ -174,7 +181,7 @@
 </table>
 </div>
 <div class="section level3">
-<h3 id="footnotes">Footnotes<a class="anchor" aria-label="anchor" href="#footnotes"></a>
+<h3 id="footnotes">2. Footnotes<a class="anchor" aria-label="anchor" href="#footnotes"></a>
 </h3>
 <table class="table">
 <thead><tr class="header">
@@ -212,7 +219,7 @@
 </table>
 </div>
 <div class="section level3">
-<h3 id="formatting">Formatting<a class="anchor" aria-label="anchor" href="#formatting"></a>
+<h3 id="formatting">3. Formatting<a class="anchor" aria-label="anchor" href="#formatting"></a>
 </h3>
 <table class="table">
 <colgroup>
@@ -304,7 +311,7 @@
 </table>
 </div>
 <div class="section level3">
-<h3 id="structure">Structure<a class="anchor" aria-label="anchor" href="#structure"></a>
+<h3 id="structure">4. Structure<a class="anchor" aria-label="anchor" href="#structure"></a>
 </h3>
 <table class="table">
 <thead><tr class="header">
@@ -354,7 +361,7 @@
 </table>
 </div>
 <div class="section level3">
-<h3 id="before-publishing">Before publishing<a class="anchor" aria-label="anchor" href="#before-publishing"></a>
+<h3 id="before-publishing">5. Before publishing<a class="anchor" aria-label="anchor" href="#before-publishing"></a>
 </h3>
 <table class="table">
 <colgroup>

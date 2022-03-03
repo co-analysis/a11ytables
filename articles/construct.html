@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -54,6 +54,9 @@
     </li>
     <li>
       <a href="../articles/construct.html">Construct an a11ytable</a>
+    </li>
+    <li>
+      <a href="../articles/quickstart.html">Get started</a>
     </li>
   </ul>
 </li>
@@ -94,8 +97,12 @@
 <div class="section level2">
 <h2 id="purpose">Purpose<a class="anchor" aria-label="anchor" href="#purpose"></a>
 </h2>
-<p>The purpose of this vignette is to demonstrate how to create an a11ytable-class object.</p>
-<p>An a11ytable can be converted to an {openxlsx} Workbook-class object and then an Excel workbook (xlsx).</p>
+<p>The purpose of this vignette is to demonstrate how to create an a11ytable-class object, with a little more depth than <a href="https://co-analysis.github.io/a11ytables/articles/quickstart.html" class="external-link">the quickstart guide</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="approaches">Approaches<a class="anchor" aria-label="anchor" href="#approaches"></a>
+</h2>
+<p>You need to create an a11ytable before it’s converted to an {openxlsx} Workbook-class object and then output as an Excel workbook (xlsx).</p>
 <p>There are two approaches to constructing an a11ytable-class object:</p>
 <ol style="list-style-type: decimal">
 <li>Pass arguments directly to <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code>
@@ -106,6 +113,7 @@
 <div class="section level2">
 <h2 id="workbook-nomenclature">Workbook nomenclature<a class="anchor" aria-label="anchor" href="#workbook-nomenclature"></a>
 </h2>
+<p>We should start by reviewing specific terms used to refer to the structure of a workbook.</p>
 <p>An output <em>workbook</em> contains <em>tabs</em> that have <em>sheets</em> in them. Each tab has a unique <em>tab title</em>.</p>
 <p>Sheets can be one of four <em>types</em> that dictate the layout and content of a given sheet:</p>
 <ul>
@@ -291,9 +299,19 @@
 </div>
 </div>
 <div class="section level2">
+<h2 id="validation">Validation<a class="anchor" aria-label="anchor" href="#validation"></a>
+</h2>
+<p>You’ll receive an error and the a11ytable will fail to be built if you’re missing crucial content, or the information you provide can’t be used to build a data.frame object (e.g. you supply an unequal number of elements to each argument of <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code>).</p>
+<p>You’ll get a warning if you do something that needs tidying up. For example, in your tables you may have marked some variables with note markers, but forgot to add the note text to the table in your notes sheet. You might see this if you have notes ‘[3]’ and ‘[4]’ marked in your table, but not explained in your notes sheet:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Warning message:</span>
+<span class="co"># Some notes are in the notes sheets (3, 4) but are missing from the tables. </span></code></pre></div>
+<p>{a11ytables} is forgiving with these types of issues, allowing you to develop your code more easily. Of course, it’s the responsibility of the user to respond to these warnings.</p>
+</div>
+<div class="section level2">
 <h2 id="next-steps">Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
 </h2>
-<p>Regardless of whether <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code> or <code><a href="../reference/as_a11ytable.html">is_a11ytable()</a></code> was used, the a11ytable-class output can be passed to <code>new_a11y_wb()</code> to convert it to Workbook-class, before being written with <code><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html" class="external-link">openxlsx::saveWorkbook()</a></code> or opened as a temporary file with <code><a href="https://rdrr.io/pkg/openxlsx/man/openXL.html" class="external-link">openxlsx::openXL()</a></code>.</p>
+<p>Regardless of whether <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code> or <code><a href="../reference/as_a11ytable.html">is_a11ytable()</a></code> was used, the a11ytable-class output can be passed to <code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code> to convert it to Workbook-class, before being written with <code><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html" class="external-link">openxlsx::saveWorkbook()</a></code> or opened as a temporary file with <code><a href="https://rdrr.io/pkg/openxlsx/man/openXL.html" class="external-link">openxlsx::openXL()</a></code>.</p>
 </div>
   </div>
 
