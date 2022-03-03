@@ -16,13 +16,15 @@ knitr::opts_chunk$set(
 
 ## Purpose
 
-The aim of the {a11ytables} package is to make it easier to create publication-quality workbooks that meet accessibility guidance.
+The purpose of this vignette is to provide a light-tough way of showing how the {a11ytables} package adheres to best practice to create publication-quality workbooks that meet accessibility guidance.
 
-The tables below show which features of the package meet [the GSS Best Practice and Impacts Division's 'Making spreadsheets accessible: checklist of the basics'](https://gss.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/).
+## Checklists
+
+The tables below show how the features of the {a11ytables} package meet [the GSS Best Practice and Impacts Division's 'Making spreadsheets accessible: checklist of the basics'](https://gss.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/).
 
 This assessment is based on the unedited output from a typical {a11ytables} workflow: a `new_a11ytable()` passed to `create_a11y_wb()` and then `openxlsx::saveWorkbook()`.
 
-The 'status' column can take the following values for each feature:
+The 'status' column in these tables takes the following values for each feature, depending on their implementation:
 
 * Y = yes (completed)
 * P = partly (not fully implemented)
@@ -30,7 +32,7 @@ The 'status' column can take the following values for each feature:
 * U = user (the user's responsibility)
 * NA = not applicable (not relevant to how the package functions)
 
-### Tables
+### 1. Tables
 
 | Number | Description | Essential? | Status |
 | :--- | :--- | :--- | :--- | 
@@ -44,7 +46,7 @@ The 'status' column can take the following values for each feature:
 | 8 | Only leave cells with no data empty in certain circumstances | Y | NA |
 | 9 | Avoid hiding rows or columns | | Y |
 
-### Footnotes
+### 2. Footnotes
 
 | Number | Description | Essential? | Status |
 | :--- | :--- | :--- | :--- | 
@@ -53,7 +55,7 @@ The 'status' column can take the following values for each feature:
 | 3 | Avoid putting note markers in specific cells | | U |
 | 4 | Put note text in a notes table on a notes worksheet | | Y |
 
-### Formatting
+### 3. Formatting
 
 | Number | Description | Essential? | Status |
 | :--- | :--- | :--- | :--- | 
@@ -70,7 +72,7 @@ The 'status' column can take the following values for each feature:
 | 11 | Avoid images in spreadsheets | | Y |
 | 12 | Remove macros | | Y |
 
-### Structure
+### 4. Structure
 
 | Number | Description | Essential? | Status |
 | :--- | :--- | :--- | :--- | 
@@ -81,7 +83,7 @@ The 'status' column can take the following values for each feature:
 | 5 | Avoid putting content below a table | | Y |
 | 6 | Avoid worksheets with multiple tables | | Y |
 
-### Before publishing
+### 5. Before publishing
 
 | Number | Description | Essential? | Status |
 | :--- | :--- | :--- | :--- | 

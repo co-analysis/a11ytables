@@ -16,7 +16,9 @@ knitr::opts_chunk$set(
 
 ## Purpose
 
-The purpose of this vignette is to demonstrate how to create an a11ytable-class object.
+The purpose of this vignette is to demonstrate how to create an a11ytable-class object, with a little more depth than [the quickstart guide](https://co-analysis.github.io/a11ytables/articles/quickstart.html).
+
+## Approaches
 
 You need to create an a11ytable before it's converted to an {openxlsx} Workbook-class object and then output as an Excel workbook (xlsx).
 
@@ -26,6 +28,8 @@ There are two approaches to constructing an a11ytable-class object:
 1. Create a data.frame-class object for conversion to a11ytable-class with `as_a11ytable()`.
 
 ## Workbook nomenclature
+
+We should start by reviewing specific terms used to refer to the structure of a workbook.
 
 An output _workbook_ contains _tabs_ that have _sheets_ in them. Each tab has a unique _tab title_.
 
@@ -240,4 +244,4 @@ You'll get a warning if you do something that needs tidying up. For example, in 
 
 ## Next steps
 
-Regardless of whether `new_a11ytable()` or `is_a11ytable()` was used, the a11ytable-class output can be passed to `new_a11y_wb()` to convert it to Workbook-class, before being written with `openxlsx::saveWorkbook()` or opened as a temporary file with `openxlsx::openXL()`. 
+Regardless of whether `new_a11ytable()` or `is_a11ytable()` was used, the a11ytable-class output can be passed to `create_a11y_wb()` to convert it to Workbook-class, before being written with `openxlsx::saveWorkbook()` or opened as a temporary file with `openxlsx::openXL()`. 
