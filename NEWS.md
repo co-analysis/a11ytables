@@ -5,6 +5,7 @@
 * Expunged `lfs_tables` (#20)
 * Added 'Crown Copyright' to authors as the copyright holder 
 * Updated README and vignettes given these changes
+* Added new quickstart vignette and simplified README (#43)
 * Handle plurals and periods in meta sheet elements, update detection of notes in column headers
 
 # a11ytables 0.0.0.9009

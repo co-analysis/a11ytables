@@ -16,9 +16,11 @@ knitr::opts_chunk$set(
 
 ## Purpose
 
-The purpose of this vignette is to demonstrate how to create an a11ytable-class object.
+The purpose of this vignette is to demonstrate how to create an a11ytable-class object, with a little more depth than [the quickstart guide](https://co-analysis.github.io/a11ytables/articles/quickstart.html).
 
-An a11ytable can be converted to an {openxlsx} Workbook-class object and then an Excel workbook (xlsx).
+## Approaches
+
+You need to create an a11ytable before it's converted to an {openxlsx} Workbook-class object and then output as an Excel workbook (xlsx).
 
 There are two approaches to constructing an a11ytable-class object:
 
@@ -26,6 +28,8 @@ There are two approaches to constructing an a11ytable-class object:
 1. Create a data.frame-class object for conversion to a11ytable-class with `as_a11ytable()`.
 
 ## Workbook nomenclature
+
+We should start by reviewing specific terms used to refer to the structure of a workbook.
 
 An output _workbook_ contains _tabs_ that have _sheets_ in them. Each tab has a unique _tab title_.
 
@@ -225,6 +229,19 @@ is_a11ytable(a11ytable_coerced)
 
 Success.
 
+## Validation
+
+You'll receive an error and the a11ytable will fail to be built if you're missing crucial content, or the information you provide can't be used to build a data.frame object (e.g. you supply an unequal number of elements to each argument of `new_a11ytable()`).
+
+You'll get a warning if you do something that needs tidying up. For example, in your tables you may have marked some variables with note markers, but forgot to add the note text to the table in your notes sheet. You might see this if you have notes '[3]' and '[4]' marked in your table, but not explained in your notes sheet:
+
+```{r warning-ex}
+# Warning message:
+# Some notes are in the notes sheets (3, 4) but are missing from the tables. 
+```
+
+{a11ytables} is forgiving with these types of issues, allowing you to develop your code more easily. Of course, it's the responsibility of the user to respond to these warnings.
+
 ## Next steps
 
-Regardless of whether `new_a11ytable()` or `is_a11ytable()` was used, the a11ytable-class output can be passed to `new_a11y_wb()` to convert it to Workbook-class, before being written with `openxlsx::saveWorkbook()` or opened as a temporary file with `openxlsx::openXL()`. 
+Regardless of whether `new_a11ytable()` or `is_a11ytable()` was used, the a11ytable-class output can be passed to `create_a11y_wb()` to convert it to Workbook-class, before being written with `openxlsx::saveWorkbook()` or opened as a temporary file with `openxlsx::openXL()`. 
