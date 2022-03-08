@@ -1,3 +1,9 @@
+# a11ytables 0.0.0.90011
+
+* Prevented the tab title being pasted into the titles of tables sheets (#48)
+* Made sure to wrap non-header cells in tables sheets (#41)
+* Provide an auto-column-width adjustment in tables where cell content or headers is long (#41)
+
 # a11ytables 0.0.0.90010
 
 * Added warnings if issues are detected when making an a11ytables-class object (#34)
