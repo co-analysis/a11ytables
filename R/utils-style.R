@@ -117,11 +117,15 @@
   table_height <- nrow(table)
   table_width  <- ncol(table)
 
+  cellwidth_default <- 16
+  cellwidth_wider <- 32
+  nchar_break <- 50
+
   # Some columns may contain numbers but have suppression text in them, e.g.
   # '[c]', which makes the column character class. Find the likely numeric cols.
   suppressWarnings(  # coercion to numeric may trigger a warning
     likely_num_cols <-
-      names(  # return names of columns that a remost likely numeric
+      names(  # return names of columns that are most likely numeric
         Filter(
           isTRUE,  # isolate the columns that are likely numeric
           lapply(
@@ -143,13 +147,27 @@
     table_header_row <- 5
   }
 
-  # Table data columns are SET-WIDTH, WRAPPED and, if numeric, RIGHT ALIGNED
+  # Columns that should be wider than default
+  wide_cells <- names(Filter(function(x) max(nchar(x)) > nchar_break, table))
+  wide_cells_index <- which(names(table) %in% wide_cells)
+  wide_headers_index <- which(nchar(names(table)) > 50)
+  wide_cols_index <- c(wide_cells_index, wide_headers_index)
+
+  # Table data columns are SET-WIDTH (depending on character length),
+  # RIGHT-ALIGNED (if numeric) and WRAPPED
 
   openxlsx::setColWidths(
     wb = wb,
     sheet = tab_title,
     cols = seq(table_width),
-    widths = 16
+    widths = cellwidth_default  # set all columns to default width first
+  )
+
+  openxlsx::setColWidths(
+    wb = wb,
+    sheet = tab_title,
+    cols = wide_cols_index,
+    widths = cellwidth_wider  # apply larger width to certain columns
   )
 
   openxlsx::addStyle(
