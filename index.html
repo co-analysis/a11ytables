@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">a11ytables</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.90010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.90011</span>
       </span>
     </div>
 
@@ -97,7 +97,7 @@
 </h2>
 <p>An R package to help you create spreadsheets that adhere to the latest guidance (June 2021) on <a href="https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/" class="external-link">releasing statistics in spreadsheets</a> from the <a href="https://github.com/best-practice-and-impact?language=html" class="external-link">Best Practice and Impact Division</a> (BPID) of the UK’s <a href="https://gss.civilservice.gov.uk/" class="external-link">Government Statistical Service</a>.</p>
 <p>Visit <a href="https://co-analysis.github.io/a11ytables/" class="external-link">the {a11ytables} website</a> for documentation.</p>
-<p>The package is under development. Please see <a href="https://co-analysis.github.io/a11ytables/news/index.html" class="external-link">the NEWS file</a> for changes.</p>
+<p>The package is under active development. Please see <a href="https://co-analysis.github.io/a11ytables/news/index.html" class="external-link">the NEWS file</a> for the latest changes. Many design decisions are opinionated for now, but please <a href="https://github.com/co-analysis/a11ytables/issues" class="external-link">leave your ideas as issues</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="install">Install<a class="anchor" aria-label="anchor" href="#install"></a>
@@ -108,7 +108,7 @@
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"co-analysis/a11ytables"</span><span class="op">)</span></code></pre></div>
 <p>To create a spreadsheet:</p>
 <ol style="list-style-type: decimal">
-<li>Use <code><a href="reference/new_a11ytable.html">new_a11ytable()</a></code> to create a special dataframe of your data</li>
+<li>Use <code><a href="reference/new_a11ytable.html">new_a11ytable()</a></code> to build a special dataframe of your data</li>
 <li>Use <code><a href="reference/create_a11y_wb.html">create_a11y_wb()</a></code> to add styles and workbook structure</li>
 <li>Use <code><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html" class="external-link">openxlsx::saveWorkbook()</a></code> to write an xlsx file</li>
 </ol>
