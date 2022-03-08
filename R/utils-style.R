@@ -132,7 +132,7 @@
       )
   )
 
-  # Get the index of columns that are likely, so styles can be applied
+  # Get the index of columns that are likely numeric, so styles can be applied
   num_cols_index <- which(names(table) %in% likely_num_cols)
 
   if (sheet_type %in% c("cover", "contents", "notes")) {
@@ -143,7 +143,7 @@
     table_header_row <- 5
   }
 
-  # Table data columns are SET-WIDTH, WRAPPED and RIGHT ALIGNED
+  # Table data columns are SET-WIDTH, WRAPPED and, if numeric, RIGHT ALIGNED
 
   openxlsx::setColWidths(
     wb = wb,
@@ -155,8 +155,9 @@
   openxlsx::addStyle(
     wb = wb,
     sheet = tab_title,
-    rows = table_header_row,
+    rows = seq(table_header_row, table_header_row + table_height),
     cols = seq(table_width),
+    gridExpand = TRUE,
     style = style_ref$wrap,
     stack = TRUE
   )
@@ -165,7 +166,7 @@
     wb = wb,
     sheet = tab_title,
     rows = seq(table_header_row, table_header_row + table_height),
-    cols = num_cols_index,
+    cols = num_cols_index,  # right-align numeric columns only
     gridExpand = TRUE,
     style = style_ref$ralign,
     stack = TRUE
