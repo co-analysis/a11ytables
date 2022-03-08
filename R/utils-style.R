@@ -117,11 +117,15 @@
   table_height <- nrow(table)
   table_width  <- ncol(table)
 
+  cellwidth_default <- 16
+  cellwidth_wider <- 32
+  nchar_break <- 50
+
   # Some columns may contain numbers but have suppression text in them, e.g.
   # '[c]', which makes the column character class. Find the likely numeric cols.
   suppressWarnings(  # coercion to numeric may trigger a warning
     likely_num_cols <-
-      names(  # return names of columns that a remost likely numeric
+      names(  # return names of columns that are most likely numeric
         Filter(
           isTRUE,  # isolate the columns that are likely numeric
           lapply(
@@ -132,7 +136,7 @@
       )
   )
 
-  # Get the index of columns that are likely, so styles can be applied
+  # Get the index of columns that are likely numeric, so styles can be applied
   num_cols_index <- which(names(table) %in% likely_num_cols)
 
   if (sheet_type %in% c("cover", "contents", "notes")) {
@@ -143,20 +147,35 @@
     table_header_row <- 5
   }
 
-  # Table data columns are SET-WIDTH, WRAPPED and RIGHT ALIGNED
+  # Columns that should be wider than default
+  wide_cells <- names(Filter(function(x) max(nchar(x)) > nchar_break, table))
+  wide_cells_index <- which(names(table) %in% wide_cells)
+  wide_headers_index <- which(nchar(names(table)) > 50)
+  wide_cols_index <- c(wide_cells_index, wide_headers_index)
+
+  # Table data columns are SET-WIDTH (depending on character length),
+  # RIGHT-ALIGNED (if numeric) and WRAPPED
 
   openxlsx::setColWidths(
     wb = wb,
     sheet = tab_title,
     cols = seq(table_width),
-    widths = 16
+    widths = cellwidth_default  # set all columns to default width first
+  )
+
+  openxlsx::setColWidths(
+    wb = wb,
+    sheet = tab_title,
+    cols = wide_cols_index,
+    widths = cellwidth_wider  # apply larger width to certain columns
   )
 
   openxlsx::addStyle(
     wb = wb,
     sheet = tab_title,
-    rows = table_header_row,
+    rows = seq(table_header_row, table_header_row + table_height),
     cols = seq(table_width),
+    gridExpand = TRUE,
     style = style_ref$wrap,
     stack = TRUE
   )
@@ -165,7 +184,7 @@
     wb = wb,
     sheet = tab_title,
     rows = seq(table_header_row, table_header_row + table_height),
-    cols = num_cols_index,
+    cols = num_cols_index,  # right-align numeric columns only
     gridExpand = TRUE,
     style = style_ref$ralign,
     stack = TRUE

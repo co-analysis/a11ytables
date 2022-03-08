@@ -81,10 +81,6 @@
 
   sheet_title <- content[content$tab_title == tab_title, "sheet_title"][[1]]
 
-  if (content[content$tab_title == tab_title, "sheet_type"][[1]] == "tables") {
-    sheet_title <- paste0(tab_title, ": ", sheet_title)
-  }
-
   openxlsx::writeData(
     wb = wb,
     sheet = tab_title,

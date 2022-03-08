@@ -28,9 +28,11 @@ Service](https://gss.civilservice.gov.uk/).
 Visit [the {a11ytables}
 website](https://co-analysis.github.io/a11ytables/) for documentation.
 
-The package is under development. Please see [the NEWS
-file](https://co-analysis.github.io/a11ytables/news/index.html) for
-changes.
+The package is under active development. Please see [the NEWS
+file](https://co-analysis.github.io/a11ytables/news/index.html) for the
+latest changes. Many design decisions are opinionated for now, but
+please [leave your ideas as
+issues](https://github.com/co-analysis/a11ytables/issues).
 
 ## Install
 
@@ -46,7 +48,7 @@ remotes::install_github("co-analysis/a11ytables")
 
 To create a spreadsheet:
 
-1.  Use `new_a11ytable()` to create a special dataframe of your data
+1.  Use `new_a11ytable()` to build a special dataframe of your data
 2.  Use `create_a11y_wb()` to add styles and workbook structure
 3.  Use `openxlsx::saveWorkbook()` to write an xlsx file
 

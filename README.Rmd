@@ -30,7 +30,7 @@ An R package to help you create spreadsheets that adhere to the latest guidance 
 
 Visit [the {a11ytables} website](https://co-analysis.github.io/a11ytables/) for documentation.
 
-The package is under development. Please see [the NEWS file](https://co-analysis.github.io/a11ytables/news/index.html) for changes.
+The package is under active development. Please see [the NEWS file](https://co-analysis.github.io/a11ytables/news/index.html) for the latest changes. Many design decisions are opinionated for now, but please [leave your ideas as issues](https://github.com/co-analysis/a11ytables/issues).
 
 ## Install
 
@@ -43,7 +43,7 @@ remotes::install_github("co-analysis/a11ytables")
 
 To create a spreadsheet:
 
-1. Use `new_a11ytable()` to create a special dataframe of your data
+1. Use `new_a11ytable()` to build a special dataframe of your data
 1. Use `create_a11y_wb()` to add styles and workbook structure
 1. Use `openxlsx::saveWorkbook()` to write an xlsx file
 
@@ -56,7 +56,6 @@ See the ['Construct an a11ytable'](https://co-analysis.github.io/a11ytables/arti
 BPID released [a Python package called 'gptables'](https://github.com/best-practice-and-impact/gptables) but [it needs to be updated](https://github.com/best-practice-and-impact/gptables/issues/145). There's no companion R package at time of writing, but {a11ytables} fills this gap.
 
 The package can help you fulfil a [Reproducible Analytical Pipeline](https://dataingovernment.blog.gov.uk/2017/03/27/reproducible-analytical-pipeline/) by automating the generation of compliant spreadsheets for publication.
-
 
 ## Code of Conduct
 
