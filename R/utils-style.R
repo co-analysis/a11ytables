@@ -144,7 +144,7 @@
   }
 
   if (sheet_type == "tables") {
-    table_header_row <- 5
+    table_header_row <- 5  # TODO: table may have been placed dynamically in another row
   }
 
   # Columns that should be wider than default

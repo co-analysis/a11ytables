@@ -18,10 +18,22 @@
 }
 
 
-# Detect notes in tables --------------------------------------------------
+# Detect meta elements ----------------------------------------------------
 
 
-.detect_notes <- function(content, tab_title) {
+.has_source <- function(content, tab_title) {
+
+  table_source <- content[content$tab_title == tab_title, "source"][[1]]
+
+  if (!is.na(table_source)) {
+    TRUE
+  } else {
+    FALSE
+  }
+
+}
+
+.has_notes <- function(content, tab_title) {
 
   table_names <- names(content[content$tab_title == tab_title, "table"][[1]])
 
@@ -35,7 +47,9 @@
 
 .extract_note_values <- function(content, tab_title) {
 
-  if (.detect_notes(content, tab_title)) {  # if there are notes in this table
+  has_notes <- .has_notes(content, tab_title)
+
+  if (has_notes) {  # if there are notes in this table
 
     # Isolate named table dataframe
 
@@ -70,6 +84,35 @@
     )
 
   }
+
+}
+
+
+# Table placement ---------------------------------------------------------
+
+
+
+.get_start_row_source <- function(has_notes, start_row = 3) {
+
+  if (has_notes) {
+    start_row <- start_row + 1
+  }
+
+  return(start_row)
+
+}
+
+.get_start_row_table <- function(has_notes, has_source, start_row = 3) {
+
+  if (has_notes) {
+    start_row <- start_row + 1
+  }
+
+  if (has_source) {
+    start_row <- start_row + 1
+  }
+
+  return(start_row)
 
 }
 
@@ -118,25 +161,23 @@
 
 .insert_notes_statement <- function(wb, content, tab_title) {
 
-  has_notes <- .detect_notes(content, tab_title)
+  has_notes <- .has_notes(content, tab_title)
 
   if (has_notes) {
+
     text <-
       "This table contains notes, which can be found in the Notes worksheet."
-  }
 
-  if (!has_notes) {
-    text <- "There are no notes in this table."
-  }
+    openxlsx::writeData(
+      wb = wb,
+      sheet = tab_title,
+      x = text,
+      startCol = 1,
+      startRow = 3,  # notes will always go in row 3 if they exist
+      colNames = TRUE
+    )
 
-  openxlsx::writeData(
-    wb = wb,
-    sheet = tab_title,
-    x = text,
-    startCol = 1,
-    startRow = 3,  # TODO: can we make this dynamic depending on whether source exists?
-    colNames = TRUE
-  )
+  }
 
   return(wb)
 
@@ -144,10 +185,12 @@
 
 .insert_source <- function(wb, content, tab_title) {
 
-  source_text <- content[content$tab_title == tab_title, "source"][[1]]
-  has_source_text <- ifelse(!is.na(source_text), TRUE, FALSE)
+  has_source <- .has_source(content, tab_title)
+  has_notes <- .has_notes(content, tab_title)
 
-  if (has_source_text) {
+  if (has_source) {
+
+    source_text <- content[content$tab_title == tab_title, "source"][[1]]
 
     last_char <- strsplit(source_text, "")[[1]][nchar(source_text)]
 
@@ -159,20 +202,18 @@
       text <- paste0("Source: ", source_text, ".")
     }
 
-  }
+    start_row <- .get_start_row_source(has_notes)
 
-  if (!has_source_text) {
-    text <- "No data source has been provided for this table."
-  }
+    openxlsx::writeData(
+      wb = wb,
+      sheet = tab_title,
+      x = text,
+      startCol = 1,
+      startRow = start_row,  # dependent on whether notes text present
+      colNames = TRUE
+    )
 
-  openxlsx::writeData(
-    wb = wb,
-    sheet = tab_title,
-    x = text,
-    startCol = 1,
-    startRow = 4,  # TODO: can we make this dynamic depending on whether notes exists?
-    colNames = TRUE
-  )
+  }
 
   return(wb)
 
@@ -183,7 +224,11 @@
   table <- content[content$table_name == table_name, ][["table"]][[1]]
   sheet_type <- content[content$table_name == table_name, "sheet_type"][[1]]
   tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
-  source <- content[content$table_name == table_name, ][["source"]][[1]]
+
+  # Check for other elements, so we know which row to insert the table
+  has_source <- .has_source(content, tab_title)
+  has_notes <- .has_notes(content, tab_title)
+
 
   if (sheet_type == "cover") {
 
@@ -207,7 +252,7 @@
     }
 
     if (sheet_type == "tables") {
-      start_row <- 5
+      start_row <- .get_start_row_table(has_notes, has_source)
     }
 
     openxlsx::writeDataTable(
@@ -216,7 +261,7 @@
       x = table,
       tableName = table_name,
       startCol = 1,
-      startRow = start_row,
+      startRow = start_row,  # dependent on whether notes or source text present
       colNames = TRUE,
       tableStyle = "none",
       withFilter = FALSE,

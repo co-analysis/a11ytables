@@ -83,7 +83,7 @@
       unlist(
         lapply(
           tables_sheets[, "tab_title"][[1]],
-          function(x) .detect_notes(content, x)
+          function(x) .has_notes(content, x)
         )
       )
     )
