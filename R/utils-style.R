@@ -114,6 +114,10 @@
   tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
   sheet_type <- content[content$table_name == table_name, "sheet_type"][[1]]
 
+  has_notes <- .has_notes(content, tab_title)
+  has_source <- .has_source(content, tab_title)
+  start_row <- .get_start_row_table(has_notes, has_source)
+
   table_height <- nrow(table)
   table_width  <- ncol(table)
 
@@ -144,7 +148,7 @@
   }
 
   if (sheet_type == "tables") {
-    table_header_row <- 5
+    table_header_row <- start_row
   }
 
   # Columns that should be wider than default

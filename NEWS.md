@@ -1,8 +1,13 @@
+# a11ytables 0.0.0.90012
+
+* Made source, notes and table insertion dynamic, so the row of insertino of each is dependent on the others (#33)
+* Applied table styling based on dynamic table placement (#33)
+
 # a11ytables 0.0.0.90011
 
 * Prevented the tab title being pasted into the titles of tables sheets (#48)
 * Made sure to wrap non-header cells in tables sheets (#41)
-* Provide an auto-column-width adjustment in tables where cell content or headers is long (#41)
+* Provided an auto-column-width adjustment in tables where cell content or headers is long (#41)
 
 # a11ytables 0.0.0.90010
 
@@ -12,7 +17,7 @@
 * Added 'Crown Copyright' to authors as the copyright holder 
 * Updated README and vignettes given these changes
 * Added new quickstart vignette and simplified README (#43)
-* Handle plurals and periods in meta sheet elements, update detection of notes in column headers
+* Handled plurals and periods in meta sheet elements, update detection of notes in column headers
 
 # a11ytables 0.0.0.9009
 
