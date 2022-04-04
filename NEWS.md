@@ -1,3 +1,7 @@
+# a11ytables 0.0.0.90013
+
+* Added an RStudio Addin to insert code for an {a11ytables} workflow (#54)
+
 # a11ytables 0.0.0.90012
 
 * Made source, notes and table insertion dynamic, so the row of insertino of each is dependent on the others (#33)
