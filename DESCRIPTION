@@ -1,6 +1,6 @@
 Package: a11ytables
 Title: Create Spreadsheet Publications Following GSS Best Practice
-Version: 0.0.0.90012
+Version: 0.0.0.90013
 Authors@R: c(
     person(given = "Matt", family = "Dray", role = c("aut", "cre"), email = "mwdray@gmail.com"),
     person(given = "Tim", family = "Taylor", role = "ctb"),
@@ -26,6 +26,7 @@ Suggests:
     covr,
     knitr,
     rmarkdown,
+    rstudioapi,
     testthat (>= 3.0.0),
     tibble
 Config/testthat/edition: 3

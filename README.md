@@ -62,6 +62,10 @@ vignette for greater depth, or the [‘Accessbility guidance
 checklist’](https://co-analysis.github.io/a11ytables/articles/quickstart.html)
 vignette to see how the package complies with guidance.
 
+This package includes [an RStudio
+Addin](https://rstudio.github.io/rstudioaddins/) that inserts templates
+for an {a11ytables} workflow.
+
 ## Related projects
 
 BPID released [a Python package called

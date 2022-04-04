@@ -51,6 +51,8 @@ Visit [the quickstart vignette](https://co-analysis.github.io/a11ytables/article
 
 See the ['Construct an a11ytable'](https://co-analysis.github.io/a11ytables/articles/construct.html) vignette for greater depth, or the ['Accessbility guidance checklist'](https://co-analysis.github.io/a11ytables/articles/quickstart.html) vignette to see how the package complies with guidance.
 
+This package includes [an RStudio Addin](https://rstudio.github.io/rstudioaddins/) that inserts templates for an {a11ytables} workflow.
+
 ## Related projects
 
 BPID released [a Python package called 'gptables'](https://github.com/best-practice-and-impact/gptables) but [it needs to be updated](https://github.com/best-practice-and-impact/gptables/issues/145). There's no companion R package at time of writing, but {a11ytables} fills this gap.
