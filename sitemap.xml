@@ -34,7 +34,22 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
+    <loc>/reference/a11ytables-package.html</loc>
+  </url>
+  <url>
     <loc>/reference/as_a11ytable.html</loc>
+  </url>
+  <url>
+    <loc>/reference/at_template_a11ytable.html</loc>
+  </url>
+  <url>
+    <loc>/reference/at_template_df.html</loc>
+  </url>
+  <url>
+    <loc>/reference/at_template_tibble.html</loc>
+  </url>
+  <url>
+    <loc>/reference/at_template_workflow.html</loc>
   </url>
   <url>
     <loc>/reference/create_a11y_wb.html</loc>
