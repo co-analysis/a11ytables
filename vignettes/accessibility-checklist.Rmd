@@ -14,11 +14,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-The tables below show how the features of the {a11ytables} package meet [the GSS Best Practice and Impacts Division's 'Making spreadsheets accessible: checklist of the basics'](https://gss.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/).
+## Purpose
+
+This vignette shows you how {a11ytables} meets accessibility best practice.
+
+## Checklists
+
+The tables below show how the features of the {a11ytables} package meet the GSS Best Practice and Impacts Division's ['Making spreadsheets accessible: checklist of the basics'](https://gss.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/).
 
 This assessment is based on generating an unedited output from a typical {a11ytables} workflow: a `new_a11ytable()` passed to `create_a11y_wb()` and then written with `openxlsx::saveWorkbook()`.
 
-## Tables
+### Tables
 
 | Description | Essential? | Status | Explanation |
 | :-- | :- | :- | :---- |
@@ -32,7 +38,7 @@ This assessment is based on generating an unedited output from a typical {a11yta
 | Only leave cells with no data empty in certain circumstances | Yes | User's responsibility | The user should describe why there are blank cells |
 | Avoid hiding rows or columns | No | Included | Hiding isn't supported by {a11ytables} |
 
-## Footnotes
+### Footnotes
 
 | Description | Essential? | Status | Explanation |
 | :-- | :- | :- | :---- |
@@ -41,7 +47,7 @@ This assessment is based on generating an unedited output from a typical {a11yta
 | Avoid putting note markers in specific cells | No | User-responsibility | Columns named 'Notes' and note markers in column headers are detected, the user should not put these elswhere  |
 | Put note text in a notes table on a notes worksheet | No | Included | `new_a11ytable()` expects the `sheet_type` 'notes' |
 
-## Formatting
+### Formatting
 
 | Description | Essential? | Status | Explanation |
 | :-- | :- | :- | :---- |
@@ -58,7 +64,7 @@ This assessment is based on generating an unedited output from a typical {a11yta
 | Avoid images in spreadsheets | No | Included | Images aren't supported by {a11ytables} |
 | Remove macros | No | Included | Macros aren't supported by {a11ytables} |
 
-## Structure
+### Structure
 
 | Description | Essential? | Status | Explanation |
 | :-- | :- | :- | :---- |
@@ -69,7 +75,7 @@ This assessment is based on generating an unedited output from a typical {a11yta
 | Avoid putting content below a table | No | Included | `create_a11y_wb()` adds information to rows above tables only |
 | Avoid worksheets with multiple tables | No | Included | The package supports only one table per sheet (for now) |
 
-## Before publishing
+### Before publishing
 
 | Description | Essential? | Status | Explanation |
 | :-- | :- | :- | :---- |
