@@ -14,80 +14,66 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Purpose
-
-The purpose of this vignette is to provide a light-tough way of showing how the {a11ytables} package adheres to best practice to create publication-quality workbooks that meet accessibility guidance.
-
-## Checklists
-
 The tables below show how the features of the {a11ytables} package meet [the GSS Best Practice and Impacts Division's 'Making spreadsheets accessible: checklist of the basics'](https://gss.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/).
 
-This assessment is based on the unedited output from a typical {a11ytables} workflow: a `new_a11ytable()` passed to `create_a11y_wb()` and then `openxlsx::saveWorkbook()`.
+This assessment is based on generating an unedited output from a typical {a11ytables} workflow: a `new_a11ytable()` passed to `create_a11y_wb()` and then written with `openxlsx::saveWorkbook()`.
 
-The 'status' column in these tables takes the following values for each feature, depending on their implementation:
+## Tables
 
-* Y = yes (completed)
-* P = partly (not fully implemented)
-* N = no (not yet handled)
-* U = user (the user's responsibility)
-* NA = not applicable (not relevant to how the package functions)
+| Description | Essential? | Status | Explanation |
+| :-- | :- | :- | :---- |
+| Mark up tables | Yes | Included | Automatic table mark-up is provided by `create_a11y_wb()` |
+| Give tables meaningful names | No | Included/user's responsibility | Supply meaningful names to the `table_names` argument in `new_a11ytable()` |
+| Remove merged cells, split cells and nested tables | Yes | Included | Not supported by {a11ytables} |
+| Remove blank rows and columns within tables | Yes | Partly/user responsibility | A warning is supplied to a user if a row or column is blank (TODO, issue #34); it's assumed there is a reason for the cells to be blank, which the user should explain in the workbook |
+| All tables should have one tagged header row | Yes | Included | R's data.frame class only allows for one header row, which must have unique names; the header row is tagged as such when marked-up as a table |
+| Wrap text within cells | Yes | Included | `create_a11y_wb()` wraps content by default; there's a simple check in {a11ytables} to widen a column if it contains long strings |
+| Avoid adding filters and freeze panes | No | Included | Filters and freezing aren't supported by {a11ytables} |
+| Only leave cells with no data empty in certain circumstances | Yes | User's responsibility | The user should describe why there are blank cells |
+| Avoid hiding rows or columns | No | Included | Hiding isn't supported by {a11ytables} |
 
-### 1. Tables
+## Footnotes
 
-| Number | Description | Essential? | Status |
-| :--- | :--- | :--- | :--- | 
-| 1 | Mark up tables | Y | Y | 
-| 2 | Give tables meaningful names | | U |
-| 3 | Remove merged cells, split cells and nested tables | Y | Y |
-| 4 | Remove blank rows and columns within tables | Y | Y |
-| 5 | All tables should have one tagged header row | Y | Y |
-| 6 | Wrap text within cells | Y | Y |
-| 7 | Avoid adding filters and freeze panes | | Y |
-| 8 | Only leave cells with no data empty in certain circumstances | Y | NA |
-| 9 | Avoid hiding rows or columns | | Y |
+| Description | Essential? | Status | Explanation |
+| :-- | :- | :- | :---- |
+| Do not use symbols or superscript to signpost to notes | Yes | Included/user-responsibility | Notes are detected automatically as digits in square brackets; superscript is not supported by {a11ytables} |
+| Use the word 'note' when referring to footnotes | No | User-responsibility | Notes are detected in the form '[note 1]'; the user should be consistent about this wording |
+| Avoid putting note markers in specific cells | No | User-responsibility | Columns named 'Notes' and note markers in column headers are detected, the user should not put these elswhere  |
+| Put note text in a notes table on a notes worksheet | No | Included | `new_a11ytable()` expects the `sheet_type` 'notes' |
 
-### 2. Footnotes
+## Formatting
 
-| Number | Description | Essential? | Status |
-| :--- | :--- | :--- | :--- | 
-| 1 | Do not use symbols or superscript to signpost to notes | Y | Y |
-| 2 | Use the word ‘note’ when referring to footnotes | | Y |
-| 3 | Avoid putting note markers in specific cells | | U |
-| 4 | Put note text in a notes table on a notes worksheet | | Y |
+| Description | Essential? | Status | Explanation |
+| :-- | :- | :- | :---- |
+| All written content needs to meet the accessibility guidelines | | User's responsibility | {a11ytables} does not check the validity of user-supplied text |
+| Links must be accessible | Yes | User's responsibility | {a11ytables} does not check the validity of user-supplied text |
+| Format text to make it accessible | No | Included | `create_a11y_wb()` auto-formats the text |
+| All worksheets should have descriptive titles which are properly tagged and formatted | Yes | User-responsibility/partly | {a11ytables} does not check user-supplied text nor data; the package handles formatting but not yet mark-up for headings |
+| Avoid using symbols in general | No | User's responsibility | {a11ytables} does not check the validity of user-supplied text |
+| Do not use headers and footers, floating text boxes or floating toolbars | Yes | Included  | These features aren't supported by {a11ytables} |
+| Do not use visual devices to divide data regions | No | Included | Colours and patterns aren't supported by {a11ytables} |
+| Do not use a background fill | No | Included | Fills aren't supported by {a11ytables} |
+| Do not use colour as the only way to convey a message | Yes | Included | Colour is not supported by {a11ytables} |
+| When using colour for emphasis check the contrast | Yes | Not applicable | Colour is not supported by {a11ytables}, so a check is not required |
+| Avoid images in spreadsheets | No | Included | Images aren't supported by {a11ytables} |
+| Remove macros | No | Included | Macros aren't supported by {a11ytables} |
 
-### 3. Formatting
+## Structure
 
-| Number | Description | Essential? | Status |
-| :--- | :--- | :--- | :--- | 
-| 1 | All written content needs to meet the accessibility guidelines | | U |
-| 2 | Links must be accessible | Y | U |
-| 3 | Format text to make it accessible | | Y |
-| 4 | All worksheets should have descriptive titles which are properly tagged and formatted | Y | P |
-| 5 | Avoid using symbols in general | | U |
-| 6 | Do not use headers and footers, floating text boxes or floating toolbars | Y | Y |
-| 7 | Do not use visual devices to divide data regions | | Y |
-| 8 | Do not use a background fill | | Y |
-| 9 | Do not use colour as the only way to convey a message | Y | Y |
-| 10 | When using colour for emphasis check the contrast | Y | NA |
-| 11 | Avoid images in spreadsheets | | Y |
-| 12 | Remove macros | | Y |
+| Description | Essential? | Status | Explanation |
+| :-- | :- | :- | :---- |
+| Give worksheets unique names or numbers | Yes | User's responsibility | Supply `tab_titles` to `new_a11ytable()`, which gives a warning if any names match (TODO, issue #34) |
+| Remove blank worksheets | Yes | Included | `new_a11ytable()` will error if expected argument content is missing |
+| Use cells in column A wisely | Yes | Included | `create_a11y_wb()` inserts the sheet title, table count, notes statement, source statement and tables into column A by default  |
+| Position tables against the left-hand edges of each sheet | Yes | Included | `create_a11y_wb()` inserts automatically the tables into column A |
+| Avoid putting content below a table | No | Included | `create_a11y_wb()` adds information to rows above tables only |
+| Avoid worksheets with multiple tables | No | Included | The package supports only one table per sheet (for now) |
 
-### 4. Structure
+## Before publishing
 
-| Number | Description | Essential? | Status |
-| :--- | :--- | :--- | :--- | 
-| 1 | Give worksheets unique names or numbers | Y | Y |
-| 2 | Remove blank worksheets | Y | Y |
-| 3 | Use cells in column A wisely | Y | U |
-| 4 | Position tables against the left-hand edges of each sheet | Y | Y |
-| 5 | Avoid putting content below a table | | Y |
-| 6 | Avoid worksheets with multiple tables | | Y |
-
-### 5. Before publishing
-
-| Number | Description | Essential? | Status |
-| :--- | :--- | :--- | :--- | 
-| 1 | Run a spelling and grammar check | Y | U |
-| 2 | Use the accessibility checker | | U |
-| 3 | Add document information | Y | U |
-| 4 | Ensure the cursor is in cell A1 of the first worksheet when doing your final save | Y | Y |
+| Description | Essential? | Status | Explanation |
+| :-- | :- | :- | :---- |
+| Run a spelling and grammar check | Yes | User's responsibility | These checks aren't supported by {a11ytables}; the user should check using their own software |
+| Use the accessibility checker | No | User's responsibility | These checks aren't supported by {a11ytables}; the user should check using their own software |
+| Add document information | Yes | User's responsibility | Not yet possible with {a11ytables}; users must do this manually |
+| Ensure the cursor is in cell A1 of the first worksheet when doing your final save | Yes | Included | Occurs automatically |
