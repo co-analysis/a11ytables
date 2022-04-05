@@ -1,0 +1,186 @@
+---
+title: "Introduction to {a11ytables}"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{quickstart}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#"
+)
+```
+
+## Purpose
+
+This vignette shows you how to use {a11ytables} to generate a spreadsheet output.
+
+## Workflow
+
+Having installed the {a11ytables} package, there are three steps to generating a spreadsheet:
+
+1. Use `new_a11ytable()` to create a special dataframe object that contains all the information you need in your output
+1. Use `create_a11y_wb()` to add styles and a workbook structure
+1. Use `openxlsx::saveWorkbook()` to write an xlsx file
+
+The minimal demo below follows these steps, using example data from the built-in mtcars dataset.
+
+You can use the RStudio Addin, which is installed with the package, to insert a pre-filled demo skeleton of this workflow.
+
+### 1. Create an a11ytable
+
+Each argument to `new_a11ytable()` provides information required for each sheet of the spreadsheet.
+
+You provide the majority of information as dataframes passed to the `tables` argument. It's preferable to prepare these first before passing them to `new_a11ytable()`.
+
+Below are some demo tables that we can pass to `new_a11ytable()`. I've used `tibble::tribble()` for human-readable row-by-row dataframe construction, but you can just use `data.frame()`.
+
+```{r tables}
+library(tibble)
+
+# Create demo tables of info for supporting sheets
+
+cover_df <-  # required, will be transposed in the final output 
+  tribble( 
+    ~"Sub title",  ~"Sub body",
+    "Description", "Aspects of automobile design and performance.",
+    "Format",      "A data frame with 32 observations and 11 variables.",
+    "Contact",     "The mtcars Team, telephone 0123456789."
+  )
+
+contents_df <-  # required
+  tribble(
+    ~"Sheet name", ~"Sheet title",
+    "Notes",       "Notes used in the statistical tables of this workbook",
+    "Table 1",     "Car Road Tests (demo)"
+  )
+
+notes_df <-  # not required if there's no notes in your tables
+  tribble(
+    ~"Note number", ~"Note text",
+    "[1]",     "Cars are a type of transport.",
+    "[2]",     "US gallons.",
+    "[3]",     "Thousand pounds."
+  )
+
+# Create simple demo stats table
+
+stats_df <- mtcars |>
+  head() |>
+  rownames_to_column("car") |>
+  subset(select = c("car", "mpg", "wt"))
+
+names(stats_df) <- c(
+  "Car [note 1]",  # notes should be in the form '[note 1]'
+  "Miles per gallon [note 2]",
+  "Weight [note 3]"
+)
+
+stats_df[3, 2:3] <- "[c]"  # example suppressed (confidential) data
+```
+
+Now we can construct an a11ytable by passing the required sheet 'elements' as vectors (or a list in the case of `tables`) to the `new_a11ytable()` function.
+
+```{r new-a11ytable}
+library(a11ytables)
+library(openxlsx)
+
+my_a11ytable <- new_a11ytable(
+  tab_titles = c(
+    "Cover",
+    "Contents",
+    "Notes",
+    "Table 1"
+  ),
+  sheet_types = c(  # must be 'cover', 'contents', 'notes' or 'tables'
+    "cover",
+    "contents",
+    "notes",
+    "tables"
+  ),
+  sheet_titles = c(  # will appear in cell A1 of each sheet
+    "The 'mtcars' Demo Datset",
+    "Table of contents",
+    "Notes",
+    "Car Road Tests"
+  ),
+  sources = c(
+    NA_character_,  # use NA where source isn't needed
+    NA_character_,
+    NA_character_, 
+    "Motor Trend (1974)"
+  ),
+  table_names = c(  # make these unique, used by screenreaders
+    "cover_sheet",
+    "table_of_contents",
+    "notes_table",
+    "demographic_benchmarks"
+  ),
+  tables = list(  # as prepared earlier, note it's a list
+    cover_df,
+    contents_df,
+    notes_df,
+    stats_df
+  )
+)
+```
+
+The function will return errors or warnings if anything is missing or seems odd.
+
+And here's a preview of the object that was created:
+
+```{r a11ytable-preview}
+my_a11ytable
+```
+
+So our a11ytable is basically just a dataframe with one row per sheet and one column per sheet element. In fact, it has class 'data.frame'/'tbl' along with 'a11ytable':
+
+```{r check-class}
+class(my_a11ytable)
+```
+
+For convenience, you can also check an object with `is_a11ytable()`.
+
+It's also possible to convert a correctly-formatted data.frame directly to an a11ytable with `as_a11ytable()`.
+
+### 2. Convert to a workbook
+
+We can use `create_a11y_wb()` to convert our a11ytable to an [{openxlsx}](https://ycphs.github.io/openxlsx/) Workbook-class object, which applies various mark-up and styling to meet the best practice guidance.
+
+```{r create-a11y-wb}
+my_wb <- create_a11y_wb(my_a11ytable)
+```
+
+Here's a preview summary of the Workbook object:
+
+```{r wb_preview}
+my_wb
+```
+
+You can see we have all our named sheets, each with custom styling.
+
+### 3. Write to file
+
+Finally, you can use the `saveWorkbook()` function from [{openxlsx}](https://ycphs.github.io/openxlsx/) to save your workbook object to an xlsx file.
+
+```{r saveworkbook, eval=FALSE}
+saveWorkbook(my_wb, "publication.xlsx")
+```
+
+While developing your output, you can open a temporary copy of the workbook with `openXL()`.
+
+The content of the output spreadsheet will look like this:
+
+<div class="figure">
+<img src="../man/figures/vignette-workbook.gif" alt="Gif of a simple Excel workbook created using the a11ytables package, revealing tabs for cover, contents, notes and a table." width="100%"/>
+</div>
+
+You'll notice that formatting (e.g. Arial size 12 font for body text) and mark-up (e.g. tables, donated by a marker in the lower-right corner of the lower-right cell of each one) have been applied throughout.
+
+You can apply some final tweaks to this file if the defaults don't quite meet your needs, though it's advisable to keep this to a minimum. At time of writing (v0.0.0.90013) you will need to address two accessibility requirements that are not yet covered by the package:
+
+* apply H1 headers to the sheet titles (which you may need to reformat to Arial 16 bold)
+* manually complete the document properties (likely under File > Properties in yoru spreadsheet software)

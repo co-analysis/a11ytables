@@ -11,6 +11,7 @@ Generate spreadsheet publications for official release by UK government organisa
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://co-analysis.github.io/a11ytables/}
   \item \url{https://github.com/co-analysis/a11ytables}
   \item Report bugs at \url{https://github.com/co-analysis/a11ytables/issues}
 }

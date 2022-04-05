@@ -1,0 +1,22 @@
+url: https://co-analysis.github.io/a11ytables/
+reference:
+- title: "a11ytables"
+  desc: "Create, coerce and inspect a11ytable-class objects"
+  contents:
+  - as_a11ytable
+  - is_a11ytable
+  - new_a11ytable
+  - summary.a11ytable
+  - tbl_sum.a11ytable
+- title: "Workbooks"
+  desc: "Convert a11ytable- to Workbook-class objects"
+  contents:
+  - create_a11y_wb
+- title: "Data"
+  desc: "Demo datasets"
+  contents:
+  - mtcars_df
+- title: "RStudio Addins"
+  desc: "RStudio Addin functions for inserting workflow skeletons"
+  contents:
+  - starts_with("at_")
