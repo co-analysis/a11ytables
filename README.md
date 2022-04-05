@@ -28,11 +28,11 @@ Service](https://gss.civilservice.gov.uk/).
 Visit [the {a11ytables}
 website](https://co-analysis.github.io/a11ytables/) for documentation.
 
-The package is under active development. Please see [the NEWS
-file](https://co-analysis.github.io/a11ytables/news/index.html) for the
-latest changes. Many design decisions are opinionated for now, but
-please [leave your ideas as
-issues](https://github.com/co-analysis/a11ytables/issues).
+The package is under (opinionated) active development. Please see [the
+NEWS file](https://co-analysis.github.io/a11ytables/news/index.html) for
+the latest changes. Please [leave your ideas as
+issues](https://github.com/co-analysis/a11ytables/issues) or raise a
+pull request.
 
 ## Install
 
@@ -52,19 +52,15 @@ To create a spreadsheet:
 2.  Use `create_a11y_wb()` to add styles and workbook structure
 3.  Use `openxlsx::saveWorkbook()` to write an xlsx file
 
-Visit [the quickstart
-vignette](https://co-analysis.github.io/a11ytables/articles/quickstart.html)
-to get going.
-
-See the [‘Construct an
-a11ytable’](https://co-analysis.github.io/a11ytables/articles/construct.html)
-vignette for greater depth, or the [‘Accessbility guidance
-checklist’](https://co-analysis.github.io/a11ytables/articles/quickstart.html)
+Visit [the introduction
+vignette](https://co-analysis.github.io/a11ytables/articles/a11ytables.html)
+to get going, or the [accessbility guidance
+checklist](https://co-analysis.github.io/a11ytables/articles/accessibility-checklist.html)
 vignette to see how the package complies with guidance.
 
 This package includes [an RStudio
-Addin](https://rstudio.github.io/rstudioaddins/) that inserts templates
-for an {a11ytables} workflow.
+Addin](https://rstudio.github.io/rstudioaddins/) that inserts pre-filled
+demo skeletons of the {a11ytables} workflow.
 
 ## Related projects
 
