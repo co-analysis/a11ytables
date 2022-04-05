@@ -2,8 +2,10 @@ pandoc: 2.7.3
 pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
-  accessibility: accessibility.html
-  construct: construct.html
-  quickstart: quickstart.html
-last_built: 2022-04-05T09:03Z
+  a11ytables: a11ytables.html
+  accessibility-checklist: accessibility-checklist.html
+last_built: 2022-04-05T20:09Z
+urls:
+  reference: https://co-analysis.github.io/a11ytables/reference
+  article: https://co-analysis.github.io/a11ytables/articles
 

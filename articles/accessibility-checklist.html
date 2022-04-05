@@ -33,12 +33,15 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">a11ytables</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.90013</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.90014</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="../articles/a11ytables.html">Get started</a>
+</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -50,13 +53,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/accessibility.html">Accessibility guidance checklist</a>
-    </li>
-    <li>
-      <a href="../articles/construct.html">Construct an a11ytable</a>
-    </li>
-    <li>
-      <a href="../articles/quickstart.html">Get started</a>
+      <a href="../articles/accessibility-checklist.html">Accessibility guidance checklist</a>
     </li>
   </ul>
 </li>
@@ -81,14 +78,14 @@
 
       
 
-      </header><script src="accessibility_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="accessibility-checklist_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Accessibility guidance checklist</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/co-analysis/a11ytables/blob/HEAD/vignettes/accessibility.Rmd" class="external-link"><code>vignettes/accessibility.Rmd</code></a></small>
-      <div class="hidden name"><code>accessibility.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/co-analysis/a11ytables/blob/HEAD/vignettes/accessibility-checklist.Rmd" class="external-link"><code>vignettes/accessibility-checklist.Rmd</code></a></small>
+      <div class="hidden name"><code>accessibility-checklist.Rmd</code></div>
 
     </div>
 
@@ -97,309 +94,328 @@
 <div class="section level2">
 <h2 id="purpose">Purpose<a class="anchor" aria-label="anchor" href="#purpose"></a>
 </h2>
-<p>The purpose of this vignette is to provide a light-tough way of showing how the {a11ytables} package adheres to best practice to create publication-quality workbooks that meet accessibility guidance.</p>
+<p>This vignette shows you how {a11ytables} meets accessibility best practice.</p>
 </div>
 <div class="section level2">
 <h2 id="checklists">Checklists<a class="anchor" aria-label="anchor" href="#checklists"></a>
 </h2>
-<p>The tables below show how the features of the {a11ytables} package meet <a href="https://gss.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/" class="external-link">the GSS Best Practice and Impacts Division’s ‘Making spreadsheets accessible: checklist of the basics’</a>.</p>
-<p>This assessment is based on the unedited output from a typical {a11ytables} workflow: a <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code> passed to <code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code> and then <code><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html" class="external-link">openxlsx::saveWorkbook()</a></code>.</p>
-<p>The ‘status’ column in these tables takes the following values for each feature, depending on their implementation:</p>
-<ul>
-<li>Y = yes (completed)</li>
-<li>P = partly (not fully implemented)</li>
-<li>N = no (not yet handled)</li>
-<li>U = user (the user’s responsibility)</li>
-<li>NA = not applicable (not relevant to how the package functions)</li>
-</ul>
+<p>The tables below show how the features of the {a11ytables} package meet the GSS Best Practice and Impacts Division’s <a href="https://gss.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/" class="external-link">‘Making spreadsheets accessible: checklist of the basics’</a>.</p>
+<p>This assessment is based on generating an unedited output from a typical {a11ytables} workflow: a <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code> passed to <code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code> and then written with <code><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html" class="external-link">openxlsx::saveWorkbook()</a></code>.</p>
 <div class="section level3">
-<h3 id="tables">1. Tables<a class="anchor" aria-label="anchor" href="#tables"></a>
-</h3>
-<table class="table">
-<thead><tr class="header">
-<th align="left">Number</th>
-<th align="left">Description</th>
-<th align="left">Essential?</th>
-<th align="left">Status</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">1</td>
-<td align="left">Mark up tables</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
-</tr>
-<tr class="even">
-<td align="left">2</td>
-<td align="left">Give tables meaningful names</td>
-<td align="left"></td>
-<td align="left">U</td>
-</tr>
-<tr class="odd">
-<td align="left">3</td>
-<td align="left">Remove merged cells, split cells and nested tables</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
-</tr>
-<tr class="even">
-<td align="left">4</td>
-<td align="left">Remove blank rows and columns within tables</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
-</tr>
-<tr class="odd">
-<td align="left">5</td>
-<td align="left">All tables should have one tagged header row</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
-</tr>
-<tr class="even">
-<td align="left">6</td>
-<td align="left">Wrap text within cells</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
-</tr>
-<tr class="odd">
-<td align="left">7</td>
-<td align="left">Avoid adding filters and freeze panes</td>
-<td align="left"></td>
-<td align="left">Y</td>
-</tr>
-<tr class="even">
-<td align="left">8</td>
-<td align="left">Only leave cells with no data empty in certain circumstances</td>
-<td align="left">Y</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">9</td>
-<td align="left">Avoid hiding rows or columns</td>
-<td align="left"></td>
-<td align="left">Y</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="footnotes">2. Footnotes<a class="anchor" aria-label="anchor" href="#footnotes"></a>
-</h3>
-<table class="table">
-<thead><tr class="header">
-<th align="left">Number</th>
-<th align="left">Description</th>
-<th align="left">Essential?</th>
-<th align="left">Status</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">1</td>
-<td align="left">Do not use symbols or superscript to signpost to notes</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
-</tr>
-<tr class="even">
-<td align="left">2</td>
-<td align="left">Use the word ‘note’ when referring to footnotes</td>
-<td align="left"></td>
-<td align="left">Y</td>
-</tr>
-<tr class="odd">
-<td align="left">3</td>
-<td align="left">Avoid putting note markers in specific cells</td>
-<td align="left"></td>
-<td align="left">U</td>
-</tr>
-<tr class="even">
-<td align="left">4</td>
-<td align="left">Put note text in a notes table on a notes worksheet</td>
-<td align="left"></td>
-<td align="left">Y</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="formatting">3. Formatting<a class="anchor" aria-label="anchor" href="#formatting"></a>
+<h3 id="tables">Tables<a class="anchor" aria-label="anchor" href="#tables"></a>
 </h3>
 <table class="table">
 <colgroup>
 <col width="25%">
-<col width="25%">
-<col width="25%">
-<col width="25%">
+<col width="16%">
+<col width="16%">
+<col width="41%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">Number</th>
 <th align="left">Description</th>
 <th align="left">Essential?</th>
 <th align="left">Status</th>
+<th align="left">Explanation</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">1</td>
+<td align="left">Mark up tables</td>
+<td align="left">Yes</td>
+<td align="left">Included</td>
+<td align="left">Automatic table mark-up is provided by <code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code>
+</td>
+</tr>
+<tr class="even">
+<td align="left">Give tables meaningful names</td>
+<td align="left">No</td>
+<td align="left">Included/user’s responsibility</td>
+<td align="left">Supply meaningful names to the <code>table_names</code> argument in <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code>
+</td>
+</tr>
+<tr class="odd">
+<td align="left">Remove merged cells, split cells and nested tables</td>
+<td align="left">Yes</td>
+<td align="left">Included</td>
+<td align="left">Not supported by {a11ytables}</td>
+</tr>
+<tr class="even">
+<td align="left">Remove blank rows and columns within tables</td>
+<td align="left">Yes</td>
+<td align="left">Partly/user responsibility</td>
+<td align="left">A warning is supplied to a user if a row or column is blank (TODO, issue #34); it’s assumed there is a reason for the cells to be blank, which the user should explain in the workbook</td>
+</tr>
+<tr class="odd">
+<td align="left">All tables should have one tagged header row</td>
+<td align="left">Yes</td>
+<td align="left">Included</td>
+<td align="left">R’s data.frame class only allows for one header row, which must have unique names; the header row is tagged as such when marked-up as a table</td>
+</tr>
+<tr class="even">
+<td align="left">Wrap text within cells</td>
+<td align="left">Yes</td>
+<td align="left">Included</td>
+<td align="left">
+<code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code> wraps content by default; there’s a simple check in {a11ytables} to widen a column if it contains long strings</td>
+</tr>
+<tr class="odd">
+<td align="left">Avoid adding filters and freeze panes</td>
+<td align="left">No</td>
+<td align="left">Included</td>
+<td align="left">Filters and freezing aren’t supported by {a11ytables}</td>
+</tr>
+<tr class="even">
+<td align="left">Only leave cells with no data empty in certain circumstances</td>
+<td align="left">Yes</td>
+<td align="left">User’s responsibility</td>
+<td align="left">The user should describe why there are blank cells</td>
+</tr>
+<tr class="odd">
+<td align="left">Avoid hiding rows or columns</td>
+<td align="left">No</td>
+<td align="left">Included</td>
+<td align="left">Hiding isn’t supported by {a11ytables}</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
+<h3 id="footnotes">Footnotes<a class="anchor" aria-label="anchor" href="#footnotes"></a>
+</h3>
+<table class="table">
+<colgroup>
+<col width="25%">
+<col width="16%">
+<col width="16%">
+<col width="41%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Description</th>
+<th align="left">Essential?</th>
+<th align="left">Status</th>
+<th align="left">Explanation</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Do not use symbols or superscript to signpost to notes</td>
+<td align="left">Yes</td>
+<td align="left">Included/user-responsibility</td>
+<td align="left">Notes are detected automatically as digits in square brackets; superscript is not supported by {a11ytables}</td>
+</tr>
+<tr class="even">
+<td align="left">Use the word ‘note’ when referring to footnotes</td>
+<td align="left">No</td>
+<td align="left">User-responsibility</td>
+<td align="left">Notes are detected in the form ‘[note 1]’; the user should be consistent about this wording</td>
+</tr>
+<tr class="odd">
+<td align="left">Avoid putting note markers in specific cells</td>
+<td align="left">No</td>
+<td align="left">User-responsibility</td>
+<td align="left">Columns named ‘Notes’ and note markers in column headers are detected, the user should not put these elswhere</td>
+</tr>
+<tr class="even">
+<td align="left">Put note text in a notes table on a notes worksheet</td>
+<td align="left">No</td>
+<td align="left">Included</td>
+<td align="left">
+<code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code> expects the <code>sheet_type</code> ‘notes’</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
+<h3 id="formatting">Formatting<a class="anchor" aria-label="anchor" href="#formatting"></a>
+</h3>
+<table class="table">
+<colgroup>
+<col width="25%">
+<col width="16%">
+<col width="16%">
+<col width="41%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Description</th>
+<th align="left">Essential?</th>
+<th align="left">Status</th>
+<th align="left">Explanation</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
 <td align="left">All written content needs to meet the accessibility guidelines</td>
 <td align="left"></td>
-<td align="left">U</td>
+<td align="left">User’s responsibility</td>
+<td align="left">{a11ytables} does not check the validity of user-supplied text</td>
 </tr>
 <tr class="even">
-<td align="left">2</td>
 <td align="left">Links must be accessible</td>
-<td align="left">Y</td>
-<td align="left">U</td>
+<td align="left">Yes</td>
+<td align="left">User’s responsibility</td>
+<td align="left">{a11ytables} does not check the validity of user-supplied text</td>
 </tr>
 <tr class="odd">
-<td align="left">3</td>
 <td align="left">Format text to make it accessible</td>
-<td align="left"></td>
-<td align="left">Y</td>
+<td align="left">No</td>
+<td align="left">Included</td>
+<td align="left">
+<code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code> auto-formats the text</td>
 </tr>
 <tr class="even">
-<td align="left">4</td>
 <td align="left">All worksheets should have descriptive titles which are properly tagged and formatted</td>
-<td align="left">Y</td>
-<td align="left">P</td>
+<td align="left">Yes</td>
+<td align="left">User-responsibility/partly</td>
+<td align="left">{a11ytables} does not check user-supplied text nor data; the package handles formatting but not yet mark-up for headings</td>
 </tr>
 <tr class="odd">
-<td align="left">5</td>
 <td align="left">Avoid using symbols in general</td>
-<td align="left"></td>
-<td align="left">U</td>
+<td align="left">No</td>
+<td align="left">User’s responsibility</td>
+<td align="left">{a11ytables} does not check the validity of user-supplied text</td>
 </tr>
 <tr class="even">
-<td align="left">6</td>
 <td align="left">Do not use headers and footers, floating text boxes or floating toolbars</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
+<td align="left">Yes</td>
+<td align="left">Included</td>
+<td align="left">These features aren’t supported by {a11ytables}</td>
 </tr>
 <tr class="odd">
-<td align="left">7</td>
 <td align="left">Do not use visual devices to divide data regions</td>
-<td align="left"></td>
-<td align="left">Y</td>
+<td align="left">No</td>
+<td align="left">Included</td>
+<td align="left">Colours and patterns aren’t supported by {a11ytables}</td>
 </tr>
 <tr class="even">
-<td align="left">8</td>
 <td align="left">Do not use a background fill</td>
-<td align="left"></td>
-<td align="left">Y</td>
+<td align="left">No</td>
+<td align="left">Included</td>
+<td align="left">Fills aren’t supported by {a11ytables}</td>
 </tr>
 <tr class="odd">
-<td align="left">9</td>
 <td align="left">Do not use colour as the only way to convey a message</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
+<td align="left">Yes</td>
+<td align="left">Included</td>
+<td align="left">Colour is not supported by {a11ytables}</td>
 </tr>
 <tr class="even">
-<td align="left">10</td>
 <td align="left">When using colour for emphasis check the contrast</td>
-<td align="left">Y</td>
-<td align="left">NA</td>
+<td align="left">Yes</td>
+<td align="left">Not applicable</td>
+<td align="left">Colour is not supported by {a11ytables}, so a check is not required</td>
 </tr>
 <tr class="odd">
-<td align="left">11</td>
 <td align="left">Avoid images in spreadsheets</td>
-<td align="left"></td>
-<td align="left">Y</td>
+<td align="left">No</td>
+<td align="left">Included</td>
+<td align="left">Images aren’t supported by {a11ytables}</td>
 </tr>
 <tr class="even">
-<td align="left">12</td>
 <td align="left">Remove macros</td>
-<td align="left"></td>
-<td align="left">Y</td>
+<td align="left">No</td>
+<td align="left">Included</td>
+<td align="left">Macros aren’t supported by {a11ytables}</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section level3">
-<h3 id="structure">4. Structure<a class="anchor" aria-label="anchor" href="#structure"></a>
-</h3>
-<table class="table">
-<thead><tr class="header">
-<th align="left">Number</th>
-<th align="left">Description</th>
-<th align="left">Essential?</th>
-<th align="left">Status</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">1</td>
-<td align="left">Give worksheets unique names or numbers</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
-</tr>
-<tr class="even">
-<td align="left">2</td>
-<td align="left">Remove blank worksheets</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
-</tr>
-<tr class="odd">
-<td align="left">3</td>
-<td align="left">Use cells in column A wisely</td>
-<td align="left">Y</td>
-<td align="left">U</td>
-</tr>
-<tr class="even">
-<td align="left">4</td>
-<td align="left">Position tables against the left-hand edges of each sheet</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
-</tr>
-<tr class="odd">
-<td align="left">5</td>
-<td align="left">Avoid putting content below a table</td>
-<td align="left"></td>
-<td align="left">Y</td>
-</tr>
-<tr class="even">
-<td align="left">6</td>
-<td align="left">Avoid worksheets with multiple tables</td>
-<td align="left"></td>
-<td align="left">Y</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="before-publishing">5. Before publishing<a class="anchor" aria-label="anchor" href="#before-publishing"></a>
+<h3 id="structure">Structure<a class="anchor" aria-label="anchor" href="#structure"></a>
 </h3>
 <table class="table">
 <colgroup>
 <col width="25%">
-<col width="25%">
-<col width="25%">
-<col width="25%">
+<col width="16%">
+<col width="16%">
+<col width="41%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">Number</th>
 <th align="left">Description</th>
 <th align="left">Essential?</th>
 <th align="left">Status</th>
+<th align="left">Explanation</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">1</td>
-<td align="left">Run a spelling and grammar check</td>
-<td align="left">Y</td>
-<td align="left">U</td>
+<td align="left">Give worksheets unique names or numbers</td>
+<td align="left">Yes</td>
+<td align="left">User’s responsibility</td>
+<td align="left">Supply <code>tab_titles</code> to <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code>, which gives a warning if any names match (TODO, issue #34)</td>
 </tr>
 <tr class="even">
-<td align="left">2</td>
-<td align="left">Use the accessibility checker</td>
-<td align="left"></td>
-<td align="left">U</td>
+<td align="left">Remove blank worksheets</td>
+<td align="left">Yes</td>
+<td align="left">Included</td>
+<td align="left">
+<code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code> will error if expected argument content is missing</td>
 </tr>
 <tr class="odd">
-<td align="left">3</td>
-<td align="left">Add document information</td>
-<td align="left">Y</td>
-<td align="left">U</td>
+<td align="left">Use cells in column A wisely</td>
+<td align="left">Yes</td>
+<td align="left">Included</td>
+<td align="left">
+<code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code> inserts the sheet title, table count, notes statement, source statement and tables into column A by default</td>
 </tr>
 <tr class="even">
-<td align="left">4</td>
+<td align="left">Position tables against the left-hand edges of each sheet</td>
+<td align="left">Yes</td>
+<td align="left">Included</td>
+<td align="left">
+<code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code> inserts automatically the tables into column A</td>
+</tr>
+<tr class="odd">
+<td align="left">Avoid putting content below a table</td>
+<td align="left">No</td>
+<td align="left">Included</td>
+<td align="left">
+<code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code> adds information to rows above tables only</td>
+</tr>
+<tr class="even">
+<td align="left">Avoid worksheets with multiple tables</td>
+<td align="left">No</td>
+<td align="left">Included</td>
+<td align="left">The package supports only one table per sheet (for now)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
+<h3 id="before-publishing">Before publishing<a class="anchor" aria-label="anchor" href="#before-publishing"></a>
+</h3>
+<table class="table">
+<colgroup>
+<col width="25%">
+<col width="16%">
+<col width="16%">
+<col width="41%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Description</th>
+<th align="left">Essential?</th>
+<th align="left">Status</th>
+<th align="left">Explanation</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Run a spelling and grammar check</td>
+<td align="left">Yes</td>
+<td align="left">User’s responsibility</td>
+<td align="left">These checks aren’t supported by {a11ytables}; the user should check using their own software</td>
+</tr>
+<tr class="even">
+<td align="left">Use the accessibility checker</td>
+<td align="left">No</td>
+<td align="left">User’s responsibility</td>
+<td align="left">These checks aren’t supported by {a11ytables}; the user should check using their own software</td>
+</tr>
+<tr class="odd">
+<td align="left">Add document information</td>
+<td align="left">Yes</td>
+<td align="left">User’s responsibility</td>
+<td align="left">Not yet possible with {a11ytables}; users must do this manually</td>
+</tr>
+<tr class="even">
 <td align="left">Ensure the cursor is in cell A1 of the first worksheet when doing your final save</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
+<td align="left">Yes</td>
+<td align="left">Included</td>
+<td align="left">Occurs automatically</td>
 </tr>
 </tbody>
 </table>
