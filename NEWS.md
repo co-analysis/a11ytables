@@ -1,3 +1,9 @@
+# a11ytables 0.0.0.90014
+
+* Added explanations to the accessibility checklist vignette
+* Converted the 'quickstart' vignette to 'get started', used a simpler example, added gif
+* Used 'reference' in _pkgdown.yaml to better separate functions on the site
+
 # a11ytables 0.0.0.90013
 
 * Added an RStudio Addin to insert code for an {a11ytables} workflow (#54)
