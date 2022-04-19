@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">a11ytables</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.90014</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.90015</span>
       </span>
     </div>
 
@@ -122,7 +122,11 @@
   <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span> 
     <span class="op">~</span><span class="st">"Sub title"</span>,  <span class="op">~</span><span class="st">"Sub body"</span>,
     <span class="st">"Description"</span>, <span class="st">"Aspects of automobile design and performance."</span>,
-    <span class="st">"Format"</span>,      <span class="st">"A data frame with 32 observations and 11 variables."</span>,
+    <span class="st">"Properties"</span>,  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span>
+                     <span class="st">"Suppressed values are replaced with the value '[c]'."</span>,
+                     <span class="st">"\n\n"</span>,  <span class="co"># line break into paragraphs</span>
+                     <span class="st">"Blank cells in the 'Notes' column indicate the absence of a note."</span>
+                   <span class="op">)</span>,
     <span class="st">"Contact"</span>,     <span class="st">"The mtcars Team, telephone 0123456789."</span>
   <span class="op">)</span>
 
@@ -136,9 +140,8 @@
 <span class="va">notes_df</span> <span class="op">&lt;-</span>  <span class="co"># not required if there's no notes in your tables</span>
   <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
     <span class="op">~</span><span class="st">"Note number"</span>, <span class="op">~</span><span class="st">"Note text"</span>,
-    <span class="st">"[1]"</span>,     <span class="st">"Cars are a type of transport."</span>,
-    <span class="st">"[2]"</span>,     <span class="st">"US gallons."</span>,
-    <span class="st">"[3]"</span>,     <span class="st">"Thousand pounds."</span>
+    <span class="st">"[note 1]"</span>,     <span class="st">"US gallons."</span>,  <span class="co"># notes should be in the form '[note 1]'</span>
+    <span class="st">"[note 2]"</span>,     <span class="st">"Retained to enable comparisons with previous analyses."</span>
   <span class="op">)</span>
 
 <span class="co"># Create simple demo stats table</span>
@@ -146,19 +149,24 @@
 <span class="va">stats_df</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> |&gt;
   <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span> |&gt;
   <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">rownames_to_column</a></span><span class="op">(</span><span class="st">"car"</span><span class="op">)</span> |&gt;
-  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"car"</span>, <span class="st">"mpg"</span>, <span class="st">"wt"</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"car"</span>, <span class="st">"cyl"</span>, <span class="st">"mpg"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">stats_df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
-  <span class="st">"Car [note 1]"</span>,  <span class="co"># notes should be in the form '[note 1]'</span>
-  <span class="st">"Miles per gallon [note 2]"</span>,
-  <span class="st">"Weight [note 3]"</span>
+  <span class="st">"Car"</span>,
+  <span class="st">"Cylinder count"</span>,
+  <span class="st">"Miles per gallon [note 1]"</span>  <span class="co"># notes should go in headers, not cells</span>
 <span class="op">)</span>
 
-<span class="va">stats_df</span><span class="op">[</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"[c]"</span>  <span class="co"># example suppressed (confidential) data</span></code></pre></div>
+<span class="va">stats_df</span><span class="op">$</span><span class="va">Notes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>  <span class="co"># add a 'Notes' column to supply row-wise notes</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"[note 2]"</span>, <span class="fl">2</span><span class="op">)</span>, 
+  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA_character_</span>, <span class="fl">4</span><span class="op">)</span>
+<span class="op">)</span>
+
+<span class="va">stats_df</span><span class="op">[</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"[c]"</span>  <span class="co"># example of suppressed (confidential) data</span></code></pre></div>
 <p>Now we can construct an a11ytable by passing the required sheet ‘elements’ as vectors (or a list in the case of <code>tables</code>) to the <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code> function.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://co-analysis.github.io/a11ytables/">a11ytables</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ycphs.github.io/openxlsx/index.html" class="external-link">openxlsx</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ycphs.github.io/openxlsx/index.html" class="external-link">openxlsx</a></span><span class="op">)</span>  <span class="co"># was installed with {a11ytables}</span>
 
 <span class="va">my_a11ytable</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/new_a11ytable.html">new_a11ytable</a></span><span class="op">(</span>
   tab_titles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
@@ -167,11 +175,11 @@
     <span class="st">"Notes"</span>,
     <span class="st">"Table 1"</span>
   <span class="op">)</span>,
-  sheet_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>  <span class="co"># must be 'cover', 'contents', 'notes' or 'tables'</span>
+  sheet_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>  <span class="co"># 'cover', 'contents', 'notes' or 'tables' only</span>
     <span class="st">"cover"</span>,
     <span class="st">"contents"</span>,
     <span class="st">"notes"</span>,
-    <span class="st">"tables"</span>
+    <span class="st">"tables"</span>  <span class="co"># stats tables, appendices, etc</span>
   <span class="op">)</span>,
   sheet_titles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>  <span class="co"># will appear in cell A1 of each sheet</span>
     <span class="st">"The 'mtcars' Demo Datset"</span>,
@@ -183,13 +191,13 @@
     <span class="cn">NA_character_</span>,  <span class="co"># use NA where source isn't needed</span>
     <span class="cn">NA_character_</span>,
     <span class="cn">NA_character_</span>, 
-    <span class="st">"Motor Trend (1974)"</span>
+    <span class="st">"Motor Trend (1974)"</span>  <span class="co"># will be inserted above the table</span>
   <span class="op">)</span>,
   table_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>  <span class="co"># make these unique, used by screenreaders</span>
     <span class="st">"cover_sheet"</span>,
     <span class="st">"table_of_contents"</span>,
     <span class="st">"notes_table"</span>,
-    <span class="st">"demographic_benchmarks"</span>
+    <span class="st">"cars_table"</span>
   <span class="op">)</span>,
   tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>  <span class="co"># as prepared earlier, note it's a list</span>
     <span class="va">cover_df</span>,
@@ -197,8 +205,9 @@
     <span class="va">notes_df</span>,
     <span class="va">stats_df</span>
   <span class="op">)</span>
-<span class="op">)</span></code></pre></div>
-<p>The function will return errors or warnings if anything is missing or seems odd.</p>
+<span class="op">)</span>
+<span class="co"># Warning: You have blank cells in these tables: Table 1.</span></code></pre></div>
+<p>The function will return errors or warnings if anything is missing or seems odd. For example, we’re warned that there are empty cells in Table 1, though for this example we’ve provided on their meaning on the cover sheet.</p>
 <p>And here’s a preview of the object that was created:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_a11ytable</span>
@@ -208,18 +217,19 @@
 <span class="co"># <span style="color: #BCBCBC;">1</span> Cover     cover      The 'mtcars' Demo Datset <span style="color: #BB0000;">NA</span>           cover_she… &lt;tibble&gt;</span>
 <span class="co"># <span style="color: #BCBCBC;">2</span> Contents  contents   Table of contents        <span style="color: #BB0000;">NA</span>           table_of_… &lt;tibble&gt;</span>
 <span class="co"># <span style="color: #BCBCBC;">3</span> Notes     notes      Notes                    <span style="color: #BB0000;">NA</span>           notes_tab… &lt;tibble&gt;</span>
-<span class="co"># <span style="color: #BCBCBC;">4</span> Table 1   tables     Car Road Tests           Motor Trend… demograph… &lt;df&gt;</span></code></pre></div>
-<p>So our a11ytable is basically just a dataframe with one row per sheet and one column per sheet element. In fact, it has class ‘data.frame’/‘tbl’ along with ‘a11ytable’:</p>
+<span class="co"># <span style="color: #BCBCBC;">4</span> Table 1   tables     Car Road Tests           Motor Trend… cars_table &lt;df&gt;</span></code></pre></div>
+<p>You can immediately tell that this is an a11ytable because it’s the first word that’s printed with the output.</p>
+<p>So our a11ytable is basically just a table with one row per sheet and one column per sheet element. In fact, it has class ‘data.frame’/‘tbl’ along with ‘a11ytable’:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">my_a11ytable</span><span class="op">)</span>
 <span class="co"># [1] "a11ytable"  "tbl"        "data.frame"</span></code></pre></div>
-<p>For convenience, you can also check an object with <code><a href="../reference/as_a11ytable.html">is_a11ytable()</a></code>.</p>
-<p>It’s also possible to convert a correctly-formatted data.frame directly to an a11ytable with <code><a href="../reference/as_a11ytable.html">as_a11ytable()</a></code>.</p>
+<p>For convenience, you can also check for the a11ytable class with <code><a href="../reference/as_a11ytable.html">is_a11ytable()</a></code>.</p>
+<p>Note that <code><a href="../reference/new_a11ytable.html">new_a11ytable()</a></code> is the preferred method, but it’s also possible to convert a correctly-formatted pre-built data.frame directly to an a11ytable with <code><a href="../reference/as_a11ytable.html">as_a11ytable()</a></code>. You can try this using the <code>mtcars_df</code> data.frame that’s provided with {a11ytables}.</p>
 </div>
 <div class="section level3">
 <h3 id="convert-to-a-workbook">2. Convert to a workbook<a class="anchor" aria-label="anchor" href="#convert-to-a-workbook"></a>
 </h3>
-<p>We can use <code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code> to convert our a11ytable to an <a href="https://ycphs.github.io/openxlsx/" class="external-link">{openxlsx}</a> Workbook-class object, which applies various mark-up and styling to meet the best practice guidance.</p>
+<p>We can use <code><a href="../reference/create_a11y_wb.html">create_a11y_wb()</a></code> to convert our a11ytable to an <a href="https://ycphs.github.io/openxlsx/" class="external-link">{openxlsx}</a> Workbook-class object. This function inserts into the sheets the information from our a11ytable and applies various mark-up and styles to meet the best practice guidance.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_wb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_a11y_wb.html">create_a11y_wb</a></span><span class="op">(</span><span class="va">my_a11ytable</span><span class="op">)</span></code></pre></div>
 <p>Here’s a preview summary of the Workbook object:</p>
@@ -251,31 +261,32 @@
 <span class="co">#  Sheet 4: "Table 1"</span>
 <span class="co">#  </span>
 <span class="co">#   Custom column widths (column: width)</span>
-<span class="co">#     1: 16, 2: 16, 3: 16 </span>
+<span class="co">#     1: 16, 2: 16, 3: 16, 4: 16 </span>
 <span class="co">#  </span>
 <span class="co"># </span>
 <span class="co">#  </span>
 <span class="co">#  Worksheet write order: 1, 2, 3, 4</span>
 <span class="co">#  Active Sheet 1: "Cover" </span>
 <span class="co">#   Position: 1</span></code></pre></div>
-<p>You can see we have all our named sheets, each with custom styling.</p>
+<p>The output is limited, but you can see an overview of our named sheets and some of the custom styling.</p>
 </div>
 <div class="section level3">
 <h3 id="write-to-file">3. Write to file<a class="anchor" aria-label="anchor" href="#write-to-file"></a>
 </h3>
-<p>Finally, you can use the <code><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html" class="external-link">saveWorkbook()</a></code> function from <a href="https://ycphs.github.io/openxlsx/" class="external-link">{openxlsx}</a> to save your workbook object to an xlsx file.</p>
+<p>Finally, you can use <a href="https://ycphs.github.io/openxlsx/reference/saveWorkbook.html" class="external-link">the <code>saveWorkbook()</code> function from {openxlsx}</a> to save your workbook object to an xlsx file.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html" class="external-link">saveWorkbook</a></span><span class="op">(</span><span class="va">my_wb</span>, <span class="st">"publication.xlsx"</span><span class="op">)</span></code></pre></div>
-<p>While developing your output, you can open a temporary copy of the workbook with <code><a href="https://rdrr.io/pkg/openxlsx/man/openXL.html" class="external-link">openXL()</a></code>.</p>
+<p>You could also open a temporary copy of the workbook with <code><a href="https://rdrr.io/pkg/openxlsx/man/openXL.html" class="external-link">openXL()</a></code>, which is convenient during the development process.</p>
 <p>The content of the output spreadsheet will look like this:</p>
 <div class="figure">
 <p><img src="../reference/figures/vignette-workbook.gif" alt="Gif of a simple Excel workbook created using the a11ytables package, revealing tabs for cover, contents, notes and a table." width="100%"></p>
 </div>
 <p>You’ll notice that formatting (e.g. Arial size 12 font for body text) and mark-up (e.g. tables, donated by a marker in the lower-right corner of the lower-right cell of each one) have been applied throughout.</p>
-<p>You can apply some final tweaks to this file if the defaults don’t quite meet your needs, though it’s advisable to keep this to a minimum. At time of writing (v0.0.0.90013) you will need to address two accessibility requirements that are not yet covered by the package:</p>
+<p>You can apply some final tweaks to this file if the defaults don’t quite meet your needs, though it’s advisable to keep this to a minimum. At time of writing (v0.0.0.90014) you will need to address two accessibility requirements that are not yet covered by the package:</p>
 <ul>
 <li>apply H1 headers to the sheet titles (which you may need to reformat to Arial 16 bold)</li>
-<li>manually complete the document properties (likely under File &gt; Properties in yoru spreadsheet software)</li>
+<li>manually complete the document properties (likely under File &gt; Properties in your spreadsheet software)</li>
+<li>convert text to hyperlinks manually, where required</li>
 </ul>
 </div>
 </div>
