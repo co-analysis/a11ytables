@@ -186,12 +186,14 @@
 
   # Warn about blank cells in tables
 
-  tables_list <- setNames(tables_sheets[["table"]], tables_sheets[["tab_title"]])
+  tables_list <- stats::setNames(
+    tables_sheets[["table"]], tables_sheets[["tab_title"]]
+  )
 
   tables_with_na <- unlist(
     lapply(
       tables_list,
-      function(x) any(!complete.cases(x))
+      function(x) any(!stats::complete.cases(x))
     )
   )
 
