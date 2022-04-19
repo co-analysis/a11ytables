@@ -84,7 +84,7 @@ names(stats_df) <- c(
 
 stats_df$Notes <- c(  # add a 'Notes' column to supply row-wise notes
   rep("[note 2]", 2), 
-  rep("", 4)
+  rep(NA_character_, 4)
 )
 
 stats_df[3, 2:3] <- "[c]"  # example of suppressed (confidential) data
@@ -119,7 +119,7 @@ my_a11ytable <- new_a11ytable(
     NA_character_,  # use NA where source isn't needed
     NA_character_,
     NA_character_, 
-    "Motor Trend (1974)"  # will be added above the table
+    "Motor Trend (1974)"  # will be inserted above the table
   ),
   table_names = c(  # make these unique, used by screenreaders
     "cover_sheet",
@@ -136,7 +136,7 @@ my_a11ytable <- new_a11ytable(
 )
 ```
 
-The function will return errors or warnings if anything is missing or seems odd.
+The function will return errors or warnings if anything is missing or seems odd. For example, we're warned that there are empty cells in Table 1, though for this example we've provided on their meaning on the cover sheet.
 
 And here's a preview of the object that was created:
 
@@ -144,7 +144,9 @@ And here's a preview of the object that was created:
 my_a11ytable
 ```
 
-So our a11ytable is basically just a dataframe with one row per sheet and one column per sheet element. In fact, it has class 'data.frame'/'tbl' along with 'a11ytable':
+You can immediately tell that this is an a11ytable because it's the first word that's printed with the output.
+
+So our a11ytable is basically just a table with one row per sheet and one column per sheet element. In fact, it has class 'data.frame'/'tbl' along with 'a11ytable':
 
 ```{r check-class}
 class(my_a11ytable)
@@ -152,7 +154,7 @@ class(my_a11ytable)
 
 For convenience, you can also check for the a11ytable class with `is_a11ytable()`.
 
-Note that it's also possible to convert a correctly-formatted pre-built data.frame directly to an a11ytable with `as_a11ytable()`, but `new_a11ytable()` is the preferred method.
+Note that `new_a11ytable()` is the preferred method, but it's also possible to convert a correctly-formatted pre-built data.frame directly to an a11ytable with `as_a11ytable()`. You can try this using the `mtcars_df` data.frame that's provided with {a11ytables}.
 
 ### 2. Convert to a workbook
 
