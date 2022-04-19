@@ -5,6 +5,8 @@
     "tab_title", "sheet_type", "sheet_title", "source", "table_name", "table"
   )
 
+  names_count <- length(names_req)
+
   names_in <- names(x)
 
   # Must be of data.frame class
@@ -14,7 +16,11 @@
 
   # Must have particular dimensions (must have cover, contents table, at least)
   if (length(names_req) != length(x) | nrow(x) < 3) {
-    stop("Input must be a data.frame with 6 columns and at least 4 rows.")
+    stop(
+      "Input must be a data.frame with ",
+      names_count,
+      " columns and at least 4 rows."
+    )
   }
 
   # Column names must match expected format
@@ -49,7 +55,7 @@
     sum(x[["sheet_type"]] == "notes") > 1
   ) {
     stop(
-      "You can only have one sheet_type each of 'cover', 'contents' and 'notes'."
+      "There can be only one 'cover', 'contents' and 'notes' in sheet_type."
     )
   }
 
@@ -88,6 +94,8 @@
   }
 
   # Warn about notes (missing notes sheet, or notes in table)
+
+  tables_sheets <- content[content$sheet_type == "tables", ]
 
   has_notes_sheet <- ifelse(
     nrow(content[content$sheet_type == "notes", ]) > 0,
@@ -178,7 +186,6 @@
 
   # Warn about blank cells in tables
 
-  tables_sheets <- content[content$sheet_type == "tables", ]
   tables_list <- setNames(tables_sheets[["table"]], tables_sheets[["tab_title"]])
 
   tables_with_na <- unlist(
