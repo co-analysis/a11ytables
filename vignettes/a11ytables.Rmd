@@ -47,7 +47,11 @@ cover_df <-  # required, will be transposed in the final output
   tribble( 
     ~"Sub title",  ~"Sub body",
     "Description", "Aspects of automobile design and performance.",
-    "Format",      "A data frame with 32 observations and 11 variables.",
+    "Properties",  paste0(
+                     "Suppressed values are replaced with the value '[c]'.",
+                     "\n\n",  # line break into paragraphs
+                     "Blank cells in the 'Notes' column indicate the absence of a note."
+                   ),
     "Contact",     "The mtcars Team, telephone 0123456789."
   )
 
@@ -61,9 +65,8 @@ contents_df <-  # required
 notes_df <-  # not required if there's no notes in your tables
   tribble(
     ~"Note number", ~"Note text",
-    "[1]",     "Cars are a type of transport.",
-    "[2]",     "US gallons.",
-    "[3]",     "Thousand pounds."
+    "[note 1]",     "US gallons.",  # notes should be in the form '[note 1]'
+    "[note 2]",     "Retained to enable comparisons with previous analyses."
   )
 
 # Create simple demo stats table
@@ -71,22 +74,27 @@ notes_df <-  # not required if there's no notes in your tables
 stats_df <- mtcars |>
   head() |>
   rownames_to_column("car") |>
-  subset(select = c("car", "mpg", "wt"))
+  subset(select = c("car", "cyl", "mpg"))
 
 names(stats_df) <- c(
-  "Car [note 1]",  # notes should be in the form '[note 1]'
-  "Miles per gallon [note 2]",
-  "Weight [note 3]"
+  "Car",
+  "Cylinder count",
+  "Miles per gallon [note 1]"  # notes should go in headers, not cells
 )
 
-stats_df[3, 2:3] <- "[c]"  # example suppressed (confidential) data
+stats_df$Notes <- c(  # add a 'Notes' column to supply row-wise notes
+  rep("[note 2]", 2), 
+  rep(NA_character_, 4)
+)
+
+stats_df[3, 2:3] <- "[c]"  # example of suppressed (confidential) data
 ```
 
 Now we can construct an a11ytable by passing the required sheet 'elements' as vectors (or a list in the case of `tables`) to the `new_a11ytable()` function.
 
 ```{r new-a11ytable}
 library(a11ytables)
-library(openxlsx)
+library(openxlsx)  # was installed with {a11ytables}
 
 my_a11ytable <- new_a11ytable(
   tab_titles = c(
@@ -95,11 +103,11 @@ my_a11ytable <- new_a11ytable(
     "Notes",
     "Table 1"
   ),
-  sheet_types = c(  # must be 'cover', 'contents', 'notes' or 'tables'
+  sheet_types = c(  # 'cover', 'contents', 'notes' or 'tables' only
     "cover",
     "contents",
     "notes",
-    "tables"
+    "tables"  # stats tables, appendices, etc
   ),
   sheet_titles = c(  # will appear in cell A1 of each sheet
     "The 'mtcars' Demo Datset",
@@ -111,13 +119,13 @@ my_a11ytable <- new_a11ytable(
     NA_character_,  # use NA where source isn't needed
     NA_character_,
     NA_character_, 
-    "Motor Trend (1974)"
+    "Motor Trend (1974)"  # will be inserted above the table
   ),
   table_names = c(  # make these unique, used by screenreaders
     "cover_sheet",
     "table_of_contents",
     "notes_table",
-    "demographic_benchmarks"
+    "cars_table"
   ),
   tables = list(  # as prepared earlier, note it's a list
     cover_df,
@@ -128,7 +136,7 @@ my_a11ytable <- new_a11ytable(
 )
 ```
 
-The function will return errors or warnings if anything is missing or seems odd.
+The function will return errors or warnings if anything is missing or seems odd. For example, we're warned that there are empty cells in Table 1, though for this example we've provided on their meaning on the cover sheet.
 
 And here's a preview of the object that was created:
 
@@ -136,19 +144,21 @@ And here's a preview of the object that was created:
 my_a11ytable
 ```
 
-So our a11ytable is basically just a dataframe with one row per sheet and one column per sheet element. In fact, it has class 'data.frame'/'tbl' along with 'a11ytable':
+You can immediately tell that this is an a11ytable because it's the first word that's printed with the output.
+
+So our a11ytable is basically just a table with one row per sheet and one column per sheet element. In fact, it has class 'data.frame'/'tbl' along with 'a11ytable':
 
 ```{r check-class}
 class(my_a11ytable)
 ```
 
-For convenience, you can also check an object with `is_a11ytable()`.
+For convenience, you can also check for the a11ytable class with `is_a11ytable()`.
 
-It's also possible to convert a correctly-formatted data.frame directly to an a11ytable with `as_a11ytable()`.
+Note that `new_a11ytable()` is the preferred method, but it's also possible to convert a correctly-formatted pre-built data.frame directly to an a11ytable with `as_a11ytable()`. You can try this using the `mtcars_df` data.frame that's provided with {a11ytables}.
 
 ### 2. Convert to a workbook
 
-We can use `create_a11y_wb()` to convert our a11ytable to an [{openxlsx}](https://ycphs.github.io/openxlsx/) Workbook-class object, which applies various mark-up and styling to meet the best practice guidance.
+We can use `create_a11y_wb()` to convert our a11ytable to an [{openxlsx}](https://ycphs.github.io/openxlsx/) Workbook-class object. This function inserts into the sheets the information from our a11ytable and applies various mark-up and styles to meet the best practice guidance.
 
 ```{r create-a11y-wb}
 my_wb <- create_a11y_wb(my_a11ytable)
@@ -160,17 +170,17 @@ Here's a preview summary of the Workbook object:
 my_wb
 ```
 
-You can see we have all our named sheets, each with custom styling.
+The output is limited, but you can see an overview of our named sheets and some of the custom styling.
 
 ### 3. Write to file
 
-Finally, you can use the `saveWorkbook()` function from [{openxlsx}](https://ycphs.github.io/openxlsx/) to save your workbook object to an xlsx file.
+Finally, you can use [the `saveWorkbook()` function from {openxlsx}](https://ycphs.github.io/openxlsx/reference/saveWorkbook.html) to save your workbook object to an xlsx file.
 
 ```{r saveworkbook, eval=FALSE}
 saveWorkbook(my_wb, "publication.xlsx")
 ```
 
-While developing your output, you can open a temporary copy of the workbook with `openXL()`.
+You could also open a temporary copy of the workbook with `openXL()`, which is convenient during the development process.
 
 The content of the output spreadsheet will look like this:
 
@@ -180,7 +190,8 @@ The content of the output spreadsheet will look like this:
 
 You'll notice that formatting (e.g. Arial size 12 font for body text) and mark-up (e.g. tables, donated by a marker in the lower-right corner of the lower-right cell of each one) have been applied throughout.
 
-You can apply some final tweaks to this file if the defaults don't quite meet your needs, though it's advisable to keep this to a minimum. At time of writing (v0.0.0.90013) you will need to address two accessibility requirements that are not yet covered by the package:
+You can apply some final tweaks to this file if the defaults don't quite meet your needs, though it's advisable to keep this to a minimum. At time of writing (v0.0.0.90014) you will need to address two accessibility requirements that are not yet covered by the package:
 
 * apply H1 headers to the sheet titles (which you may need to reformat to Arial 16 bold)
-* manually complete the document properties (likely under File > Properties in yoru spreadsheet software)
+* manually complete the document properties (likely under File > Properties in your spreadsheet software)
+* convert text to hyperlinks manually, where required

@@ -1,78 +1,105 @@
 # This file generates and writes the in-built datasets mtcars_a11ytable
 
+library(tibble)
 
-# Create table for cover
-cover_df <- tibble::tribble(
-  ~"Subsection title", ~"Subsection body",
-  "Description", "The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)",
-  "Format", "A data frame with 32 observations on 11 (numeric) variables."
-) |>
+cover_df <-
+  tribble(
+    ~"Sub title",  ~"Sub body",
+    "Description", "Aspects of automobile design and performance.",
+    "Properties",  paste0("Suppressed values are replaced with the value '[c]'.",
+                          "\n\n",
+                          "Blank cells in the 'Notes' column indicate the absence of a note."),
+    "Contact",     "The mtcars Team, telephone 0123456789."
+  ) |>
   as.data.frame()
 
-# Create table for contents
-contents_df <- tibble::tribble(
-  ~"Sheet name", ~"Sheet title",
-  "Notes", "Notes",
-  "Table 1", "Motor Trend Car Road Tests"
-) |>
+contents_df <-
+  tribble(
+    ~"Sheet name", ~"Sheet title",
+    "Notes",       "Notes used in the statistical tables of this workbook",
+    "Table 1",     "Car Road Tests (demo)"
+  ) |>
   as.data.frame()
 
-# Create table for notes
-notes_df <- tibble::tribble(
-  ~"Note number", ~"Note text",
-  "[c]", "Confidential: suppressed.",
-  "[z]", "Not applicable.",
-  "[1]", "Hocking [original transcriber]'s noncrucial coding of the Mazda's rotary engine as a straight six-cylinder engine and the Porsche's flat engine as a V engine, as well as the inclusion of the diesel Mercedes 240D, have been retained to enable direct comparisons to be made with previous analyses.",
-  "[2]", "Test note.",
-  "[3]", "Test note."
-) |>
+notes_df <-
+  tribble(
+    ~"Note number", ~"Note text",
+    "[1]",     "US gallons.",
+    "[2]",     "Retained to enable comparisons with previous analyses."
+  ) |>
   as.data.frame()
 
-# Select mtcars columns
-cars_df <- tibble::rownames_to_column(mtcars, "car") |>
-  subset(select = c("car", "mpg", "cyl", "disp", "hp"))
+stats_df_1 <- mtcars |>
+  head() |>
+  rownames_to_column("car") |>
+  subset(select = c("car", "cyl", "mpg"))
 
-# Add suppression examples
-cars_df[1, "mpg"] <- "[c]" # single
-cars_df[2:nrow(cars_df) , "cyl"] <- "[c]"  # multi (all but one suppressed)
-cars_df[, "disp"] <- "[c]"  # all suppressed
-
-# Add notes column example
-notes_cars <- c("Mazda RX4", "Mazda RX4 Wag", "Porsche 914-2", "Merc 240D")
-cars_df[["Notes"]] <- ifelse(cars_df[["car"]] %in% notes_cars, "[1]", "[z]")
-
-# Provide better names
-names(cars_df) <- c(
+names(stats_df_1) <- c(
   "Car",
-  "Miles per gallon [2]",
-  "Cylinders [2, 3]",
-  "Displacement [note 2]",
-  "Horsepower [note]",
-  "Notes"
+  "Cylinder count",
+  "Miles per gallon [note 1]"
 )
 
-# Build data.frame
-mtcars_df <- tibble::tibble(
-  tab_title = c("Cover", "Contents", "Notes", "Table 1"),
-  sheet_type = c("cover", "contents", "notes", "tables"),
+stats_df_1$Notes <- c(
+  rep("[note 2]", 2),
+  rep(NA_character_, 4)
+)
+
+stats_df_1[3, 2:3] <- "[c]"
+
+stats_df_2 <- mtcars |>
+  head() |>
+  rownames_to_column("car") |>
+  subset(select = c("car", "hp", "drat"))
+
+names(stats_df_2) <- c(
+  "Car",
+  "Gross horsepower",
+  "Rear axle ratio"
+)
+
+mtcars_df <- tibble(
+  tab_title = c(
+    "Cover",
+    "Contents",
+    "Notes",
+    "Table 1",
+    "Table 2"
+  ),
+  sheet_type = c(
+    "cover",
+    "contents",
+    "notes",
+    "tables",
+    "tables"
+  ),
   sheet_title = c(
-    "The mtcars demo datset: 'Motor Trend Car Road Tests'",
+    "The 'mtcars' Demo Dataset",
     "Table of contents",
     "Notes",
-    "Motor Trend Car Road Tests"
+    "Car Road Tests 1",
+    "Car Road Tests 2"
   ),
-  source = c(rep(NA_character_, 3), "Motor Trend (1974)"),
+  source = c(
+    NA_character_,
+    NA_character_,
+    NA_character_,
+    "Motor Trend (1974)",
+    "Motor Trend (1974)"
+  ),
   table_name = c(
     "cover_sheet",
     "table_of_contents",
     "notes_table",
-    "car_scores"
+    "cars_table_1",
+    "cars_table_2"
   ),
   table = list(
     cover_df,
     contents_df,
     notes_df,
-    cars_df
+    stats_df_1,
+    stats_df_2
   )
 )
 

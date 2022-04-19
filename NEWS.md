@@ -1,3 +1,9 @@
+# a11ytables 0.0.0.90015
+
+* Added and improved warnings and errors (#34)
+* Simplified the in-built dataset so it matches the 'get started' vignette
+* Updated the gif used in the 'get started' vignette
+
 # a11ytables 0.0.0.90014
 
 * Added explanations to the accessibility checklist vignette
