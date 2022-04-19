@@ -59,42 +59,42 @@ names(stats_df_2) <- c(
 )
 
 mtcars_df <- tibble(
-  tab_titles = c(
+  tab_title = c(
     "Cover",
     "Contents",
     "Notes",
     "Table 1",
     "Table 2"
   ),
-  sheet_types = c(
+  sheet_type = c(
     "cover",
     "contents",
     "notes",
     "tables",
     "tables"
   ),
-  sheet_titles = c(
+  sheet_title = c(
     "The 'mtcars' Demo Dataset",
     "Table of contents",
     "Notes",
     "Car Road Tests 1",
     "Car Road Tests 2"
   ),
-  sources = c(
+  source = c(
     NA_character_,
     NA_character_,
     NA_character_,
     "Motor Trend (1974)",
     "Motor Trend (1974)"
   ),
-  table_names = c(
+  table_name = c(
     "cover_sheet",
     "table_of_contents",
     "notes_table",
     "cars_table_1",
     "cars_table_2"
   ),
-  tables = list(
+  table = list(
     cover_df,
     contents_df,
     notes_df,
