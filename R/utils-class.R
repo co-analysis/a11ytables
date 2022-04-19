@@ -56,7 +56,7 @@
 
 .warn_a11ytable <- function(content) {
 
-  # Sources
+  # Warn about missing sources
 
   table_sources <- content[content$sheet_type == "tables", "source"][[1]]
 
@@ -69,7 +69,7 @@
 
   }
 
-  # Notes (missing notes sheet, or notes in table)
+  # Warn about notes (missing notes sheet, or notes in table)
 
   has_notes_sheet <- ifelse(
     nrow(content[content$sheet_type == "notes", ]) > 0,
@@ -115,21 +115,20 @@
 
   }
 
-
-  # Notes (note sheet present, but mismatches exist)
+  # Warn about notes (note sheet present, but mismatches exist)
 
   if (has_notes_sheet) {
 
-    notes_sheet  <- content[content$sheet_type == "notes", ]  # only one
+    notes_sheet  <- content[content$sheet_type == "notes", ]  # max of one notes sheet
 
-    notes_sheet_values <-
-      suppressWarnings(
-        as.numeric(
-          gsub("\\[|\\]", "", notes_sheet[, "table"][[1]][[1]])
-        )
+    notes_sheet_vector <- notes_sheet[, "table"][[1]][[1]]  # assumes first col has note values
+
+    notes_sheet_values <- unlist(  # e.g. get c(1, 2) from c("[note 1]", "[note 2]")
+      regmatches(
+        notes_sheet_vector,
+        gregexpr("\\d", notes_sheet_vector, perl = TRUE)  # extract numbers
       )
-
-    notes_sheet_values <- notes_sheet_values[!is.na(notes_sheet_values)]
+    )
 
     tables_sheet_notes <- sort(
       unique(
@@ -159,7 +158,7 @@
     if (length(not_in_notes) > 0) {
 
       warning(
-        "Some notes are in the notes sheets (",
+        "Some notes are in the notes sheet (",
         paste(not_in_notes, collapse = ", "),
         ") but are missing from the tables.",
         call. = FALSE
