@@ -2,7 +2,7 @@ library(magick)
 
 image_paths <- list.files(
   "man/figures",
-  pattern = "screenshot-vignette-.*.png",
+  pattern = "screenshot-\\d.png",
   full.names = TRUE
 )
 
