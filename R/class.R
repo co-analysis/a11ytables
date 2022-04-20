@@ -19,10 +19,6 @@
 #' @param sources Optional character vector, one value per sheet to be created.
 #'     The origin of the data for a given sheet. Supply as \code{NA_character_}
 #'     if empty.
-#' @param table_names Required character vector, one value per table to be
-#'     created (i.e. one per sheet). A short, descriptive, identifying name to
-#'     give the 'named range' of cells that compose the table in the final
-#'     spreadsheet output. Makes sheet navigation more accessible.
 #' @param tables Required list of data.frames, one per sheet. See details.
 #'
 #' @details Formats for data.frames in the 'tables' argument, depending on the
@@ -52,7 +48,6 @@
 #'     sheet_types  = mtcars_df$sheet_type,
 #'     sheet_titles = mtcars_df$sheet_title,
 #'     sources      = mtcars_df$source,
-#'     table_names  = mtcars_df$table_name,
 #      tables       = mtcars_df$table
 #' )
 #' is_a11ytable(x)
@@ -64,20 +59,22 @@ new_a11ytable <- function(
   sheet_types = c("cover", "contents", "notes", "tables"),
   sheet_titles,
   sources = NULL,
-  table_names,
   tables
 ) {
 
   if (!any(sheet_types %in% c("cover", "contents", "notes", "tables"))) {
-    stop("'sheet_type' must be one of 'cover', 'contents', 'notes', 'tables'")
+    stop("'sheet_type' must be one of 'cover', 'contents', 'notes', 'tables'.")
+  }
+
+  if (length(tab_titles) != length(unique(tolower(tab_titles)))) {
+    stop("Elements in 'tab_titles' must be unique (case-insensitive).")
   }
 
   x <- data.frame(
     tab_title = unlist(tab_titles),
     sheet_type = unlist(sheet_types),
     sheet_title = unlist(sheet_titles),
-    source = unlist(sources),
-    table_name = unlist(table_names)
+    source = unlist(sources)
   )
 
   x[["table"]] <- tables
@@ -116,7 +113,6 @@ summary.a11ytable <- function(object, ...) {
   out_tab_title <- paste0("\n", paste("  -", object$tab_title,   collapse = "\n"))
   out_sh_type   <- paste0("\n", paste("  -", object$sheet_type,  collapse = "\n"))
   out_sh_title  <- paste0("\n", paste("  -", object$sheet_title, collapse = "\n"))
-  out_tbl_name  <- paste0("\n", paste("  -", object$table_name,  collapse = "\n"))
   out_tbl_dims  <- paste0("\n", paste("  -", unlist(x_dims),     collapse = "\n"))
 
   cat(
@@ -124,7 +120,6 @@ summary.a11ytable <- function(object, ...) {
     "* Tab titles:",   out_tab_title, "\n",
     "* Sheet types:",  out_sh_type,   "\n",
     "* Sheet titles:", out_sh_title,  "\n",
-    "* Table names:",  out_tbl_name,  "\n",
     "* Table sizes:",  out_tbl_dims,  "\n"
   )
 

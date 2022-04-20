@@ -7,7 +7,6 @@ test_that("a11ytable can be created by hand", {
       sheet_types  = mtcars_df$sheet_type,
       sheet_titles = mtcars_df$sheet_title,
       sources      = mtcars_df$source,
-      table_names  = mtcars_df$table_name,
       tables       = mtcars_df$table
     )
   )
@@ -22,7 +21,6 @@ test_that("a11ytable can be created by hand", {
         sheet_types     = "x",
         sheet_titles    = mtcars_df$sheet_title,
         sources         = mtcars_df$source,
-        table_names     = mtcars_df$table_name,
         tables          = mtcars_df$table
       )
     )
@@ -54,7 +52,7 @@ test_that("suitable objects can be coerced", {
 
 test_that("class validation works", {
 
-  expect_length(suppressWarnings(as_a11ytable(mtcars_df)), 6)
+  expect_length(suppressWarnings(as_a11ytable(mtcars_df)), 5)
 
   expect_error(as_a11ytable(1))
   expect_error(as_a11ytable("x"))

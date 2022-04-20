@@ -1,11 +1,11 @@
 
 #' Create An Accessible Workbook
 #'
-#' Populate an {openxlsx} workbook object with content from a a11ytable-class
-#' input.
+#' Populate an 'openxlsx' Workbook-class object with content from an
+#' a11ytable-class object.
 #'
-#' @param content An a11ytable-class object containing the data and information
-#'     needed to create your workbook.
+#' @param content An a11ytable-class object containing the data and
+#'     information needed to create your workbook.
 #'
 #' @details You can create an a11ytable object with
 #'     \code{\link{new_a11ytable}} (or \code{\link{as_a11ytable}}).
@@ -14,7 +14,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' x <- as_a11ytable(lfs_tables)
+#' x <- as_a11ytable(mtcars_df)
 #' create_a11y_wb(x)
 #' }
 #'
@@ -22,8 +22,14 @@
 create_a11y_wb <- function(content) {
 
   if (!is_a11ytable(content)) {
-    stop("The object passed to argument 'content' must have class 'a11ytable'")
+    stop("The object passed to argument 'content' must have class 'a11ytable'.")
   }
+
+  # Create a table_name from tab_title (unqiue, no spaces, no punctuation)
+  content[["table_name"]] <-
+    gsub(" ", "_", tolower(trimws(content[["tab_title"]])))
+  content[["table_name"]] <-
+    gsub("(?!_)[[:punct:]]", "", content[["table_name"]], perl = TRUE)
 
   # Create workbook, add tabs, cover, contents (required for all workbooks)
   wb <- openxlsx::createWorkbook()

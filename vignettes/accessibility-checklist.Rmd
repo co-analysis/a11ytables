@@ -29,9 +29,9 @@ This assessment is based on generating an unedited output from a typical {a11yta
 | Description | Essential? | Status | Explanation |
 | :-- | :- | :- | :---- |
 | Mark up tables | Yes | Included | Automatic table mark-up is provided by `create_a11y_wb()` |
-| Give tables meaningful names | No | Included/user's responsibility | Supply meaningful names to the `table_names` argument in `new_a11ytable()` |
+| Give tables meaningful names | No | Included | Unique table names are generated from the `tab_titles` argument in `new_a11ytable()` |
 | Remove merged cells, split cells and nested tables | Yes | Included | Not supported by {a11ytables} |
-| Remove blank rows and columns within tables | Yes | Partly/user responsibility | A warning is supplied to a user if a row or column is blank (TODO, issue #34); it's assumed there is a reason for the cells to be blank, which the user should explain in the workbook |
+| Remove blank rows and columns within tables | Yes | Partly/user responsibility | A warning is supplied to a user if cells are blank; it's assumed there is a reason for the cells to be blank, which the user should explain in the workbook |
 | All tables should have one tagged header row | Yes | Included | R's data.frame class only allows for one header row, which must have unique names; the header row is tagged as such when marked-up as a table |
 | Wrap text within cells | Yes | Included | `create_a11y_wb()` wraps content by default; there's a simple check in {a11ytables} to widen a column if it contains long strings |
 | Avoid adding filters and freeze panes | No | Included | Filters and freezing aren't supported by {a11ytables} |
@@ -68,7 +68,7 @@ This assessment is based on generating an unedited output from a typical {a11yta
 
 | Description | Essential? | Status | Explanation |
 | :-- | :- | :- | :---- |
-| Give worksheets unique names or numbers | Yes | User's responsibility | Supply `tab_titles` to `new_a11ytable()`, which gives a warning if any names match (TODO, issue #34) |
+| Give worksheets unique names or numbers | Yes | User's responsibility | Supply `tab_titles` to `new_a11ytable()`, which gives a warning if any names match |
 | Remove blank worksheets | Yes | Included | `new_a11ytable()` will error if expected argument content is missing |
 | Use cells in column A wisely | Yes | Included | `create_a11y_wb()` inserts the sheet title, table count, notes statement, source statement and tables into column A by default  |
 | Position tables against the left-hand edges of each sheet | Yes | Included | `create_a11y_wb()` inserts automatically the tables into column A |

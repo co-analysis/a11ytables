@@ -1,4 +1,4 @@
-# This file generates and writes the in-built datasets mtcars_a11ytable
+# This file generates and writes the dataset 'mtcars_df'
 
 library(tibble)
 
@@ -17,15 +17,16 @@ contents_df <-
   tribble(
     ~"Sheet name", ~"Sheet title",
     "Notes",       "Notes used in the statistical tables of this workbook",
-    "Table 1",     "Car Road Tests (demo)"
+    "Table 1",     "Car Road Tests (demo 1)",
+    "Table 2",     "Car Road Tests (demo 2)"
   ) |>
   as.data.frame()
 
 notes_df <-
   tribble(
     ~"Note number", ~"Note text",
-    "[1]",     "US gallons.",
-    "[2]",     "Retained to enable comparisons with previous analyses."
+    "[note 1]",     "US gallons.",
+    "[note 2]",     "Retained to enable comparisons with previous analyses."
   ) |>
   as.data.frame()
 
@@ -86,13 +87,6 @@ mtcars_df <- tibble(
     NA_character_,
     "Motor Trend (1974)",
     "Motor Trend (1974)"
-  ),
-  table_name = c(
-    "cover_sheet",
-    "table_of_contents",
-    "notes_table",
-    "cars_table_1",
-    "cars_table_2"
   ),
   table = list(
     cover_df,

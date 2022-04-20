@@ -1,12 +1,8 @@
 
 .validate_a11ytable <- function(x) {
 
-  names_req <- c(
-    "tab_title", "sheet_type", "sheet_title", "source", "table_name", "table"
-  )
-
+  names_req <- c("tab_title", "sheet_type", "sheet_title", "source", "table")
   names_count <- length(names_req)
-
   names_in <- names(x)
 
   # Must be of data.frame class
@@ -34,7 +30,7 @@
   }
 
   # Class must be character for all columns except 'table'
-  if (!all(unlist(lapply(x[-6], is.character)))) {
+  if (!all(unlist(lapply(subset(x, select = -table), is.character)))) {
     stop("All columns except 'table' must be character class.")
   }
 
@@ -59,11 +55,11 @@
     )
   }
 
-  # There should be no empty rows for certain columns
-  if (!all(unlist(lapply(x[c(1:3, 5:6)], function(x) all(!is.na(x)))))) {
+  # There should be no empty rows, except in the 'source' column
+  if (any(is.na(subset(x, select = -source)))) {
     stop(
       paste(
-        "Columns 'tab_title', 'sheet_type', 'sheet_title', 'table_name', and",
+        "Columns 'tab_title', 'sheet_type', 'sheet_title' and",
         "'table' must not contain NA."
       )
     )

@@ -7,15 +7,15 @@
 create_a11y_wb(content)
 }
 \arguments{
-\item{content}{An a11ytable-class object containing the data and information
-needed to create your workbook.}
+\item{content}{An a11ytable-class object containing the data and
+information needed to create your workbook.}
 }
 \value{
 A Workbook-class object.
 }
 \description{
-Populate an {openxlsx} workbook object with content from a a11ytable-class
-input.
+Populate an 'openxlsx' Workbook-class object with content from an
+a11ytable-class object.
 }
 \details{
 You can create an a11ytable object with
@@ -23,7 +23,7 @@ You can create an a11ytable object with
 }
 \examples{
 \dontrun{
-x <- as_a11ytable(lfs_tables)
+x <- as_a11ytable(mtcars_df)
 create_a11y_wb(x)
 }
 

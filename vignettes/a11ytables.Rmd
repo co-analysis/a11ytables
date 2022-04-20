@@ -121,12 +121,6 @@ my_a11ytable <- new_a11ytable(
     NA_character_, 
     "Motor Trend (1974)"  # will be inserted above the table
   ),
-  table_names = c(  # make these unique, used by screenreaders
-    "cover_sheet",
-    "table_of_contents",
-    "notes_table",
-    "cars_table"
-  ),
   tables = list(  # as prepared earlier, note it's a list
     cover_df,
     contents_df,
@@ -190,7 +184,7 @@ The content of the output spreadsheet will look like this:
 
 You'll notice that formatting (e.g. Arial size 12 font for body text) and mark-up (e.g. tables, donated by a marker in the lower-right corner of the lower-right cell of each one) have been applied throughout.
 
-You can apply some final tweaks to this file if the defaults don't quite meet your needs, though it's advisable to keep this to a minimum. At time of writing (v0.0.0.90014) you will need to address two accessibility requirements that are not yet covered by the package:
+You can apply some final tweaks to this file if the defaults don't quite meet your needs, though it's advisable to keep this to a minimum. At time of writing (v0.0.0.90015) you will need to address two accessibility requirements that are not yet covered by the package:
 
 * apply H1 headers to the sheet titles (which you may need to reformat to Arial 16 bold)
 * manually complete the document properties (likely under File > Properties in your spreadsheet software)

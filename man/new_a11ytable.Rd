@@ -9,7 +9,6 @@ new_a11ytable(
   sheet_types = c("cover", "contents", "notes", "tables"),
   sheet_titles,
   sources = NULL,
-  table_names,
   tables
 )
 }
@@ -30,11 +29,6 @@ created. The main title of the sheet, which will appear in cell A1
 \item{sources}{Optional character vector, one value per sheet to be created.
 The origin of the data for a given sheet. Supply as \code{NA_character_}
 if empty.}
-
-\item{table_names}{Required character vector, one value per table to be
-created (i.e. one per sheet). A short, descriptive, identifying name to
-give the 'named range' of cells that compose the table in the final
-spreadsheet output. Makes sheet navigation more accessible.}
 
 \item{tables}{Required list of data.frames, one per sheet. See details.}
 }
@@ -73,7 +67,6 @@ x <- new_a11ytable(
     sheet_types  = mtcars_df$sheet_type,
     sheet_titles = mtcars_df$sheet_title,
     sources      = mtcars_df$source,
-    table_names  = mtcars_df$table_name,
 )
 is_a11ytable(x)
 }

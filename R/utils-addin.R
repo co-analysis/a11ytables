@@ -23,13 +23,7 @@ string_new_a11ytable <- function() {
         NA_character_,
         NA_character_,
         NA_character_,
-        "Source (example)",
-      ),
-      table_names = c(
-        "cover",
-        "contents",
-        "notes",
-        "example_table_example",
+        "Source (example)"
       ),
       tables = list(
         cover_example,
