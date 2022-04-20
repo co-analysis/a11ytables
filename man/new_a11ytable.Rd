@@ -8,14 +8,14 @@ new_a11ytable(
   tab_titles,
   sheet_types = c("cover", "contents", "notes", "tables"),
   sheet_titles,
-  sources = NULL,
+  sources = NA_character_,
   tables
 )
 }
 \arguments{
 \item{tab_titles}{Required character vector, one value per sheet to be
 created. Each title will appear on each tab of the final spreadsheet
-output. Keep brief.}
+output. Keep brief. For example: 'Cover', 'Contents', 'Notes', 'Table 1'.}
 
 \item{sheet_types}{Required character vector, one value per sheet to be
 created. Sheets that don't contain publication tables ('meta' sheets)
@@ -28,7 +28,8 @@ created. The main title of the sheet, which will appear in cell A1
 
 \item{sources}{Optional character vector, one value per sheet to be created.
 The origin of the data for a given sheet. Supply as \code{NA_character_}
-if empty.}
+if empty. Sheets of type 'cover', 'contents' and 'notes' are highly
+unlikely to need a source.}
 
 \item{tables}{Required list of data.frames, one per sheet. See details.}
 }

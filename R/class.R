@@ -18,7 +18,8 @@
 #'     (top-left corner) of each sheet.
 #' @param sources Optional character vector, one value per sheet to be created.
 #'     The origin of the data for a given sheet. Supply as \code{NA_character_}
-#'     if empty.
+#'     if empty. Sheets of type 'cover', 'contents' and 'notes' are highly
+#'     unlikely to need a source.
 #' @param tables Required list of data.frames, one per sheet. See details.
 #'
 #' @details Formats for data.frames in the 'tables' argument, depending on the
@@ -58,7 +59,7 @@ new_a11ytable <- function(
   tab_titles,
   sheet_types = c("cover", "contents", "notes", "tables"),
   sheet_titles,
-  sources = NULL,
+  sources = NA_character_,
   tables
 ) {
 
