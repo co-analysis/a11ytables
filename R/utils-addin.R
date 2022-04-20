@@ -29,7 +29,7 @@ string_new_a11ytable <- function() {
         cover_example,
         contents_example,
         notes_example,
-        table_example,
+        table_example
       )
     )'
 
@@ -52,12 +52,13 @@ string_tables_tibble <- function() {
 
   notes_example <- tibble::tribble(
     ~"Note number", ~"Note text",
-    "[1]", "Placeholder note.",
-    "[2]", "Placeholder note.",
-    "[3]", "Placeholder note.",
+    "[note 1]", "Placeholder note."
   )
 
-  table_example <- mtcars'
+  table_example <- mtcars
+  table_example[["car [note 1]"]] <- row.names(mtcars)
+  row.names(table_example) <- NULL
+  table_example <- table_example[1:5, c("car [note 1]", "mpg", "cyl")]'
 
 }
 
@@ -77,30 +78,20 @@ string_tables_df <- function() {
     )
 
     contents_example <- data.frame(
-      "Sheet name" = c(
-        "Notes",
-        "Table 1"
-      ),
-      "Sheet title" = c(
-        "Notes",
-        "Sheet title (example)"
-      ),
+      "Sheet name" = c("Notes", "Table 1"),
+      "Sheet title" = c("Notes", "Sheet title (example)"),
       check.names = FALSE
     )
 
     notes_example <- data.frame(
-      "Note number" = c(
-        "[1]",
-        "[2]",
-        "[3]"),
-      "Note text" = c(
-        "Placeholder note",
-        "Placeholder note",
-        "Placeholder note"
-      ),
-      check.names = TRUE
+      "Note number" = "[note 1]",
+      "Note text" = "Placeholder note",
+      check.names = FALSE
     )
 
-  table_example <- mtcars'
+  table_example <- mtcars
+  table_example[["car [note 1]"]] <- row.names(mtcars)
+  row.names(table_example) <- NULL
+  table_example <- table_example[1:5, c("car [note 1]", "mpg", "cyl")]'
 
 }
