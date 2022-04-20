@@ -8,7 +8,7 @@
 #'
 #' @param tab_titles Required character vector, one value per sheet to be
 #'     created. Each title will appear on each tab of the final spreadsheet
-#'     output. Keep brief.
+#'     output. Keep brief. For example: 'Cover', 'Contents', 'Notes', 'Table 1'.
 #' @param sheet_types Required character vector, one value per sheet to be
 #'     created. Sheets that don't contain publication tables ('meta' sheets)
 #'     should be of type 'contents', 'cover' or 'notes'. Sheets that contain
