@@ -59,8 +59,10 @@ The package can help you fulfil a [Reproducible Analytical Pipeline](https://dat
 
 ## Code of Conduct
 
-Please note that the {a11ytables} project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms. Cabinet Office users, please adhere to [the co-analysis Git and GitHub code of conduct and usage policy](https://docs.google.com/document/d/1CuNgKla1BwSVOmGkPmsq0S-OM4emP-iXrgnm7EeILWM/edit?usp=sharing).
+Please note that the {a11ytables} project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.html).
 
-## Copyright
+## Copyright and Licensing
 
-Copyright (c) 2022 Crown Copyright (Cabinet Office). The code in this repository is released under the MIT license as per [The GDS Way](https://gds-way.cloudapps.digital/manuals/licensing.html#use-mit).
+© Crown Copyright, 2022, Cabinet Office
+
+This work is [Crown Copyright](https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/). The source code for the software is released under the MIT licence as per the the [UK Government Licensing Framework](https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/open-government-licence/open-software-licences/) and the [GDS Way licensing guidance](https://gds-way.cloudapps.digital/manuals/licensing.html). The documentation for the software is released under the [Open Govenrment Licence](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)
