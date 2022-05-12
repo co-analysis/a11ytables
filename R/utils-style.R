@@ -63,7 +63,7 @@
     wb = wb,
     sheet = tab_name,
     cols = 1,
-    widths = 80
+    widths = 72
   )
 
   openxlsx::addStyle(
@@ -115,8 +115,9 @@
   sheet_type <- content[content$table_name == table_name, "sheet_type"][[1]]
 
   has_notes <- .has_notes(content, tab_title)
+  has_blanks_message <- .has_blanks_message(content, tab_title)
   has_source <- .has_source(content, tab_title)
-  start_row <- .get_start_row_table(has_notes, has_source)
+  start_row <- .get_start_row_table(has_notes, has_blanks_message, has_source)
 
   table_height <- nrow(table)
   table_width  <- ncol(table)
@@ -222,7 +223,7 @@
     wb = wb,
     sheet = tab_name,
     cols = seq(table_width),
-    widths = 30
+    widths = 24
   )
 
   openxlsx::addStyle(
@@ -261,14 +262,14 @@
     wb = wb,
     sheet = tab_name,
     cols = 1,
-    widths = 15
+    widths = 24
   )
 
   openxlsx::setColWidths(
     wb = wb,
     sheet = tab_name,
     cols = 2,
-    widths = 80
+    widths = 40
   )
 
   openxlsx::addStyle(

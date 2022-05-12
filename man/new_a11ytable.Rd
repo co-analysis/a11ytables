@@ -8,6 +8,7 @@ new_a11ytable(
   tab_titles,
   sheet_types = c("cover", "contents", "notes", "tables"),
   sheet_titles,
+  blank_cells = NA_character_,
   sources = NA_character_,
   tables
 )

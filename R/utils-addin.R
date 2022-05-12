@@ -19,6 +19,12 @@ string_new_a11ytable <- function() {
         "Notes",
         "Sheet title (example)"
       ),
+      blank_cells = c(
+        NA_character_,
+        NA_character_,
+        NA_character_,
+        "Blank cells in this table indicate something."
+      ),
       sources = c(
         NA_character_,
         NA_character_,
