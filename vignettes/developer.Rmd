@@ -14,10 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(a11ytables)
-```
-
 # Purpose
 
 This vignette explains the underlying philosophy of the package's code.
@@ -71,14 +67,14 @@ Unexported functions are prefixed with a period to make it clearer that they are
 * These are `.add_tabs()`, which inserts the required tabs into the workbook; `.add_cover()` and `.add_contents()`, which run once each because there should only be one of each in the provided a11ytable; `.add_notes()` if a notes sheet exists; and `.add_table()` for each 'table' sheet_type in the a11ytable
 * The main functions within the `.add_()` functions are the `.insert_*()` functions, which insert sheet elements to each sheet, and `style_*()`, which apply formatting to each sheet and the workbook overall
 
-### Insert
+#### Insert
 
 * The pre-table elements are `.insert_title()`, `.insert_table_count()`, `.insert_source()`, `.insert_notes_statement()` and `.insert_blanks_message()`; tables are added with `.insert_table()`
 * The exact `.insert_*()` functions called depend on the sheet_type: meta sheets (cover, contents and notes) need only `.insert_title()` and `.insert_table_count()`; statistical tables also require `.insert_source()` and `.insert_blanks_message()` if provided, as well as `.insert_notes_statement()` if notes are detected in the table or there's a sheet_type of 'notes'
 * The `.insert_*()` functions are applied in order so that the sheet title goes in cell A1 and the table-count statement ('there are x tables on this sheet') goes below it; for sheet_type table, there's then a statement about notes in the sheet, the statement about the meaning of blank cells and the data source (depending on whether these need to be inserted or not)
 * The `.insert_*()` functions for note presence, meaning of blank cells, data source and tables also include simple logic for handling which cell to place them in; if all are inserted, then the table would begin in row 6 (i.e. after the sheet title, table count, note presence, meaning of blank cells and source), but it's possible that the table would have to be inserted to row 3 if only the sheet title and statement are required
 
-### Style
+#### Style
 
 * `.style_create()` invokes a central list of styles created with `openxlsx::createStyle()`, which can be applied across different elements and sheets; you can create the style object like `styles <- .style_create()` and then `style$bold`, etc, for each style
 * `.style_workbook()` applies font styles (Arial 12) at the level of the whole workbook
