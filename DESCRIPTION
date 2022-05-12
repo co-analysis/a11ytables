@@ -1,6 +1,6 @@
 Package: a11ytables
 Title: Create Spreadsheet Publications Following GSS Best Practice
-Version: 0.0.0.90015
+Version: 0.1.0
 Authors@R: c(
     person(given = "Matt", family = "Dray", role = c("aut", "cre"), email = "mwdray@gmail.com"),
     person(given = "Tim", family = "Taylor", role = "ctb"),
