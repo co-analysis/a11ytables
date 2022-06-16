@@ -167,12 +167,12 @@
     widths = cellwidth_default  # set all columns to default width first
   )
 
-  openxlsx::setColWidths(
-    wb = wb,
-    sheet = tab_title,
-    cols = wide_cols_index,
-    widths = cellwidth_wider  # apply larger width to certain columns
-  )
+  # openxlsx::setColWidths(  # TODO: fix colwidth breaking
+  #   wb = wb,
+  #   sheet = tab_title,
+  #   cols = wide_cols_index,
+  #   widths = cellwidth_wider  # apply larger width to certain columns
+  # )
 
   openxlsx::addStyle(
     wb = wb,
