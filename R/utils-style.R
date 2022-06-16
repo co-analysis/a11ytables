@@ -123,7 +123,7 @@
 
   cellwidth_default <- 16
   cellwidth_wider <- 32
-  nchar_break <- 50
+  # nchar_break <- 50  # TODO: fix colwidth breaking
 
   # Some columns may contain numbers but have suppression text in them, e.g.
   # '[c]', which makes the column character class. Find the likely numeric cols.
@@ -151,11 +151,11 @@
     table_header_row <- start_row
   }
 
-  # Columns that should be wider than default
-  wide_cells <- names(Filter(function(x) max(nchar(x)) > nchar_break, table))
-  wide_cells_index <- which(names(table) %in% wide_cells)
-  wide_headers_index <- which(nchar(names(table)) > 50)
-  wide_cols_index <- c(wide_cells_index, wide_headers_index)
+  # # Columns that should be wider than default  # TODO: fix colwidth breaking
+  # wide_cells <- names(Filter(function(x) max(nchar(x)) > nchar_break, table))
+  # wide_cells_index <- which(names(table) %in% wide_cells)
+  # wide_headers_index <- which(nchar(names(table)) > 50)
+  # wide_cols_index <- c(wide_cells_index, wide_headers_index)
 
   # Table data columns are SET-WIDTH (depending on character length),
   # RIGHT-ALIGNED (if numeric) and WRAPPED
