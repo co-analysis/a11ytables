@@ -76,8 +76,8 @@ mtcars_df <- tibble(
     "The 'mtcars' Demo Dataset",
     "Table of contents",
     "Notes",
-    "Car Road Tests 1",
-    "Car Road Tests 2"
+    "Table 1: Car Road Tests 1",
+    "Table 2: Car Road Tests 2"
   ),
   blank_cells = c(
     NA_character_,
