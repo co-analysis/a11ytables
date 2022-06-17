@@ -163,7 +163,7 @@
   sheet_type <- content[content$tab_title == tab_title, "sheet_type"][[1]]
   sheet_title <- content[content$tab_title == tab_title, "sheet_title"][[1]]
 
-  if (sheet_type %in% c("cover", "contents", "tables")) {
+  if (sheet_type %in% c("cover", "contents", "notes")) {
 
     openxlsx::writeData(
       wb = wb,
@@ -178,12 +178,10 @@
 
   if (sheet_type == "tables") {
 
-    sheet_title_full <- paste0(tab_title, ": ", sheet_title)
-
     openxlsx::writeData(
       wb = wb,
       sheet = tab_title,
-      x = sheet_title_full,
+      x = sheet_title,
       startCol = 1,
       startRow = 1,
       colNames = TRUE
