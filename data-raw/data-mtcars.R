@@ -6,9 +6,7 @@ cover_df <-
   tribble(
     ~"Sub title",  ~"Sub body",
     "Description", "Aspects of automobile design and performance.",
-    "Properties",  paste0("Suppressed values are replaced with the value '[c]'.",
-                          "\n\n",
-                          "Blank cells in the 'Notes' column indicate the absence of a note."),
+    "Properties",  paste0("Suppressed values are replaced with the value '[c]'."),
     "Contact",     "The mtcars Team, telephone 0123456789."
   ) |>
   as.data.frame()
@@ -80,6 +78,13 @@ mtcars_df <- tibble(
     "Notes",
     "Car Road Tests 1",
     "Car Road Tests 2"
+  ),
+  blank_cells = c(
+    NA_character_,
+    NA_character_,
+    NA_character_,
+    "A blank cell in the Notes column indicates that there is no note for a that row.",
+    NA_character_
   ),
   source = c(
     NA_character_,
