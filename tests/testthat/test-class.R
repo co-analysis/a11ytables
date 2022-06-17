@@ -52,7 +52,7 @@ test_that("suitable objects can be coerced", {
 
 test_that("class validation works", {
 
-  expect_length(suppressWarnings(as_a11ytable(mtcars_df)), 5)
+  expect_length(suppressWarnings(as_a11ytable(mtcars_df)), 6)
 
   expect_error(as_a11ytable(1))
   expect_error(as_a11ytable("x"))
