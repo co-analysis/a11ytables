@@ -20,9 +20,16 @@ This vignette shows you how {a11ytables} meets accessibility best practice.
 
 ## Checklists
 
-The tables below show how the features of the {a11ytables} package meet the GSS Best Practice and Impacts Division's ['Making spreadsheets accessible: checklist of the basics'](https://gss.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/).
+The tables below show how the features of the {a11ytables} package meet the GSS Best Practice and Impact Division's ['Making spreadsheets accessible: checklist of the basics'](https://gss.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/).
 
 This assessment is based on generating an unedited output from a typical {a11ytables} workflow: a `new_a11ytable()` passed to `create_a11y_wb()` and then written with `openxlsx::saveWorkbook()`.
+
+There are several status values:
+
+* 'included' means that {a11ytables} contains a feature to help meet the requirement
+* 'user's responsibility' means that the user must make a decision about how to meet the requirement
+* 'partly' means that {a11ytables} contains a feature to help meet the requirement, but the user may need to provide additional input
+* 'not applicable' means the checklist item does not need to be met due to the way in which {a11ytables} works
 
 ### Tables
 
@@ -30,21 +37,21 @@ This assessment is based on generating an unedited output from a typical {a11yta
 | :-- | :- | :- | :---- |
 | Mark up tables | Yes | Included | Automatic table mark-up is provided by `create_a11y_wb()` |
 | Give tables meaningful names | No | Included | Unique table names are generated from the `tab_titles` argument in `new_a11ytable()` |
-| Remove merged cells, split cells and nested tables | Yes | Included | Not supported by {a11ytables} |
-| Remove blank rows and columns within tables | Yes | Partly/user responsibility | A warning is supplied to a user if cells are blank; it's assumed there is a reason for the cells to be blank, which the user should explain in the workbook |
-| All tables should have one tagged header row | Yes | Included | R's data.frame class only allows for one header row, which must have unique names; the header row is tagged as such when marked-up as a table |
+| Remove merged cells, split cells and nested tables | Yes | Included | Merged/split cells and nested tables aren't supported by {a11ytables} |
+| Remove blank rows and columns within tables | Yes | Partly/user’s responsibility | A warning is supplied to a user if cells in the table are blank but no explanation has been provided in the `blank_cells` column of the provided a11ytables object |
+| All tables should have one tagged header row | Yes | Included | R's data.frame class only allows for one header row, which must have unique names; the header row is tagged when marked-up as a table |
 | Wrap text within cells | Yes | Included | `create_a11y_wb()` wraps content by default; there's a simple check in {a11ytables} to widen a column if it contains long strings |
 | Avoid adding filters and freeze panes | No | Included | Filters and freezing aren't supported by {a11ytables} |
-| Only leave cells with no data empty in certain circumstances | Yes | User's responsibility | The user should describe why there are blank cells |
+| Only leave cells with no data empty in certain circumstances | Yes | User's responsibility | The user should describe why there are blank cells in the `blank_cells` column of their a11ytables object |
 | Avoid hiding rows or columns | No | Included | Hiding isn't supported by {a11ytables} |
 
 ### Footnotes
 
 | Description | Essential? | Status | Explanation |
 | :-- | :- | :- | :---- |
-| Do not use symbols or superscript to signpost to notes | Yes | Included/user-responsibility | Notes are detected automatically as digits in square brackets; superscript is not supported by {a11ytables} |
-| Use the word 'note' when referring to footnotes | No | User-responsibility | Notes are detected in the form '[note 1]'; the user should be consistent about this wording |
-| Avoid putting note markers in specific cells | No | User-responsibility | Columns named 'Notes' and note markers in column headers are detected, the user should not put these elswhere  |
+| Do not use symbols or superscript to signpost to notes | Yes | Included/user’s responsibility | Notes are detected automatically as digits in square brackets; superscript is not supported by {a11ytables} |
+| Use the word 'note' when referring to footnotes | No | user’s responsibility | Notes are detected in the form '[note 1]'; the user should be consistent about this wording |
+| Avoid putting note markers in specific cells | No | user’s responsibility | Columns named 'Notes' and note markers in column headers are detected, the user should not put these elsewhere  |
 | Put note text in a notes table on a notes worksheet | No | Included | `new_a11ytable()` expects the `sheet_type` 'notes' |
 
 ### Formatting
@@ -54,7 +61,7 @@ This assessment is based on generating an unedited output from a typical {a11yta
 | All written content needs to meet the accessibility guidelines | | User's responsibility | {a11ytables} does not check the validity of user-supplied text |
 | Links must be accessible | Yes | User's responsibility | {a11ytables} does not check the validity of user-supplied text |
 | Format text to make it accessible | No | Included | `create_a11y_wb()` auto-formats the text |
-| All worksheets should have descriptive titles which are properly tagged and formatted | Yes | User-responsibility/partly | {a11ytables} does not check user-supplied text nor data; the package handles formatting but not yet mark-up for headings |
+| All worksheets should have descriptive titles which are properly tagged and formatted | Yes | Partly/user’s responsibility | {a11ytables} does not check user-supplied text nor data; the package handles formatting but not yet mark-up for headings |
 | Avoid using symbols in general | No | User's responsibility | {a11ytables} does not check the validity of user-supplied text |
 | Do not use headers and footers, floating text boxes or floating toolbars | Yes | Included  | These features aren't supported by {a11ytables} |
 | Do not use visual devices to divide data regions | No | Included | Colours and patterns aren't supported by {a11ytables} |
