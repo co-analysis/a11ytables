@@ -3,11 +3,10 @@
 
   list(
     bold       = openxlsx::createStyle(textDecoration = "Bold"),
-    lalign     = openxlsx::createStyle(halign = "left"),
     pt14       = openxlsx::createStyle(fontSize = 14),
     pt16       = openxlsx::createStyle(fontSize = 16),
+    lalign     = openxlsx::createStyle(halign = "left"),
     ralign     = openxlsx::createStyle(halign = "right"),
-    row_height = openxlsx::createStyle(halign = "right"),
     wrap       = openxlsx::createStyle(wrapText = TRUE)
   )
 
@@ -168,12 +167,14 @@
     widths = cellwidth_default  # set all columns to default width first
   )
 
-  openxlsx::setColWidths(
-    wb = wb,
-    sheet = tab_title,
-    cols = wide_cols_index,
-    widths = cellwidth_wider  # apply larger width to certain columns
-  )
+  if (length(wide_cols_index[!is.na(wide_cols_index)])) {  # only run if neded
+    openxlsx::setColWidths(
+      wb = wb,
+      sheet = tab_title,
+      cols = wide_cols_index,
+      widths = cellwidth_wider  # apply larger width to certain columns
+    )
+  }
 
   openxlsx::addStyle(
     wb = wb,
@@ -222,8 +223,15 @@
   openxlsx::setColWidths(
     wb = wb,
     sheet = tab_name,
-    cols = seq(table_width),
-    widths = 24
+    cols = 1,
+    widths = 16
+  )
+
+  openxlsx::setColWidths(
+    wb = wb,
+    sheet = tab_name,
+    cols = 2,
+    widths = 56
   )
 
   openxlsx::addStyle(
@@ -262,14 +270,14 @@
     wb = wb,
     sheet = tab_name,
     cols = 1,
-    widths = 24
+    widths = 16
   )
 
   openxlsx::setColWidths(
     wb = wb,
     sheet = tab_name,
     cols = 2,
-    widths = 40
+    widths = 56
   )
 
   openxlsx::addStyle(
