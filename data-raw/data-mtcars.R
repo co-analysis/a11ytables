@@ -83,7 +83,7 @@ mtcars_df <- tibble(
     NA_character_,
     NA_character_,
     NA_character_,
-    "A blank cell in the Notes column indicates that there is no note for a that row.",
+    "A blank cell in the Notes column indicates that there is no note for that row.",
     NA_character_
   ),
   source = c(
