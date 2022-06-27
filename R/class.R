@@ -6,20 +6,20 @@
 #' populate an 'openxlsx' Workbook-class object with the function
 #' \code{\link{create_a11y_wb}}.
 #'
-#' @param tab_titles Required character vector, one value per sheet to be
-#'     created. Each title will appear on each tab of the final spreadsheet
-#'     output. Keep brief. For example: 'Cover', 'Contents', 'Notes', 'Table 1'.
-#' @param sheet_types Required character vector, one value per sheet to be
-#'     created. Sheets that don't contain publication tables ('meta' sheets)
-#'     should be of type 'contents', 'cover' or 'notes'. Sheets that contain
-#'     statistical tables of data are type 'tables'.
-#' @param sheet_titles Required character vector, one value per sheet to be
-#'     created. The main title of the sheet, which will appear in cell A1
-#'     (top-left corner) of each sheet.
-#' @param sources Optional character vector, one value per sheet to be created.
-#'     The origin of the data for a given sheet. Supply as \code{NA_character_}
-#'     if empty. Sheets of type 'cover', 'contents' and 'notes' are highly
-#'     unlikely to need a source.
+#' @param tab_titles Required character vector, one value per sheet. Each title
+#'     will appear on each tab of the final spreadsheet output. Keep brief.
+#'     For example: 'Cover', 'Contents', 'Notes', 'Table 1'.
+#' @param sheet_types Required character vector, one value per sheet. Sheets
+#'     that don't contain publication tables ('meta' sheets) should be of type
+#'     'contents', 'cover' or 'notes'. Sheets that contain statistical tables of
+#'     data are type 'tables'.
+#' @param sheet_titles Required character vector, one value per sheet. The main
+#'     title for each sheet, which will appear in cell A1 (top-left corner).
+#' @param blank_cells Optional character vector, one value per sheet. A short
+#'     sentence to explain the reason for any blank cells in the sheet. Most
+#'     likely to be used with sheet type 'tables'.
+#' @param sources Optional character vector, one value per sheet. The origin of the data for a given sheet. Supply as
+#'     \code{NA_character_} if empty. To be used with sheet type 'tables'.
 #' @param tables Required list of data.frames, one per sheet. See details.
 #'
 #' @details Formats for data.frames in the 'tables' argument, depending on the
@@ -48,6 +48,7 @@
 #'     tab_titles   = mtcars_df$tab_title,
 #'     sheet_types  = mtcars_df$sheet_type,
 #'     sheet_titles = mtcars_df$sheet_title,
+#'     blank_cells  = mtcars_df$blank_cells,
 #'     sources      = mtcars_df$source,
 #      tables       = mtcars_df$table
 #' )

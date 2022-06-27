@@ -1,7 +1,9 @@
 
 .validate_a11ytable <- function(x) {
 
-  names_req <- c("tab_title", "sheet_type", "sheet_title", "blank_cells", "source", "table")
+  names_req <- c(
+    "tab_title", "sheet_type", "sheet_title", "blank_cells", "source", "table"
+  )
   names_count <- length(names_req)
   names_in <- names(x)
 
@@ -56,7 +58,13 @@
   }
 
   # There should be no empty rows, except in the blank_cells or source columns
-  if (any(is.na(subset(x, select = -c(blank_cells, source))))) {
+  if (
+    any(
+      is.na(
+        subset(x, select = c("tab_title", "sheet_type", "sheet_title", "table"))
+      )
+    )
+  ) {
     stop(
       paste(
         "Columns 'tab_title', 'sheet_type', 'sheet_title' and",

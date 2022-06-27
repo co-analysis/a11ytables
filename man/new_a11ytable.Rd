@@ -14,23 +14,24 @@ new_a11ytable(
 )
 }
 \arguments{
-\item{tab_titles}{Required character vector, one value per sheet to be
-created. Each title will appear on each tab of the final spreadsheet
-output. Keep brief. For example: 'Cover', 'Contents', 'Notes', 'Table 1'.}
+\item{tab_titles}{Required character vector, one value per sheet. Each title
+will appear on each tab of the final spreadsheet output. Keep brief.
+For example: 'Cover', 'Contents', 'Notes', 'Table 1'.}
 
-\item{sheet_types}{Required character vector, one value per sheet to be
-created. Sheets that don't contain publication tables ('meta' sheets)
-should be of type 'contents', 'cover' or 'notes'. Sheets that contain
-statistical tables of data are type 'tables'.}
+\item{sheet_types}{Required character vector, one value per sheet. Sheets
+that don't contain publication tables ('meta' sheets) should be of type
+'contents', 'cover' or 'notes'. Sheets that contain statistical tables of
+data are type 'tables'.}
 
-\item{sheet_titles}{Required character vector, one value per sheet to be
-created. The main title of the sheet, which will appear in cell A1
-(top-left corner) of each sheet.}
+\item{sheet_titles}{Required character vector, one value per sheet. The main
+title for each sheet, which will appear in cell A1 (top-left corner).}
 
-\item{sources}{Optional character vector, one value per sheet to be created.
-The origin of the data for a given sheet. Supply as \code{NA_character_}
-if empty. Sheets of type 'cover', 'contents' and 'notes' are highly
-unlikely to need a source.}
+\item{blank_cells}{Optional character vector, one value per sheet. A short
+sentence to explain the reason for any blank cells in the sheet. Most
+likely to be used with sheet type 'tables'.}
+
+\item{sources}{Optional character vector, one value per sheet. The origin of the data for a given sheet. Supply as
+\code{NA_character_} if empty. To be used with sheet type 'tables'.}
 
 \item{tables}{Required list of data.frames, one per sheet. See details.}
 }
@@ -68,6 +69,7 @@ x <- new_a11ytable(
     tab_titles   = mtcars_df$tab_title,
     sheet_types  = mtcars_df$sheet_type,
     sheet_titles = mtcars_df$sheet_title,
+    blank_cells  = mtcars_df$blank_cells,
     sources      = mtcars_df$source,
 )
 is_a11ytable(x)
