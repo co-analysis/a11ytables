@@ -194,19 +194,25 @@
     tables_sheets[["table"]], tables_sheets[["tab_title"]]
   )
 
-  tables_with_na <- unlist(
+  tables_with_na_lgl <- unlist(
     lapply(
       tables_list,
       function(x) any(!stats::complete.cases(x))
     )
   )
 
-  tables_with_na_names <- names(tables_with_na[tables_with_na])
+  tables_with_na_names <- names(tables_with_na_lgl[tables_with_na_lgl])
 
-  if (length(tables_with_na_names) > 0) {
+  tables_with_blanks_reason <-
+    tables_sheets[!is.na(tables_sheets$blank_cells), ][["tab_title"]]
+
+  tables_with_na_no_reason <-
+    setdiff(tables_with_na_names, tables_with_blanks_reason)
+
+  if (length(tables_with_na_no_reason) > 0) {
     warning(
       "You have blank cells in these tables: ",
-      paste(tables_with_na_names, collapse = ", "), ".",
+      paste(tables_with_na_no_reason, collapse = ", "), ".",
       call. = FALSE
     )
   }
