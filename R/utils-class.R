@@ -209,12 +209,30 @@
   tables_with_na_no_reason <-
     setdiff(tables_with_na_names, tables_with_blanks_reason)
 
+  tables_with_reason_no_na <-
+    setdiff(tables_with_blanks_reason, tables_with_na_names)
+
   if (length(tables_with_na_no_reason) > 0) {
     warning(
-      "You have blank cells in these tables: ",
+      "You have blank cells in these tables but haven't provided a reason: ",
       paste(tables_with_na_no_reason, collapse = ", "), ".",
       call. = FALSE
     )
   }
+
+  if (length(tables_with_reason_no_na) > 0) {
+    warning(
+      paste(
+        "There's no blank cells in these tables,",
+        "but you've provided a reason for blank cells: "
+      ),
+      paste(tables_with_reason_no_na, collapse = ", "), ".",
+      call. = FALSE
+    )
+  }
+
+
+
+
 
 }
