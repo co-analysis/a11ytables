@@ -91,7 +91,7 @@
 
   if (nrow(content) != nrow(contents_table) + 2) {
     warning(
-      "There are ", nrow(content) - 2, " tables but only ",
+      "There are ", nrow(content) - 2, " tables but ",
       nrow(contents_table), " in the contents sheet.",
       call. = FALSE
     )
@@ -168,19 +168,19 @@
     not_in_tables <- setdiff(notes_sheet_values, tables_sheet_notes)
     not_in_notes  <- setdiff(tables_sheet_notes, notes_sheet_values)
 
-    if (length(not_in_tables) > 0) {
+    if (has_notes_sheet & has_notes & length(not_in_notes) > 0) {
       warning(
         "Some notes are in the tables (",
-        paste(not_in_tables, collapse = ", "),
+        paste(not_in_notes, collapse = ", "),
         ") but are missing from the notes sheet.",
         call. = FALSE
       )
     }
 
-    if (length(not_in_notes) > 0) {
+    if (has_notes_sheet & has_notes & length(not_in_tables) > 0) {
       warning(
         "Some notes are in the notes sheet (",
-        paste(not_in_notes, collapse = ", "),
+        paste(not_in_tables, collapse = ", "),
         ") but are missing from the tables.",
         call. = FALSE
       )
