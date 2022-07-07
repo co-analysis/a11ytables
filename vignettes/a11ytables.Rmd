@@ -2,7 +2,7 @@
 title: "Introduction to {a11ytables}"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{quickstart}
+  %\VignetteIndexEntry{a11ytables}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -140,13 +140,7 @@ my_a11ytable
 
 You can immediately tell that this is an a11ytable because it's the first word that's printed with the output.
 
-So our a11ytable is basically just a table with one row per sheet and one column per sheet element. In fact, it has class 'data.frame'/'tbl' along with 'a11ytable':
-
-```{r check-class}
-class(my_a11ytable)
-```
-
-For convenience, you can also check for the a11ytable class with `is_a11ytable()`.
+So our a11ytable is basically just a table with one row per sheet and one column per sheet element. In fact, it has class 'data.frame'/'tbl' along with 'a11ytable'. For convenience, you can also check for the a11ytable class with `is_a11ytable()`.
 
 Note that `new_a11ytable()` is the preferred method, but it's also possible to convert a correctly-formatted pre-built data.frame directly to an a11ytable with `as_a11ytable()`. You can try this using the `mtcars_df` data.frame that's provided with {a11ytables}.
 
