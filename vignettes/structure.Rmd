@@ -1,0 +1,64 @@
+---
+title: "Package structure (advanced)"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{structure}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#"
+)
+```
+
+# Purpose
+
+This vignette explains the underlying philosophy of the package's code and interface to make it easier for developers to contribute to {a11ytables}.
+
+# Functions
+
+There are only two main user-facing functions: `new_a11ytable()` and `create_a11y_wb()`.
+
+Unexported functions are prefixed with a period (`.f()`) to make it clearer that they are internal functions.
+
+## a11ytables
+
+* S3 class
+* Basically `new_a11ytable()` creates a dataframe with an additional class, 'a11ytable'
+* The functions includes validity checks and passes warnings to the user about the construction of the a11ytable object
+* `.validate_a11ytable()` errors if basic needs are not met, like if 'cover', 'contents' and 'notes' have been provided more than once to the `sheet_types`
+* `.warn_a11ytable()` checks for things that the user may have forgotten---like if 5 notes are declared in the notes sheet but there are fewer in the tables themselves---and provides a warning to the user
+
+## Workbook
+
+* `create_a11y_wb()` sets up a Workbook-class object and fills it by iterating over the a11ytable-class object
+* User sees `create_a11y_wb()` and needs only pass an a11ytable-class object to the 'a11ytable' argument.
+
+### Add
+
+* The `create_a11y_wb()` contains a series of `.add_*()` functions that add a sheet, fills it with content and then styles it
+* The 'add' functions are:
+    * `.add_tabs()`, which inserts the required tabs into the workbook
+    * `.add_cover()` and `.add_contents()`, which run once each because there should only be one of each in the provided a11ytable
+    * `.add_notes()` if a notes sheet exists
+    * `.add_table()` for each 'table' `sheet_type`
+* The main functions inside the `.add_()` functions are:
+    * `.insert_*()` functions, which insert sheet elements to each sheet
+    * `.style_*()` functions, which apply formatting to each sheet and the workbook overall
+
+#### Insert
+
+* The pre-table elements are `.insert_title()`, `.insert_table_count()`, `.insert_source()`, `.insert_notes_statement()` and `.insert_blanks_message()`; tables are added with `.insert_table()`
+* The exact `.insert_*()` functions called depend on the sheet_type: meta sheets (cover, contents and notes) need only `.insert_title()` and `.insert_table_count()`; statistical tables also require `.insert_source()` and `.insert_blanks_message()` if provided, as well as `.insert_notes_statement()` if notes are detected in the table or there's a sheet_type of 'notes'
+* The `.insert_*()` functions are applied in order so that the sheet title goes in cell A1 and the table-count statement ('there are x tables on this sheet') goes below it; for sheet_type table, there's then a statement about notes in the sheet, the statement about the meaning of blank cells and the data source (depending on whether these need to be inserted or not)
+* The `.insert_*()` functions for note presence, meaning of blank cells, data source and tables also include simple logic for handling which cell to place them in; if all are inserted, then the table would begin in row 6 (i.e. after the sheet title, table count, note presence, meaning of blank cells and source), but it's possible that the table would have to be inserted to row 3 if only the sheet title and statement are required
+
+#### Style
+
+* `.style_create()` invokes a central list of styles created with `openxlsx::createStyle()`, which can be applied across different elements and sheets; you can create the style object like `styles <- .style_create()` and then `style$bold`, etc, for each style
+* `.style_workbook()` applies font styles (Arial 12) at the level of the whole workbook
+* The functions `.style_cover()`, `.style_contents()` and `.style_notes()` all apply specific styles to each sheet_type
+* The functions `.style_sheet_title()`, `.style_table()` apply styles to particular elements; the title is larger and bolder than the default font and the table has styles associated with the headers, for example
