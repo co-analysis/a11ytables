@@ -73,8 +73,10 @@ new_a11ytable <- function(
     stop("Elements in 'tab_titles' must be unique (case-insensitive).")
   }
 
+  tab_titles_cleaned <- .clean_tab_titles(tab_titles)
+
   x <- data.frame(
-    tab_title = unlist(tab_titles),
+    tab_title = unlist(tab_titles_cleaned),
     sheet_type = unlist(sheet_types),
     sheet_title = unlist(sheet_titles),
     blank_cells = unlist(blank_cells),

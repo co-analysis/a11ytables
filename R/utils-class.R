@@ -1,4 +1,27 @@
 
+.clean_tab_titles <- function(tab_titles) {
+
+  tab_titles_cleaned <- gsub("[^[:alnum:][:space:]_]", "", tab_titles)
+  tab_titles_cleaned <- trimws(tab_titles_cleaned)
+  tab_titles_cleaned <- gsub(" ", "_", tab_titles_cleaned)
+  tab_titles_cleaned <- strtrim(tab_titles_cleaned, 31)
+
+  before <- tab_titles[!tab_titles %in% tab_titles_cleaned]
+  after  <- tab_titles_cleaned[!tab_titles %in% tab_titles_cleaned]
+
+  if (length(before > 0)) {
+    warning(
+      "These tab_titles have been cleaned automatically: ",
+      paste(before, collapse = ", "),
+      " (now ", paste(after, collapse = ", "), ").",
+      call. = FALSE
+    )
+  }
+
+  tab_titles_cleaned
+
+}
+
 .validate_a11ytable <- function(x) {
 
   names_req <- c(
@@ -77,12 +100,34 @@
 
 .warn_a11ytable <- function(content) {
 
+  # Warn about tab_title limitations
+
+  tab_titles <- content$tab_title
+
+  if (any(nchar(tab_titles) > 31)) {
+    warning(
+      "Each tab_title must be shorter than 31 characters.",
+      call. = FALSE
+    )
+  }
+
+  if (any(grepl("[^[:alnum:]_]", tab_titles))) {
+    warning(
+      "Each tab_title must contain only letters, numbers or underscores.",
+      call. = FALSE
+    )
+  }
+
+
   # Warn about missing sources
 
   table_sources <- content[content$sheet_type == "tables", "source"]
 
   if (any(is.na(table_sources))) {
-    warning("One of your tables is missing a source statement.", call. = FALSE)
+    warning(
+      "One of your tables is missing a source statement.",
+      call. = FALSE
+    )
   }
 
   # Warn about possibly missing rows in the contents table
@@ -230,9 +275,6 @@
       call. = FALSE
     )
   }
-
-
-
 
 
 }
