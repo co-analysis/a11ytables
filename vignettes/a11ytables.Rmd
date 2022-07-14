@@ -23,7 +23,7 @@ This vignette shows you how to use {a11ytables} to generate a spreadsheet output
 Having installed the {a11ytables} package, there are three steps to generating a spreadsheet:
 
 1. Use `create_a11ytable()` to create a special dataframe object that contains all the information you need in your output
-1. Use `create_a11y_wb()` to add styles and a workbook structure
+1. Use `generate_workbook()` to add styles and a workbook structure
 1. Use `openxlsx::saveWorkbook()` to write an xlsx file
 
 The minimal demo below follows these steps, using example data from the built-in mtcars dataset.
@@ -146,10 +146,10 @@ Note that `create_a11ytable()` is the preferred method, but it's also possible t
 
 ### 2. Convert to a workbook
 
-We can use `create_a11y_wb()` to convert our a11ytable to an [{openxlsx}](https://ycphs.github.io/openxlsx/) Workbook-class object. This function inserts into the sheets the information from our a11ytable and applies various mark-up and styles to meet the best practice guidance.
+We can use `generate_workbook()` to convert our a11ytable to an [{openxlsx}](https://ycphs.github.io/openxlsx/) Workbook-class object. This function inserts into the sheets the information from our a11ytable and applies various mark-up and styles to meet the best practice guidance.
 
 ```{r create-a11y-wb}
-my_wb <- create_a11y_wb(my_a11ytable)
+my_wb <- generate_workbook(my_a11ytable)
 ```
 
 Here's a preview summary of the Workbook object:

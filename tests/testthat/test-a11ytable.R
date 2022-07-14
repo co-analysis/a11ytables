@@ -89,7 +89,7 @@ test_that("absence of note sheets doesn't prevent a11ytable formation", {
   suppressWarnings(x <- as_a11ytable(df))
 
   expect_s3_class(x, "a11ytable")
-  expect_s4_class(create_a11y_wb(x), "Workbook")
+  expect_s4_class(generate_workbook(x), "Workbook")
 
 })
 

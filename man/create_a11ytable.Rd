@@ -42,7 +42,7 @@ An a11ytable-class object.
 Create a new a11ytable-class object, which is a data.frame that contains all
 the information needed in your publication. In turn, this will be used to
 populate an 'openxlsx' Workbook-class object with the function
-\code{\link{create_a11y_wb}}.
+\code{\link{generate_workbook}}.
 }
 \details{
 Formats for data.frames in the 'tables' argument, depending on the

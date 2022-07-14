@@ -23,7 +23,7 @@ This vignette is aimed at developers who want to understand the package better a
 There are only two main user-facing functions in {a11ytables}: 
 
 * `create_a11ytable()` to create a data.frame object (with an additional 'a11ytable' S3 class) filled with all the information needed to create a spreadsheet output, as well as check the validity of the structure and provide errors or warnings
-* ` create_a11y_wb()` to convert the output from `create_a11ytable()` to an [{openxlsx}](https://ycphs.github.io/openxlsx/) Workbook-class object, ready for writing to an xlsx file with `openxlsx::saveWorkbook()`
+* ` generate_workbook()` to convert the output from `create_a11ytable()` to an [{openxlsx}](https://ycphs.github.io/openxlsx/) Workbook-class object, ready for writing to an xlsx file with `openxlsx::saveWorkbook()`
 
 These functions each contain a number of consistently-named internal sub-functions that provide a modularised approach to constructing Workbook-class objects. 
 
@@ -34,7 +34,7 @@ Note that the internal functions (i.e. those not presented to the user, but acce
 The source code in the `R/` directory of the package is as follows:
 
 * `a11ytable.R` and `utils-a11ytable.R` contain code for handling the a11ytable class, most importantly the `create_a11ytable()` function
-* `workbook.R`, `utils-workbook.R` and `utils-style.R` contain the code for creating a Workbook-class object with the `create_a11y_wb()` function
+* `workbook.R`, `utils-workbook.R` and `utils-style.R` contain the code for creating a Workbook-class object with the `generate_workbook()` function
 * `data.R` contains the documentation for demo datasets, which are created in the `data-raw/` directory with the files stored in the `data/` directory
 * `addin.R` and `utils-addin.R` contain code for the RStudio Addin, the .dcf file for which is in `inst/rstudio/`
 
@@ -81,10 +81,10 @@ is_a11ytable(x)
 
 # To create workbooks
 
-The `create_a11y_wb()` function sets up an [{openxlsx}](https://ycphs.github.io/openxlsx/) Workbook-class object and fills it by iterating over a user-supplied the a11ytable-class object.
+The `generate_workbook()` function sets up an [{openxlsx}](https://ycphs.github.io/openxlsx/) Workbook-class object and fills it by iterating over a user-supplied the a11ytable-class object.
 
 ```{r wb-class}
-y <- create_a11y_wb(x)
+y <- generate_workbook(x)
 class(y)
 ```
 
@@ -98,7 +98,7 @@ y
 ```
 </details>
 
-Several internal sub-functions within `create_a11y_wb()`---`.add_*()`, `.insert_()` and `.style_*()`---are responsible for adding sheets, inserting sheet elements and styling them.
+Several internal sub-functions within `generate_workbook()`---`.add_*()`, `.insert_()` and `.style_*()`---are responsible for adding sheets, inserting sheet elements and styling them.
 
 ## Add sheets
 

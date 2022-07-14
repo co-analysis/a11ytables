@@ -4,7 +4,7 @@
 #' Create a new a11ytable-class object, which is a data.frame that contains all
 #' the information needed in your publication. In turn, this will be used to
 #' populate an 'openxlsx' Workbook-class object with the function
-#' \code{\link{create_a11y_wb}}.
+#' \code{\link{generate_workbook}}.
 #'
 #' @param tab_titles Required character vector, one value per sheet. Each title
 #'     will appear on each tab of the final spreadsheet output. Keep brief.

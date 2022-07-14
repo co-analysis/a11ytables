@@ -2,12 +2,12 @@
 .style_create <- function() {
 
   list(
-    bold       = openxlsx::createStyle(textDecoration = "Bold"),
-    pt14       = openxlsx::createStyle(fontSize = 14),
-    pt16       = openxlsx::createStyle(fontSize = 16),
-    lalign     = openxlsx::createStyle(halign = "left"),
-    ralign     = openxlsx::createStyle(halign = "right"),
-    wrap       = openxlsx::createStyle(wrapText = TRUE)
+    bold   = openxlsx::createStyle(textDecoration = "Bold"),
+    pt14   = openxlsx::createStyle(fontSize = 14),
+    pt16   = openxlsx::createStyle(fontSize = 16),
+    lalign = openxlsx::createStyle(halign = "left"),
+    ralign = openxlsx::createStyle(halign = "right"),
+    wrap   = openxlsx::createStyle(wrapText = TRUE)
   )
 
 }

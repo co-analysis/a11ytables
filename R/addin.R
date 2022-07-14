@@ -51,7 +51,7 @@ at_template_workflow <- function() {
       "\n\n",
       "# Generate workbook from a11ytable",
       "\n\n",
-      "wb_example <- a11ytables::create_a11y_wb(a11y_example)",
+      "wb_example <- a11ytables::generate_workbook(a11y_example)",
       "\n\n",
       "# Create output",
       "\n\n",

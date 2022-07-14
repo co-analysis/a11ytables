@@ -46,33 +46,47 @@ install.packages("remotes")  # if not already installed
 remotes::install_github("co-analysis/a11ytables")
 ```
 
+## Use
+
 To create a spreadsheet:
 
 1.  Use `create_a11ytable()` to build a special dataframe of your data
-2.  Use `create_a11y_wb()` to add styles and workbook structure
+2.  Use `generate_workbook()` to add styles and workbook structure
 3.  Use `openxlsx::saveWorkbook()` to write an xlsx file
 
-Visit [the introduction
-vignette](https://co-analysis.github.io/a11ytables/articles/a11ytables.html)
-to get going, or the [accessbility guidance
-checklist](https://co-analysis.github.io/a11ytables/articles/accessibility-checklist.html)
-vignette to see how the package complies with guidance.
+You can read the:
 
-This package includes [an RStudio
+-   [introductory
+    vignette](https://co-analysis.github.io/a11ytables/articles/a11ytables.html)
+    to get started
+-   [accessbility guidance
+    checklist](https://co-analysis.github.io/a11ytables/articles/checklist.html)
+    vignette to see how the package complies with best-practice guidance
+-   [terminology
+    vignette](https://co-analysis.github.io/a11ytables/articles/terminology)
+    to understand the nomenclature of spreadsheet terms as used in this
+    package
+-   [package structure
+    vignette](https://co-analysis.github.io/a11ytables/articles/structure)
+    to see how the package works under the hood
+
+This package also includes [an RStudio
 Addin](https://rstudio.github.io/rstudioaddins/) that inserts pre-filled
 demo skeletons of the {a11ytables} workflow.
 
 ## Related projects
 
 BPID released [a Python package called
-‘gptables’](https://github.com/best-practice-and-impact/gptables) but
-[it needs to be
-updated](https://github.com/best-practice-and-impact/gptables/issues/145).
-There’s no companion R package at time of writing, but {a11ytables}
-fills this gap.
+‘gptables’](https://github.com/best-practice-and-impact/gptables) that
+has [been updated given the latest best-practice
+guidance](https://dataingovernment.blog.gov.uk/2022/06/24/automatically-produce-best-practice-spreadsheets/).
+{a11ytables} offers a native R solution that is very similar to gptables
+in its outputs, though there are some differences in implementation. You
+can always use gptables in R [via the {reticulate}
+package](https://gptables.readthedocs.io/en/latest/usage.html#r-usage).
 
-The package can help you fulfil a [Reproducible Analytical
-Pipeline](https://dataingovernment.blog.gov.uk/2017/03/27/reproducible-analytical-pipeline/)
+{a11ytables} can help you fulfill a [Reproducible Analytical
+Pipeline](https://analysisfunction.civilservice.gov.uk/policy-store/reproducible-analytical-pipelines-strategy/)
 by automating the generation of compliant spreadsheets for publication.
 
 ## Code of Conduct

@@ -15,11 +15,11 @@
 #' @examples
 #' \dontrun{
 #' x <- as_a11ytable(mtcars_df)
-#' create_a11y_wb(x)
+#' generate_workbook(x)
 #' }
 #'
 #' @export
-create_a11y_wb <- function(a11ytable) {
+generate_workbook <- function(a11ytable) {
 
   if (!is_a11ytable(a11ytable)) {
     stop("The object passed to argument 'content' must have class 'a11ytable'.")
