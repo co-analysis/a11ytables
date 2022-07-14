@@ -31,14 +31,3 @@ test_that(".stop_bad_input works as intended", {
   expect_error(.stop_bad_input(wb, a11ytable, 1))
 
 })
-
-test_that("Period not added to end of source message if it already has one", {
-
-  mtcars_df[mtcars_df$tab_title == "Table 1", "source"] <- "x."
-  mtcars_df[mtcars_df$tab_title == "Table 1", "blank_cells"] <- "x"
-  a11ytable <- as_a11ytable(mtcars_df)
-  wb <- create_a11y_wb(a11ytable)
-
-  expect_s4_class(wb, class = "Workbook")
-
-})

@@ -17,11 +17,11 @@ test_that("a11ytable can be created by hand", {
   expect_error(
     suppressWarnings(
       new_a11ytable(
-        tab_titles      = mtcars_df$tab_title,
-        sheet_types     = "x",
-        sheet_titles    = mtcars_df$sheet_title,
-        sources         = mtcars_df$source,
-        tables          = mtcars_df$table
+        tab_titles   = mtcars_df$tab_title,
+        sheet_types  = "x",
+        sheet_titles = mtcars_df$sheet_title,
+        sources      = mtcars_df$source,
+        tables       = mtcars_df$table
       )
     )
   )
@@ -30,20 +30,13 @@ test_that("a11ytable can be created by hand", {
 
 test_that("suitable objects can be coerced", {
 
-  x <- suppressWarnings(
-    as_a11ytable(mtcars_df)
-  )
+  x <- suppressWarnings(as_a11ytable(mtcars_df))
 
   expect_s3_class(x, class = "a11ytable")
   expect_identical(class(x), c("a11ytable", "tbl", "data.frame"))
 
   expect_identical(is_a11ytable(x), TRUE)
   expect_identical(is_a11ytable("x"), FALSE)
-
-  expect_identical(
-    structure(x, class = "data.frame"),
-    structure(mtcars_df, class = "data.frame")
-  )
 
   expect_true(is_a11ytable(x))
   expect_false(is_a11ytable(mtcars))
@@ -71,10 +64,6 @@ test_that("class validation works", {
   expect_error(as_a11ytable(x))
 
   x <- mtcars_df[1, ]
-  expect_error(as_a11ytable(x))
-
-  x <- mtcars_df
-  x[1] <- 1:nrow(x)
   expect_error(as_a11ytable(x))
 
   x <- mtcars_df
@@ -109,7 +98,7 @@ test_that("absence of note sheets doesn't prevent a11ytable formation", {
 
 test_that("tab_titles are unique", {
 
-  mtcars_df[mtcars_df$tab_title == "Table 2", "tab_title"] <- "Table 1"
+  mtcars_df[mtcars_df$tab_title == "Table_2", "tab_title"] <- "Table_1"
 
   expect_error(
     with(
@@ -195,22 +184,22 @@ test_that("NAs in certain columns cause failure", {
 
 test_that("Note mismatch is caught", {
 
-  x <- mtcars_df[!mtcars_df$tab_title == "Table 1", ]
+  x <- mtcars_df[!mtcars_df$tab_title == "Table_1", ]
   x[x$sheet_type == "contents", "table"][[1]] <-
     list(data.frame(x = c("x", "y"), y = c("x", "y")))
 
   expect_warning(as_a11ytable(x), "You have a 'notes' sheet")
 
-  # y <- mtcars_df[!mtcars_df$tab_title == "Table 2", ]
+  # y <- mtcars_df[!mtcars_df$tab_title == "Table_2", ]
   # y[y$sheet_type == "contents", "table"][[1]] <-
   #   list(data.frame(x = c("x", "y"), y = c("x", "y")))
-  # table_extra_note <- y[y$tab_title == "Table 1", "table"][[1]]
+  # table_extra_note <- y[y$tab_title == "Table_1", "table"][[1]]
   # names(table_extra_note)[1] <- "Car [note 3]"
-  # y[y$tab_title == "Table 1", "table"][[1]] <- list(table_extra_note)
+  # y[y$tab_title == "Table_1", "table"][[1]] <- list(table_extra_note)
   #
   # expect_warning(as_a11ytable(y), "Some notes are in the tables")
 
-  z <- mtcars_df[!mtcars_df$tab_title == "Table 2", ]
+  z <- mtcars_df[!mtcars_df$tab_title == "Table_2", ]
   z[z$sheet_type == "contents", "table"][[1]] <-
     list(data.frame(x = c("x", "y"), y = c("x", "y")))
   z[z$sheet_type == "notes", "table"][[1]] <- list(
@@ -228,7 +217,7 @@ test_that("Note mismatch is caught", {
 
 test_that("warning is raised if a source statement is missing", {
 
-  mtcars_df[mtcars_df$tab_title == "Table 1", "source"] <- NA_character_
+  mtcars_df[mtcars_df$tab_title == "Table_1", "source"] <- NA_character_
   expect_warning(
     as_a11ytable(mtcars_df),
     "One of your tables is missing a source statement."
@@ -238,10 +227,23 @@ test_that("warning is raised if a source statement is missing", {
 
 test_that("warning is raised if there's no blank cells but there is a reason", {
 
-  mtcars_df[mtcars_df$tab_title == "Table 2", "blank_cells"] <- "x"
+  mtcars_df[mtcars_df$tab_title == "Table_2", "blank_cells"] <- "x"
   expect_warning(
     as_a11ytable(mtcars_df),
     "There's no blank cells in these tables"
+  )
+
+})
+
+test_that("period added to end of text if needed", {
+
+  expect_identical(.append_period("Test"), "Test.")
+  expect_identical(.append_period("Test."), "Test.")
+  expect_identical(.append_period(NA), NA)
+
+  expect_identical(
+    .append_period(c("Test", "Test.", NA_character_)),
+    c("Test.", "Test.", NA)
   )
 
 })
