@@ -57,12 +57,12 @@
 #'
 #' @export
 create_a11ytable <- function(
-  tab_titles,
-  sheet_types = c("cover", "contents", "notes", "tables"),
-  sheet_titles,
-  blank_cells = NA_character_,
-  sources = NA_character_,
-  tables
+    tab_titles,
+    sheet_types = c("cover", "contents", "notes", "tables"),
+    sheet_titles,
+    blank_cells = NA_character_,
+    sources = NA_character_,
+    tables
 ) {
 
   x <- data.frame(
@@ -98,9 +98,17 @@ create_a11ytable <- function(
 #' @export
 as_a11ytable <- function(x) {
 
-  x[["tab_title"]]   <- .clean_tab_titles(x[["tab_title"]])
-  x[["blank_cells"]] <- .append_period(x[["blank_cells"]])
-  x[["source"]]      <- .append_period(x[["source"]])
+  if(any(names(x) %in% "tab_title")) {
+    x[["tab_title"]] <- .clean_tab_titles(x[["tab_title"]])
+  }
+
+  if(any(names(x) %in% "blank_cells")) {
+    x[["blank_cells"]] <- .append_period(x[["blank_cells"]])
+  }
+
+  if(any(names(x) %in% "source")) {
+    x[["source"]] <- .append_period(x[["source"]])
+  }
 
   class(x) <- c("a11ytable", "tbl", "data.frame")
 

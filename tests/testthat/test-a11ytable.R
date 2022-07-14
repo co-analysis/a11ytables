@@ -244,3 +244,37 @@ test_that("period added to end of text if needed", {
   )
 
 })
+
+test_that("tab titles are cleaned and warnings provided", {
+
+  long_title <- "12345678901234567890123456789012"
+
+  expect_warning(.clean_tab_titles("Table 1"))
+  expect_warning(.clean_tab_titles(c("Table 1", "Table 2")))
+  expect_warning(.clean_tab_titles(c("Table_1", "Table 2")))
+  expect_warning(.clean_tab_titles("Table!@£#$%^&*(){}[]-=+;:'\"\\|<>,.~`/?1"))
+  expect_warning(.clean_tab_titles(long_title))
+
+  x <- mtcars_df
+  x[1, "tab_title"] <- long_title
+  expect_warning(as_a11ytable(x))
+
+  y <- mtcars_df
+  y[1, "tab_title"] <- "Cover!"
+  expect_warning(as_a11ytable(y))
+
+})
+
+test_that("input column names are okay", {
+
+  names(mtcars_df)[1] <- "x"
+  expect_error(as_a11ytable(mtcars_df))
+
+})
+
+test_that("character class columns are caught if not character class", {
+
+  mtcars_df[, "sheet_type"] <- 1:nrow(mtcars_df)
+  expect_error(as_a11ytable(mtcars_df))
+
+})
