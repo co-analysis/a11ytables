@@ -62,8 +62,8 @@ mtcars_df <- tibble(
     "Cover",
     "Contents",
     "Notes",
-    "Table 1",
-    "Table 2"
+    "Table_1",
+    "Table_2"
   ),
   sheet_type = c(
     "cover",
