@@ -247,15 +247,15 @@
 
     blanks_text <- content[content$tab_title == tab_title, "blank_cells"][[1]]
 
-    last_char <- strsplit(blanks_text, "")[[1]][nchar(blanks_text)]
-
-    if (last_char == ".") {
-      text <- blanks_text
-    }
-
-    if (last_char != ".") {
-      text <- paste0(blanks_text, ".")
-    }
+    # last_char <- strsplit(blanks_text, "")[[1]][nchar(blanks_text)]
+    #
+    # if (last_char == ".") {
+    #   text <- blanks_text
+    # }
+    #
+    # if (last_char != ".") {
+    #   text <- paste0(blanks_text, ".")
+    # }
 
     has_notes <- .has_notes(content, tab_title)
     start_row <- .get_start_row_blanks_message(has_notes)
@@ -263,7 +263,7 @@
     openxlsx::writeData(
       wb = wb,
       sheet = tab_title,
-      x = text,
+      x = blanks_text,
       startCol = 1,
       startRow = start_row,  # dependent on whether notes text present
       colNames = TRUE
@@ -275,24 +275,26 @@
 
 }
 
-
 .insert_source <- function(wb, content, tab_title) {
 
   has_source <- .has_source(content, tab_title)
 
   if (has_source) {
 
-    source_text <- content[content$tab_title == tab_title, "source"][[1]]
+    source_text <- paste(
+      "Source:",
+      content[content$tab_title == tab_title, "source"][[1]]
+    )
 
-    last_char <- strsplit(source_text, "")[[1]][nchar(source_text)]
-
-    if (last_char == ".") {
-      text <- paste("Source:", source_text)
-    }
-
-    if (last_char != ".") {
-      text <- paste0("Source: ", source_text, ".")
-    }
+    # last_char <- strsplit(source_text, "")[[1]][nchar(source_text)]
+    #
+    # if (last_char == ".") {
+    #   text <- paste("Source:", source_text)
+    # }
+    #
+    # if (last_char != ".") {
+    #   text <- paste0("Source: ", source_text, ".")
+    # }
 
     has_notes <- .has_notes(content, tab_title)
     has_blanks_message <- .has_blanks_message(content, tab_title)
@@ -301,7 +303,7 @@
     openxlsx::writeData(
       wb = wb,
       sheet = tab_title,
-      x = text,
+      x = source_text,
       startCol = 1,
       startRow = start_row,  # dependent on whether notes text present
       colNames = TRUE

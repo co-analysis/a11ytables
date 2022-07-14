@@ -22,6 +22,22 @@
 
 }
 
+.append_period <- function(text) {
+
+  last_char <- substr(text, nchar(text), nchar(text))
+
+  for (i in seq_along(text)) {
+
+    if (!is.na(last_char[i]) & last_char[i] != ".") {
+      text[i] <- paste0(text[i], ".")
+    }
+
+  }
+
+  text
+
+}
+
 .validate_a11ytable <- function(x) {
 
   names_req <- c(
@@ -95,6 +111,17 @@
       )
     )
   }
+
+  # Each sheet_type must be only one of four types
+  if (!any(x[["sheet_type"]] %in% c("cover", "contents", "notes", "tables"))) {
+    stop("'sheet_type' must be one of 'cover', 'contents', 'notes', 'tables'.")
+  }
+
+  # Each tab_title must be unique
+  if (length(x[["tab_title"]]) != length(unique(tolower(x[["tab_title"]])))) {
+    stop("Each 'tab_title' must be unique (case-insensitive).")
+  }
+
 
 }
 

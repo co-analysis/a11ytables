@@ -65,71 +65,17 @@ new_a11ytable <- function(
   tables
 ) {
 
-  if (!any(sheet_types %in% c("cover", "contents", "notes", "tables"))) {
-    stop("'sheet_type' must be one of 'cover', 'contents', 'notes', 'tables'.")
-  }
-
-  if (length(tab_titles) != length(unique(tolower(tab_titles)))) {
-    stop("Elements in 'tab_titles' must be unique (case-insensitive).")
-  }
-
-  tab_titles_cleaned <- .clean_tab_titles(tab_titles)
-
   x <- data.frame(
-    tab_title = unlist(tab_titles_cleaned),
-    sheet_type = unlist(sheet_types),
+    tab_title   = unlist(tab_titles),
+    sheet_type  = unlist(sheet_types),
     sheet_title = unlist(sheet_titles),
     blank_cells = unlist(blank_cells),
-    source = unlist(sources)
+    source      = unlist(sources)
   )
 
   x[["table"]] <- tables
 
-  class(x) <- c("a11ytable", "tbl", "data.frame")
-
-  .validate_a11ytable(x)
-  .warn_a11ytable(x)
-
-  return(x)
-
-}
-
-#' Summarise An 'a11ytable' Object
-#'
-#' A concise result summary of an a11ytable-class object to see information about
-#' the sheet content.
-#'
-#' @param object An a11ytable-class object to get a summary for.
-#' @param ... Other arguments to pass.
-#'
-#' @examples
-#' \dontrun{
-#' x <- as_a11ytable(mtcars_df)
-#' summary(x)
-#' }
-#'
-#' @export
-summary.a11ytable <- function(object, ...) {
-
-  x_dims <- lapply(
-    lapply(object$table, dim),
-    function(object) paste(object, collapse = " x ")
-  )
-
-  out_tab_title <- paste0("\n", paste("  -", object$tab_title,   collapse = "\n"))
-  out_sh_type   <- paste0("\n", paste("  -", object$sheet_type,  collapse = "\n"))
-  out_sh_title  <- paste0("\n", paste("  -", object$sheet_title, collapse = "\n"))
-  out_tbl_dims  <- paste0("\n", paste("  -", unlist(x_dims),     collapse = "\n"))
-
-  cat(
-    "# An a11ytable with", nrow(object), "sheets\n",
-    "* Tab titles:",   out_tab_title, "\n",
-    "* Sheet types:",  out_sh_type,   "\n",
-    "* Sheet titles:", out_sh_title,  "\n",
-    "* Table sizes:",  out_tbl_dims,  "\n"
-  )
-
-  invisible(object)
+  as_a11ytable(x)
 
 }
 
@@ -152,10 +98,16 @@ summary.a11ytable <- function(object, ...) {
 #' @export
 as_a11ytable <- function(x) {
 
+  x[["tab_title"]]   <- .clean_tab_titles(x[["tab_title"]])
+  x[["blank_cells"]] <- .append_period(x[["blank_cells"]])
+  x[["source"]]      <- .append_period(x[["source"]])
+
   class(x) <- c("a11ytable", "tbl", "data.frame")
+
   .validate_a11ytable(x)
   .warn_a11ytable(x)
-  return(x)
+
+  x
 
 }
 
@@ -164,6 +116,45 @@ as_a11ytable <- function(x) {
 is_a11ytable <- function(x) {
 
   inherits(x, "a11ytable")
+
+}
+
+#' Summarise An 'a11ytable' Object
+#'
+#' A concise result summary of an a11ytable-class object to see information about
+#' the sheet content.
+#'
+#' @param object An a11ytable-class object to get a summary for.
+#' @param ... Other arguments to pass.
+#'
+#' @examples
+#' \dontrun{
+#' x <- as_a11ytable(mtcars_df)
+#' summary(x)
+#' }
+#'
+#' @export
+summary.a11ytable <- function(x, ...) {
+
+  x_dims <- lapply(
+    lapply(x[["table"]], dim),
+    function(x) paste(x, collapse = " x ")
+  )
+
+  tab_title <- paste0("\n", paste("  -", x[["tab_title"]],   collapse = "\n"))
+  sh_type   <- paste0("\n", paste("  -", x[["sheet_type"]],  collapse = "\n"))
+  sh_title  <- paste0("\n", paste("  -", x[["sheet_title"]], collapse = "\n"))
+  tbl_dims  <- paste0("\n", paste("  -", unlist(x_dims),     collapse = "\n"))
+
+  cat(
+    "# An a11ytable with", nrow(x), "sheets\n",
+    "* Tab titles:",   tab_title, "\n",
+    "* Sheet types:",  sh_type,   "\n",
+    "* Sheet titles:", sh_title,  "\n",
+    "* Table sizes:",  tbl_dims,  "\n"
+  )
+
+  invisible(x)
 
 }
 
