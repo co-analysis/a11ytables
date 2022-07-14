@@ -134,27 +134,27 @@ is_a11ytable <- function(x) {
 #' }
 #'
 #' @export
-summary.a11ytable <- function(x, ...) {
+summary.a11ytable <- function(object, ...) {
 
   x_dims <- lapply(
-    lapply(x[["table"]], dim),
+    lapply(object[["table"]], dim),
     function(x) paste(x, collapse = " x ")
   )
 
-  tab_title <- paste0("\n", paste("  -", x[["tab_title"]],   collapse = "\n"))
-  sh_type   <- paste0("\n", paste("  -", x[["sheet_type"]],  collapse = "\n"))
-  sh_title  <- paste0("\n", paste("  -", x[["sheet_title"]], collapse = "\n"))
-  tbl_dims  <- paste0("\n", paste("  -", unlist(x_dims),     collapse = "\n"))
+  tab_title <- paste0("\n", paste("  -", object[["tab_title"]], collapse = "\n"))
+  sh_type   <- paste0("\n", paste("  -", object[["sheet_type"]], collapse = "\n"))
+  sh_title  <- paste0("\n", paste("  -", object[["sheet_title"]], collapse = "\n"))
+  tbl_dims  <- paste0("\n", paste("  -", unlist(x_dims), collapse = "\n"))
 
   cat(
-    "# An a11ytable with", nrow(x), "sheets\n",
+    "# An a11ytable with", nrow(object), "sheets\n",
     "* Tab titles:",   tab_title, "\n",
     "* Sheet types:",  sh_type,   "\n",
     "* Sheet titles:", sh_title,  "\n",
     "* Table sizes:",  tbl_dims,  "\n"
   )
 
-  invisible(x)
+  invisible(object)
 
 }
 

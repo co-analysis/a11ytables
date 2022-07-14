@@ -47,7 +47,7 @@
   names_in <- names(x)
 
   # Must be of data.frame class
-  if (!any(class(x) %in% "data.frame")) {
+  if (!inherits(x, "data.frame")) {
     stop("Input must have class data.frame.")
   }
 
@@ -66,7 +66,7 @@
   }
 
   # 'table' column class must be listcol
-  if (class(x[["table"]]) != "list") {
+  if (!inherits(x[["table"]], "list")) {
     stop("Column 'table' must be a listcol of data.frame objects.")
   }
 

@@ -78,10 +78,7 @@ test_that("class validation works", {
 
 test_that("summary method works", {
 
-  x <- suppressWarnings(
-    as_a11ytable(mtcars_df)
-  )
-
+  x <- suppressWarnings(as_a11ytable(mtcars_df))
   expect_output(summary(x))
 
 })

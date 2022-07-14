@@ -4,12 +4,12 @@
 
 .stop_bad_input <- function(wb, content, table_name = NULL) {
 
-  if (class(wb)[1] != "Workbook") {
+  if (!inherits(wb, "Workbook")) {
     stop("'wb' must be a Workbook-class object.")
   }
 
   if (!is.null(table_name) &
-      class(table_name) != "character" &
+      !inherits(table_name, "character") &
       length(table_name != 1)
   ) {
     stop("'table_name' must be a string of length 1")
