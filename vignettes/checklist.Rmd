@@ -22,7 +22,7 @@ This vignette shows you how {a11ytables} meets accessibility best practice.
 
 The tables below show how the features of the {a11ytables} package meet the GSS Best Practice and Impact Division's ['Making spreadsheets accessible: checklist of the basics'](https://gss.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/).
 
-This assessment is based on generating an unedited output from a typical {a11ytables} workflow: a `new_a11ytable()` passed to `create_a11y_wb()` and then written with `openxlsx::saveWorkbook()`.
+This assessment is based on generating an unedited output from a typical {a11ytables} workflow: a `create_a11ytable()` passed to `create_a11y_wb()` and then written with `openxlsx::saveWorkbook()`.
 
 There are several status values:
 
@@ -36,7 +36,7 @@ There are several status values:
 | Description | Essential? | Status | Explanation |
 | :-- | :- | :- | :---- |
 | Mark up tables | Yes | Included | Automatic table mark-up is provided by `create_a11y_wb()` |
-| Give tables meaningful names | No | Included | Unique table names are generated from the `tab_titles` argument in `new_a11ytable()` |
+| Give tables meaningful names | No | Included | Unique table names are generated from the `tab_titles` argument in `create_a11ytable()` |
 | Remove merged cells, split cells and nested tables | Yes | Included | Merged/split cells and nested tables aren't supported by {a11ytables} |
 | Remove blank rows and columns within tables | Yes | Partly/user’s responsibility | A warning is supplied to a user if cells in the table are blank but no explanation has been provided in the `blank_cells` column of the provided a11ytables object |
 | All tables should have one tagged header row | Yes | Included | R's data.frame class only allows for one header row, which must have unique names; the header row is tagged when marked-up as a table |
@@ -52,7 +52,7 @@ There are several status values:
 | Do not use symbols or superscript to signpost to notes | Yes | Included/user’s responsibility | Notes are detected automatically as digits in square brackets; superscript is not supported by {a11ytables} |
 | Use the word 'note' when referring to footnotes | No | user’s responsibility | Notes are detected in the form '[note 1]'; the user should be consistent about this wording |
 | Avoid putting note markers in specific cells | No | user’s responsibility | Columns named 'Notes' and note markers in column headers are detected, the user should not put these elsewhere  |
-| Put note text in a notes table on a notes worksheet | No | Included | `new_a11ytable()` expects the `sheet_type` 'notes' |
+| Put note text in a notes table on a notes worksheet | No | Included | `create_a11ytable()` expects the `sheet_type` 'notes' |
 
 ### Formatting
 
@@ -75,8 +75,8 @@ There are several status values:
 
 | Description | Essential? | Status | Explanation |
 | :-- | :- | :- | :---- |
-| Give worksheets unique names or numbers | Yes | User's responsibility | Supply `tab_titles` to `new_a11ytable()`, which gives a warning if any names match |
-| Remove blank worksheets | Yes | Included | `new_a11ytable()` will error if expected argument content is missing |
+| Give worksheets unique names or numbers | Yes | User's responsibility | Supply `tab_titles` to `create_a11ytable()`, which gives a warning if any names match |
+| Remove blank worksheets | Yes | Included | `create_a11ytable()` will error if expected argument content is missing |
 | Use cells in column A wisely | Yes | Included | `create_a11y_wb()` inserts the sheet title, table count, notes statement, source statement and tables into column A by default  |
 | Position tables against the left-hand edges of each sheet | Yes | Included | `create_a11y_wb()` inserts automatically the tables into column A |
 | Avoid putting content below a table | No | Included | `create_a11y_wb()` adds information to rows above tables only |

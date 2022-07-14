@@ -2,7 +2,7 @@
 test_that("a11ytable can be created by hand", {
 
   x <- suppressWarnings(
-    new_a11ytable(
+    create_a11ytable(
       tab_titles   = mtcars_df$tab_title,
       sheet_types  = mtcars_df$sheet_type,
       sheet_titles = mtcars_df$sheet_title,
@@ -16,7 +16,7 @@ test_that("a11ytable can be created by hand", {
 
   expect_error(
     suppressWarnings(
-      new_a11ytable(
+      create_a11ytable(
         tab_titles   = mtcars_df$tab_title,
         sheet_types  = "x",
         sheet_titles = mtcars_df$sheet_title,
@@ -100,7 +100,7 @@ test_that("tab_titles are unique", {
   expect_error(
     with(
       mtcars_df,
-      new_a11ytable(
+      create_a11ytable(
         tab_titles   = tab_title,
         sheet_types  = sheet_type,
         sheet_titles = sheet_title,
@@ -115,7 +115,7 @@ test_that("tab_titles are unique", {
 
 test_that("tbl output looks as intended", {
 
-  x <- new_a11ytable(
+  x <- create_a11ytable(
     tab_titles = LETTERS[1:3],
     sheet_type = c("cover", "contents", "tables"),
     sheet_titles = LETTERS[1:3],

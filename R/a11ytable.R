@@ -44,7 +44,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' x <- new_a11ytable(
+#' x <- create_a11ytable(
 #'     tab_titles   = mtcars_df$tab_title,
 #'     sheet_types  = mtcars_df$sheet_type,
 #'     sheet_titles = mtcars_df$sheet_title,
@@ -56,7 +56,7 @@
 #' }
 #'
 #' @export
-new_a11ytable <- function(
+create_a11ytable <- function(
   tab_titles,
   sheet_types = c("cover", "contents", "notes", "tables"),
   sheet_titles,

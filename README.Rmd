@@ -45,7 +45,7 @@ remotes::install_github("co-analysis/a11ytables")
 
 To create a spreadsheet:
 
-1. Use `new_a11ytable()` to build a special dataframe of your data
+1. Use `create_a11ytable()` to build a special dataframe of your data
 1. Use `create_a11y_wb()` to add styles and workbook structure
 1. Use `openxlsx::saveWorkbook()` to write an xlsx file
 

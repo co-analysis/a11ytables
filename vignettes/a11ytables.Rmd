@@ -22,7 +22,7 @@ This vignette shows you how to use {a11ytables} to generate a spreadsheet output
 
 Having installed the {a11ytables} package, there are three steps to generating a spreadsheet:
 
-1. Use `new_a11ytable()` to create a special dataframe object that contains all the information you need in your output
+1. Use `create_a11ytable()` to create a special dataframe object that contains all the information you need in your output
 1. Use `create_a11y_wb()` to add styles and a workbook structure
 1. Use `openxlsx::saveWorkbook()` to write an xlsx file
 
@@ -32,11 +32,11 @@ You can use the RStudio Addin, which is installed with the package, to insert a 
 
 ### 1. Create an a11ytable
 
-Each argument to `new_a11ytable()` provides information required for each sheet of the spreadsheet.
+Each argument to `create_a11ytable()` provides information required for each sheet of the spreadsheet.
 
-You provide the majority of information as dataframes passed to the `tables` argument. It's preferable to prepare these first before passing them to `new_a11ytable()`.
+You provide the majority of information as dataframes passed to the `tables` argument. It's preferable to prepare these first before passing them to `create_a11ytable()`.
 
-Below are some demo tables that we can pass to `new_a11ytable()`. I've used `tibble::tribble()` for human-readable row-by-row dataframe construction, but you can just use `data.frame()`.
+Below are some demo tables that we can pass to `create_a11ytable()`. I've used `tibble::tribble()` for human-readable row-by-row dataframe construction, but you can just use `data.frame()`.
 
 ```{r tables}
 library(tibble)
@@ -90,13 +90,13 @@ stats_df$Notes <- c(  # add a 'Notes' column to supply row-wise notes
 stats_df[3, 2:3] <- "[c]"  # example of suppressed (confidential) data
 ```
 
-Now we can construct an a11ytable by passing the required sheet 'elements' as vectors (or a list in the case of `tables`) to the `new_a11ytable()` function.
+Now we can construct an a11ytable by passing the required sheet 'elements' as vectors (or a list in the case of `tables`) to the `create_a11ytable()` function.
 
 ```{r new-a11ytable}
 library(a11ytables)
 library(openxlsx)  # was installed with {a11ytables}
 
-my_a11ytable <- new_a11ytable(
+my_a11ytable <- create_a11ytable(
   tab_titles = c(
     "Cover",
     "Contents",
@@ -142,7 +142,7 @@ You can immediately tell that this is an a11ytable because it's the first word t
 
 So our a11ytable is basically just a table with one row per sheet and one column per sheet element. In fact, it has class 'data.frame'/'tbl' along with 'a11ytable'. For convenience, you can also check for the a11ytable class with `is_a11ytable()`.
 
-Note that `new_a11ytable()` is the preferred method, but it's also possible to convert a correctly-formatted pre-built data.frame directly to an a11ytable with `as_a11ytable()`. You can try this using the `mtcars_df` data.frame that's provided with {a11ytables}.
+Note that `create_a11ytable()` is the preferred method, but it's also possible to convert a correctly-formatted pre-built data.frame directly to an a11ytable with `as_a11ytable()`. You can try this using the `mtcars_df` data.frame that's provided with {a11ytables}.
 
 ### 2. Convert to a workbook
 

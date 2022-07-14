@@ -1,6 +1,6 @@
-string_new_a11ytable <- function() {
+string_create_a11ytable <- function() {
 
-  'a11y_example <- a11ytables::new_a11ytable(
+  'a11y_example <- a11ytables::create_a11ytable(
       tab_titles = c(
         "Cover",
         "Contents",

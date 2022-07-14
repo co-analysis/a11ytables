@@ -19,7 +19,7 @@ a11ytable-class object.
 }
 \details{
 You can create an a11ytable object with
-\code{\link{new_a11ytable}} (or \code{\link{as_a11ytable}}).
+\code{\link{create_a11ytable}} (or \code{\link{as_a11ytable}}).
 }
 \examples{
 \dontrun{

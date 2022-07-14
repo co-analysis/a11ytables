@@ -1,5 +1,5 @@
 Name: Insert 'a11ytable' Template
-Description: Insert at the cursor a template for new_a11ytable() from the
+Description: Insert at the cursor a template for create_a11ytable() from the
     'a11ytable' package, pre-filled with example information.
 Binding: at_template_a11ytable
 Interactive: false
@@ -20,7 +20,7 @@ Interactive: false
 
 Name: Insert Full 'a11ytables' Template Workflow
 Description: Insert at the cursor templates for cover, contents and notes
-    tables, and new_a11ytable(), which are all pre-filled with example
+    tables, and create_a11ytable(), which are all pre-filled with example
     information.
 Binding: at_template_workflow
 Interactive: false

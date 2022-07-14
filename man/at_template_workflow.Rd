@@ -8,6 +8,6 @@ at_template_workflow()
 }
 \description{
 Insert at the cursor templates for cover, contents and notes
-tables, and \code{\link{new_a11ytable}}, which are all pre-filled with
+tables, and \code{\link{create_a11ytable}}, which are all pre-filled with
 example information.
 }
