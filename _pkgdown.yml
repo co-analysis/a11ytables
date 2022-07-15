@@ -1,4 +1,23 @@
 url: https://co-analysis.github.io/a11ytables/
+
+template:
+  bootstrap: 5
+  bslib:
+    bg: "#ffffff"
+    fg: "#4d4e53"
+    primary: "#005abb"
+    code_font: {google: "Fira Code"}
+
+navbar:
+  bg: primary
+
+footer:
+  structure:
+    left: legal
+    right: built_with
+  components:
+    legal: © Crown Copyright, 2002, Cabinet Office
+
 reference:
 - title: "a11ytables"
   desc: "Create, coerce and inspect a11ytable-class objects"
