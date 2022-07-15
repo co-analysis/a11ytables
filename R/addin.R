@@ -51,13 +51,13 @@ at_template_workflow <- function() {
       "\n\n",
       "# Generate workbook from a11ytable",
       "\n\n",
-      "wb_example <- a11ytables::generate_workbook(a11y_example)",
+      "my_wb <- a11ytables::generate_workbook(my_a11ytable)",
       "\n\n",
       "# Create output",
       "\n\n",
-      "openxlsx::openXL(wb_example)  # open temp copy",
+      "openxlsx::openXL(my_wb)  # open temp copy",
       "\n\n",
-      'openxlsx::saveWorkbook(wb_example, "~/Desktop/example.xlsx")'
+      'openxlsx::saveWorkbook(my_wb, "~/Desktop/example.xlsx")'
     )
   )
 
