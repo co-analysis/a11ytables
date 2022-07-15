@@ -22,7 +22,7 @@ This vignette provides a quick lookup of spreadsheet nomenclature, as used in th
 
 Certain language and conventions are used in the package to talk about spreadsheets.
 
-A _workbook_ is a spreadsheet output. It contains _tabs_ that are each named with a unique _tab title_. Each tab contains a _sheet_.
+A _workbook_ is a spreadsheet-like structure. It contains _tabs_ that are each named with a unique _tab title_. Each tab contains a _sheet_.
 
 Sheets can be one of four _sheet types_ that dictate their content, layout and style:
 
@@ -41,3 +41,18 @@ _Sheets_ themselves are composed of inserted _elements_ that appear in the follo
 * a _blank cells statement_ that indicates the meaning behind any blank cells in a table (if applicable, user-provided)
 * a _source statement_ to explain where the data came from (if applicable, user-provided)
 * a _table_ that contains information as rows and columns (user-provided) and has a _table name_ (auto-generated) which appears as the 'name' of the marked-up table
+
+# Example
+
+This is an example xlsx output from the {a11ytables} package:
+
+<div class="figure">
+<img src="../man/figures/table-sheet-markup.png" alt="A spreadsheet produced by the a11ytables package. Four things have been marked with numbers. 1 points to the current tab, named Table_1. 2 points to the sheet title. 3 points to four rows of elements below the title and below the table, which refer to the number of tables in the sheet, the presence of notes, the meaning of blank cells and the data source. 4 points to the table." width="100%"/>
+</div>
+
+The labels in the image above highlight:
+
+1. The _tabs_ and their _tab titles_, open on a _sheet_ called 'Table_1' (with each of the _meta sheets_ currently hidden).
+2. The _sheet title_.
+3. Several _elements_: the _table count_, the _notes statement_ (because the table contains notes), the _blank cells statement_ (because the table contains blank cells) and a _source statement_ for the data.
+4. A marked-up _table_, which contains suppressed values (i.e. '[c]') and notes (e.g. '[note 1]').

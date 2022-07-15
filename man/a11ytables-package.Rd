@@ -6,7 +6,7 @@
 \alias{a11ytables-package}
 \title{a11ytables: Create Spreadsheet Publications Following GSS Best Practice}
 \description{
-Generate spreadsheet publications for official release by UK government organisations following best practice guidance from the UK's Government Statistical Service (GSS), with a focus on accessibility for all users. Based on {openxlsx}. See also the Python package 'gptables' by the Best Practice and Impact Division.
+Generate spreadsheet publications that follow best-practice guidance from the UK's Government Statistical Service (GSS), with a focus on accessibility for all users. Based on {openxlsx}. See also the Python package 'gptables' by the GSS Best Practice and Impact Division.
 }
 \seealso{
 Useful links:
@@ -22,8 +22,9 @@ Useful links:
 
 Other contributors:
 \itemize{
+  \item Crown Copyright [copyright holder, funder]
   \item Tim Taylor [contributor]
-  \item Crown Copyright [copyright holder]
+  \item Matt Kerlogue [contributor]
 }
 
 }
