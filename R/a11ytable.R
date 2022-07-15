@@ -193,6 +193,6 @@ tbl_sum.a11ytable <- function(x, ...) {
     formatC(ncol(x), big.mark = ",")
   )
 
-  c("a11ytables" = header)
+  c("a11ytable" = header)
 
 }
