@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# {a11ytables}
+# {a11ytables} <a href="https://co-analysis.github.io/a11ytables/"><img src="man/figures/logo.png" align="right" height="139"/></a>
 
 <!-- badges: start -->
 
@@ -17,8 +17,8 @@ coverage](https://codecov.io/gh/co-analysis/a11ytables/branch/main/graph/badge.s
 
 ## Purpose
 
-An R package to help you create spreadsheets that adhere to the latest
-guidance (June 2021) on [releasing statistics in
+An R package to help automatically create reproducible spreadsheets that
+adhere to the latest guidance (June 2021) on [releasing statistics in
 spreadsheets](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)
 from the [Best Practice and Impact
 Division](https://github.com/best-practice-and-impact?language=html)
