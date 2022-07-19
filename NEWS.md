@@ -13,6 +13,7 @@
 * Added a vignette to provide an overview of the code underlying the package so that it's easier for developers to contribute (#58)
 * Added a vignette to explain the terminology of a spreadsheet, as used in the package (#58)
 * Refer to the updated gptables Python package and the best practice spreadsheet guidance on the Analysis Function website (#73)
+* Add hex logo (#81)
 * Updated README and other vignettes to reflect changes to the function API
 * Corrected various typos
 
