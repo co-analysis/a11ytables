@@ -2,13 +2,12 @@
 .style_create <- function() {
 
   list(
-    bold       = openxlsx::createStyle(textDecoration = "Bold"),
-    lalign     = openxlsx::createStyle(halign = "left"),
-    pt14       = openxlsx::createStyle(fontSize = 14),
-    pt16       = openxlsx::createStyle(fontSize = 16),
-    ralign     = openxlsx::createStyle(halign = "right"),
-    row_height = openxlsx::createStyle(halign = "right"),
-    wrap       = openxlsx::createStyle(wrapText = TRUE)
+    bold   = openxlsx::createStyle(textDecoration = "Bold"),
+    pt14   = openxlsx::createStyle(fontSize = 14),
+    pt16   = openxlsx::createStyle(fontSize = 16),
+    lalign = openxlsx::createStyle(halign = "left"),
+    ralign = openxlsx::createStyle(halign = "right"),
+    wrap   = openxlsx::createStyle(wrapText = TRUE)
   )
 
 }
@@ -63,7 +62,7 @@
     wb = wb,
     sheet = tab_name,
     cols = 1,
-    widths = 80
+    widths = 72
   )
 
   openxlsx::addStyle(
@@ -115,8 +114,9 @@
   sheet_type <- content[content$table_name == table_name, "sheet_type"][[1]]
 
   has_notes <- .has_notes(content, tab_title)
+  has_blanks_message <- .has_blanks_message(content, tab_title)
   has_source <- .has_source(content, tab_title)
-  start_row <- .get_start_row_table(has_notes, has_source)
+  start_row <- .get_start_row_table(has_notes, has_blanks_message, has_source)
 
   table_height <- nrow(table)
   table_width  <- ncol(table)
@@ -167,12 +167,14 @@
     widths = cellwidth_default  # set all columns to default width first
   )
 
-  openxlsx::setColWidths(
-    wb = wb,
-    sheet = tab_title,
-    cols = wide_cols_index,
-    widths = cellwidth_wider  # apply larger width to certain columns
-  )
+  if (length(wide_cols_index[!is.na(wide_cols_index)])) {  # only run if neded
+    openxlsx::setColWidths(
+      wb = wb,
+      sheet = tab_title,
+      cols = wide_cols_index,
+      widths = cellwidth_wider  # apply larger width to certain columns
+    )
+  }
 
   openxlsx::addStyle(
     wb = wb,
@@ -221,8 +223,15 @@
   openxlsx::setColWidths(
     wb = wb,
     sheet = tab_name,
-    cols = seq(table_width),
-    widths = 30
+    cols = 1,
+    widths = 16
+  )
+
+  openxlsx::setColWidths(
+    wb = wb,
+    sheet = tab_name,
+    cols = 2,
+    widths = 56
   )
 
   openxlsx::addStyle(
@@ -261,14 +270,14 @@
     wb = wb,
     sheet = tab_name,
     cols = 1,
-    widths = 15
+    widths = 16
   )
 
   openxlsx::setColWidths(
     wb = wb,
     sheet = tab_name,
     cols = 2,
-    widths = 80
+    widths = 56
   )
 
   openxlsx::addStyle(

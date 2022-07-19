@@ -1,3 +1,36 @@
+# a11ytables 0.1.0
+
+## Breaking changes
+
+* Renamed the `new_a11ytable()` function to `create_a11ytable()` (#27)
+* Renamed the `create_a11y_wb()` function to `generate_workbook()` and changed the main argument from 'content' to 'a11ytable' (#27)
+* Removed the 'table_names' argument to `create_a11ytable()` and instead autogenerate them from the user-provided 'tab_title' (#61)
+* Introduced the `blank_cells` argument to `create_a11ytable()` so the user can provide a table-by-table reason for why cells might be empty (#62)
+* Adjusted the in-built `mtcars_df` dataset to better fit the changes to the functions
+
+## Docs
+
+* Added a vignette to provide an overview of the code underlying the package so that it's easier for developers to contribute (#58)
+* Added a vignette to explain the terminology of a spreadsheet, as used in the package (#58)
+* Refer to the updated gptables Python package and the best practice spreadsheet guidance on the Analysis Function website (#73)
+* Updated README and other vignettes to reflect changes to the function API
+* Corrected various typos
+
+## Miscellaneous
+
+* Increased test coverage (#63)
+* Updated user-input sanitising: it now removes punctuation in 'tab_title', inserts underscores in place of spaces and adds full-stops to blank_cells and source data (#78)
+* Consolidated all a11ytable-class-related functioning into `as_a11ytable()` so that `create_a11ytable()` only has to build a data.frame from supplied arguments and apply `as_a11ytable()` to it (#80)
+* Added warning for user if the 'blank_cells' argument is provided to `create_a11ytable()` but there are no blank cells in the table, and vice versa
+* Updated content of RStudio Addins to reflect function and argument changes
+* Adjusted default column widths in notes and contents
+* Renamed files in R/ for consistency and clarity
+* Switched to `inherits()` for class detection in `if()` statements
+
+## Bugfixes
+
+* Provided a warning, rather than error, if you don't provide any 'source' argument to `create_a11ytable()`.
+
 # a11ytables 0.0.0.90015
 
 * Added and improved warnings and errors (#34)
@@ -17,7 +50,7 @@
 
 # a11ytables 0.0.0.90012
 
-* Made source, notes and table insertion dynamic, so the row of insertino of each is dependent on the others (#33)
+* Made source, notes and table insertion dynamic, so the row of insertion of each is dependent on the others (#33)
 * Applied table styling based on dynamic table placement (#33)
 
 # a11ytables 0.0.0.90011
@@ -29,7 +62,7 @@
 # a11ytables 0.0.0.90010
 
 * Added warnings if issues are detected when making an a11ytables-class object (#34)
-* Added a modified-mtcars example dataset, `mtcars_df` (#20)
+* Added a modified mtcars example dataset, `mtcars_df` (#20)
 * Expunged `lfs_tables` (#20)
 * Added 'Crown Copyright' to authors as the copyright holder 
 * Updated README and vignettes given these changes
@@ -38,11 +71,11 @@
 
 # a11ytables 0.0.0.9009
 
+* HOTFIX: corrected `.detect_notes()` so it actually works
 * Converted the `print` method to a `summary` method, as suggested by @TimTaylor (#23)
 * Imported {pillar} for {tibble}-style printing, as suggested by @TimTaylor (#26)
 * Added @TimTaylor as a contributor
 * Updated vignettes and README
-* HOTFIX: corrected `.detect_notes()` so it actually works
 
 # a11ytables 0.0.0.9008
 

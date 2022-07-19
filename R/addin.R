@@ -1,11 +1,11 @@
 #' Insert 'a11ytable' Template
 #'
-#' Insert at the cursor a template for \code{\link{new_a11ytable}} from the
+#' Insert at the cursor a template for \code{\link{create_a11ytable}} from the
 #' 'a11ytable' package, pre-filled with example information.
 #'
 #' @export
 at_template_a11ytable <- function() {
-  rstudioapi::insertText(string_new_a11ytable())
+  rstudioapi::insertText(string_create_a11ytable())
 }
 
 #' Insert Table Templates Using 'tibble'
@@ -33,7 +33,7 @@ at_template_df <- function() {
 #' Insert Full 'a11ytables' Template Workflow
 #'
 #' Insert at the cursor templates for cover, contents and notes
-#' tables, and \code{\link{new_a11ytable}}, which are all pre-filled with
+#' tables, and \code{\link{create_a11ytable}}, which are all pre-filled with
 #' example information.
 #'
 #' @export
@@ -47,17 +47,17 @@ at_template_workflow <- function() {
       "\n\n",
       "# Create new a11ytable",
       "\n\n",
-      string_new_a11ytable(),
+      string_create_a11ytable(),
       "\n\n",
       "# Generate workbook from a11ytable",
       "\n\n",
-      "wb_example <- a11ytables::create_a11y_wb(a11y_example)",
+      "my_wb <- a11ytables::generate_workbook(my_a11ytable)",
       "\n\n",
       "# Create output",
       "\n\n",
-      "openxlsx::openXL(wb_example)  # open temp copy",
+      "openxlsx::openXL(my_wb)  # open temp copy",
       "\n\n",
-      'openxlsx::saveWorkbook(wb_example, "~/Desktop/example.xlsx")'
+      'openxlsx::saveWorkbook(my_wb, "~/Desktop/example.xlsx")'
     )
   )
 

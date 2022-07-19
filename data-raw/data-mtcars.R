@@ -1,4 +1,4 @@
-# This file generates and writes the in-built datasets mtcars_a11ytable
+# This file generates and writes the dataset 'mtcars_df'
 
 library(tibble)
 
@@ -6,9 +6,7 @@ cover_df <-
   tribble(
     ~"Sub title",  ~"Sub body",
     "Description", "Aspects of automobile design and performance.",
-    "Properties",  paste0("Suppressed values are replaced with the value '[c]'.",
-                          "\n\n",
-                          "Blank cells in the 'Notes' column indicate the absence of a note."),
+    "Properties",  paste0("Suppressed values are replaced with the value '[c]'."),
     "Contact",     "The mtcars Team, telephone 0123456789."
   ) |>
   as.data.frame()
@@ -17,15 +15,16 @@ contents_df <-
   tribble(
     ~"Sheet name", ~"Sheet title",
     "Notes",       "Notes used in the statistical tables of this workbook",
-    "Table 1",     "Car Road Tests (demo)"
+    "Table 1",     "Car Road Tests (demo 1)",
+    "Table 2",     "Car Road Tests (demo 2)"
   ) |>
   as.data.frame()
 
 notes_df <-
   tribble(
     ~"Note number", ~"Note text",
-    "[1]",     "US gallons.",
-    "[2]",     "Retained to enable comparisons with previous analyses."
+    "[note 1]",     "US gallons.",
+    "[note 2]",     "Retained to enable comparisons with previous analyses."
   ) |>
   as.data.frame()
 
@@ -63,8 +62,8 @@ mtcars_df <- tibble(
     "Cover",
     "Contents",
     "Notes",
-    "Table 1",
-    "Table 2"
+    "Table_1",
+    "Table_2"
   ),
   sheet_type = c(
     "cover",
@@ -77,8 +76,15 @@ mtcars_df <- tibble(
     "The 'mtcars' Demo Dataset",
     "Table of contents",
     "Notes",
-    "Car Road Tests 1",
-    "Car Road Tests 2"
+    "Table 1: Car Road Tests 1",
+    "Table 2: Car Road Tests 2"
+  ),
+  blank_cells = c(
+    NA_character_,
+    NA_character_,
+    NA_character_,
+    "A blank cell in the Notes column indicates that there is no note for that row.",
+    NA_character_
   ),
   source = c(
     NA_character_,
@@ -86,13 +92,6 @@ mtcars_df <- tibble(
     NA_character_,
     "Motor Trend (1974)",
     "Motor Trend (1974)"
-  ),
-  table_name = c(
-    "cover_sheet",
-    "table_of_contents",
-    "notes_table",
-    "cars_table_1",
-    "cars_table_2"
   ),
   table = list(
     cover_df,

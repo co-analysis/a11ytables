@@ -1,0 +1,167 @@
+---
+title: "Package structure (advanced)"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{structure}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#"
+)
+```
+
+# Purpose
+
+This vignette is aimed at developers who want to understand the package better and to make it easier for them to contribute.
+
+# Overview
+
+There are only two main user-facing functions in {a11ytables}: 
+
+* `create_a11ytable()` to create a data.frame object (with an additional 'a11ytable' S3 class) filled with all the information needed to create a spreadsheet output, as well as check the validity of the structure and provide errors or warnings
+* ` generate_workbook()` to convert the output from `create_a11ytable()` to an [{openxlsx}](https://ycphs.github.io/openxlsx/) Workbook-class object, ready for writing to an xlsx file with `openxlsx::saveWorkbook()`
+
+This vignette provides a quick look at what's happening 'under the hood' in these functions.
+
+Please add [an issue](https://github.com/co-analysis/a11ytables/issues) to the package's GitHub repository if you would like any of this explanation to be expanded, or provide a solution in [a pull request](https://github.com/co-analysis/a11ytables/pulls).
+
+# Files
+
+First it's worth explaining how the source files are laid out. There are four major groups of scripts in the `R/` directory of the package:
+
+1. Code to make a11ytable-class objects: `a11ytable.R` and `utils-a11ytable.R` contain code for handling the a11ytable class, most importantly the `create_a11ytable()` function, but also coercion with `as_a11ytable()`, checking with `is_a11ytable()`, a `summary()` method and a `print()` method, which takes advantage of [the {pillar} package](https://github.com/r-lib/pillar) for prettier outputs.
+2. Code to make Workbook-class objects: `workbook.R`, `utils-workbook.R` and `utils-workbook-style.R` contain the code for creating and styling a Workbook-class object with the `generate_workbook()` function.
+3. Code to produce demo datasets: `data.R` contains the documentation for demo datasets, which are created in the `data-raw/` directory with the files stored in the `data/` directory.
+4. Code that creates the RStudio Addin: `addin.R` and `utils-addin.R` contain code for the [RStudio Addin](https://rstudio.github.io/rstudioaddins/) (the .dcf file for which is in the `inst/rstudio/` directory).
+
+You'll also find the `a11ytables-package.R` file in the `R/` directory, which provides a package-level help page derived from the DESCRIPTION file when `?a11ytables` is run by the user. It doesn't need to be edited.
+
+# Code
+
+This sections below focus on the `create_a11ytable()` and `generate_workbook()` functions, which are the primary and most complex functions in the package.
+
+The code that underpins these functions is modularised to aid with bug-catching and testing, but also to make it easier for developers to understand how the code fits together. Internal sub-functions are consistently-named and begin with verbs, which should help you better understand their purpose.
+
+Note that {a11ytables} uses a convention that internal functions (i.e. those not presented to the user, but accessed via the `:::` qualifier) are prefixed with a period (i.e. `.f()`) to make it clearer that they are internal to the package. The exported user-facing functions do not use a leading period.
+
+## To create a11ytables
+
+Actually, `create_a11ytable()` itself only does one thing: it takes user inputs from the arguments and combines them into a dataframe. It then passes this off to the most important function in the package, `as_a11ytable()`, which is responsible for coercing the dataframe to a11ytable class and performing checks on its content.
+
+Basically, `as_a11ytable()` creates an S3-class object with classes 'data.frame' and 'tbl' (i.e. [tibble](https://tibble.tidyverse.org/)) and an additional 'a11ytable' class.
+
+```{r class-demo}
+library(a11ytables)
+my_a11ytable <- as_a11ytable(mtcars_df)
+class(my_a11ytable)
+```
+
+The object can be manipulated like a 'normal' dataframe and---thanks to the {pillar} package and the tbl class---it can be printed in compact form without the need for the whole of the {tibble} package to be imported.
+
+```{r print-demo}
+my_a11ytable
+```
+
+Compare this to its appearance as a regular data.frame, which is trickier to understand:
+
+```{r df-demo-no-eval}
+as.data.frame(my_a11ytable)
+```
+
+Within `as_a11ytable()` itself are two major functions that help ensure proper construction of an a11ytable object:
+
+* `.validate_a11ytable()` will generate errors if basic structural expectations of an a11ytable aren't met (e.g. if 'cover', 'contents' or 'notes' have been provided more than once to the `sheet_type` argument)
+* `.warn_a11ytable()` checks for things that the user may have forgotten and prints warnings about them (e.g. if 5 notes are declared in the notes sheet but there are fewer in the tables themselves)
+
+Advanced users can create a correctly-formatted data.frame on the fly and convert it to an a11ytable with `as_a11ytable()` directly. The `as_a11ytable()` function mainly exists to make testing easier, i.e. you can pass to  the pre-prepared `mtcars_df` dataset.
+
+### Methods
+
+There's a few methods for a11ytables that are also found in `R/a11ytables.R`.
+
+`is_a11ytable()` is a classic logical test that checks for the a11ytable class in the object provided to it.
+
+```{r is-demo}
+is_a11ytable(my_a11ytable)
+```
+
+The `summary()` method prints a very simple 'long' overview of a provided a11ytable.
+
+```{r summary-demo}
+summary(my_a11ytable)
+```
+
+The `tbl_sum()` method is provided via the {pillar} package, with the goal of providing a bespoke header to the printed a11ytable.
+
+```{r tbl-sum-demo}
+pillar::tbl_sum(my_a11ytable)
+```
+
+## To create workbooks
+
+The `generate_workbook()` function sets up an [{openxlsx}](https://ycphs.github.io/openxlsx/) Workbook-class object and fills it by iterating over a user-supplied the a11ytable-class object.
+
+```{r wb-class}
+my_wb <- generate_workbook(my_a11ytable)
+class(my_wb)
+```
+
+You can see how the Workbook-class object carries information that will determine the structure and style of the final spreadsheet output.
+
+```{r print-wb}
+my_wb
+```
+
+Several internal sub-functions within `generate_workbook()`---`.add_*()`, `.insert_*()` and `.style_*()`---are responsible for adding these sheets, inserting sheet elements and styling them, respectively.
+
+### Add sheets
+
+A Workbook-class object is first created with `openxlsx::createWorkbook()` and then sheets are added based on the contents of the user-supplied a11ytable. 
+
+The following functions add sheets and sheet elements into the workbook:
+
+* `.add_tabs()` adds the required number of tabs into the workbook with `openxlsx::addWorksheet()` (as per the `tab_title` column of the supplied a11ytable)
+* `.add_cover()` and `.add_contents()` add the information needed for the cover and contents sheets (as per the required 'cover' and 'contents' supplied in the `sheet_type` column of an a11ytable)
+* `.add_notes()` if a notes sheet exists (i.e. a row in the supplied a11ytable with a `sheet_type` of 'notes')
+* `.add_table()` adds sheets for each statistical table (as per rows of supplied a11ytable with a `sheet_type` of 'table')
+
+As sheets are added, content is inserted and styles are applied with the:
+
+* `.insert_*()` functions, which insert sheet elements (title, source statement, table, etc) to each sheet
+* `.style_*()` functions, which apply formatting to each sheet (e.g. bold sheet titles with larger font) and the workbook (e.g. Arial font)
+
+#### Insert sheet elements
+
+There are several `.insert_*()` functions that add information to each sheet depending on the `sheet_type` of the provided a11ytable, as well as the content, if any, of its `sheet_title`, `blank_cells`, `source` and `table` columns.
+
+The following functions insert 'pre-table' elements in this order:
+
+* `.insert_title()` to place the sheet title in cell A1
+* `.insert_table_count()` to add a statement about the number of tables in the sheet
+* `.insert_notes_statement()` if a `sheet_type` of 'notes' is provided in the user's a11ytable
+* `.insert_blanks_message()` if content is provided in the `blanks_cells` column of the user's a11ytable
+* `.insert_source()` if content is provided in the `source` column of the user's a11ytable
+    
+A table of data is added under the metadata with `.insert_table()`, which is provided in the `table` column of the user's a11ytable object.
+
+The exact `.insert_*()` functions called depend on the `sheet_type` declared in the a11ytable:
+
+* meta sheets (cover, contents and notes) need only `.insert_title()` and `.insert_table_count()`
+* statistical tables also require `.insert_source()` and `.insert_blanks_message()` if provided, as well as `.insert_notes_statement()` if there are notes
+
+Simple logic is used to check for the presence of meta elements with the `.has_*()` functions, while the `get_start_row_*()` functions handle the cell to which each message should be inserted. 
+
+For example, if all the elements are supplied, then the table would begin in row 6 (i.e. after the sheet title, table count, note presence, meaning of blank cells and source), but it's possible that the table would have to be inserted to row 3 if only the sheet title and statement are required. This avoids inaccessible blank rows and redundant statements like 'This table has no source statement'.
+
+#### Apply styles
+
+There are a few `.style_*()` functions that create styles and apply them on the basis of the `sheet_type` provided in the a11ytable.
+
+* `.style_create()` creates an easily-referenced lookup of styles, which is created with `openxlsx::createStyle()`
+* `.style_workbook()` applies defaults for _the whole workbook_ (i.e. to set the font style to Arial size 12)
+* `.style_cover()`, `.style_contents()` and `.style_notes()` all apply styles to specific _sheets_
+* `.style_sheet_title()` and `.style_table()` apply styles to _particular sheet elements_ (e.g. the title is larger and bolder than the default font)

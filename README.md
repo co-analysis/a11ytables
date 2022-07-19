@@ -1,13 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# {a11ytables}
+# {a11ytables} <a href="https://co-analysis.github.io/a11ytables/"><img src="man/figures/logo.png" align="right" height="139"/></a>
 
 <!-- badges: start -->
 
-[![Project Status: WIP – Initial development is in progress, but there
-has not yet been a stable, usable release suitable for the
-public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/a11ytables)](https://CRAN.R-project.org/package=a11ytables)
 [![R-CMD-check](https://github.com/co-analysis/a11ytables/workflows/R-CMD-check/badge.svg)](https://github.com/co-analysis/a11ytables/actions)
@@ -17,13 +17,13 @@ coverage](https://codecov.io/gh/co-analysis/a11ytables/branch/main/graph/badge.s
 
 ## Purpose
 
-An R package to help you create spreadsheets that adhere to the latest
-guidance (June 2021) on [releasing statistics in
+An R package to help automatically create reproducible spreadsheets that
+adhere to the latest guidance (June 2021) on [releasing statistics in
 spreadsheets](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)
 from the [Best Practice and Impact
 Division](https://github.com/best-practice-and-impact?language=html)
 (BPID) of the UK’s [Government Statistical
-Service](https://gss.civilservice.gov.uk/).
+Service](https://gss.civilservice.gov.uk/) (GSS).
 
 Visit [the {a11ytables}
 website](https://co-analysis.github.io/a11ytables/) for documentation.
@@ -31,48 +31,69 @@ website](https://co-analysis.github.io/a11ytables/) for documentation.
 The package is under (opinionated) active development. Please see [the
 NEWS file](https://co-analysis.github.io/a11ytables/news/index.html) for
 the latest changes. Please [leave your ideas as
-issues](https://github.com/co-analysis/a11ytables/issues) or raise a
-pull request.
+issues](https://github.com/co-analysis/a11ytables/issues) or [raise a
+pull request](https://github.com/co-analysis/a11ytables/pulls).
 
 ## Install
 
-Install the package from GitHub using
+Install the package [from
+GitHub](https://github.com/co-analysis/a11ytables) using
 [{remotes}](https://remotes.r-lib.org/).
-[{openxlsx}](https://ycphs.github.io/openxlsx/) and
-[{pillar}](https://pillar.r-lib.org/) will also be installed.
 
 ``` r
 install.packages("remotes")  # if not already installed
 remotes::install_github("co-analysis/a11ytables")
+library(a11ytables)  # attach package
 ```
+
+The package depends on [{openxlsx}](https://ycphs.github.io/openxlsx/)
+and [{pillar}](https://pillar.r-lib.org/), which are also installed with
+{a11ytables}.
+
+## Use
 
 To create a spreadsheet:
 
-1.  Use `new_a11ytable()` to build a special dataframe of your data
-2.  Use `create_a11y_wb()` to add styles and workbook structure
-3.  Use `openxlsx::saveWorkbook()` to write an xlsx file
+1.  Use `create_a11ytable()`
+2.  Pass the output to `generate_workbook()`
+3.  Pass the output to `openxlsx::saveWorkbook()`
 
-Visit [the introduction
-vignette](https://co-analysis.github.io/a11ytables/articles/a11ytables.html)
-to get going, or the [accessbility guidance
-checklist](https://co-analysis.github.io/a11ytables/articles/accessibility-checklist.html)
-vignette to see how the package complies with guidance.
+For more help, use `browseVignettes("a11ytables")` or [visit the
+website](https://co-analysis.github.io/a11ytables/). You can read the:
 
-This package includes [an RStudio
+-   [introductory
+    vignette](https://co-analysis.github.io/a11ytables/articles/a11ytables.html)
+    to get started
+-   [accessbility checklist
+    vignette](https://co-analysis.github.io/a11ytables/articles/checklist.html)
+    to see how the package complies with best-practice guidance
+-   [terminology
+    vignette](https://co-analysis.github.io/a11ytables/articles/terminology)
+    to understand the nomenclature of spreadsheet terms as used in this
+    package
+-   [package structure
+    vignette](https://co-analysis.github.io/a11ytables/articles/structure)
+    to see how the package works under the hood
+
+This package also includes [an RStudio
 Addin](https://rstudio.github.io/rstudioaddins/) that inserts pre-filled
 demo skeletons of the {a11ytables} workflow.
 
 ## Related projects
 
 BPID released [a Python package called
-‘gptables’](https://github.com/best-practice-and-impact/gptables) but
-[it needs to be
-updated](https://github.com/best-practice-and-impact/gptables/issues/145).
-There’s no companion R package at time of writing, but {a11ytables}
-fills this gap.
+‘gptables’](https://github.com/best-practice-and-impact/gptables) that
+has [been updated given the latest best-practice
+guidance](https://dataingovernment.blog.gov.uk/2022/06/24/automatically-produce-best-practice-spreadsheets/).
+{a11ytables} is an independent effort that offers a native R solution
+that is very similar to gptables in its outputs, though there are some
+differences in implementation. You can always use gptables in R [via the
+{reticulate}
+package](https://gptables.readthedocs.io/en/latest/usage.html#r-usage)
+if you prefer.
 
-The package can help you fulfil a [Reproducible Analytical
-Pipeline](https://dataingovernment.blog.gov.uk/2017/03/27/reproducible-analytical-pipeline/)
+{a11ytables} can help you fulfill a [Reproducible Analytical
+Pipeline](https://analysisfunction.civilservice.gov.uk/policy-store/reproducible-analytical-pipelines-strategy/)
 by automating the generation of compliant spreadsheets for publication.
 
 ## Code of Conduct

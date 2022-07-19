@@ -4,12 +4,12 @@
 
 .stop_bad_input <- function(wb, content, table_name = NULL) {
 
-  if (class(wb)[1] != "Workbook") {
+  if (!inherits(wb, "Workbook")) {
     stop("'wb' must be a Workbook-class object.")
   }
 
   if (!is.null(table_name) &
-      class(table_name) != "character" &
+      !inherits(table_name, "character") &
       length(table_name != 1)
   ) {
     stop("'table_name' must be a string of length 1")
@@ -20,6 +20,18 @@
 
 # Detect meta elements ----------------------------------------------------
 
+
+.has_blanks_message <- function(content, tab_title) {
+
+  blank_cells_message <- content[content$tab_title == tab_title, "blank_cells"][[1]]
+
+  if (!is.na(blank_cells_message)) {
+    TRUE
+  } else {
+    FALSE
+  }
+
+}
 
 .has_source <- function(content, tab_title) {
 
@@ -91,8 +103,7 @@
 # Table placement ---------------------------------------------------------
 
 
-
-.get_start_row_source <- function(has_notes, start_row = 3) {
+.get_start_row_blanks_message <- function(has_notes, start_row = 3) {
 
   if (has_notes) {
     start_row <- start_row + 1
@@ -102,9 +113,36 @@
 
 }
 
-.get_start_row_table <- function(has_notes, has_source, start_row = 3) {
+.get_start_row_source <- function(
+  has_notes,
+  has_blanks_message,
+  start_row = 3
+) {
 
   if (has_notes) {
+    start_row <- start_row + 1
+  }
+
+  if (has_blanks_message) {
+    start_row <- start_row + 1
+  }
+
+  return(start_row)
+
+}
+
+.get_start_row_table <- function(
+  has_notes,
+  has_blanks_message,
+  has_source,
+  start_row = 3
+) {
+
+  if (has_notes) {
+    start_row <- start_row + 1
+  }
+
+  if (has_blanks_message) {
     start_row <- start_row + 1
   }
 
@@ -122,16 +160,34 @@
 
 .insert_title <- function(wb, content, tab_title) {
 
+  sheet_type <- content[content$tab_title == tab_title, "sheet_type"][[1]]
   sheet_title <- content[content$tab_title == tab_title, "sheet_title"][[1]]
 
-  openxlsx::writeData(
-    wb = wb,
-    sheet = tab_title,
-    x = sheet_title,
-    startCol = 1,
-    startRow = 1,
-    colNames = TRUE
-  )
+  if (sheet_type %in% c("cover", "contents", "notes")) {
+
+    openxlsx::writeData(
+      wb = wb,
+      sheet = tab_title,
+      x = sheet_title,
+      startCol = 1,
+      startRow = 1,
+      colNames = TRUE
+    )
+
+  }
+
+  if (sheet_type == "tables") {
+
+    openxlsx::writeData(
+      wb = wb,
+      sheet = tab_title,
+      x = sheet_title,
+      startCol = 1,
+      startRow = 1,
+      colNames = TRUE
+    )
+
+  }
 
   return(wb)
 
@@ -183,31 +239,71 @@
 
 }
 
-.insert_source <- function(wb, content, tab_title) {
+.insert_blanks_message <- function(wb, content, tab_title) {
 
-  has_source <- .has_source(content, tab_title)
-  has_notes <- .has_notes(content, tab_title)
+  has_blanks_message <- .has_blanks_message(content, tab_title)
 
-  if (has_source) {
+  if (has_blanks_message) {
 
-    source_text <- content[content$tab_title == tab_title, "source"][[1]]
+    blanks_text <- content[content$tab_title == tab_title, "blank_cells"][[1]]
 
-    last_char <- strsplit(source_text, "")[[1]][nchar(source_text)]
+    # last_char <- strsplit(blanks_text, "")[[1]][nchar(blanks_text)]
+    #
+    # if (last_char == ".") {
+    #   text <- blanks_text
+    # }
+    #
+    # if (last_char != ".") {
+    #   text <- paste0(blanks_text, ".")
+    # }
 
-    if (last_char == ".") {
-      text <- paste("Source:", source_text)
-    }
-
-    if (last_char != ".") {
-      text <- paste0("Source: ", source_text, ".")
-    }
-
-    start_row <- .get_start_row_source(has_notes)
+    has_notes <- .has_notes(content, tab_title)
+    start_row <- .get_start_row_blanks_message(has_notes)
 
     openxlsx::writeData(
       wb = wb,
       sheet = tab_title,
-      x = text,
+      x = blanks_text,
+      startCol = 1,
+      startRow = start_row,  # dependent on whether notes text present
+      colNames = TRUE
+    )
+
+  }
+
+  return(wb)
+
+}
+
+.insert_source <- function(wb, content, tab_title) {
+
+  has_source <- .has_source(content, tab_title)
+
+  if (has_source) {
+
+    source_text <- paste(
+      "Source:",
+      content[content$tab_title == tab_title, "source"][[1]]
+    )
+
+    # last_char <- strsplit(source_text, "")[[1]][nchar(source_text)]
+    #
+    # if (last_char == ".") {
+    #   text <- paste("Source:", source_text)
+    # }
+    #
+    # if (last_char != ".") {
+    #   text <- paste0("Source: ", source_text, ".")
+    # }
+
+    has_notes <- .has_notes(content, tab_title)
+    has_blanks_message <- .has_blanks_message(content, tab_title)
+    start_row <- .get_start_row_source(has_notes, has_blanks_message)
+
+    openxlsx::writeData(
+      wb = wb,
+      sheet = tab_title,
+      x = source_text,
       startCol = 1,
       startRow = start_row,  # dependent on whether notes text present
       colNames = TRUE
@@ -224,11 +320,6 @@
   table <- content[content$table_name == table_name, ][["table"]][[1]]
   sheet_type <- content[content$table_name == table_name, "sheet_type"][[1]]
   tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
-
-  # Check for other elements, so we know which row to insert the table
-  has_source <- .has_source(content, tab_title)
-  has_notes <- .has_notes(content, tab_title)
-
 
   if (sheet_type == "cover") {
 
@@ -247,12 +338,20 @@
 
   if (sheet_type != "cover") {
 
+    has_notes <- .has_notes(content, tab_title)
+    has_blanks_message <- .has_blanks_message(content, tab_title)
+    has_source <- .has_source(content, tab_title)
+
     if (sheet_type %in% c("contents", "notes")) {
       start_row <- 3
     }
 
     if (sheet_type == "tables") {
-      start_row <- .get_start_row_table(has_notes, has_source)
+      start_row <- .get_start_row_table(
+        has_notes,
+        has_blanks_message,
+        has_source
+      )
     }
 
     openxlsx::writeDataTable(
@@ -364,6 +463,7 @@
   .insert_table_count(wb, content, tab_title)
   .insert_source(wb, content, tab_title)
   .insert_notes_statement(wb, content, tab_title)
+  .insert_blanks_message(wb, content, tab_title)
   .insert_table(wb, content, table_name)
 
   styles <- .style_create()

@@ -1,11 +1,12 @@
-string_new_a11ytable <- function() {
+string_create_a11ytable <- function() {
 
-  'a11y_example <- a11ytables::new_a11ytable(
+  'my_a11ytable <-
+    a11ytables::create_a11ytable(
       tab_titles = c(
         "Cover",
         "Contents",
         "Notes",
-        "Table 1"
+        "Table_1"
       ),
       sheet_types = c(
         "cover",
@@ -17,25 +18,25 @@ string_new_a11ytable <- function() {
         "Cover title (example)",
         "Contents",
         "Notes",
-        "Sheet title (example)"
+        "Example sheet title"
+      ),
+      blank_cells = c(
+        NA_character_,
+        NA_character_,
+        NA_character_,
+        "Blank cells mean that a row does not have a note."
       ),
       sources = c(
         NA_character_,
         NA_character_,
         NA_character_,
-        "Source (example)",
-      ),
-      table_names = c(
-        "cover",
-        "contents",
-        "notes",
-        "example_table_example",
+        "Example source."
       ),
       tables = list(
-        cover_example,
-        contents_example,
-        notes_example,
-        table_example,
+        cover_df,
+        contents_df,
+        notes_df,
+        table_df
       )
     )'
 
@@ -43,38 +44,41 @@ string_new_a11ytable <- function() {
 
 string_tables_tibble <- function() {
 
-  'cover_example <- tibble::tribble(
-    ~subsection_title, ~subsection_body,
+  'cover_df <- tibble::tribble(
+    ~subsection_title, ~subsection_content,
     "Purpose", "Example results for something.",
     "Workbook properties", "Some placeholder information.",
     "Contact", "Placeholder email"
   )
 
-  contents_example <- tibble::tribble(
+  contents_df <- tibble::tribble(
     ~"Sheet name", ~"Sheet title",
     "Notes", "Notes",
-    "Table 1", "Sheet title (example)"
+    "Table_1", "Example sheet title"
   )
 
-  notes_example <- tibble::tribble(
+  notes_df <- tibble::tribble(
     ~"Note number", ~"Note text",
-    "[1]", "Placeholder note.",
-    "[2]", "Placeholder note.",
-    "[3]", "Placeholder note.",
+    "[note 1]", "Placeholder note.",
+    "[note 2]", "Placeholder note."
   )
 
-  table_example <- mtcars'
+  table_df <- mtcars
+  table_df[["car [note 1]"]] <- row.names(mtcars)
+  row.names(table_df) <- NULL
+  table_df <- table_df[1:5, c("car [note 1]", "mpg", "cyl")]
+  table_df["Notes"] <- c("[note 2]", rep(NA_character_, 4))'
 
 }
 
 string_tables_df <- function() {
-  'cover_example <- data.frame(
+  'cover_df <- data.frame(
       subsection_title = c(
         "Purpose",
         "Workbook properties",
         "Contact"
       ),
-      subsection_body = c(
+      subsection_content = c(
         "Example results for something.",
         "Some placeholder information.",
         "Placeholder email"
@@ -82,31 +86,22 @@ string_tables_df <- function() {
       check.names = FALSE
     )
 
-    contents_example <- data.frame(
-      "Sheet name" = c(
-        "Notes",
-        "Table 1"
-      ),
-      "Sheet title" = c(
-        "Notes",
-        "Sheet title (example)"
-      ),
+    contents_df <- data.frame(
+      "Sheet name" = c("Notes", "Table_1"),
+      "Sheet title" = c("Notes", "Example sheet title"),
       check.names = FALSE
     )
 
-    notes_example <- data.frame(
-      "Note number" = c(
-        "[1]",
-        "[2]",
-        "[3]"),
-      "Note text" = c(
-        "Placeholder note",
-        "Placeholder note",
-        "Placeholder note"
-      ),
-      check.names = TRUE
+    notes_df <- data.frame(
+      "Note number" = c("[note 1]", "[note 2]"),
+      "Note text" = c("Placeholder note.", "Placeholder note."),
+      check.names = FALSE
     )
 
-  table_example <- mtcars'
+  table_df <- mtcars
+  table_df[["car [note 1]"]] <- row.names(mtcars)
+  row.names(table_df) <- NULL
+  table_df <- table_df[1:5, c("car [note 1]", "mpg", "cyl")]
+  table_df["Notes"] <- c("[note 2]", rep(NA_character_, 4))'
 
 }

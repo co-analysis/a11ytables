@@ -1,16 +1,53 @@
 
+.clean_tab_titles <- function(tab_titles) {
+
+  tab_titles_cleaned <- gsub("[^[:alnum:][:space:]_]", "", tab_titles)
+  tab_titles_cleaned <- trimws(tab_titles_cleaned)
+  tab_titles_cleaned <- gsub(" ", "_", tab_titles_cleaned)
+  tab_titles_cleaned <- strtrim(tab_titles_cleaned, 31)
+
+  before <- tab_titles[!tab_titles %in% tab_titles_cleaned]
+  after  <- tab_titles_cleaned[!tab_titles %in% tab_titles_cleaned]
+
+  if (length(before > 0)) {
+    warning(
+      "These tab_titles have been cleaned automatically: ",
+      paste(before, collapse = ", "),
+      " (now ", paste(after, collapse = ", "), ").",
+      call. = FALSE
+    )
+  }
+
+  tab_titles_cleaned
+
+}
+
+.append_period <- function(text) {
+
+  last_char <- substr(text, nchar(text), nchar(text))
+
+  for (i in seq_along(text)) {
+
+    if (!is.na(last_char[i]) & last_char[i] != ".") {
+      text[i] <- paste0(text[i], ".")
+    }
+
+  }
+
+  text
+
+}
+
 .validate_a11ytable <- function(x) {
 
   names_req <- c(
-    "tab_title", "sheet_type", "sheet_title", "source", "table_name", "table"
+    "tab_title", "sheet_type", "sheet_title", "blank_cells", "source", "table"
   )
-
   names_count <- length(names_req)
-
   names_in <- names(x)
 
   # Must be of data.frame class
-  if (!any(class(x) %in% "data.frame")) {
+  if (!inherits(x, "data.frame")) {
     stop("Input must have class data.frame.")
   }
 
@@ -29,12 +66,12 @@
   }
 
   # 'table' column class must be listcol
-  if (class(x[["table"]]) != "list") {
+  if (!inherits(x[["table"]], "list")) {
     stop("Column 'table' must be a listcol of data.frame objects.")
   }
 
   # Class must be character for all columns except 'table'
-  if (!all(unlist(lapply(x[-6], is.character)))) {
+  if (!all(unlist(lapply(subset(x, select = -table), is.character)))) {
     stop("All columns except 'table' must be character class.")
   }
 
@@ -59,26 +96,65 @@
     )
   }
 
-  # There should be no empty rows for certain columns
-  if (!all(unlist(lapply(x[c(1:3, 5:6)], function(x) all(!is.na(x)))))) {
+  # There should be no empty rows, except in the blank_cells or source columns
+  if (
+    any(
+      is.na(
+        subset(x, select = c("tab_title", "sheet_type", "sheet_title", "table"))
+      )
+    )
+  ) {
     stop(
       paste(
-        "Columns 'tab_title', 'sheet_type', 'sheet_title', 'table_name', and",
+        "Columns 'tab_title', 'sheet_type', 'sheet_title' and",
         "'table' must not contain NA."
       )
     )
   }
 
+  # Each sheet_type must be only one of four types
+  if (!any(x[["sheet_type"]] %in% c("cover", "contents", "notes", "tables"))) {
+    stop("'sheet_type' must be one of 'cover', 'contents', 'notes', 'tables'.")
+  }
+
+  # Each tab_title must be unique
+  if (length(x[["tab_title"]]) != length(unique(tolower(x[["tab_title"]])))) {
+    stop("Each 'tab_title' must be unique (case-insensitive).")
+  }
+
+
 }
 
 .warn_a11ytable <- function(content) {
+
+  # Warn about tab_title limitations
+
+  tab_titles <- content$tab_title
+
+  if (any(nchar(tab_titles) > 31)) {
+    warning(
+      "Each tab_title must be shorter than 31 characters.",
+      call. = FALSE
+    )
+  }
+
+  if (any(grepl("[^[:alnum:]_]", tab_titles))) {
+    warning(
+      "Each tab_title must contain only letters, numbers or underscores.",
+      call. = FALSE
+    )
+  }
+
 
   # Warn about missing sources
 
   table_sources <- content[content$sheet_type == "tables", "source"]
 
   if (any(is.na(table_sources))) {
-    warning("One of your tables is missing a source statement.", call. = FALSE)
+    warning(
+      "One of your tables is missing a source statement.",
+      call. = FALSE
+    )
   }
 
   # Warn about possibly missing rows in the contents table
@@ -87,7 +163,7 @@
 
   if (nrow(content) != nrow(contents_table) + 2) {
     warning(
-      "There are ", nrow(content) - 2, " tables but only ",
+      "There are ", nrow(content) - 2, " tables but ",
       nrow(contents_table), " in the contents sheet.",
       call. = FALSE
     )
@@ -164,19 +240,19 @@
     not_in_tables <- setdiff(notes_sheet_values, tables_sheet_notes)
     not_in_notes  <- setdiff(tables_sheet_notes, notes_sheet_values)
 
-    if (length(not_in_tables) > 0) {
+    if (has_notes_sheet & has_notes & length(not_in_notes) > 0) {
       warning(
         "Some notes are in the tables (",
-        paste(not_in_tables, collapse = ", "),
+        paste(not_in_notes, collapse = ", "),
         ") but are missing from the notes sheet.",
         call. = FALSE
       )
     }
 
-    if (length(not_in_notes) > 0) {
+    if (has_notes_sheet & has_notes & length(not_in_tables) > 0) {
       warning(
         "Some notes are in the notes sheet (",
-        paste(not_in_notes, collapse = ", "),
+        paste(not_in_tables, collapse = ", "),
         ") but are missing from the tables.",
         call. = FALSE
       )
@@ -190,21 +266,42 @@
     tables_sheets[["table"]], tables_sheets[["tab_title"]]
   )
 
-  tables_with_na <- unlist(
+  tables_with_na_lgl <- unlist(
     lapply(
       tables_list,
       function(x) any(!stats::complete.cases(x))
     )
   )
 
-  tables_with_na_names <- names(tables_with_na[tables_with_na])
+  tables_with_na_names <- names(tables_with_na_lgl[tables_with_na_lgl])
 
-  if (length(tables_with_na_names) > 0) {
+  tables_with_blanks_reason <-
+    tables_sheets[!is.na(tables_sheets$blank_cells), ][["tab_title"]]
+
+  tables_with_na_no_reason <-
+    setdiff(tables_with_na_names, tables_with_blanks_reason)
+
+  tables_with_reason_no_na <-
+    setdiff(tables_with_blanks_reason, tables_with_na_names)
+
+  if (length(tables_with_na_no_reason) > 0) {
     warning(
-      "You have blank cells in these tables: ",
-      paste(tables_with_na_names, collapse = ", "), ".",
+      "You have blank cells in these tables but haven't provided a reason: ",
+      paste(tables_with_na_no_reason, collapse = ", "), ".",
       call. = FALSE
     )
   }
+
+  if (length(tables_with_reason_no_na) > 0) {
+    warning(
+      paste(
+        "There's no blank cells in these tables,",
+        "but you've provided a reason for blank cells: "
+      ),
+      paste(tables_with_reason_no_na, collapse = ", "), ".",
+      call. = FALSE
+    )
+  }
+
 
 }

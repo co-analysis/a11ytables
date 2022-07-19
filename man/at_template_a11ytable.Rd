@@ -7,6 +7,6 @@
 at_template_a11ytable()
 }
 \description{
-Insert at the cursor a template for \code{\link{new_a11ytable}} from the
+Insert at the cursor a template for \code{\link{create_a11ytable}} from the
 'a11ytable' package, pre-filled with example information.
 }
