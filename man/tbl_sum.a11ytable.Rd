@@ -19,8 +19,14 @@ A brief textual description of an a11ytable-class object.
 }
 \examples{
 \dontrun{
+# Create an a11ytable with in-built demo dataframe, mtcars_df
 x <- as_a11ytable(mtcars_df)
-tbl_sum(x)  # description only
-print(x)  # print with description
+
+# Print description only
+tbl_sum(x)
+
+# Print with description
+print(x)
 }
+
 }

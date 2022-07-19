@@ -1,21 +1,31 @@
 
-#' Create An Accessible Workbook
+#' Generate A Workbook Object From An 'a11ytable'
 #'
 #' Populate an 'openxlsx' Workbook-class object with content from an
-#' a11ytable-class object.
+#' a11ytable-class object. In turn, the output can be passed to
+#' \code{\link[openxlsx]{saveWorkbook}} from 'openxlsx'
 #'
-#' @param a11ytable An a11ytable-class object containing the data and
-#'     information needed to create your workbook.
-#'
-#' @details You can create an a11ytable object with
-#'     \code{\link{create_a11ytable}} (or \code{\link{as_a11ytable}}).
+#' @param a11ytable An a11ytable-class object created using
+#'     \code{\link{create_a11ytable}} (or \code{\link{as_a11ytable}}), which
+#'     contains the data and information needed to create a workbook.
 #'
 #' @return A Workbook-class object.
 #'
 #' @examples
 #' \dontrun{
+#' # Create an a11ytable with in-built demo dataframe, mtcars_df
 #' x <- as_a11ytable(mtcars_df)
+#'
+#' # Convert to a Workbook-class object
 #' generate_workbook(x)
+#'
+#' # As above, using a base pipe
+#' mtcars_df |>
+#'   as_a11ytable() |>
+#'   generate_workbook()
+#'
+#' # You can also use the RStudio Addin installed with the package to insert a
+#' # an example skeleton containing this function.
 #' }
 #'
 #' @export

@@ -1,14 +1,16 @@
 
 #' Create An 'a11ytable' Object
 #'
-#' Create a new a11ytable-class object, which is a data.frame that contains all
-#' the information needed in your publication. In turn, this will be used to
-#' populate an 'openxlsx' Workbook-class object with the function
-#' \code{\link{generate_workbook}}.
+#' Create a new a11ytable-class object, which is a dataframe that contains all
+#' the information needed in your output spreadsheet. In turn, the object
+#' created by  this function can be used to populate an 'openxlsx'
+#' Workbook-class object with the function \code{\link{generate_workbook}}.
 #'
 #' @param tab_titles Required character vector, one value per sheet. Each title
-#'     will appear on each tab of the final spreadsheet output. Keep brief.
-#'     For example: 'Cover', 'Contents', 'Notes', 'Table 1'.
+#'     will appear literally on each tab of the final spreadsheet output. Keep
+#'     brief. Letters and numbers only; use underscores for spaces. For example:
+#'     'Cover', 'Contents', 'Notes', 'Table_1'. Will be corrected automatically
+#'     if non-conforming.
 #' @param sheet_types Required character vector, one value per sheet. Sheets
 #'     that don't contain publication tables ('meta' sheets) should be of type
 #'     'contents', 'cover' or 'notes'. Sheets that contain statistical tables of
@@ -18,12 +20,13 @@
 #' @param blank_cells Optional character vector, one value per sheet. A short
 #'     sentence to explain the reason for any blank cells in the sheet. Most
 #'     likely to be used with sheet type 'tables'.
-#' @param sources Optional character vector, one value per sheet. The origin of the data for a given sheet. Supply as
-#'     \code{NA_character_} if empty. To be used with sheet type 'tables'.
+#' @param sources Optional character vector, one value per sheet. The origin of
+#'     the data for a given sheet. Supply as \code{NA_character_} if empty. To
+#'     be used with sheet type 'tables'.
 #' @param tables Required list of data.frames, one per sheet. See details.
 #'
-#' @details Formats for data.frames in the 'tables' argument, depending on the
-#'     sheet type.
+#' @details Formats for data.frames provided as a list to the 'tables' argument,
+#'     depending on the sheet type.
 #' \itemize{
 #'     \item Sheet type 'cover': one row per subsection, with columns for
 #'         'Subsection title' and 'Subsection text'. For example, a section with
@@ -35,15 +38,17 @@
 #'     \item Sheet type 'contents': one row per sheet, two columns suggested at
 #'         least ('Tab title' and 'Worksheet title').
 #'     \item Sheet type 'notes': one row per note, two columns suggested ('Note
-#'         number', 'Note text').
+#'         number', 'Note text'), where notes are in the form '\[note 1\]'.
 #'     \item Sheet type 'tables': a tidy, rectangular data.frame containing the
-#'         data to be published.
+#'         data to be published. It's the user's responsibility to add notes in
+#'         the form '\[note 1\]' to column headers, or in a special 'Notes' row.
 #' }
 #'
-#' @return An a11ytable-class object.
+#' @return An object with classes 'a11ytable', 'tbl' and 'data.frame'.
 #'
 #' @examples
 #' \dontrun{
+#' # Create an a11ytable with in-built demo dataframe, mtcars_df
 #' x <- create_a11ytable(
 #'     tab_titles   = mtcars_df$tab_title,
 #'     sheet_types  = mtcars_df$sheet_type,
@@ -52,7 +57,12 @@
 #'     sources      = mtcars_df$source,
 #      tables       = mtcars_df$table
 #' )
+#'
+#' # Test the object's class
 #' is_a11ytable(x)
+#'
+#' # You can also use the RStudio Addin installed with the package to insert a
+#' # an example skeleton containing this function.
 #' }
 #'
 #' @export
@@ -91,7 +101,10 @@ create_a11ytable <- function(
 #'
 #' @examples
 #' \dontrun{
+#' # Create an a11ytable with in-built demo dataframe, mtcars_df
 #' x <- as_a11ytable(mtcars_df)
+#'
+#' # Test the object's class
 #' is_a11ytable(x)
 #' }
 #'
@@ -132,12 +145,15 @@ is_a11ytable <- function(x) {
 #' A concise result summary of an a11ytable-class object to see information about
 #' the sheet content.
 #'
-#' @param object An a11ytable-class object to get a summary for.
+#' @param object An a11ytable-class object for which to get a summary.
 #' @param ... Other arguments to pass.
 #'
 #' @examples
 #' \dontrun{
+#' # Create an a11ytable with in-built demo dataframe, mtcars_df
 #' x <- as_a11ytable(mtcars_df)
+#'
+#' # Print summary of a11ytable-class object
 #' summary(x)
 #' }
 #'
@@ -180,10 +196,16 @@ NULL
 #'
 #' @examples
 #' \dontrun{
+#' # Create an a11ytable with in-built demo dataframe, mtcars_df
 #' x <- as_a11ytable(mtcars_df)
-#' tbl_sum(x)  # description only
-#' print(x)  # print with description
+#'
+#' # Print description only
+#' tbl_sum(x)
+#'
+#' # Print with description
+#' print(x)
 #' }
+#'
 #' @export
 tbl_sum.a11ytable <- function(x, ...) {
 

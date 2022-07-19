@@ -7,7 +7,7 @@
 \method{summary}{a11ytable}(object, ...)
 }
 \arguments{
-\item{object}{An a11ytable-class object to get a summary for.}
+\item{object}{An a11ytable-class object for which to get a summary.}
 
 \item{...}{Other arguments to pass.}
 }
@@ -17,7 +17,10 @@ the sheet content.
 }
 \examples{
 \dontrun{
+# Create an a11ytable with in-built demo dataframe, mtcars_df
 x <- as_a11ytable(mtcars_df)
+
+# Print summary of a11ytable-class object
 summary(x)
 }
 
