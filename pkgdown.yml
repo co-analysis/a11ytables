@@ -1,10 +1,12 @@
 pandoc: 2.7.3
-pkgdown: 2.0.3
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   a11ytables: a11ytables.html
-  accessibility-checklist: accessibility-checklist.html
-last_built: 2022-04-29T17:42Z
+  checklist: checklist.html
+  structure: structure.html
+  terminology: terminology.html
+last_built: 2022-07-19T20:30Z
 urls:
   reference: https://co-analysis.github.io/a11ytables/reference
   article: https://co-analysis.github.io/a11ytables/articles

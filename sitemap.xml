@@ -16,10 +16,16 @@
     <loc>https://co-analysis.github.io/a11ytables/articles/a11ytables.html</loc>
   </url>
   <url>
-    <loc>https://co-analysis.github.io/a11ytables/articles/accessibility-checklist.html</loc>
+    <loc>https://co-analysis.github.io/a11ytables/articles/checklist.html</loc>
   </url>
   <url>
     <loc>https://co-analysis.github.io/a11ytables/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://co-analysis.github.io/a11ytables/articles/structure.html</loc>
+  </url>
+  <url>
+    <loc>https://co-analysis.github.io/a11ytables/articles/terminology.html</loc>
   </url>
   <url>
     <loc>https://co-analysis.github.io/a11ytables/authors.html</loc>
@@ -49,16 +55,16 @@
     <loc>https://co-analysis.github.io/a11ytables/reference/at_template_workflow.html</loc>
   </url>
   <url>
-    <loc>https://co-analysis.github.io/a11ytables/reference/create_a11y_wb.html</loc>
+    <loc>https://co-analysis.github.io/a11ytables/reference/create_a11ytable.html</loc>
+  </url>
+  <url>
+    <loc>https://co-analysis.github.io/a11ytables/reference/generate_workbook.html</loc>
   </url>
   <url>
     <loc>https://co-analysis.github.io/a11ytables/reference/index.html</loc>
   </url>
   <url>
     <loc>https://co-analysis.github.io/a11ytables/reference/mtcars_df.html</loc>
-  </url>
-  <url>
-    <loc>https://co-analysis.github.io/a11ytables/reference/new_a11ytable.html</loc>
   </url>
   <url>
     <loc>https://co-analysis.github.io/a11ytables/reference/summary.a11ytable.html</loc>
