@@ -76,11 +76,11 @@ project may be further defined and clarified by project maintainers.
 
 Instances of abusive, harassing, or otherwise unacceptable behaviour may be 
 reported by contacting the project team at 
-[matt.dray@cabinetoffice.gov.uk](mailto:matt.dray@cabinetoffice.gov.uk). All 
-complaints will be reviewed and investigated and will result in a response that 
-is deemed necessary and appropriate to the circumstances. The project team is 
-obligated to maintain confidentiality with regard to the reporter of an incident.
-Further details of specific enforcement policies may be posted separately.
+[mwdray@gmail.com](mailto:mwdray@gmail.com). All complaints will be reviewed and
+investigated and will result in a response that is deemed necessary and
+appropriate to the circumstances. The project team is obligated to maintain
+confidentiality with regard to the reporter of an incident. Further details of
+specific enforcement policies may be posted separately.
 
 Project maintainers who do not follow or enforce the Code of Conduct in good 
 faith may face temporary or permanent repercussions as determined by other 
