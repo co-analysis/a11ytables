@@ -4,9 +4,11 @@
 \name{a11ytables-package}
 \alias{a11ytables}
 \alias{a11ytables-package}
-\title{a11ytables: Create Spreadsheet Publications Following GSS Best Practice}
+\title{a11ytables: Create Spreadsheet Publications Following Best Practice}
 \description{
-Generate spreadsheet publications that follow best practice guidance from the UK's Government Statistical Service (GSS), with a focus on accessibility. Based on {openxlsx}. See also the Python package 'gptables' by the GSS Best Practice and Impact Division.
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
+Generate spreadsheet publications that follow best practice guidance from the UK government's Analysis Function Central Team, with a focus on accessibility. Based on {openxlsx}. See also the Python package 'gptables'.
 }
 \seealso{
 Useful links:
