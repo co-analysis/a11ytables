@@ -56,3 +56,7 @@ The labels in the image above highlight:
 2. The _sheet title_.
 3. Several _elements_: the _table count_, the _notes statement_ (because the table contains notes), the _blank cells statement_ (because the table contains blank cells) and a _source statement_ for the data.
 4. A marked-up _table_, which contains suppressed values (i.e. '[c]') and notes (e.g. '[note 1]').
+
+# Contribute
+
+To contribute, please add [an issue](https://github.com/co-analysis/a11ytables/issues) or [a pull request](https://github.com/co-analysis/a11ytables/pulls) after reading [the code of conduct](https://github.com/co-analysis/a11ytables/blob/main/CODE_OF_CONDUCT.md) and [contributing](https://github.com/co-analysis/a11ytables/blob/main/.github/CONTRIBUTING.md) guidance. 

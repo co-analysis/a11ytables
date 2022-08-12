@@ -20,18 +20,16 @@ This vignette shows you how {a11ytables} meets accessibility best practice.
 
 ## Checklists
 
-The page shosw how the features of the {a11ytables} package meet the GSS Best Practice and Impact Division's ['Making spreadsheets accessible: checklist of the basics'](https://gss.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/), with features marked as essential or not.
+This page shows how the features of the {a11ytables} package meet the Analysis Function's ['Making spreadsheets accessible: checklist of the basics'](https://analysisfunction.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/) guidance.
 
 The assessments in the table below are based on generating an unedited output from a typical {a11ytables} workflow, i.e. use `create_a11ytable()` to make an a11ytable that's passed to `generate_workbook()` and then written with `openxlsx::saveWorkbook()`.
 
-There are several values used in the 'status' column of these tables:
+There are several self-assessed indicators used in the 'status' column of the tables below:
 
 * 'met' means that {a11ytables} contains a feature (or the absence of a feature) to help meet the requirement
 * 'user's responsibility' means that the user must make a decision about how to meet the requirement
 * 'partly' means that {a11ytables} contains a feature to help meet the requirement, but the user may need to provide additional input
 * 'not applicable' means the checklist item does not need to be met due to the way in which {a11ytables} works
-
-Please add [an issue](https://github.com/co-analysis/a11ytables/issues) to the package's GitHub repository if you have any ideas for missing features, or provide a solution in [a pull request](https://github.com/co-analysis/a11ytables/pulls).
 
 ### Tables
 
@@ -92,3 +90,7 @@ Please add [an issue](https://github.com/co-analysis/a11ytables/issues) to the p
 | Use the accessibility checker | No | User's responsibility | These checks aren't supported by {a11ytables}; the user should check using their own software |
 | Add document information | Yes | User's responsibility | Not yet possible with {a11ytables}; users must do this manually |
 | Ensure the cursor is in cell A1 of the first worksheet when doing your final save | Yes | Met | Occurs automatically |
+
+# Contribute
+
+To contribute, please add [an issue](https://github.com/co-analysis/a11ytables/issues) or [a pull request](https://github.com/co-analysis/a11ytables/pulls) after reading [the code of conduct](https://github.com/co-analysis/a11ytables/blob/main/CODE_OF_CONDUCT.md) and [contributing](https://github.com/co-analysis/a11ytables/blob/main/.github/CONTRIBUTING.md) guidance. 

@@ -18,21 +18,32 @@ coverage](https://codecov.io/gh/co-analysis/a11ytables/branch/main/graph/badge.s
 ## Purpose
 
 An R package to help automatically create reproducible spreadsheets that
-adhere to the latest guidance (June 2021) on [releasing statistics in
-spreadsheets](https://gss.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)
-from the [Best Practice and Impact
-Division](https://github.com/best-practice-and-impact?language=html)
-(BPID) of the UK’s [Government Statistical
-Service](https://gss.civilservice.gov.uk/) (GSS).
+adhere to the latest guidance on [releasing statistics in
+spreadsheets](https://analysisfunction.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)
+from the UK government’s [Analysis Function Central
+Team](https://analysisfunction.civilservice.gov.uk/).
 
 Visit [the {a11ytables}
 website](https://co-analysis.github.io/a11ytables/) for documentation.
 
+## Status
+
 The package is under (opinionated) active development. Please see [the
 NEWS file](https://co-analysis.github.io/a11ytables/news/index.html) for
-the latest changes. Please [leave your ideas as
-issues](https://github.com/co-analysis/a11ytables/issues) or [raise a
-pull request](https://github.com/co-analysis/a11ytables/pulls).
+the latest changes.
+
+To contribute, please add [an
+issue](https://github.com/co-analysis/a11ytables/issues) or [a pull
+request](https://github.com/co-analysis/a11ytables/pulls) after reading
+[the code of
+conduct](https://github.com/co-analysis/a11ytables/blob/main/CODE_OF_CONDUCT.md)
+and
+[contributing](https://github.com/co-analysis/a11ytables/blob/main/.github/CONTRIBUTING.md)
+guidance.
+
+[Email the Central Team](mailto:Analysis.Function@ons.gov.uk) if you’re
+a member of the Analysis Function and you’re seeking further advice on
+your spreadsheet outputs.
 
 ## Install
 
@@ -42,7 +53,7 @@ GitHub](https://github.com/co-analysis/a11ytables) using
 
 ``` r
 install.packages("remotes")  # if not already installed
-remotes::install_github("co-analysis/a11ytables")
+remotes::install_github("co-analysis/a11ytables", build_vignettes = TRUE)
 library(a11ytables)  # attach package
 ```
 
@@ -58,8 +69,11 @@ To create a spreadsheet:
 2.  Pass the output to `generate_workbook()`
 3.  Pass the output to `openxlsx::saveWorkbook()`
 
-For more help, use `browseVignettes("a11ytables")` or [visit the
-website](https://co-analysis.github.io/a11ytables/). You can read the:
+Run `?function_name` or visit [the package
+website](https://co-analysis.github.io/a11ytables/reference/index.html)
+for function documentation. For long-form documentation, run
+`browseVignettes("a11ytables")` or [visit the package
+website](https://co-analysis.github.io/a11ytables/) to read the:
 
 -   [introductory
     vignette](https://co-analysis.github.io/a11ytables/articles/a11ytables.html)
@@ -81,7 +95,7 @@ demo skeletons of the {a11ytables} workflow.
 
 ## Related projects
 
-BPID released [a Python package called
+The Analysis Function Central Team released [a Python package called
 ‘gptables’](https://github.com/best-practice-and-impact/gptables) that
 has [been updated given the latest best-practice
 guidance](https://dataingovernment.blog.gov.uk/2022/06/24/automatically-produce-best-practice-spreadsheets/).
@@ -92,8 +106,8 @@ differences in implementation. You can always use gptables in R [via the
 package](https://gptables.readthedocs.io/en/latest/usage.html#r-usage)
 if you prefer.
 
-{a11ytables} can help you fulfill a [Reproducible Analytical
-Pipeline](https://analysisfunction.civilservice.gov.uk/policy-store/reproducible-analytical-pipelines-strategy/)
+{a11ytables} can help you fulfil a [Reproducible Analytical
+Pipeline](https://analysisfunction.civilservice.gov.uk/support/reproducible-analytical-pipelines/)
 by automating the generation of compliant spreadsheets for publication.
 
 ## Code of Conduct
@@ -112,5 +126,5 @@ per the the [UK Government Licensing
 Framework](https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/open-government-licence/open-software-licences/)
 and the [GDS Way licensing
 guidance](https://gds-way.cloudapps.digital/manuals/licensing.html). The
-documentation for the software is released under the [Open Govenrment
-Licence](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)
+documentation for the software is released under the [Open Government
+Licence](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
