@@ -93,23 +93,23 @@
 
     
     
-<div class="section level2">
-<h2 id="purpose">Purpose<a class="anchor" aria-label="anchor" href="#purpose"></a>
-</h2>
+<div class="section level3">
+<h3 id="purpose">Purpose<a class="anchor" aria-label="anchor" href="#purpose"></a>
+</h3>
 <p>This vignette demonstrates how to use {a11ytables} to generate a spreadsheet output that automatically follows <a href="https://analysisfunction.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/" class="external-link">best practice</a>.</p>
 </div>
-<div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
+<div class="section level3">
+<h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h3>
 <p>Install the package <a href="https://github.com/co-analysis/a11ytables" class="external-link">from GitHub</a> using <a href="https://remotes.r-lib.org/" class="external-link">{remotes}</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>  <span class="co"># if not already installed</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"co-analysis/a11ytables"</span><span class="op">)</span></span></code></pre></div>
 <p>The package depends on <a href="https://ycphs.github.io/openxlsx/" class="external-link">{openxlsx}</a> and <a href="https://pillar.r-lib.org/" class="external-link">{pillar}</a>, which are also installed with {a11ytables}.</p>
 </div>
-<div class="section level2">
-<h2 id="workflow">Workflow<a class="anchor" aria-label="anchor" href="#workflow"></a>
-</h2>
+<div class="section level3">
+<h3 id="workflow">Workflow<a class="anchor" aria-label="anchor" href="#workflow"></a>
+</h3>
 <p>Having installed the {a11ytables} package, there are three steps to generating a compliant spreadsheet:</p>
 <ol style="list-style-type: decimal">
 <li>Use <code><a href="../reference/create_a11ytable.html">create_a11ytable()</a></code> to create a special dataframe (with class ‘a11ytable’) that contains all the content that will go in your spreadsheet</li>
@@ -118,9 +118,9 @@
 </ol>
 <p>The minimal demo below follows these steps using the example data from <a href="https://rdrr.io/r/datasets/mtcars.html" class="external-link">the classic mtcars dataset</a>.</p>
 <p>You can use the package’s <a href="https://rstudio.github.io/rstudioaddins/" class="external-link">RStudio Addin</a>, which is installed with {a11ytables}, to insert a pre-filled demo skeleton of this workflow (RStudio users only).</p>
-<div class="section level3">
-<h3 id="create-an-a11ytable">1. Create an a11ytable<a class="anchor" aria-label="anchor" href="#create-an-a11ytable"></a>
-</h3>
+<div class="section level4">
+<h4 id="create-an-a11ytable">1. Create an a11ytable<a class="anchor" aria-label="anchor" href="#create-an-a11ytable"></a>
+</h4>
 <p>Each argument to <code><a href="../reference/create_a11ytable.html">create_a11ytable()</a></code> provides the information needed to construct each sheet in the spreadsheet.</p>
 <table class="table">
 <colgroup>
@@ -182,16 +182,16 @@
 </tr>
 </tbody>
 </table>
-<p>You can read more about these arguments and their requiremenst in the function’s help pages, which you can access by running <code><a href="../reference/create_a11ytable.html">?create_a11ytable</a></code>. See also the <a href="https://co-analysis.github.io/a11ytables/articles/terminology">terminology vignette</a>, <code><a href="../articles/terminology.html">vignette("terminology", "a11ytables")</a></code>, for these terms and more.</p>
-<div class="section level4">
-<h4 id="pre-prepare-tables">Pre-prepare tables<a class="anchor" aria-label="anchor" href="#pre-prepare-tables"></a>
-</h4>
+<p>You can read more about these arguments and their requirements in the function’s help pages, which you can access by running <code><a href="../reference/create_a11ytable.html">?create_a11ytable</a></code>. See also the <a href="https://co-analysis.github.io/a11ytables/articles/terminology">terminology vignette</a>, <code><a href="../articles/terminology.html">vignette("terminology", "a11ytables")</a></code>, for these terms and more.</p>
+<div class="section level5">
+<h5 id="pre-prepare-tables">Pre-prepare tables<a class="anchor" aria-label="anchor" href="#pre-prepare-tables"></a>
+</h5>
 <p>Rather than pass a big list of dataframes directly to the <code>tables</code> argument of <code><a href="../reference/create_a11ytable.html">create_a11ytable()</a></code>, it’s preferable to prepare them first into their own named objects.</p>
 <p>Below are some demo tables that we will later pass to <code><a href="../reference/create_a11ytable.html">create_a11ytable()</a></code>. I’ve used <code><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tibble::tribble()</a></code> for human-readable row-by-row dataframe construction, but you can just use <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> if you want.</p>
 <p>Note that you can use the RStudio Addin ‘Insert table templates using ’tibble’’ and ‘Insert table templates using ’data.frame’’ to insert a demo skeleton into your R script.</p>
-<div class="section level5">
-<h5 id="meta-sheets">Meta-sheets<a class="anchor" aria-label="anchor" href="#meta-sheets"></a>
-</h5>
+<div class="section level6">
+<h6 id="meta-sheets">Meta-sheets<a class="anchor" aria-label="anchor" href="#meta-sheets"></a>
+</h6>
 <p>Here’s a demo table for the cover (required), which has a column for sub-headings and a column for the content of each one:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cover_df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span> </span>
@@ -237,9 +237,9 @@
 <span><span class="co"># <span style="color: #BCBCBC;">2</span> [note 2]      Retained to enable comparisons with previous analyses.</span></span></code></pre></div>
 </details>
 </div>
-<div class="section level5">
-<h5 id="statistical-tables">Statistical tables<a class="anchor" aria-label="anchor" href="#statistical-tables"></a>
-</h5>
+<div class="section level6">
+<h6 id="statistical-tables">Statistical tables<a class="anchor" aria-label="anchor" href="#statistical-tables"></a>
+</h6>
 <p>This code generates a demo dataframe that we’re going to pretend is the statistical data that we want to publish:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">stats_df</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op">|&gt;</span></span>
@@ -272,9 +272,9 @@
 </details><p>See <a href="https://analysisfunction.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/" class="external-link">the best practice guidance</a> for more information on how to present data in these tables.</p>
 </div>
 </div>
-<div class="section level4">
-<h4 id="create-a11ytable">Create a11ytable<a class="anchor" aria-label="anchor" href="#create-a11ytable"></a>
-</h4>
+<div class="section level5">
+<h5 id="create-a11ytable">Create a11ytable<a class="anchor" aria-label="anchor" href="#create-a11ytable"></a>
+</h5>
 <p>Now we can construct an a11ytable by passing the required sheet elements as character vectors with <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>, or a <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> in the case of the <code>tables</code> argument, to the <code><a href="../reference/create_a11ytable.html">create_a11ytable()</a></code> function. You can use <code>NA_character_</code> wherever an element isn’t required.</p>
 <p>Note that you can use the RStudio Addin ‘Insert ’a11ytable’ Template’ to insert a demo skeleton into your R script.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -335,9 +335,9 @@
 <p>Note that <code><a href="../reference/create_a11ytable.html">create_a11ytable()</a></code> is the preferred method for generating a11ytable-class objects, but it’s also possible to convert a correctly-formatted, pre-built data.frame or tibble directly to an a11ytable with <code><a href="../reference/as_a11ytable.html">as_a11ytable()</a></code>. You can try this using the <code>mtcars_df</code> data.frame that’s provided with {a11ytables}, which is a specially-prepared subset of <a href="https://rdrr.io/r/datasets/mtcars.html" class="external-link">the mtcars dataset</a>.</p>
 </div>
 </div>
-<div class="section level3">
-<h3 id="convert-to-a-workbook">2. Convert to a workbook<a class="anchor" aria-label="anchor" href="#convert-to-a-workbook"></a>
-</h3>
+<div class="section level4">
+<h4 id="convert-to-a-workbook">2. Convert to a workbook<a class="anchor" aria-label="anchor" href="#convert-to-a-workbook"></a>
+</h4>
 <p>We can use <code><a href="../reference/generate_workbook.html">generate_workbook()</a></code> to convert our a11ytable to an <a href="https://ycphs.github.io/openxlsx/" class="external-link">{openxlsx}</a> Workbook-class object.</p>
 <p>This type of object adds information from each row of our a11ytable into separate sheets and applies other relevant structure, mark-up and styles for compliance with <a href="https://analysisfunction.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/" class="external-link">the best practice guidance</a>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -381,16 +381,16 @@
 <span><span class="co">#   Position: 1</span></span></code></pre></div>
 </details>
 </div>
-<div class="section level3">
-<h3 id="write-to-file">3. Write to file<a class="anchor" aria-label="anchor" href="#write-to-file"></a>
-</h3>
+<div class="section level4">
+<h4 id="write-to-file">3. Write to file<a class="anchor" aria-label="anchor" href="#write-to-file"></a>
+</h4>
 <p>Finally, you can use <a href="https://ycphs.github.io/openxlsx/reference/saveWorkbook.html" class="external-link">the <code>saveWorkbook()</code> function from {openxlsx}</a> to write your workbook object to an xlsx file (set the filename argument to a location suitable for your work).</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html" class="external-link">saveWorkbook</a></span><span class="op">(</span><span class="va">my_wb</span>, <span class="st">"publication.xlsx"</span><span class="op">)</span></span></code></pre></div>
 <p>You could also open a temporary copy of the workbook with <code><a href="https://rdrr.io/pkg/openxlsx/man/openXL.html" class="external-link">openxlsx::openXL()</a></code>, which is convenient during the development process.</p>
-<div class="section level4">
-<h4 id="output">Output<a class="anchor" aria-label="anchor" href="#output"></a>
-</h4>
+<div class="section level5">
+<h5 id="output">Output<a class="anchor" aria-label="anchor" href="#output"></a>
+</h5>
 <p>The content of the output spreadsheet will look like this:</p>
 <div class="figure">
 <p><img src="../reference/figures/vignette-workbook.gif" alt="Gif of a simple Excel workbook created using the a11ytables package, revealing tabs for cover, contents, notes and a table." width="100%"></p>
@@ -398,9 +398,9 @@
 <p>You’ll notice that various best-practice formatting (e.g. Arial size 12 font for body text) and mark-up (e.g. tables, donated by a marker in the lower-right corner of the lower-right cell of each one) have been applied throughout.</p>
 <p>Note also that two ‘pre-table’ meta-elements were created automatically in the sheets that contain statistical tables, which you didn’t need to supply to <code><a href="../reference/create_a11ytable.html">create_a11ytable()</a></code>: (1) the number of tables and (2) the presence of notes.</p>
 </div>
-<div class="section level4">
-<h4 id="final-tweaks">Final tweaks<a class="anchor" aria-label="anchor" href="#final-tweaks"></a>
-</h4>
+<div class="section level5">
+<h5 id="final-tweaks">Final tweaks<a class="anchor" aria-label="anchor" href="#final-tweaks"></a>
+</h5>
 <p>It’s your responsibility to check and amend the output from {a11ytables} to ensure it meets user’s accessibility needs.</p>
 <p>You can apply some final tweaks to the output xlsx file if the defaults don’t quite meet your requirements (e.g. some column widths), though it’s advisable to keep changes to a minimum for reproducibility purposes and because you may undo some of the compliant structuring and formatting that {a11ytables} provides.</p>
 <p>At time of writing (v0.1.0) you might want to address manually some other <a href="https://analysisfunction.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/" class="external-link">accessibility requirements</a> that are not yet covered by the package:</p>
@@ -410,9 +410,13 @@
 <li>Convert to an ODS file rather than the proprietary xlsx format</li>
 <li>Various number-formatting issues, like padding decimal places with zeroes</li>
 </ol>
-<p>Please add <a href="https://github.com/co-analysis/a11ytables/issues" class="external-link">an issue</a> to the package’s GitHub repository if you have any other ideas for missing features, or provide a solution in <a href="https://github.com/co-analysis/a11ytables/pulls" class="external-link">a pull request</a>.</p>
 </div>
 </div>
+</div>
+<div class="section level2">
+<h2 id="contribute">Contribute<a class="anchor" aria-label="anchor" href="#contribute"></a>
+</h2>
+<p>To contribute, please add <a href="https://github.com/co-analysis/a11ytables/issues" class="external-link">an issue</a> or <a href="https://github.com/co-analysis/a11ytables/pulls" class="external-link">a pull request</a> after reading <a href="https://github.com/co-analysis/a11ytables/blob/main/CODE_OF_CONDUCT.md" class="external-link">the code of conduct</a> and <a href="https://github.com/co-analysis/a11ytables/blob/main/.github/CONTRIBUTING.md" class="external-link">contributing</a> guidance.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
