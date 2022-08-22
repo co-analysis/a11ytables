@@ -21,12 +21,25 @@ An R package to help automatically create reproducible spreadsheets that
 adhere to the latest guidance on [releasing statistics in
 spreadsheets](https://analysisfunction.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)
 from the UK government’s [Analysis Function Central
-Team](https://analysisfunction.civilservice.gov.uk/).
+Team](https://analysisfunction.civilservice.gov.uk/), with a focus on
+accessibility (‘a11y’).
 
 Visit [the {a11ytables}
 website](https://co-analysis.github.io/a11ytables/) for documentation.
 
-## Status
+## Accessibility
+
+This package is not intended for creating perfectly accessible
+spreadsheets but will help with the bulk of the work needed. Users of
+this packages should refer back to [the main spreadsheet
+guidance](https://analysisfunction.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)
+or [the spreadsheet accessibility
+checklist](https://analysisfunction.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/)
+after using it to make sure nothing has been missed. Please email
+<analysis.function@ons.gov.uk> if you use the package so they can
+monitor use and the outputs produced.
+
+## Contribute
 
 The package is under (opinionated) active development. Please see [the
 NEWS file](https://co-analysis.github.io/a11ytables/news/index.html) for
@@ -40,10 +53,6 @@ conduct](https://github.com/co-analysis/a11ytables/blob/main/CODE_OF_CONDUCT.md)
 and
 [contributing](https://github.com/co-analysis/a11ytables/blob/main/.github/CONTRIBUTING.md)
 guidance.
-
-[Email the Central Team](mailto:Analysis.Function@ons.gov.uk) if you’re
-a member of the Analysis Function and you’re seeking further advice on
-your spreadsheet outputs.
 
 ## Install
 
