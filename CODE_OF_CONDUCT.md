@@ -1,4 +1,4 @@
-# Code of Conduct for `a11ytables`
+# Code of Conduct for `a11ytables2`
 
 Contributors to this repository hosted by `co-analysis` are expected to  follow 
 the Contributor Covenant Code of Conduct, and those working within  Her Majesty's 
@@ -8,7 +8,7 @@ Government are also expected to follow the Civil Service Code.
 
 Where this Code of Conduct says:
 
-- "Project", we mean this `a11ytables` GitHub repository;
+- "Project", we mean this `a11ytables2` GitHub repository;
 - "Maintainer", we mean the `co-analysis` organisation owners; and
 - "Leadership", we mean both `co-analysis` organisation owners, line managers, and other
   leadership within the Cabinet Office.
