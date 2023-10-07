@@ -20,13 +20,13 @@ This outlines how to propose a change to {a11ytables}.
 * Install all development dependencies with `devtools::install_dev_deps()`, and then make sure the package passes R CMD check by running `devtools::check()`. If R CMD check doesn't pass cleanly, it's a good idea to ask for help before continuing. 
 * Create a Git branch for your pull request (PR). The new branch name should start with your initials, e.g. 'xy-fix-bug'.
 * Make your changes, commit to git, and then create a PR. The title of your PR should briefly describe the change. The body of your PR should contain `Fixes #issue-number`.
-*  For user-facing changes, add a bullet to the top of `NEWS.md` (i.e. just below the first header).
+* For user-facing changes, add a bullet to the top of `NEWS.md` (i.e. just below the first header).
 
 ### Code style
 
-* New code should follow the tidyverse [style guide](https://style.tidyverse.org). You can use the [styler](https://CRAN.R-project.org/package=styler) package to apply these styles, but please don't restyle code that has nothing to do with your PR.  
-*  We use [roxygen2](https://cran.r-project.org/package=roxygen2) for documentation.
-*  We use [testthat](https://cran.r-project.org/package=testthat) for unit tests. Contributions with test cases included are easier to accept.  
+* New code should follow the tidyverse [style guide](https://style.tidyverse.org). You can use the [styler](https://CRAN.R-project.org/package=styler) package to apply these styles, but please don't restyle code that has nothing to do with your PR. 
+* We use [roxygen2](https://cran.r-project.org/package=roxygen2) for documentation.
+* We use [testthat](https://cran.r-project.org/package=testthat) for unit tests. Contributions with test cases included are easier to accept. 
 
 ## Code of Conduct
 

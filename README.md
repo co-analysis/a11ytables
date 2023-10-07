@@ -62,7 +62,13 @@ GitHub](https://github.com/co-analysis/a11ytables) using
 
 ``` r
 install.packages("remotes")  # if not already installed
-remotes::install_github("co-analysis/a11ytables", build_vignettes = TRUE)
+
+remotes::install_github(
+  "co-analysis/a11ytables",  # GitHub user/repository
+  dependencies = TRUE,  # install required and suggested packages
+  build_vignettes = TRUE  # generate vignette documentation
+)
+
 library(a11ytables)  # attach package
 ```
 
@@ -84,19 +90,19 @@ for function documentation. For long-form documentation, run
 `browseVignettes("a11ytables")` or [visit the package
 website](https://co-analysis.github.io/a11ytables/) to read the:
 
--   [introductory
-    vignette](https://co-analysis.github.io/a11ytables/articles/a11ytables.html)
-    to get started
--   [accessbility checklist
-    vignette](https://co-analysis.github.io/a11ytables/articles/checklist.html)
-    to see how the package complies with best-practice guidance
--   [terminology
-    vignette](https://co-analysis.github.io/a11ytables/articles/terminology)
-    to understand the nomenclature of spreadsheet terms as used in this
-    package
--   [package structure
-    vignette](https://co-analysis.github.io/a11ytables/articles/structure)
-    to see how the package works under the hood
+- [introductory
+  vignette](https://co-analysis.github.io/a11ytables/articles/a11ytables.html)
+  to get started
+- [accessbility checklist
+  vignette](https://co-analysis.github.io/a11ytables/articles/checklist.html)
+  to see how the package complies with best-practice guidance
+- [terminology
+  vignette](https://co-analysis.github.io/a11ytables/articles/terminology)
+  to understand the nomenclature of spreadsheet terms as used in this
+  package
+- [package structure
+  vignette](https://co-analysis.github.io/a11ytables/articles/structure)
+  to see how the package works under the hood
 
 This package also includes [an RStudio
 Addin](https://rstudio.github.io/rstudioaddins/) that inserts pre-filled
@@ -122,7 +128,8 @@ by automating the generation of compliant spreadsheets for publication.
 ## Code of Conduct
 
 Please note that the {a11ytables} project is released with a
-[Contributor Code of Conduct](CODE_OF_CONDUCT.html).
+[Contributor Code of
+Conduct](https://co-analysis.github.io/a11ytables/CODE_OF_CONDUCT.html).
 
 ## Copyright and Licensing
 

@@ -46,7 +46,13 @@ Install the package [from GitHub](https://github.com/co-analysis/a11ytables) usi
 
 ```{r install, eval=FALSE}
 install.packages("remotes")  # if not already installed
-remotes::install_github("co-analysis/a11ytables", build_vignettes = TRUE)
+
+remotes::install_github(
+  "co-analysis/a11ytables",  # GitHub user/repository
+  dependencies = TRUE,  # install required and suggested packages
+  build_vignettes = TRUE  # generate vignette documentation
+)
+
 library(a11ytables)  # attach package
 ```
 
@@ -77,7 +83,7 @@ The Analysis Function Central Team released [a Python package called 'gptables']
 
 ## Code of Conduct
 
-Please note that the {a11ytables} project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.html).
+Please note that the {a11ytables} project is released with a [Contributor Code of Conduct](https://co-analysis.github.io/a11ytables/CODE_OF_CONDUCT.html).
 
 ## Copyright and Licensing
 
