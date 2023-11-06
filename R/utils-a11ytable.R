@@ -76,9 +76,9 @@
   }
 
   # Content of listcol column must be single data.frame objects
-  if (!all(unlist(lapply(x[["table"]], is.data.frame)))) {
-    stop("List-column 'table' must contain data.frame objects only.")
-  }
+  # if (!all(unlist(lapply(x[["table"]], is.data.frame)))) {
+  #   stop("List-column 'table' must contain data.frame objects only.")
+  # }
 
   # There must be cover and contents sheets
   if (sum(x[["sheet_type"]] %in% c("cover", "contents")) < 2) {

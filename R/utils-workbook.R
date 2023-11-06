@@ -373,6 +373,25 @@
 
 }
 
+.insert_cover_info <- function(wb, content) {
+
+  table <- content[content$sheet_type == "cover", ][["table"]][[1]]
+  tab_title <- content[content$sheet_type == "cover", ][[1]]
+
+  cover_content <- unlist(c(rbind(names(table), table)))
+
+  openxlsx::writeData(
+    wb = wb,
+    sheet = tab_title,
+    x = cover_content,
+    startCol = 1,
+    startRow = 2
+  )
+
+}
+
+
+
 
 # Add sheets to workbook --------------------------------------------------
 
@@ -397,12 +416,13 @@
   table_name <- content[content$sheet_type == "cover", "table_name"][[1]]
 
   .insert_title(wb, content, tab_title)
-  .insert_table(wb, content, table_name)
+  # .insert_table(wb, content, table_name)  # TODO: will need special handling
+  .insert_cover_info(wb, content)
 
   styles <- .style_create()
   .style_workbook(wb)
   .style_sheet_title(wb, tab_title, styles)
-  .style_cover(wb, content, styles)
+  # .style_cover(wb, content, styles)  # TODO: will need special handling
 
   return(wb)
 
