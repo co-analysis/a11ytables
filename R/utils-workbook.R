@@ -114,9 +114,9 @@
 }
 
 .get_start_row_source <- function(
-  has_notes,
-  has_blanks_message,
-  start_row = 3
+    has_notes,
+    has_blanks_message,
+    start_row = 3
 ) {
 
   if (has_notes) {
@@ -132,10 +132,10 @@
 }
 
 .get_start_row_table <- function(
-  has_notes,
-  has_blanks_message,
-  has_source,
-  start_row = 3
+    has_notes,
+    has_blanks_message,
+    has_source,
+    start_row = 3
 ) {
 
   if (has_notes) {
@@ -393,6 +393,32 @@
 
 }
 
+# Special case to insert cover-page info, depending on whether it's provided as
+# a df or list. All other tables in a workbook are provided as df only.
+.insert_cover_table <- function(wb, content, table_name) {
+
+  table <- content[content$table_name == "cover", ][["table"]][[1]]
+  tab_title <- content[content$table_name == "cover", "tab_title"][[1]]
+
+  if (is.data.frame(table)) {
+    table <- data.frame(cover_content = as.vector(t(table)))
+  }
+
+  if (is.list(table) & !is.data.frame(table)) {
+    table <- unlist(c(rbind(names(table), table)))
+  }
+
+  openxlsx::writeData(
+    wb = wb,
+    sheet = tab_title,
+    x = table,
+    startCol = 1,
+    startRow = 2,
+    colNames = FALSE  # because cover df uses dummy column headers
+  )
+
+}
+
 
 # Add sheets to workbook --------------------------------------------------
 
@@ -417,7 +443,8 @@
   table_name <- content[content$sheet_type == "cover", "table_name"][[1]]
 
   .insert_title(wb, content, tab_title)
-  .insert_table(wb, content, table_name)  # TODO: needs special handling if list if provided
+  # .insert_table(wb, content, table_name)  # TODO: needs special handling if list if provided
+  .insert_cover_table(wb, content, table_name)  # rather than .insert_table
 
   styles <- .style_create()
   .style_workbook(wb)
