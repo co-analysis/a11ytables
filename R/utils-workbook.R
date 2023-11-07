@@ -407,7 +407,7 @@
     openxlsx::writeData(
       wb = wb,
       sheet = tab_title,
-      x = table_with_links,
+      x = table,
       startCol = 1,
       startRow = 2,
       colNames = FALSE  # because cover df uses dummy column headers
@@ -585,7 +585,7 @@
   styles <- .style_create()
   .style_workbook(wb)
   .style_sheet_title(wb, tab_title, styles)
-  # .style_cover(wb, content, styles)  # TODO: needs special handling if list provided
+  .style_cover(wb, content, styles)  # TODO: needs special handling if list provided
 
   return(wb)
 

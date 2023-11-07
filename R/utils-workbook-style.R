@@ -54,9 +54,8 @@
 
   tab_name <- content[content$sheet_type == "cover", "tab_title"][[1]]
   table <- content[content$sheet_type == "cover", "table"][[1]]
-  table_height <- nrow(table)
 
-  # The cover column is SET-WIDTH and WRAPPED
+  # The cover column is SET-WIDTH
 
   openxlsx::setColWidths(
     wb = wb,
@@ -65,18 +64,49 @@
     widths = 72
   )
 
-  openxlsx::addStyle(
-    wb = wb,
-    sheet = tab_name,
-    rows = seq(table_height * 2 + 1), # include sheet title
-    cols = 1,
-    style = style_ref$wrap,
-    stack = TRUE
-  )
+  if (is.data.frame(table)) {
 
-  # Subheader rows are also have LARGER ROW HEIGHT, are BOLD and 14PT
+    # The cover column is WRAPPED
 
-  subheader_rows <- seq(2, table_height * 2, 2)
+    table_height <- nrow(table)
+
+    openxlsx::addStyle(
+      wb = wb,
+      sheet = tab_name,
+      rows = seq(table_height * 2 + 1), # include sheet title
+      cols = 1,
+      style = style_ref$wrap,
+      stack = TRUE
+    )
+
+    # Also identify rows containing headers
+    subheader_rows <- seq(2, table_height * 2, 2)
+
+  }
+
+  if (is.list(table) & !is.data.frame(table)) {
+
+    table_vec <- unlist(c(rbind(names(table), table)))
+
+    # The cover column is SET-WIDTH and WRAPPED
+
+    table_height <- length(table_vec)
+
+    openxlsx::addStyle(
+      wb = wb,
+      sheet = tab_name,
+      rows = seq(table_height + 1), # include sheet title
+      cols = 1,
+      style = style_ref$wrap,
+      stack = TRUE
+    )
+
+    # Also identify rows containing headers
+    subheader_rows <- which(table_vec %in% names(table)) + 1
+
+  }
+
+  # Subheader rows also have LARGER ROW HEIGHT, are BOLD and 14PT
 
   openxlsx::setRowHeights(
     wb = wb,
