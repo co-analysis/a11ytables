@@ -323,16 +323,36 @@
 
   if (sheet_type == "cover") {
 
-    table <- data.frame(cover_content = as.vector(t(table)))
+    # If cover info is provided as a data.frame
+    if (is.data.frame(table)) {
 
-    openxlsx::writeData(
-      wb = wb,
-      sheet = tab_title,
-      x = table,
-      startCol = 1,
-      startRow = 2,
-      colNames = FALSE  # because cover df uses dummy column headers
-    )
+      table <- data.frame(cover_content = as.vector(t(table)))
+
+      openxlsx::writeData(
+        wb = wb,
+        sheet = tab_title,
+        x = table,
+        startCol = 1,
+        startRow = 2,
+        colNames = FALSE  # because cover df uses dummy column headers
+      )
+
+    }
+
+    # If cover info is provided as a list
+    if (is.list(table) & !is.data.frame(table)) {
+
+      table <- unlist(c(rbind(names(table), table)))
+
+      openxlsx::writeData(
+        wb = wb,
+        sheet = tab_title,
+        x = table,
+        startCol = 1,
+        startRow = 2
+      )
+
+    }
 
   }
 
@@ -373,25 +393,6 @@
 
 }
 
-.insert_cover_info <- function(wb, content) {
-
-  table <- content[content$sheet_type == "cover", ][["table"]][[1]]
-  tab_title <- content[content$sheet_type == "cover", ][[1]]
-
-  cover_content <- unlist(c(rbind(names(table), table)))
-
-  openxlsx::writeData(
-    wb = wb,
-    sheet = tab_title,
-    x = cover_content,
-    startCol = 1,
-    startRow = 2
-  )
-
-}
-
-
-
 
 # Add sheets to workbook --------------------------------------------------
 
@@ -416,13 +417,12 @@
   table_name <- content[content$sheet_type == "cover", "table_name"][[1]]
 
   .insert_title(wb, content, tab_title)
-  # .insert_table(wb, content, table_name)  # TODO: will need special handling
-  .insert_cover_info(wb, content)
+  .insert_table(wb, content, table_name)  # TODO: needs special handling if list if provided
 
   styles <- .style_create()
   .style_workbook(wb)
   .style_sheet_title(wb, tab_title, styles)
-  # .style_cover(wb, content, styles)  # TODO: will need special handling
+  # .style_cover(wb, content, styles)  # TODO: needs special handling if list provided
 
   return(wb)
 
