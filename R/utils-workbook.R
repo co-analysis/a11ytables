@@ -401,21 +401,157 @@
   tab_title <- content[content$table_name == "cover", "tab_title"][[1]]
 
   if (is.data.frame(table)) {
+
     table <- data.frame(cover_content = as.vector(t(table)))
+
+    openxlsx::writeData(
+      wb = wb,
+      sheet = tab_title,
+      x = table_with_links,
+      startCol = 1,
+      startRow = 2,
+      colNames = FALSE  # because cover df uses dummy column headers
+    )
+
   }
 
   if (is.list(table) & !is.data.frame(table)) {
+
     table <- unlist(c(rbind(names(table), table)))
+    table_with_links <- lapply(table, .make_hyperlink)
+
+    for (i in seq_along(table_with_links)) {
+
+      has_hyperlink <- grepl("HYPERLINK", table_with_links[[i]])
+
+      if (has_hyperlink) {
+        openxlsx::writeFormula(
+          wb = wb,
+          sheet = tab_title,
+          x = table_with_links[[i]],
+          startRow = i + 1
+        )
+      }
+
+      if (!has_hyperlink) {
+        openxlsx::writeData(
+          wb = wb,
+          sheet = tab_title,
+          x = table_with_links[[i]],
+          startRow = i + 1
+        )
+      }
+
+    }
+
   }
 
-  openxlsx::writeData(
-    wb = wb,
-    sheet = tab_title,
-    x = table,
-    startCol = 1,
-    startRow = 2,
-    colNames = FALSE  # because cover df uses dummy column headers
+
+}
+
+
+
+# Handle hyperlinks -------------------------------------------------------
+
+
+.detect_hyperlink <- function(string) {
+  hyper_rx <- "\\[([[:graph:]]+)\\]\\([[:graph:]]+\\)"
+  grepl(hyper_rx, string)
+}
+
+.detect_multi_hyperlink <- function(string) {
+
+  md_rx <- "\\[([[:graph:]]+?)\\]\\([[:graph:]]+?\\)"
+  md_match <- gregexpr(md_rx, string, perl = TRUE)
+  md_extract <- regmatches(string, md_match)[[1]]
+  has_multi_hyperlink <- length(md_extract) > 1
+
+  if (has_multi_hyperlink) {
+    warning(
+      "String has more than one hyperlink, only first will be extracted.",
+      call. = FALSE
+    )
+  }
+
+  invisible(has_multi_hyperlink)
+
+}
+
+.check_scheme <- function(string) {
+
+  scheme_rx <- paste(
+    "((http(s?)|ftp)://?)",
+    "(mailto:?)",
+    # "((int|ext)ernal:?)",
+    sep = "|"
   )
+
+  grepl(scheme_rx, string)
+
+}
+
+.extract_hyperlink <- function(string, keep_full_string = TRUE) {
+
+  md_rx <- "\\[([[:graph:]]+?)\\]\\([[:graph:]]+?\\)"
+  md_match <- regexpr(md_rx, string, perl = TRUE)
+  md_extract <- regmatches(string, md_match)[[1]]
+
+  url_rx <- "(?<=\\()[[:graph:]]+(?=\\))"
+  url_match <- regexpr(url_rx, md_extract, perl = TRUE)
+  url_extract <- regmatches(md_extract, url_match)[[1]]
+
+  string_rx <- "(?<=\\[)[[:graph:]]+(?=\\])"
+  string_match <- regexpr(string_rx, md_extract, perl = TRUE)
+  string_extract <- regmatches(md_extract, string_match)[[1]]
+
+  if (keep_full_string) {
+    string_extract <- gsub(md_rx, string_extract, string)
+  }
+
+  # list(url = url_extract, string = string_extract)
+
+  named_hyperlink <- setNames(url_extract, string_extract)
+  class(named_hyperlink) <- "hyperlink"
+  named_hyperlink
+
+}
+
+# prefer assigning class 'hyperlink' to named vector of URLS?
+# see first example in ?makeHyperlinkString
+.formulate_hyperlink_ext <- function(url, string) {
+  paste0('HYPERLINK("', url, '", "', string, '")')
+}
+
+# prefer makeHyperlinkString() for internal?
+.formulate_hyperlink_int <- function(sheet_name, cell_reference = "A1", string) {
+  location <- paste0("#'", sheet_name, "'!", cell_reference)
+  paste0('HYPERLINK("', location,  '", "', string, '")')
+}
+
+.make_hyperlink <- function(string) {
+
+  has_hyperlink <- .detect_hyperlink(string)
+
+  if (has_hyperlink) {
+
+    .detect_multi_hyperlink(string)
+    scheme_is_ok <- .check_scheme(string)
+
+    if (scheme_is_ok) {
+
+      string <- .extract_hyperlink(string)
+
+      # hyper_list <- .extract_hyperlink(string)
+      # string <- .formulate_hyperlink_ext(
+      #   hyper_list$url,
+      #   hyper_list$string
+      # )
+
+    }
+
+  }
+
+  string
 
 }
 
