@@ -281,20 +281,14 @@
 
   if (has_source) {
 
-    source_text <- paste(
-      "Source:",
-      content[content$tab_title == tab_title, "source"][[1]]
-    )
+    source_text <- content[content$tab_title == tab_title, "source"][[1]]
+    source_text <- paste("Source:", source_text)
 
-    # last_char <- strsplit(source_text, "")[[1]][nchar(source_text)]
-    #
-    # if (last_char == ".") {
-    #   text <- paste("Source:", source_text)
-    # }
-    #
-    # if (last_char != ".") {
-    #   text <- paste0("Source: ", source_text, ".")
-    # }
+    source_has_hyperlink <- .detect_hyperlink(source_text)
+
+    if (source_has_hyperlink) {
+      source_text <- .make_hyperlink(source_text)
+    }
 
     has_notes <- .has_notes(content, tab_title)
     has_blanks_message <- .has_blanks_message(content, tab_title)
@@ -305,8 +299,8 @@
       sheet = tab_title,
       x = source_text,
       startCol = 1,
-      startRow = start_row,  # dependent on whether notes text present
-      colNames = TRUE
+      startRow = start_row  # dependent on whether notes text present
+      # colNames = TRUE
     )
 
   }
@@ -422,7 +416,7 @@
 
     for (i in seq_along(table_with_links)) {
 
-      has_hyperlink <- grepl("HYPERLINK", table_with_links[[i]])
+      has_hyperlink <- .detect_hyperlink(table_with_links[[i]])
 
       if (has_hyperlink) {
         openxlsx::writeFormula(
@@ -455,13 +449,13 @@
 
 
 .detect_hyperlink <- function(string) {
-  hyper_rx <- "\\[([[:graph:]]+)\\]\\([[:graph:]]+\\)"
+  hyper_rx <- "\\[(([[:graph:]]|[[:space:]])+)\\]\\([[:graph:]]+\\)"
   grepl(hyper_rx, string)
 }
 
 .detect_multi_hyperlink <- function(string) {
 
-  md_rx <- "\\[([[:graph:]]+?)\\]\\([[:graph:]]+?\\)"
+  md_rx <- "\\[(([[:graph:]]|[[:space:]])+?)\\]\\([[:graph:]]+?\\)"
   md_match <- gregexpr(md_rx, string, perl = TRUE)
   md_extract <- regmatches(string, md_match)[[1]]
   has_multi_hyperlink <- length(md_extract) > 1
@@ -478,29 +472,21 @@
 }
 
 .check_scheme <- function(string) {
-
-  scheme_rx <- paste(
-    "((http(s?)|ftp)://?)",
-    "(mailto:?)",
-    # "((int|ext)ernal:?)",
-    sep = "|"
-  )
-
+  scheme_rx <- paste("((http(s?)|ftp)://?)", "(mailto:?)", sep = "|")
   grepl(scheme_rx, string)
-
 }
 
 .extract_hyperlink <- function(string, keep_full_string = TRUE) {
 
-  md_rx <- "\\[([[:graph:]]+?)\\]\\([[:graph:]]+?\\)"
+  md_rx <- "\\[(([[:graph:]]|[[:space:]])+?)\\]\\([[:graph:]]+?\\)"
   md_match <- regexpr(md_rx, string, perl = TRUE)
   md_extract <- regmatches(string, md_match)[[1]]
 
-  url_rx <- "(?<=\\()[[:graph:]]+(?=\\))"
+  url_rx <- "(?<=\\()([[:graph:]]|[[:space:]])+(?=\\))"
   url_match <- regexpr(url_rx, md_extract, perl = TRUE)
   url_extract <- regmatches(md_extract, url_match)[[1]]
 
-  string_rx <- "(?<=\\[)[[:graph:]]+(?=\\])"
+  string_rx <- "(?<=\\[)([[:graph:]]|[[:space:]])+(?=\\])"
   string_match <- regexpr(string_rx, md_extract, perl = TRUE)
   string_extract <- regmatches(md_extract, string_match)[[1]]
 
@@ -508,18 +494,10 @@
     string_extract <- gsub(md_rx, string_extract, string)
   }
 
-  # list(url = url_extract, string = string_extract)
-
   named_hyperlink <- setNames(url_extract, string_extract)
   class(named_hyperlink) <- "hyperlink"
   named_hyperlink
 
-}
-
-# prefer assigning class 'hyperlink' to named vector of URLS?
-# see first example in ?makeHyperlinkString
-.formulate_hyperlink_ext <- function(url, string) {
-  paste0('HYPERLINK("', url, '", "', string, '")')
 }
 
 # prefer makeHyperlinkString() for internal?
@@ -538,15 +516,7 @@
     scheme_is_ok <- .check_scheme(string)
 
     if (scheme_is_ok) {
-
       string <- .extract_hyperlink(string)
-
-      # hyper_list <- .extract_hyperlink(string)
-      # string <- .formulate_hyperlink_ext(
-      #   hyper_list$url,
-      #   hyper_list$string
-      # )
-
     }
 
   }
@@ -579,7 +549,6 @@
   table_name <- content[content$sheet_type == "cover", "table_name"][[1]]
 
   .insert_title(wb, content, tab_title)
-  # .insert_table(wb, content, table_name)  # TODO: needs special handling if list if provided
   .insert_cover_table(wb, content, table_name)  # rather than .insert_table
 
   styles <- .style_create()
