@@ -395,54 +395,43 @@
   tab_title <- content[content$table_name == "cover", "tab_title"][[1]]
 
   if (is.data.frame(table)) {
-
-    table <- data.frame(cover_content = as.vector(t(table)))
-
-    openxlsx::writeData(
-      wb = wb,
-      sheet = tab_title,
-      x = table,
-      startCol = 1,
-      startRow = 2,
-      colNames = FALSE  # because cover df uses dummy column headers
+    table <- setNames(
+      as.list(table[["subsection_content"]]),
+      table[["subsection_title"]]
     )
-
   }
 
   if (is.list(table) & !is.data.frame(table)) {
-
     table <- unlist(c(rbind(names(table), table)))
-    table_with_links <- lapply(table, .make_hyperlink)
+  }
 
-    for (i in seq_along(table_with_links)) {
+  table_with_links <- lapply(table, .make_hyperlink)
 
-      has_hyperlink <- .detect_hyperlink(table_with_links[[i]])
+  for (i in seq_along(table_with_links)) {
 
-      if (has_hyperlink) {
-        openxlsx::writeFormula(
-          wb = wb,
-          sheet = tab_title,
-          x = table_with_links[[i]],
-          startRow = i + 1
-        )
-      }
+    has_hyperlink <- .detect_hyperlink(table_with_links[[i]])
 
-      if (!has_hyperlink) {
-        openxlsx::writeData(
-          wb = wb,
-          sheet = tab_title,
-          x = table_with_links[[i]],
-          startRow = i + 1
-        )
-      }
+    if (has_hyperlink) {
+      openxlsx::writeFormula(
+        wb = wb,
+        sheet = tab_title,
+        x = table_with_links[[i]],
+        startRow = i + 1
+      )
+    }
 
+    if (!has_hyperlink) {
+      openxlsx::writeData(
+        wb = wb,
+        sheet = tab_title,
+        x = table_with_links[[i]],
+        startRow = i + 1
+      )
     }
 
   }
 
-
 }
-
 
 
 # Handle hyperlinks -------------------------------------------------------
