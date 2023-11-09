@@ -80,7 +80,8 @@ create_a11ytable <- function(
     sheet_type  = unlist(sheet_types),
     sheet_title = unlist(sheet_titles),
     blank_cells = unlist(blank_cells),
-    source      = unlist(sources)
+    source      = unlist(sources),
+    stringsAsFactors = FALSE  # because default is TRUE prior to R v4
   )
 
   x[["table"]] <- tables
