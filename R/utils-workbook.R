@@ -395,7 +395,7 @@
   tab_title <- content[content$table_name == "cover", "tab_title"][[1]]
 
   if (is.data.frame(table)) {
-    table <- setNames(
+    table <- stats::setNames(
       as.list(table[["subsection_content"]]),
       table[["subsection_title"]]
     )
@@ -483,7 +483,7 @@
     string_extract <- gsub(md_rx, string_extract, string)
   }
 
-  named_hyperlink <- setNames(url_extract, string_extract)
+  named_hyperlink <- stats::setNames(url_extract, string_extract)
   class(named_hyperlink) <- "hyperlink"
   named_hyperlink
 

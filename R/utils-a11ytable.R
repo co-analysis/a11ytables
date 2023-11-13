@@ -1,4 +1,7 @@
 
+#' Clean Sheet Tab Titles
+#' @param tab_titles Character vector. Names of tabs in the workbook.
+#' @noRd
 .clean_tab_titles <- function(tab_titles) {
 
   tab_titles_cleaned <- gsub("[^[:alnum:][:space:]_]", "", tab_titles)
@@ -22,6 +25,9 @@
 
 }
 
+#' Add a Missing Terminal Period to a String
+#' @param text Character. A string.
+#' @noRd
 .append_period <- function(text) {
 
   last_char <- substr(text, nchar(text), nchar(text))
@@ -38,6 +44,10 @@
 
 }
 
+#' Validate an 'a11ytable' Object
+#' @param text x. An object with class 'a11ytable', likely created with
+#'     \code{\link{create_a11ytable}}.
+#' @noRd
 .validate_a11ytable <- function(x) {
 
   names_req <- c(
@@ -48,41 +58,53 @@
 
   # Must be of data.frame class
   if (!inherits(x, "data.frame")) {
-    stop("Input must have class data.frame.")
+    stop("Input must have class data.frame.", call. = FALSE)
   }
 
   # Must have particular dimensions (must have cover, contents table, at least)
   if (length(names_req) != length(x) | nrow(x) < 3) {
     stop(
-      "Input must be a data.frame with ",
-      names_count,
-      " columns and at least 4 rows."
+      "Input must be a data.frame with ", names_count,
+      " columns and at least 4 rows.", call. = FALSE
     )
   }
 
   # Column names must match expected format
   if (!all(names_req %in% names_in)) {
-    stop("Input data.frame does not have the required column names.")
+    stop(
+      "Input data.frame does not have the required column names.",
+      call. = FALSE
+    )
   }
 
   # 'table' column class must be listcol
   if (!inherits(x[["table"]], "list")) {
-    stop("Column 'table' must be a listcol of data.frame objects.")
+    stop(
+      "Column 'table' must be a listcol of data.frame objects.",
+      call. = FALSE
+    )
   }
 
   # Class must be character for all columns except 'table'
   if (!all(unlist(lapply(subset(x, select = -table), is.character)))) {
-    stop("All columns except 'table' must be character class.")
+    stop("All columns except 'table' must be character class.", call. = FALSE)
   }
 
   # Content of listcol column must be single data.frame objects
-  # if (!all(unlist(lapply(x[["table"]], is.data.frame)))) {
-  #   stop("List-column 'table' must contain data.frame objects only.")
-  # }
+  if (!all(unlist(lapply(x[["table"]], is.list)))) {
+    stop(
+      "List-column 'table' must contain data.frame objects only. ",
+      "The cover can also be of class 'list'.",
+      call. = FALSE
+    )
+  }
 
   # There must be cover and contents sheets
   if (sum(x[["sheet_type"]] %in% c("cover", "contents")) < 2) {
-    stop("The input data.frame must have sheet_type 'cover' and 'contents'.")
+    stop(
+      "The input data.frame must have sheet_type 'cover' and 'contents'.",
+      call. = FALSE
+    )
   }
 
   # There must be only one cover, contents and (optional) notes sheet
@@ -92,7 +114,8 @@
     sum(x[["sheet_type"]] == "notes") > 1
   ) {
     stop(
-      "There can be only one 'cover', 'contents' and 'notes' in sheet_type."
+      "There can be only one 'cover', 'contents' and 'notes' in sheet_type.",
+      call. = FALSE
     )
   }
 
@@ -105,26 +128,32 @@
     )
   ) {
     stop(
-      paste(
-        "Columns 'tab_title', 'sheet_type', 'sheet_title' and",
-        "'table' must not contain NA."
-      )
+      "Columns 'tab_title', 'sheet_type', 'sheet_title' and ",
+      "'table' must not contain NA.",
+      call. = FALSE
     )
   }
 
   # Each sheet_type must be only one of four types
-  if (!any(x[["sheet_type"]] %in% c("cover", "contents", "notes", "tables"))) {
-    stop("'sheet_type' must be one of 'cover', 'contents', 'notes', 'tables'.")
+  if (!all(x[["sheet_type"]] %in% c("cover", "contents", "notes", "tables"))) {
+    stop(
+      "'sheet_type' must be one of 'cover', 'contents', 'notes', 'tables'.",
+      call. = FALSE
+    )
   }
 
   # Each tab_title must be unique
   if (length(x[["tab_title"]]) != length(unique(tolower(x[["tab_title"]])))) {
-    stop("Each 'tab_title' must be unique (case-insensitive).")
+    stop("Each 'tab_title' must be unique (case-insensitive).", call. = FALSE)
   }
 
 
 }
 
+#' Warn if an 'a11ytable' Has a Non-critical Problem
+#' @param text x. An object with class 'a11ytable', likely created with
+#'     \code{\link{create_a11ytable}}.
+#' @noRd
 .warn_a11ytable <- function(content) {
 
   # Warn about tab_title limitations

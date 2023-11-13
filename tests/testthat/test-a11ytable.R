@@ -71,8 +71,28 @@ test_that("class validation works", {
   expect_error(as_a11ytable(x))
 
   x <- mtcars_df
+  x[x$tab_title == "Table_2", "sheet_type"] <- "foo"
+  expect_error(as_a11ytable(x))
+
+  x <- mtcars_df
   x$sheet_type <- NA_character_
   expect_error(as_a11ytable(x))
+
+  x <- mtcars_df
+  x[x$tab_title == "Table_2", "tab_title"] <-
+    "Lorem_ipsum_dolor_sit_amet__consectetur_adipiscing"
+  expect_warning(as_a11ytable(x))
+
+  x <- mtcars_df
+  x[x$sheet_type == "notes", "table"][[1]] <-
+    list(
+      data.frame(
+        "Note number" = "[note 1]",
+        "Note text" = "US gallons.",
+        check.names = FALSE
+      )
+    )
+  expect_warning(as_a11ytable(x))
 
 })
 
@@ -119,7 +139,7 @@ test_that("tbl output looks as intended", {
     tab_titles = LETTERS[1:3],
     sheet_type = c("cover", "contents", "tables"),
     sheet_titles = LETTERS[1:3],
-    sources = c(rep(NA_character_, 2), "x"),
+    sources = c(rep(NA_character_, 2), "x."),
     tables = list(
       data.frame(x = "x"),
       data.frame(tab = "x", title = "x"),
