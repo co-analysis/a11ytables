@@ -315,73 +315,34 @@
   sheet_type <- content[content$table_name == table_name, "sheet_type"][[1]]
   tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
 
-  if (sheet_type == "cover") {
+  has_notes <- .has_notes(content, tab_title)
+  has_blanks_message <- .has_blanks_message(content, tab_title)
+  has_source <- .has_source(content, tab_title)
 
-    # If cover info is provided as a data.frame
-    if (is.data.frame(table)) {
-
-      table <- data.frame(cover_content = as.vector(t(table)))
-
-      openxlsx::writeData(
-        wb = wb,
-        sheet = tab_title,
-        x = table,
-        startCol = 1,
-        startRow = 2,
-        colNames = FALSE  # because cover df uses dummy column headers
-      )
-
-    }
-
-    # If cover info is provided as a list
-    if (is.list(table) & !is.data.frame(table)) {
-
-      table <- unlist(c(rbind(names(table), table)))
-
-      openxlsx::writeData(
-        wb = wb,
-        sheet = tab_title,
-        x = table,
-        startCol = 1,
-        startRow = 2
-      )
-
-    }
-
+  if (sheet_type %in% c("contents", "notes")) {
+    start_row <- 3
   }
 
-  if (sheet_type != "cover") {
-
-    has_notes <- .has_notes(content, tab_title)
-    has_blanks_message <- .has_blanks_message(content, tab_title)
-    has_source <- .has_source(content, tab_title)
-
-    if (sheet_type %in% c("contents", "notes")) {
-      start_row <- 3
-    }
-
-    if (sheet_type == "tables") {
-      start_row <- .get_start_row_table(
-        has_notes,
-        has_blanks_message,
-        has_source
-      )
-    }
-
-    openxlsx::writeDataTable(
-      wb = wb,
-      sheet = tab_title,
-      x = table,
-      tableName = table_name,
-      startCol = 1,
-      startRow = start_row,  # dependent on whether notes or source text present
-      colNames = TRUE,
-      tableStyle = "none",
-      withFilter = FALSE,
-      bandedRows = FALSE
+  if (sheet_type == "tables") {
+    start_row <- .get_start_row_table(
+      has_notes,
+      has_blanks_message,
+      has_source
     )
-
   }
+
+  openxlsx::writeDataTable(
+    wb = wb,
+    sheet = tab_title,
+    x = table,
+    tableName = table_name,
+    startCol = 1,
+    startRow = start_row,  # dependent on whether notes or source text present
+    colNames = TRUE,
+    tableStyle = "none",
+    withFilter = FALSE,
+    bandedRows = FALSE
+  )
 
   return(wb)
 
@@ -394,14 +355,14 @@
   table <- content[content$table_name == "cover", ][["table"]][[1]]
   tab_title <- content[content$table_name == "cover", "tab_title"][[1]]
 
-  if (is.data.frame(table)) {
+  if (inherits(table, "data.frame")) {
     table <- stats::setNames(
       as.list(table[["subsection_content"]]),
       table[["subsection_title"]]
     )
   }
 
-  if (is.list(table) & !is.data.frame(table)) {
+  if (inherits(table, "list")) {
     table <- unlist(c(rbind(names(table), table)))
   }
 
@@ -489,12 +450,6 @@
 
 }
 
-# prefer makeHyperlinkString() for internal?
-.formulate_hyperlink_int <- function(sheet_name, cell_reference = "A1", string) {
-  location <- paste0("#'", sheet_name, "'!", cell_reference)
-  paste0('HYPERLINK("', location,  '", "', string, '")')
-}
-
 .make_hyperlink <- function(string) {
 
   has_hyperlink <- .detect_hyperlink(string)
@@ -556,7 +511,6 @@
 
   tab_title <- content[content$sheet_type == "contents", "tab_title"][[1]]
   table_name <- content[content$sheet_type == "contents", "table_name"][[1]]
-
 
   .insert_title(wb, content, tab_title)
   .insert_table_count(wb, content, tab_title)

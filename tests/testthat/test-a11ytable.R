@@ -1,5 +1,8 @@
 
-test_that("a11ytable can be created by hand", {
+test_that("a11ytable can be created by hand (with df for cover)", {
+
+  # Uses mtcars_df, which has a data.frame containing cover information in the
+  # 'table' column.
 
   x <- suppressWarnings(
     create_a11ytable(
@@ -25,6 +28,57 @@ test_that("a11ytable can be created by hand", {
       )
     )
   )
+
+})
+
+test_that("a11ytable can be created by hand (with list for cover)", {
+
+  # Uses mtcars_df, which has a list containing cover information in the
+  # 'table' column.
+
+  x <- suppressWarnings(
+    create_a11ytable(
+      tab_titles   = mtcars_df2$tab_title,
+      sheet_types  = mtcars_df2$sheet_type,
+      sheet_titles = mtcars_df2$sheet_title,
+      sources      = mtcars_df2$source,
+      tables       = mtcars_df2$table
+    )
+  )
+
+  expect_s3_class(x, class = "a11ytable")
+  expect_identical(class(x), c("a11ytable", "tbl", "data.frame"))
+
+  expect_error(
+    suppressWarnings(
+      create_a11ytable(
+        tab_titles   = mtcars_df2$tab_title,
+        sheet_types  = "x",
+        sheet_titles = mtcars_df2$sheet_title,
+        sources      = mtcars_df2$source,
+        tables       = mtcars_df2$table
+      )
+    )
+  )
+
+})
+
+test_that("strings are not converted to factors", {
+
+  x <- suppressWarnings(
+    create_a11ytable(
+      tab_titles   = mtcars_df$tab_title,
+      sheet_types  = mtcars_df$sheet_type,
+      sheet_titles = mtcars_df$sheet_title,
+      sources      = mtcars_df$source,
+      tables       = mtcars_df$table
+    )
+  )
+
+  classes <- unlist(lapply(x, class))
+
+  expect_true(all(c("character", "list") %in% classes))
+  expect_false(any("factor" %in% classes))
 
 })
 
