@@ -90,7 +90,7 @@
     stop("All columns except 'table' must be character class.", call. = FALSE)
   }
 
-  # Content of listcol column must be single data.frame objects
+  # Content of listcol column must be single data.frame objects (or cover list)
   if (!all(unlist(lapply(x[["table"]], is.list)))) {
     stop(
       "List-column 'table' must contain data.frame objects only. ",
