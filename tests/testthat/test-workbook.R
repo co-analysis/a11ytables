@@ -27,3 +27,15 @@ test_that(".stop_bad_input works as intended", {
   expect_error(.stop_bad_input(wb, a11ytable, 1))
 
 })
+
+test_that("hyperlinks are generated on the cover page", {
+
+  # mtcars_df demo dataset does not contain any hyperlinks on the cover
+  x <- suppressWarnings(generate_workbook(as_a11ytable(mtcars_df)))
+  expect_length(x$worksheets[[1]]$hyperlinks, 0)
+
+  # mtcars_df2 demo dataset has two hyperlinks on the cover
+  y <- suppressWarnings(generate_workbook(as_a11ytable(mtcars_df2)))
+  expect_length(y$worksheets[[1]]$hyperlinks, 2)
+
+})
