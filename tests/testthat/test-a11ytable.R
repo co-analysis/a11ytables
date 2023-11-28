@@ -1,5 +1,8 @@
 
-test_that("a11ytable can be created by hand", {
+test_that("a11ytable can be created by hand (with df for cover)", {
+
+  # Uses mtcars_df, which has a data.frame containing cover information in the
+  # 'table' column.
 
   x <- suppressWarnings(
     create_a11ytable(
@@ -25,6 +28,57 @@ test_that("a11ytable can be created by hand", {
       )
     )
   )
+
+})
+
+test_that("a11ytable can be created by hand (with list for cover)", {
+
+  # Uses mtcars_df, which has a list containing cover information in the
+  # 'table' column.
+
+  x <- suppressWarnings(
+    create_a11ytable(
+      tab_titles   = mtcars_df2$tab_title,
+      sheet_types  = mtcars_df2$sheet_type,
+      sheet_titles = mtcars_df2$sheet_title,
+      sources      = mtcars_df2$source,
+      tables       = mtcars_df2$table
+    )
+  )
+
+  expect_s3_class(x, class = "a11ytable")
+  expect_identical(class(x), c("a11ytable", "tbl", "data.frame"))
+
+  expect_error(
+    suppressWarnings(
+      create_a11ytable(
+        tab_titles   = mtcars_df2$tab_title,
+        sheet_types  = "x",
+        sheet_titles = mtcars_df2$sheet_title,
+        sources      = mtcars_df2$source,
+        tables       = mtcars_df2$table
+      )
+    )
+  )
+
+})
+
+test_that("strings are not converted to factors", {
+
+  x <- suppressWarnings(
+    create_a11ytable(
+      tab_titles   = mtcars_df$tab_title,
+      sheet_types  = mtcars_df$sheet_type,
+      sheet_titles = mtcars_df$sheet_title,
+      sources      = mtcars_df$source,
+      tables       = mtcars_df$table
+    )
+  )
+
+  classes <- unlist(lapply(x, class))
+
+  expect_true(all(c("character", "list") %in% classes))
+  expect_false(any("factor" %in% classes))
 
 })
 
@@ -71,8 +125,28 @@ test_that("class validation works", {
   expect_error(as_a11ytable(x))
 
   x <- mtcars_df
+  x[x$tab_title == "Table_2", "sheet_type"] <- "foo"
+  expect_error(as_a11ytable(x))
+
+  x <- mtcars_df
   x$sheet_type <- NA_character_
   expect_error(as_a11ytable(x))
+
+  x <- mtcars_df
+  x[x$tab_title == "Table_2", "tab_title"] <-
+    "Lorem_ipsum_dolor_sit_amet__consectetur_adipiscing"
+  expect_warning(as_a11ytable(x))
+
+  x <- mtcars_df
+  x[x$sheet_type == "notes", "table"][[1]] <-
+    list(
+      data.frame(
+        "Note number" = "[note 1]",
+        "Note text" = "US gallons.",
+        check.names = FALSE
+      )
+    )
+  expect_warning(as_a11ytable(x))
 
 })
 
@@ -119,7 +193,7 @@ test_that("tbl output looks as intended", {
     tab_titles = LETTERS[1:3],
     sheet_type = c("cover", "contents", "tables"),
     sheet_titles = LETTERS[1:3],
-    sources = c(rep(NA_character_, 2), "x"),
+    sources = c(rep(NA_character_, 2), "x."),
     tables = list(
       data.frame(x = "x"),
       data.frame(tab = "x", title = "x"),

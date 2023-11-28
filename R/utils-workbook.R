@@ -114,9 +114,9 @@
 }
 
 .get_start_row_source <- function(
-  has_notes,
-  has_blanks_message,
-  start_row = 3
+    has_notes,
+    has_blanks_message,
+    start_row = 3
 ) {
 
   if (has_notes) {
@@ -132,10 +132,10 @@
 }
 
 .get_start_row_table <- function(
-  has_notes,
-  has_blanks_message,
-  has_source,
-  start_row = 3
+    has_notes,
+    has_blanks_message,
+    has_source,
+    start_row = 3
 ) {
 
   if (has_notes) {
@@ -281,20 +281,14 @@
 
   if (has_source) {
 
-    source_text <- paste(
-      "Source:",
-      content[content$tab_title == tab_title, "source"][[1]]
-    )
+    source_text <- content[content$tab_title == tab_title, "source"][[1]]
+    source_text <- paste("Source:", source_text)
 
-    # last_char <- strsplit(source_text, "")[[1]][nchar(source_text)]
-    #
-    # if (last_char == ".") {
-    #   text <- paste("Source:", source_text)
-    # }
-    #
-    # if (last_char != ".") {
-    #   text <- paste0("Source: ", source_text, ".")
-    # }
+    source_has_hyperlink <- .detect_hyperlink(source_text)
+
+    if (source_has_hyperlink) {
+      source_text <- .make_hyperlink(source_text)
+    }
 
     has_notes <- .has_notes(content, tab_title)
     has_blanks_message <- .has_blanks_message(content, tab_title)
@@ -305,8 +299,8 @@
       sheet = tab_title,
       x = source_text,
       startCol = 1,
-      startRow = start_row,  # dependent on whether notes text present
-      colNames = TRUE
+      startRow = start_row  # dependent on whether notes text present
+      # colNames = TRUE
     )
 
   }
@@ -321,55 +315,157 @@
   sheet_type <- content[content$table_name == table_name, "sheet_type"][[1]]
   tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
 
-  if (sheet_type == "cover") {
+  has_notes <- .has_notes(content, tab_title)
+  has_blanks_message <- .has_blanks_message(content, tab_title)
+  has_source <- .has_source(content, tab_title)
 
-    table <- data.frame(cover_content = as.vector(t(table)))
-
-    openxlsx::writeData(
-      wb = wb,
-      sheet = tab_title,
-      x = table,
-      startCol = 1,
-      startRow = 2,
-      colNames = FALSE  # because cover df uses dummy column headers
-    )
-
+  if (sheet_type %in% c("contents", "notes")) {
+    start_row <- 3
   }
 
-  if (sheet_type != "cover") {
+  if (sheet_type == "tables") {
+    start_row <- .get_start_row_table(
+      has_notes,
+      has_blanks_message,
+      has_source
+    )
+  }
 
-    has_notes <- .has_notes(content, tab_title)
-    has_blanks_message <- .has_blanks_message(content, tab_title)
-    has_source <- .has_source(content, tab_title)
+  openxlsx::writeDataTable(
+    wb = wb,
+    sheet = tab_title,
+    x = table,
+    tableName = table_name,
+    startCol = 1,
+    startRow = start_row,  # dependent on whether notes or source text present
+    colNames = TRUE,
+    tableStyle = "none",
+    withFilter = FALSE,
+    bandedRows = FALSE
+  )
 
-    if (sheet_type %in% c("contents", "notes")) {
-      start_row <- 3
-    }
+  return(wb)
 
-    if (sheet_type == "tables") {
-      start_row <- .get_start_row_table(
-        has_notes,
-        has_blanks_message,
-        has_source
+}
+
+# Special case to insert cover-page info, depending on whether it's provided as
+# a df or list. All other tables in a workbook are provided as df only.
+.insert_cover_table <- function(wb, content, table_name) {
+
+  table <- content[content$table_name == "cover", ][["table"]][[1]]
+  tab_title <- content[content$table_name == "cover", "tab_title"][[1]]
+
+  if (inherits(table, "data.frame")) {
+    table <- stats::setNames(
+      as.list(table[["subsection_content"]]),
+      table[["subsection_title"]]
+    )
+  }
+
+  if (inherits(table, "list")) {
+    table <- unlist(c(rbind(names(table), table)))
+  }
+
+  table_with_links <- lapply(table, .make_hyperlink)
+
+  for (i in seq_along(table_with_links)) {
+
+    has_hyperlink <- .detect_hyperlink(table_with_links[[i]])
+
+    if (has_hyperlink) {
+      openxlsx::writeFormula(
+        wb = wb,
+        sheet = tab_title,
+        x = table_with_links[[i]],
+        startRow = i + 1
       )
     }
 
-    openxlsx::writeDataTable(
-      wb = wb,
-      sheet = tab_title,
-      x = table,
-      tableName = table_name,
-      startCol = 1,
-      startRow = start_row,  # dependent on whether notes or source text present
-      colNames = TRUE,
-      tableStyle = "none",
-      withFilter = FALSE,
-      bandedRows = FALSE
-    )
+    if (!has_hyperlink) {
+      openxlsx::writeData(
+        wb = wb,
+        sheet = tab_title,
+        x = table_with_links[[i]],
+        startRow = i + 1
+      )
+    }
 
   }
 
-  return(wb)
+}
+
+
+# Handle hyperlinks -------------------------------------------------------
+
+
+.detect_hyperlink <- function(string) {
+  hyper_rx <- "\\[(([[:graph:]]|[[:space:]])+)\\]\\([[:graph:]]+\\)"
+  grepl(hyper_rx, string)
+}
+
+.detect_multi_hyperlink <- function(string) {
+
+  md_rx <- "\\[(([[:graph:]]|[[:space:]])+?)\\]\\([[:graph:]]+?\\)"
+  md_match <- gregexpr(md_rx, string, perl = TRUE)
+  md_extract <- regmatches(string, md_match)[[1]]
+  has_multi_hyperlink <- length(md_extract) > 1
+
+  if (has_multi_hyperlink) {
+    warning(
+      "String has more than one hyperlink, only first will be extracted.",
+      call. = FALSE
+    )
+  }
+
+  invisible(has_multi_hyperlink)
+
+}
+
+.check_scheme <- function(string) {
+  scheme_rx <- paste("((http(s?)|ftp)://?)", "(mailto:?)", sep = "|")
+  grepl(scheme_rx, string)
+}
+
+.extract_hyperlink <- function(string, keep_full_string = TRUE) {
+
+  md_rx <- "\\[(([[:graph:]]|[[:space:]])+?)\\]\\([[:graph:]]+?\\)"
+  md_match <- regexpr(md_rx, string, perl = TRUE)
+  md_extract <- regmatches(string, md_match)[[1]]
+
+  url_rx <- "(?<=\\()([[:graph:]]|[[:space:]])+(?=\\))"
+  url_match <- regexpr(url_rx, md_extract, perl = TRUE)
+  url_extract <- regmatches(md_extract, url_match)[[1]]
+
+  string_rx <- "(?<=\\[)([[:graph:]]|[[:space:]])+(?=\\])"
+  string_match <- regexpr(string_rx, md_extract, perl = TRUE)
+  string_extract <- regmatches(md_extract, string_match)[[1]]
+
+  if (keep_full_string) {
+    string_extract <- gsub(md_rx, string_extract, string)
+  }
+
+  named_hyperlink <- stats::setNames(url_extract, string_extract)
+  class(named_hyperlink) <- "hyperlink"
+  named_hyperlink
+
+}
+
+.make_hyperlink <- function(string) {
+
+  has_hyperlink <- .detect_hyperlink(string)
+
+  if (has_hyperlink) {
+
+    .detect_multi_hyperlink(string)
+    scheme_is_ok <- .check_scheme(string)
+
+    if (scheme_is_ok) {
+      string <- .extract_hyperlink(string)
+    }
+
+  }
+
+  string
 
 }
 
@@ -397,12 +493,12 @@
   table_name <- content[content$sheet_type == "cover", "table_name"][[1]]
 
   .insert_title(wb, content, tab_title)
-  .insert_table(wb, content, table_name)
+  .insert_cover_table(wb, content, table_name)  # rather than .insert_table
 
   styles <- .style_create()
   .style_workbook(wb)
   .style_sheet_title(wb, tab_title, styles)
-  .style_cover(wb, content, styles)
+  .style_cover(wb, content, styles)  # TODO: needs special handling if list provided
 
   return(wb)
 
@@ -415,7 +511,6 @@
 
   tab_title <- content[content$sheet_type == "contents", "tab_title"][[1]]
   table_name <- content[content$sheet_type == "contents", "table_name"][[1]]
-
 
   .insert_title(wb, content, tab_title)
   .insert_table_count(wb, content, tab_title)

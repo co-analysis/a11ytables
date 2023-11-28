@@ -52,7 +52,7 @@ Each argument to `create_a11ytable()` provides the information needed to constru
 | `sheet_titles` | Character vector | Yes | | The main heading of each sheet, which will appear in cell A1 |
 | `blank_cells` | Character vector | No | | A sentence that explains the reason for any blank cells in the sheet (if applicable) |
 | `sources` | Character vector | No | | A sentence provides the source of the data found in each table (if applicable, likely only needed for sheets with `sheet_types` of 'table') |
-| `tables` | List of dataframes | Yes | | The main content for each sheet, expressed as flat ([probably tidy](https://www.jstatsoft.org/article/view/v059i10)) dataframes of rows and columns |
+| `tables` | List of dataframes (cover can be a list) | Yes | | The main content for each sheet, expressed as flat ([probably tidy](https://www.jstatsoft.org/article/view/v059i10)) dataframes of rows and columns (though the cover can be a list) |
 
 You can read more about these arguments and their requirements in the function's help pages, which you can access by running `?create_a11ytable`. See also the [terminology vignette](https://co-analysis.github.io/a11ytables/articles/terminology), `vignette("terminology", "a11ytables")`, for these terms and more.
 
@@ -66,9 +66,27 @@ Note that you can use the RStudio Addin 'Insert table templates using 'tibble'' 
 
 ##### Meta-sheets
 
-Here's a demo table for the cover (required), which has a column for sub-headings and a column for the content of each one:
+The cover can accept either a list or a data.frane (the latter was the only acceptable input prior to version 0.2.0). We recommend a list so that you can have multiple rows per section on the cover. This also means you can dedicate certain rows to be hyperlinks to web URLs or mailto links that will open an email client. Here's a demo list for the contents page (required):
 
-```{r tables-cover}
+```{r tables-cover-list}
+cover_list <- list( 
+  "Description" = "Aspects of automobile design and performance.",
+  "Properties" = "Suppressed values are replaced with the value '[c]'.",
+  "Contact" = c(
+    "Contact the mtcars Team.",
+    "Telephone 0123456789.",
+    "Email us at [invented_email@not_real.com](mailto:invented_email@not_real.com)."
+  )
+)
+```
+
+<details><summary>Click for an alternative data.frame input for the cover.</summary>
+
+Instead of a list, you could provide a data.frame that contains information for the cover sheet. The limitation with this approach is that---for each section on the cover sheet---you are restricted to one cell for the header and one cell for body content. That might not be ideal if you want to dedicate some cells within a section to be hyperlinks. 
+
+Here's a demo data.frame for the cover that has a column for sub-headings and a column for the content of each one:
+
+```{r tables-cover-df, eval=FALSE}
 cover_df <- tibble::tribble( 
   ~"subsection_title",  ~"subsection_content",
   "Description", "Aspects of automobile design and performance.",
@@ -76,6 +94,8 @@ cover_df <- tibble::tribble(
   "Contact",     "The mtcars Team, telephone 0123456789."
 )
 ```
+
+</details>
 
 Here's a demo table for the contents page (required):
 
@@ -99,7 +119,7 @@ notes_df <- tibble::tribble(
 
 <details><summary>Click to preview these tables</summary>
 ```{r tables-meta-expand}
-cover_df
+cover_list
 contents_df
 notes_df
 ```
@@ -177,7 +197,7 @@ my_a11ytable <-
       "Motor Trend (1974)"
     ),
     tables = list(
-      cover_df,
+      cover_list,
       contents_df,
       notes_df,
       stats_df
@@ -246,12 +266,14 @@ It's your responsibility to check and amend the output from {a11ytables} to ensu
 
 You can apply some final tweaks to the output xlsx file if the defaults don't quite meet your requirements (e.g. some column widths), though it's advisable to keep changes to a minimum for reproducibility purposes and because you may undo some of the compliant structuring and formatting that {a11ytables} provides.
 
-At time of writing (v0.1.0) you might want to address manually some other [accessibility requirements](https://analysisfunction.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/) that are not yet covered by the package:
+At time of writing (v0.2.0) you might want to address manually some other [accessibility requirements](https://analysisfunction.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/) that are not yet covered by the package:
 
 1. Fill in the document properties, which you are likely to find under 'File' then 'Properties' in your spreadsheet software
 2. Convert text to hyperlinks, where required
 3. Convert to an ODS file rather than the proprietary xlsx format
 4. Various number-formatting issues, like padding decimal places with zeroes
+
+Please [see the issues on GitHub](https://github.com/co-analysis/a11ytables/issues); we're trying to address a number of these limitations.
 
 # Contribute
 

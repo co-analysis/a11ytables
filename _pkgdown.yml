@@ -16,7 +16,7 @@ footer:
     left: legal
     right: built_with
   components:
-    legal: © Crown Copyright, 2022, Cabinet Office
+    legal: © Crown Copyright, 2023, Cabinet Office
 
 reference:
 - title: "a11ytables"
@@ -35,6 +35,7 @@ reference:
   desc: "Demo datasets"
   contents:
   - mtcars_df
+  - mtcars_df2
 - title: "RStudio Addins"
   desc: "RStudio Addin functions for inserting workflow skeletons"
   contents:

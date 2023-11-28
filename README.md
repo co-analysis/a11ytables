@@ -18,18 +18,18 @@ coverage](https://codecov.io/gh/co-analysis/a11ytables/branch/main/graph/badge.s
 ## Purpose
 
 An R package to help automatically create reproducible spreadsheets that
-adhere to the latest guidance on [releasing statistics in
+adhere to the guidance on [releasing statistics in
 spreadsheets](https://analysisfunction.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)
-from the UK government’s [Analysis Function Central
-Team](https://analysisfunction.civilservice.gov.uk/), with a focus on
-accessibility (‘a11y’).
+from the UK government’s [Analysis
+Function](https://analysisfunction.civilservice.gov.uk/), with a focus
+on accessibility (‘a11y’).
 
 Visit [the {a11ytables}
 website](https://co-analysis.github.io/a11ytables/) for documentation.
 
 ## Accessibility
 
-This package is not intended for creating perfectly accessible
+This package is not yet capable of creating perfectly accessible
 spreadsheets but will help with the bulk of the work needed. Users of
 this packages should refer back to [the main spreadsheet
 guidance](https://analysisfunction.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/)
@@ -64,13 +64,17 @@ GitHub](https://github.com/co-analysis/a11ytables) using
 install.packages("remotes")  # if not already installed
 
 remotes::install_github(
-  "co-analysis/a11ytables",  # GitHub user/repository
-  dependencies = TRUE,  # install required and suggested packages
-  build_vignettes = TRUE  # generate vignette documentation
+  repo = "co-analysis/a11ytables",  # GitHub user/repository
+  dependencies = TRUE,              # install required/suggested packages
+  build_vignettes = TRUE            # generate vignette documentation
 )
 
 library(a11ytables)  # attach package
 ```
+
+If you need an earlier version of the package, you should replace the
+`repo` argument call with, for example,
+`"co-analysis/allytables@v0.1.0"` for the version 0.1.0 release.
 
 The package depends on [{openxlsx}](https://ycphs.github.io/openxlsx/)
 and [{pillar}](https://pillar.r-lib.org/), which are also installed with
@@ -86,9 +90,9 @@ To create a spreadsheet:
 
 Run `?function_name` or visit [the package
 website](https://co-analysis.github.io/a11ytables/reference/index.html)
-for function documentation. For long-form documentation, run
-`browseVignettes("a11ytables")` or [visit the package
-website](https://co-analysis.github.io/a11ytables/) to read the:
+for function documentation. For long-form documentation, [visit the
+package website](https://co-analysis.github.io/a11ytables/) or run
+`browseVignettes("a11ytables")` to read the:
 
 - [introductory
   vignette](https://co-analysis.github.io/a11ytables/articles/a11ytables.html)
@@ -110,10 +114,9 @@ demo skeletons of the {a11ytables} workflow.
 
 ## Related projects
 
-The Analysis Function Central Team released [a Python package called
-‘gptables’](https://github.com/best-practice-and-impact/gptables) that
-has [been updated given the latest best-practice
-guidance](https://dataingovernment.blog.gov.uk/2022/06/24/automatically-produce-best-practice-spreadsheets/).
+The ONS’s Analysis Standards and Pipelines team has released [a Python
+package called
+‘gptables’](https://github.com/best-practice-and-impact/gptables).
 {a11ytables} is an independent effort that offers a native R solution
 that is very similar to gptables in its outputs, though there are some
 differences in implementation. You can always use gptables in R [via the
@@ -133,7 +136,7 @@ Conduct](https://co-analysis.github.io/a11ytables/CODE_OF_CONDUCT.html).
 
 ## Copyright and Licensing
 
-© Crown Copyright, 2022, Cabinet Office
+© Crown Copyright, 2023, Cabinet Office.
 
 This work is [Crown
 Copyright](https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/).

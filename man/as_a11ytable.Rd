@@ -21,12 +21,12 @@ a11ytable, otherwise \code{FALSE}.
 Functions to check if an object is an a11ytable, or coerce it if possible.
 }
 \examples{
-\dontrun{
-# Create an a11ytable with in-built demo dataframe, mtcars_df
-x <- as_a11ytable(mtcars_df)
+# Create an a11ytable with in-built demo dataframe, mtcars_df2. We can use
+# 'as_a11ytable' rather than 'create_a11ytable' because the data is already
+# in the right format.
+x <- as_a11ytable(mtcars_df2)
 
 # Test the object's class
 is_a11ytable(x)
-}
 
 }
