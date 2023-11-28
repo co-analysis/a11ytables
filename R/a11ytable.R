@@ -23,18 +23,26 @@
 #' @param sources Optional character vector, one value per sheet. The origin of
 #'     the data for a given sheet. Supply as \code{NA_character_} if empty. To
 #'     be used with sheet type 'tables'.
-#' @param tables Required list of data.frames, one per sheet. See details.
+#' @param tables Required list of data.frames (though the cover sheet may be
+#'     supplied as a list), one per sheet. See details.
 #'
-#' @details Formats for data.frames provided as a list to the 'tables' argument,
-#'     depending on the sheet type.
+#' @details
+#'
+#' ## How to supply data to the 'tables' argument
+#'
+#' Formats for the elements collected as a list and passed to the 'tables'
+#' argument, depending on the sheet type.
+#'
 #' \itemize{
-#'     \item Sheet type 'cover': one row per subsection, with columns for
-#'         'Subsection title' and 'Subsection text'. For example, a section with
-#'         contact details might have 'Contact details' as the subsection title
-#'         and a telephone number and email address in the body-text column. Use
-#'         linebreaks (i.e. '\\n') to put multiple rows in the same body text.
-#'         Don't break information into separate spreadsheet rows if they belong
-#'         in the same subsection).
+#'     \item Sheet type 'cover': either (a) a list where each element name is a
+#'         section header and each element's content is a character vector
+#'         whose elements will make up separate rows of that section
+#'         (recommended), or (b) a data.frame with one row per subsection, with
+#'         one column for section titles and one column for corresponding for
+#'         that section's body text. For example, you may have a section with
+#'         the title 'Contact details' that contains an email address and
+#'         telephone number. You can use linebreaks (i.e. '\\n') to separate
+#'         text into paragraphs.
 #'     \item Sheet type 'contents': one row per sheet, two columns suggested at
 #'         least ('Tab title' and 'Worksheet title').
 #'     \item Sheet type 'notes': one row per note, two columns suggested ('Note
@@ -44,26 +52,45 @@
 #'         the form '\[note 1\]' to column headers, or in a special 'Notes' row.
 #' }
 #'
+#' ## How to supply hyperlinks
+#'
+#' You can provide text in Markdown link syntax (e.g.
+#' '\[GOV.UK\](https://www.gov.uk)', adding 'mailto:' before an
+#' email address) and the containing cell will be rendered as a hyperlink in the
+#' output spreadsheet. Note that whole cells will become hyperlinks; there is no
+#' support for selected words in a sentence to be rendered as a hyperlink.
+#'
+#' Hyperlinks can be supplied in two locations:
+#'
+#' \itemize{
+#'     \item To the 'tables' argument for sheet type 'cover' only. It's
+#'         recommended to supply the cover information as a list rather than a
+#'         data.frame, which will allow you to make specific rows within a
+#'         section into hyperlinks. For example, in a 'Contact us' section you
+#'         might want a row containing some preamble (no hyperlink), a cell
+#'         containing a phone number (no hyperlink) and a cell containing an
+#'         email address (hyperlinked).
+#'     \item To the 'source' argument for data tables.
+#' }
+#'
 #' @return An object with classes 'a11ytable', 'tbl' and 'data.frame'.
 #'
 #' @examples
-#' \dontrun{
-#' # Create an a11ytable with in-built demo dataframe, mtcars_df
+#' # Create an a11ytable with in-built demo dataframe, mtcars_df2
 #' x <- create_a11ytable(
-#'     tab_titles   = mtcars_df$tab_title,
-#'     sheet_types  = mtcars_df$sheet_type,
-#'     sheet_titles = mtcars_df$sheet_title,
-#'     blank_cells  = mtcars_df$blank_cells,
-#'     sources      = mtcars_df$source,
-#      tables       = mtcars_df$table
+#'   tab_titles   = mtcars_df2$tab_title,
+#'   sheet_types  = mtcars_df2$sheet_type,
+#'   sheet_titles = mtcars_df2$sheet_title,
+#'   blank_cells  = mtcars_df2$blank_cells,
+#'   sources      = mtcars_df2$source,
+#'    tables       = mtcars_df2$table
 #' )
 #'
-#' # Test the object's class
+#' # Test that 'a11ytable' is one of the object's classes
 #' is_a11ytable(x)
 #'
 #' # You can also use the RStudio Addin installed with the package to insert a
 #' # an example skeleton containing this function.
-#' }
 #'
 #' @export
 create_a11ytable <- function(
@@ -101,13 +128,13 @@ create_a11ytable <- function(
 #'     a11ytable, otherwise \code{FALSE}.
 #'
 #' @examples
-#' \dontrun{
-#' # Create an a11ytable with in-built demo dataframe, mtcars_df
-#' x <- as_a11ytable(mtcars_df)
+#' # Create an a11ytable with in-built demo dataframe, mtcars_df2. We can use
+#' # 'as_a11ytable' rather than 'create_a11ytable' because the data is already
+#' # in the right format.
+#' x <- as_a11ytable(mtcars_df2)
 #'
 #' # Test the object's class
 #' is_a11ytable(x)
-#' }
 #'
 #' @export
 as_a11ytable <- function(x) {
@@ -150,13 +177,13 @@ is_a11ytable <- function(x) {
 #' @param ... Other arguments to pass.
 #'
 #' @examples
-#' \dontrun{
-#' # Create an a11ytable with in-built demo dataframe, mtcars_df
-#' x <- as_a11ytable(mtcars_df)
+#' # Create an a11ytable with in-built demo dataframe, mtcars_df2. We can use
+#' # 'as_a11ytable' rather than 'create_a11ytable' because the data is already
+#' # in the right format.
+#' x <- as_a11ytable(mtcars_df2)
 #'
 #' # Print summary of a11ytable-class object
 #' summary(x)
-#' }
 #'
 #' @export
 summary.a11ytable <- function(object, ...) {
@@ -197,8 +224,10 @@ NULL
 #'
 #' @examples
 #' \dontrun{
-#' # Create an a11ytable with in-built demo dataframe, mtcars_df
-#' x <- as_a11ytable(mtcars_df)
+#' # Create an a11ytable with in-built demo dataframe, mtcars_df2. We can use
+#' # 'as_a11ytable' rather than 'create_a11ytable' because the data is already
+#' # in the right format.
+#' x <- as_a11ytable(mtcars_df2)
 #'
 #' # Print description only
 #' tbl_sum(x)

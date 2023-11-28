@@ -20,20 +20,21 @@ a11ytable-class object. In turn, the output can be passed to
 \code{\link[openxlsx]{saveWorkbook}} from 'openxlsx'
 }
 \examples{
-\dontrun{
-# Create an a11ytable with in-built demo dataframe, mtcars_df
-x <- as_a11ytable(mtcars_df)
+# Create an a11ytable with in-built demo dataframe, mtcars_df2. We can use
+# 'as_a11ytable' rather than 'create_a11ytable' because the data is already
+# in the right format.
+x <- as_a11ytable(mtcars_df2)
 
 # Convert to a Workbook-class object
-generate_workbook(x)
+y <- generate_workbook(x)
+class(y)
 
 # As above, using a base pipe
-mtcars_df |>
+z <- mtcars_df2 |>
   as_a11ytable() |>
   generate_workbook()
 
 # You can also use the RStudio Addin installed with the package to insert a
 # an example skeleton containing this function.
-}
 
 }
