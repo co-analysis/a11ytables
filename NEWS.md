@@ -1,3 +1,7 @@
+# a11ytables 0.2.0.9001
+
+* Hotfix: correct spelling error in installation instructions in README (#111).
+
 # a11ytables 0.2.0
 
 ## New features

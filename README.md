@@ -74,7 +74,7 @@ library(a11ytables)  # attach package
 
 If you need an earlier version of the package, you should replace the
 `repo` argument call with, for example,
-`"co-analysis/allytables@v0.1.0"` for the version 0.1.0 release.
+`"co-analysis/a11ytables@v0.1.0"` for the version 0.1.0 release.
 
 The package depends on [{openxlsx}](https://ycphs.github.io/openxlsx/)
 and [{pillar}](https://pillar.r-lib.org/), which are also installed with
