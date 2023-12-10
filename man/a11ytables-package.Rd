@@ -24,9 +24,9 @@ Useful links:
 
 Other contributors:
 \itemize{
-  \item Crown Copyright [copyright holder, funder]
   \item Tim Taylor [contributor]
   \item Matt Kerlogue [contributor]
+  \item Crown Copyright [copyright holder, funder]
 }
 
 }

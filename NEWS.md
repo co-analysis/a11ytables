@@ -1,6 +1,7 @@
-# a11ytables 0.2.0.9001
+# a11ytables 0.2.1
 
-* Hotfix: correct spelling error in installation instructions in README (#111).
+* Bugfix: corrected spelling error in installation instructions in README (#111).
+* Accessibility fix: display number of tables with text rather than a numeral (#109).
 
 # a11ytables 0.2.0
 
