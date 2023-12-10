@@ -197,9 +197,24 @@
 
   table_count <- nrow(content[content$tab_title == tab_title, ])
 
+  if (table_count < 10) {
+    table_count <- switch(
+      as.character(table_count),
+      "1"  = "one",
+      "2"  = "two",
+      "3"  = "three",
+      "4"  = "four",
+      "5"  = "five",
+      "6"  = "six",
+      "7"  = "seven",
+      "8"  = "eight",
+      "9"  = "nine",
+    )
+  }
+
   text <- paste(
     "This worksheet contains", table_count,
-    ifelse(table_count == 1, "table.", "tables.")
+    ifelse(table_count == "one", "table.", "tables.")
   )
 
   openxlsx::writeData(
