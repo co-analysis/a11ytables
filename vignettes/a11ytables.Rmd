@@ -45,16 +45,17 @@ You can use the package's [RStudio Addin](https://rstudio.github.io/rstudioaddin
 
 Each argument to `create_a11ytable()` provides the information needed to construct each sheet in the spreadsheet.
 
-| Argument | Type | Required | Accepted values | Explanation |
-| :--- | :--- | :- | :--- | :------ |
-| `tab_titles` | Character vector | Yes | | The name that will appear on each sheet's tab in the output spreadsheet |
-| `sheet_types` | Character vector | Yes | 'contents', 'cover', 'notes', 'tables' | The kind of information that the sheet holds, which is needed so that the correct structure and formatting can be applied later |
-| `sheet_titles` | Character vector | Yes | | The main heading of each sheet, which will appear in cell A1 |
-| `blank_cells` | Character vector | No | | A sentence that explains the reason for any blank cells in the sheet (if applicable) |
-| `sources` | Character vector | No | | A sentence provides the source of the data found in each table (if applicable, likely only needed for sheets with `sheet_types` of 'table') |
-| `tables` | List of dataframes (cover can be a list) | Yes | | The main content for each sheet, expressed as flat ([probably tidy](https://www.jstatsoft.org/article/view/v059i10)) dataframes of rows and columns (though the cover can be a list) |
+| Argument | Required | Type | Accepted values | Explanation |
+| :--- | :- | :--- | :--- | :------ |
+| `tab_titles` | Yes | Character vector | | The name that will appear on each sheet's tab in the output spreadsheet |
+| `sheet_types` | Yes | Character vector | 'cover', 'contents', 'notes', 'tables' | The kind of information that the sheet holds, which is needed so that the correct structure and formatting can be applied later |
+| `sheet_titles` | Yes | Character vector | | The main heading of each sheet, which will appear in cell A1 |
+| `blank_cells` | No | Character vector | | A sentence that explains the reason for any blank cells in the sheet (if applicable) |
+| `custom_rows` | No | List of character vectors | | Arbitrary rows of text that the user wants to insert above a table, one list-item per sheet (contents, notes and tables sheets), one vector element per row |
+| `sources` | No | Character vector | | A sentence provides the source of the data found in each table (if applicable, likely only needed for sheets with `sheet_types` of 'table') |
+| `tables` | Yes | List of dataframes (although the cover sheet content can be provided as a list object) | | The main content for each sheet, expressed as flat ([probably tidy](https://www.jstatsoft.org/article/view/v059i10)) dataframes of rows and columns (though the cover can be a list) |
 
-You can read more about these arguments and their requirements in the function's help pages, which you can access by running `?create_a11ytable`. See also the [terminology vignette](https://co-analysis.github.io/a11ytables/articles/terminology), `vignette("terminology", "a11ytables")`, for these terms and more.
+You can read more about these arguments and their requirements in the function's help pages, which you can access by running `?create_a11ytable` in the R console. See also the [terminology vignette](https://co-analysis.github.io/a11ytables/articles/terminology), `vignette("terminology", "a11ytables")`, for these terms and more.
 
 #### Pre-prepare tables
 
@@ -139,7 +140,7 @@ This code generates a demo data.frame that we're going to pretend is the statist
 ```{r stats-df-1}
 stats_df_1 <- mtcars |>
   head() |>
-  rownames_to_column("car") |>
+  tibble::rownames_to_column("car") |>
   subset(select = c("car", "cyl", "mpg"))
 
 names(stats_df_1) <- c(
@@ -161,7 +162,7 @@ We'll create a second table as well, which will go on a separate sheet:
 ```{r stats-df-2}
 stats_df_2 <- mtcars |>
   head() |>
-  rownames_to_column("car") |>
+  tibble::rownames_to_column("car") |>
   subset(select = c("car", "hp", "drat"))
 
 names(stats_df_2) <- c("Car", "Gross horsepower", "Rear axle ratio")
@@ -306,6 +307,6 @@ At time of writing (v0.3.0) you might want to address manually some other [acces
 
 We're trying to address a number of these limitations. Please [see the issues on GitHub](https://github.com/co-analysis/a11ytables/issues) for the current status.
 
-# Contribute
+## Contribute
 
 To contribute, please add [an issue](https://github.com/co-analysis/a11ytables/issues) or [a pull request](https://github.com/co-analysis/a11ytables/pulls) after reading [the code of conduct](https://github.com/co-analysis/a11ytables/blob/main/CODE_OF_CONDUCT.md) and [contributing](https://github.com/co-analysis/a11ytables/blob/main/.github/CONTRIBUTING.md) guidance. 
