@@ -32,9 +32,9 @@ reference:
   contents:
   - generate_workbook
 - title: "Data"
-  desc: "Demo datasets (`mtcars_df` and `mtcars_df2` are superseded)"
+  desc: "Demo datasets
   contents:
-  - mtcars_df3
+  - starts_with("mtcars_df")
 - title: "RStudio Addins"
   desc: "RStudio Addin functions for inserting workflow skeletons"
   contents:
