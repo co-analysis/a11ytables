@@ -143,10 +143,14 @@
   tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
   sheet_type <- content[content$table_name == table_name, "sheet_type"][[1]]
 
-  has_notes <- .has_notes(content, tab_title)
-  has_blanks_message <- .has_blanks_message(content, tab_title)
-  has_source <- .has_source(content, tab_title)
-  start_row <- .get_start_row_table(has_notes, has_blanks_message, has_source)
+  start_row <- .get_start_row_table(
+    content,
+    tab_title,
+    .has_notes(content, tab_title),
+    .has_blanks_message(content, tab_title),
+    .has_custom_rows(content, tab_title),
+    .has_source(content, tab_title)
+  )
 
   table_height <- nrow(table)
   table_width  <- ncol(table)

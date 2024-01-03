@@ -10,6 +10,7 @@ create_a11ytable(
   sheet_titles,
   blank_cells = NA_character_,
   sources = NA_character_,
+  custom_rows = NULL,
   tables
 )
 }
@@ -29,12 +30,19 @@ data are type 'tables'.}
 title for each sheet, which will appear in cell A1 (top-left corner).}
 
 \item{blank_cells}{Optional character vector, one value per sheet. A short
-sentence to explain the reason for any blank cells in the sheet. Most
-likely to be used with sheet type 'tables'.}
+sentence to explain the reason for any blank cells in the sheet. Supply
+as \code{NA_character_} if empty. Most likely to be used with sheet type
+'tables'.}
 
 \item{sources}{Optional character vector, one value per sheet. The origin of
 the data for a given sheet. Supply as \code{NA_character_} if empty. To
 be used with sheet type 'tables'.}
+
+\item{custom_rows}{Optional list of character vectors. One list element per
+sheet, one character vector element per row of pre-table metadata. Supply
+as \code{NA_character_} if empty. To be used with sheet type 'tables',
+but can also be used for sheet types 'contents' and 'notes'. Defaults to
+\code{NULL}, meaning there are no custom rows to supply.}
 
 \item{tables}{Required list of data.frames (though the cover sheet may be
 supplied as a list), one per sheet. See details.}
@@ -104,7 +112,14 @@ x <- create_a11ytable(
   sheet_titles = mtcars_df2$sheet_title,
   blank_cells  = mtcars_df2$blank_cells,
   sources      = mtcars_df2$source,
-   tables       = mtcars_df2$table
+  custom_rows  = list(
+    NA_character_,
+    NA_character_,
+    NA_character_,
+    "A custom row for Table 1.",
+    c("A custom row for Table 2.", "A second custom row.")
+  ),
+  tables       = mtcars_df2$table
 )
 
 # Test that 'a11ytable' is one of the object's classes

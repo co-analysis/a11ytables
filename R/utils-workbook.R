@@ -45,6 +45,18 @@
 
 }
 
+.has_custom_rows <- function(content, tab_title) {
+
+  custom_rows <- content[content$tab_title == tab_title, "custom_rows"][[1]]
+
+  if (any(!is.na(custom_rows))) {
+    TRUE
+  } else {
+    FALSE
+  }
+
+}
+
 .has_notes <- function(content, tab_title) {
 
   table_names <- names(content[content$tab_title == tab_title, "table"][[1]])
@@ -113,7 +125,7 @@
 
 }
 
-.get_start_row_source <- function(
+.get_start_row_custom_rows <- function(
     has_notes,
     has_blanks_message,
     start_row = 3
@@ -131,9 +143,38 @@
 
 }
 
-.get_start_row_table <- function(
+.get_start_row_source <- function(
+    content,
+    tab_title,
     has_notes,
     has_blanks_message,
+    has_custom_rows,
+    start_row = 3
+) {
+
+  if (has_notes) {
+    start_row <- start_row + 1
+  }
+
+  if (has_blanks_message) {
+    start_row <- start_row + 1
+  }
+
+  if (has_custom_rows) {
+    custom_rows <- content[content$tab_title == tab_title, "custom_rows"][[1]]
+    start_row <- start_row + length(custom_rows)
+  }
+
+  return(start_row)
+
+}
+
+.get_start_row_table <- function(
+    content,
+    tab_title,
+    has_notes,
+    has_blanks_message,
+    has_custom_rows,
     has_source,
     start_row = 3
 ) {
@@ -144,6 +185,11 @@
 
   if (has_blanks_message) {
     start_row <- start_row + 1
+  }
+
+  if (has_custom_rows) {
+    custom_rows <- content[content$tab_title == tab_title, "custom_rows"][[1]]
+    start_row <- start_row + length(custom_rows)
   }
 
   if (has_source) {
@@ -290,6 +336,38 @@
 
 }
 
+.insert_custom_rows <- function(wb, content, tab_title) {
+
+  has_custom_rows <- .has_custom_rows(content, tab_title)
+
+  if (has_custom_rows) {
+
+    custom_rows_text <-
+      content[content$tab_title == tab_title, "custom_rows"][[1]]
+
+    has_notes <- .has_notes(content, tab_title)
+    has_blanks <- .has_blanks_message(content, tab_title)
+    start_row <- .get_start_row_custom_rows(has_notes, has_blanks)
+
+    for (i in seq_along(custom_rows_text)) {
+
+      openxlsx::writeData(
+        wb = wb,
+        sheet = tab_title,
+        x = custom_rows_text[i],
+        startCol = 1,
+        startRow = start_row + (i - 1),
+        colNames = TRUE
+      )
+
+    }
+
+  }
+
+  return(wb)
+
+}
+
 .insert_source <- function(wb, content, tab_title) {
 
   has_source <- .has_source(content, tab_title)
@@ -305,9 +383,13 @@
       source_text <- .make_hyperlink(source_text)
     }
 
-    has_notes <- .has_notes(content, tab_title)
-    has_blanks_message <- .has_blanks_message(content, tab_title)
-    start_row <- .get_start_row_source(has_notes, has_blanks_message)
+    start_row <- .get_start_row_source(
+      content,
+      tab_title,
+      .has_notes(content, tab_title),
+      .has_blanks_message(content, tab_title),
+      .has_custom_rows(content, tab_title)
+    )
 
     openxlsx::writeData(
       wb = wb,
@@ -330,19 +412,18 @@
   sheet_type <- content[content$table_name == table_name, "sheet_type"][[1]]
   tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
 
-  has_notes <- .has_notes(content, tab_title)
-  has_blanks_message <- .has_blanks_message(content, tab_title)
-  has_source <- .has_source(content, tab_title)
-
   if (sheet_type %in% c("contents", "notes")) {
     start_row <- 3
   }
 
   if (sheet_type == "tables") {
     start_row <- .get_start_row_table(
-      has_notes,
-      has_blanks_message,
-      has_source
+      content,
+      tab_title,
+      .has_notes(content, tab_title),
+      .has_blanks_message(content, tab_title),
+      .has_custom_rows(content, tab_title),
+      .has_source(content, tab_title)
     )
   }
 
@@ -574,6 +655,7 @@
   .insert_source(wb, content, tab_title)
   .insert_notes_statement(wb, content, tab_title)
   .insert_blanks_message(wb, content, tab_title)
+  .insert_custom_rows(wb, content, tab_title)
   .insert_table(wb, content, table_name)
 
   styles <- .style_create()
