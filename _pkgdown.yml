@@ -32,7 +32,7 @@ reference:
   contents:
   - generate_workbook
 - title: "Data"
-  desc: "Demo datasets
+  desc: "Demo datasets"
   contents:
   - starts_with("mtcars_df")
 - title: "RStudio Addins"
