@@ -1,3 +1,21 @@
+# a11ytables 0.3.0
+
+## New features
+
+* Added the `custom_rows` argument to `create_a11ytables()` function to supply arbitrary sentences to rows above a table (#74).
+* Added the dataset `mtcars_df3` to help demo the new `custom_rows` argument, superseding `mtcars_df` and `mtcars_df2` in the process.
+
+## Documentation
+
+* Updated {roxygen2} function documentation given the introduction of `custom_rows`.
+* Updated vignettes to include detail on how to use `custom_rows`.
+* Updated accessibility checklist vignette to include 'sensible column width' item (#117).
+
+## Miscellaneous
+
+* Updated tests to use `mtcars_df3`.
+* Update RStudio Addin given `custom_rows` and simplify only to {tibble} example.
+
 # a11ytables 0.2.1
 
 * Bugfix: corrected spelling error in installation instructions in README (#111).
