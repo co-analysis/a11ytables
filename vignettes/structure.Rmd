@@ -1,5 +1,5 @@
 ---
-title: "Package structure (advanced)"
+title: "Package structure"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{structure}
@@ -23,7 +23,9 @@ This vignette is aimed at developers who want to understand the package better a
 There are only two main user-facing functions in {a11ytables}: 
 
 * `create_a11ytable()` to create a data.frame object (with an additional 'a11ytable' S3 class) filled with all the information needed to create a spreadsheet output, as well as check the validity of the structure and provide errors or warnings
-* ` generate_workbook()` to convert the output from `create_a11ytable()` to an [{openxlsx}](https://ycphs.github.io/openxlsx/) Workbook-class object, ready for writing to an xlsx file with `openxlsx::saveWorkbook()`
+* `generate_workbook()` to convert the output from `create_a11ytable()` to an [{openxlsx}](https://ycphs.github.io/openxlsx/) Workbook-class object, ready for writing to an xlsx file with `openxlsx::saveWorkbook()`
+
+This simplicity is a feature, not a bug. It's designed to greatly simplify the process of creating compliant spreadsheets. The package does the hard work of making the outputs compliant so the user spends less time dealing with it.
 
 This vignette provides a quick look at what's happening 'under the hood' in these functions.
 
@@ -56,7 +58,7 @@ Basically, `as_a11ytable()` creates an S3-class object with classes 'data.frame'
 
 ```{r class-demo}
 library(a11ytables)
-my_a11ytable <- as_a11ytable(mtcars_df)
+my_a11ytable <- as_a11ytable(mtcars_df3)
 class(my_a11ytable)
 ```
 
@@ -77,7 +79,7 @@ Within `as_a11ytable()` itself are two major functions that help ensure proper c
 * `.validate_a11ytable()` will generate errors if basic structural expectations of an a11ytable aren't met (e.g. if 'cover', 'contents' or 'notes' have been provided more than once to the `sheet_type` argument)
 * `.warn_a11ytable()` checks for things that the user may have forgotten and prints warnings about them (e.g. if 5 notes are declared in the notes sheet but there are fewer in the tables themselves)
 
-Advanced users can create a correctly-formatted data.frame on the fly and convert it to an a11ytable with `as_a11ytable()` directly. The `as_a11ytable()` function mainly exists to make testing easier, i.e. you can pass to  the pre-prepared `mtcars_df` dataset.
+Advanced users can create a correctly-formatted data.frame on the fly and convert it to an a11ytable with `as_a11ytable()` directly. The `as_a11ytable()` function mainly exists to make testing easier, i.e. you can pass to  the pre-prepared `mtcars_df3` dataset.
 
 ### Methods
 
@@ -144,6 +146,7 @@ The following functions insert 'pre-table' elements in this order:
 * `.insert_table_count()` to add a statement about the number of tables in the sheet
 * `.insert_notes_statement()` if a `sheet_type` of 'notes' is provided in the user's a11ytable
 * `.insert_blanks_message()` if content is provided in the `blanks_cells` column of the user's a11ytable
+* `.insert_custom_rows()` if content is provided in the `custom_rows` column of the user's a11ytable
 * `.insert_source()` if content is provided in the `source` column of the user's a11ytable
     
 A table of data is added under the metadata with `.insert_table()`, which is provided in the `table` column of the user's a11ytable object.
@@ -151,7 +154,7 @@ A table of data is added under the metadata with `.insert_table()`, which is pro
 The exact `.insert_*()` functions called depend on the `sheet_type` declared in the a11ytable:
 
 * meta sheets (cover, contents and notes) need only `.insert_title()` and `.insert_table_count()`
-* statistical tables also require `.insert_source()` and `.insert_blanks_message()` if provided, as well as `.insert_notes_statement()` if there are notes
+* statistical tables may also require `.insert_blanks_message()`, `.insert_custom_rows()` and `.insert_source()` if the relevant content is provided by the user, as well as `.insert_notes_statement()` if there are notes
 
 Simple logic is used to check for the presence of meta elements with the `.has_*()` functions, while the `get_start_row_*()` functions handle the cell to which each message should be inserted. 
 
