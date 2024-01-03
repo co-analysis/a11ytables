@@ -1,107 +1,115 @@
 string_create_a11ytable <- function() {
 
   'my_a11ytable <-
-    a11ytables::create_a11ytable(
-      tab_titles = c(
-        "Cover",
-        "Contents",
-        "Notes",
-        "Table_1"
-      ),
-      sheet_types = c(
-        "cover",
-        "contents",
-        "notes",
-        "tables"
-      ),
-      sheet_titles = c(
-        "Cover title (example)",
-        "Contents",
-        "Notes",
-        "Example sheet title"
-      ),
-      blank_cells = c(
-        NA_character_,
-        NA_character_,
-        NA_character_,
-        "Blank cells mean that a row does not have a note."
-      ),
-      sources = c(
-        NA_character_,
-        NA_character_,
-        NA_character_,
-        "Example source."
-      ),
-      tables = list(
-        cover_df,
-        contents_df,
-        notes_df,
-        table_df
-      )
-    )'
+  a11ytables::create_a11ytable(
+    tab_titles = c(
+      "Cover",
+      "Contents",
+      "Notes",
+      "Table 1",
+      "Table 2"
+    ),
+    sheet_types = c(
+      "cover",
+      "contents",
+      "notes",
+      "tables",
+      "tables"
+    ),
+    sheet_titles = c(
+      "The \'mtcars\' Demo Datset",
+      "Table of contents",
+      "Notes",
+      "Table 1: Car Road Tests",
+      "Table 2: Car Road Tests"
+    ),
+    blank_cells = c(
+      NA_character_,
+      NA_character_,
+      NA_character_,
+      "Blank cells indicate that there\'s no note in that row",
+      NA_character_
+    ),
+    custom_rows = list(
+      NA_character_,
+      NA_character_,
+      NA_character_,
+      "This is a custom row for Table 1",
+      c("This is a custom row for Table 2", "This is another custom row.")
+    ),
+    sources = c(
+      NA_character_,
+      NA_character_,
+      NA_character_,
+      "Motor Trend (1974)",
+      "Motor Trend (1974)"
+    ),
+    tables = list(
+      cover_list,
+      contents_df,
+      notes_df,
+      stats_df_1,
+      stats_df_2
+    )
+  )'
 
 }
 
 string_tables_tibble <- function() {
 
-  'cover_df <- tibble::tribble(
-    ~subsection_title, ~subsection_content,
-    "Purpose", "Example results for something.",
-    "Workbook properties", "Some placeholder information.",
-    "Contact", "Placeholder email"
+  'cover_list <- list(
+    "Description" = c(
+      "Aspects of automobile design and performance from \'Motor Trend\' in 1974.",
+      "Used by Henderson and Velleman in a 1981 paper in \'Biometrics\'."
+    ),
+    "Properties" = "Suppressed values are replaced with the value \'[c]\'.",
+    "Contact" = c(
+      "[Visit the website.](https://github.com/co-analysis/a11ytables)",
+      "[Email the team.](mailto:not-a-real-email-address@completely-fake.net)",
+      "Telephone 0123456789."
+    )
   )
 
   contents_df <- tibble::tribble(
     ~"Sheet name", ~"Sheet title",
-    "Notes", "Notes",
-    "Table_1", "Example sheet title"
+    "Notes",       "Notes used in the statistical tables of this workbook",
+    "Table 1",     "Car Road Tests (demo 1)",
+    "Table 2",     "Car Road Tests (demo 2)"
   )
 
   notes_df <- tibble::tribble(
     ~"Note number", ~"Note text",
-    "[note 1]", "Placeholder note.",
-    "[note 2]", "Placeholder note."
+    "[note 1]",     "US gallons.",
+    "[note 2]",     "Retained to enable comparisons with previous analyses."
   )
 
-  table_df <- mtcars
-  table_df[["car [note 1]"]] <- row.names(mtcars)
-  row.names(table_df) <- NULL
-  table_df <- table_df[1:5, c("car [note 1]", "mpg", "cyl")]
-  table_df["Notes"] <- c("[note 2]", rep(NA_character_, 4))'
+  # Prepare Table 1
 
-}
+  stats_df_1 <- mtcars |>
+    head() |>
+    tibble::rownames_to_column("car") |>
+    subset(select = c("car", "cyl", "mpg"))
 
-string_tables_df <- function() {
-  'cover_df <- data.frame(
-      subsection_title = c(
-        "Purpose",
-        "Workbook properties",
-        "Contact"
-      ),
-      subsection_content = c(
-        "Example results for something.",
-        "Some placeholder information.",
-        "Placeholder email"
-      ),
-      check.names = FALSE
-    )
+  names(stats_df_1) <- c(
+    "Car",
+    "Cylinder count",
+    "Miles per gallon [note 1]"  # ideally, note markers go in headers not cells
+  )
 
-    contents_df <- data.frame(
-      "Sheet name" = c("Notes", "Table_1"),
-      "Sheet title" = c("Notes", "Example sheet title"),
-      check.names = FALSE
-    )
+  stats_df_1$Notes <- c(  # add \'Notes\' column
+    rep("[note 2]", 2),
+    rep(NA_character_, 4)  # note: blank cells in this column
+  )
 
-    notes_df <- data.frame(
-      "Note number" = c("[note 1]", "[note 2]"),
-      "Note text" = c("Placeholder note.", "Placeholder note."),
-      check.names = FALSE
-    )
+  stats_df_1[3, 2:3] <- "[c]"  # suppressed (confidential) data
 
-  table_df <- mtcars
-  table_df[["car [note 1]"]] <- row.names(mtcars)
-  row.names(table_df) <- NULL
-  table_df <- table_df[1:5, c("car [note 1]", "mpg", "cyl")]
-  table_df["Notes"] <- c("[note 2]", rep(NA_character_, 4))'
+  # Prepare Table 2
+
+  stats_df_2 <- mtcars |>
+  head() |>
+  tibble::rownames_to_column("car") |>
+  subset(select = c("car", "hp", "drat"))
+
+  names(stats_df_2) <- c("Car", "Gross horsepower", "Rear axle ratio")'
 
 }

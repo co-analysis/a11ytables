@@ -24,13 +24,13 @@ mtcars_df
 \description{
 Superseded. mtcars_df and \code{\link{mtcars_df2}} have been superseded in
 favour of \code{\link{mtcars_df3}}.
-}
-\details{
+
 A modified version of the mtcars dataset prepared into a data.frame structure
 ready for coercion to an a11ytables-class object with
 \code{\link{as_a11ytable}}. Uses a dataframe as input to the cover table;
 \code{\link{mtcars_df}} uses a list as input to the cover table.
-
+}
+\details{
 Uses a data.frame as input to the cover table, whereas
 \code{\link{mtcars_df2}} uses a list as input to the cover table
 (implemented in version 0.2).

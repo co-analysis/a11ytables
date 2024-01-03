@@ -19,17 +19,6 @@ at_template_tibble <- function() {
   rstudioapi::insertText(string_tables_tibble())
 }
 
-#' Insert Table Templates Using 'data.frame'
-#'
-#' Insert at the cursor templates for cover, contents and notes
-#' tables, pre-filled with example information. Uses \code{\link{data.frame}},
-#' so isn't dependent on external packages.
-#'
-#' @export
-at_template_df <- function() {
-  rstudioapi::insertText(string_tables_df())
-}
-
 #' Insert Full 'a11ytables' Template Workflow
 #'
 #' Insert at the cursor templates for cover, contents and notes
@@ -57,7 +46,7 @@ at_template_workflow <- function() {
       "\n\n",
       "openxlsx::openXL(my_wb)  # open temp copy",
       "\n\n",
-      'openxlsx::saveWorkbook(my_wb, "~/Desktop/example.xlsx")'
+      'openxlsx::saveWorkbook(my_wb, "example.xlsx")  # change save location'
     )
   )
 

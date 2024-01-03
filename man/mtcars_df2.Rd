@@ -22,14 +22,14 @@ A data frame with 5 rows and 6 columns:
 mtcars_df2
 }
 \description{
-Superseded. \code{\link{mtcars_df2}}  and mtcars_df2 have been superseded in
-favour of \code{\link{mtcars_df3}}.
-}
-\details{
+Superseded. \code{\link{mtcars_df}} and mtcars_df2 have been superseded in
+favour of \code{\link{mtcars_df3}}
+
 A modified version of the mtcars dataset prepared into a data.frame structure
 ready for coercion to an a11ytables-class object with
 \code{\link{as_a11ytable}}.
-
+}
+\details{
 Uses a list as input to the cover table (implemented in version 0.2), whereas
 \code{\link{mtcars_df}} uses a data.frame as input to the cover table.
 

@@ -1,5 +1,6 @@
 #' Test Data: A Modified 'mtcars' Dataframe (Version 1)
 #'
+#'@description
 #' Superseded. mtcars_df and \code{\link{mtcars_df2}} have been superseded in
 #' favour of \code{\link{mtcars_df3}}.
 #'
@@ -31,8 +32,9 @@
 
 #' Test Data: A Modified 'mtcars' Dataframe  (Version 2)
 #'
-#' Superseded. \code{\link{mtcars_df2}}  and mtcars_df2 have been superseded in
-#' favour of \code{\link{mtcars_df3}}.
+#' @description
+#' Superseded. \code{\link{mtcars_df}} and mtcars_df2 have been superseded in
+#' favour of \code{\link{mtcars_df3}}
 #'
 #' A modified version of the mtcars dataset prepared into a data.frame structure
 #' ready for coercion to an a11ytables-class object with
@@ -60,6 +62,7 @@
 
 #' Test Data: A Modified 'mtcars' Dataframe  (Version 3)
 #'
+#' @description
 #' A modified version of the mtcars dataset prepared into a data.frame structure
 #' ready for coercion to an a11ytables-class object with
 #' \code{\link{as_a11ytable}}.
