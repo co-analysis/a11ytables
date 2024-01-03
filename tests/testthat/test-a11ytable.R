@@ -1,16 +1,16 @@
 
 test_that("a11ytable can be created by hand (with df for cover)", {
 
-  # Uses mtcars_df, which has a data.frame containing cover information in the
+  # Uses mtcars_df3, which has a data.frame containing cover information in the
   # 'table' column.
 
   x <- suppressWarnings(
     create_a11ytable(
-      tab_titles   = mtcars_df$tab_title,
-      sheet_types  = mtcars_df$sheet_type,
-      sheet_titles = mtcars_df$sheet_title,
-      sources      = mtcars_df$source,
-      tables       = mtcars_df$table
+      tab_titles   = mtcars_df3$tab_title,
+      sheet_types  = mtcars_df3$sheet_type,
+      sheet_titles = mtcars_df3$sheet_title,
+      sources      = mtcars_df3$source,
+      tables       = mtcars_df3$table
     )
   )
 
@@ -20,11 +20,11 @@ test_that("a11ytable can be created by hand (with df for cover)", {
   expect_error(
     suppressWarnings(
       create_a11ytable(
-        tab_titles   = mtcars_df$tab_title,
+        tab_titles   = mtcars_df3$tab_title,
         sheet_types  = "x",
-        sheet_titles = mtcars_df$sheet_title,
-        sources      = mtcars_df$source,
-        tables       = mtcars_df$table
+        sheet_titles = mtcars_df3$sheet_title,
+        sources      = mtcars_df3$source,
+        tables       = mtcars_df3$table
       )
     )
   )
@@ -33,16 +33,16 @@ test_that("a11ytable can be created by hand (with df for cover)", {
 
 test_that("a11ytable can be created by hand (with list for cover)", {
 
-  # Uses mtcars_df, which has a list containing cover information in the
+  # Uses mtcars_df3, which has a list containing cover information in the
   # 'table' column.
 
   x <- suppressWarnings(
     create_a11ytable(
-      tab_titles   = mtcars_df2$tab_title,
-      sheet_types  = mtcars_df2$sheet_type,
-      sheet_titles = mtcars_df2$sheet_title,
-      sources      = mtcars_df2$source,
-      tables       = mtcars_df2$table
+      tab_titles   = mtcars_df3$tab_title,
+      sheet_types  = mtcars_df3$sheet_type,
+      sheet_titles = mtcars_df3$sheet_title,
+      sources      = mtcars_df3$source,
+      tables       = mtcars_df3$table
     )
   )
 
@@ -52,11 +52,11 @@ test_that("a11ytable can be created by hand (with list for cover)", {
   expect_error(
     suppressWarnings(
       create_a11ytable(
-        tab_titles   = mtcars_df2$tab_title,
+        tab_titles   = mtcars_df3$tab_title,
         sheet_types  = "x",
-        sheet_titles = mtcars_df2$sheet_title,
-        sources      = mtcars_df2$source,
-        tables       = mtcars_df2$table
+        sheet_titles = mtcars_df3$sheet_title,
+        sources      = mtcars_df3$source,
+        tables       = mtcars_df3$table
       )
     )
   )
@@ -67,11 +67,11 @@ test_that("strings are not converted to factors", {
 
   x <- suppressWarnings(
     create_a11ytable(
-      tab_titles   = mtcars_df$tab_title,
-      sheet_types  = mtcars_df$sheet_type,
-      sheet_titles = mtcars_df$sheet_title,
-      sources      = mtcars_df$source,
-      tables       = mtcars_df$table
+      tab_titles   = mtcars_df3$tab_title,
+      sheet_types  = mtcars_df3$sheet_type,
+      sheet_titles = mtcars_df3$sheet_title,
+      sources      = mtcars_df3$source,
+      tables       = mtcars_df3$table
     )
   )
 
@@ -84,7 +84,7 @@ test_that("strings are not converted to factors", {
 
 test_that("suitable objects can be coerced", {
 
-  x <- suppressWarnings(as_a11ytable(mtcars_df))
+  x <- suppressWarnings(as_a11ytable(mtcars_df3))
 
   expect_s3_class(x, class = "a11ytable")
   expect_identical(class(x), c("a11ytable", "tbl", "data.frame"))
@@ -99,45 +99,45 @@ test_that("suitable objects can be coerced", {
 
 test_that("class validation works", {
 
-  expect_length(suppressWarnings(as_a11ytable(mtcars_df)), 6)
+  expect_length(suppressWarnings(as_a11ytable(mtcars_df3)), 7)
 
   expect_error(as_a11ytable(1))
   expect_error(as_a11ytable("x"))
   expect_error(as_a11ytable(list()))
   expect_error(as_a11ytable(data.frame()))
 
-  x <- mtcars_df
+  x <- mtcars_df3
   names(x)[1] <- "foo"
   expect_error(as_a11ytable(x))
 
-  x <- mtcars_df
+  x <- mtcars_df3
   x[["table"]] <- as.character(x[["table"]])
   expect_error(as_a11ytable(x))
 
-  x <- mtcars_df[, 1:4]
+  x <- mtcars_df3[, 1:4]
   expect_error(as_a11ytable(x))
 
-  x <- mtcars_df[1, ]
+  x <- mtcars_df3[1, ]
   expect_error(as_a11ytable(x))
 
-  x <- mtcars_df
+  x <- mtcars_df3
   x[x$sheet_type %in% c("cover", "contents"), "sheet_type"] <- "foo"
   expect_error(as_a11ytable(x))
 
-  x <- mtcars_df
+  x <- mtcars_df3
   x[x$tab_title == "Table_2", "sheet_type"] <- "foo"
   expect_error(as_a11ytable(x))
 
-  x <- mtcars_df
+  x <- mtcars_df3
   x$sheet_type <- NA_character_
   expect_error(as_a11ytable(x))
 
-  x <- mtcars_df
+  x <- mtcars_df3
   x[x$tab_title == "Table_2", "tab_title"] <-
     "Lorem_ipsum_dolor_sit_amet__consectetur_adipiscing"
   expect_warning(as_a11ytable(x))
 
-  x <- mtcars_df
+  x <- mtcars_df3
   x[x$sheet_type == "notes", "table"][[1]] <-
     list(
       data.frame(
@@ -152,14 +152,14 @@ test_that("class validation works", {
 
 test_that("summary method works", {
 
-  x <- suppressWarnings(as_a11ytable(mtcars_df))
+  x <- suppressWarnings(as_a11ytable(mtcars_df3))
   expect_output(summary(x))
 
 })
 
 test_that("absence of note sheets doesn't prevent a11ytable formation", {
 
-  df <- mtcars_df[mtcars_df$sheet_type != "notes", ]
+  df <- mtcars_df3[mtcars_df3$sheet_type != "notes", ]
   suppressWarnings(x <- as_a11ytable(df))
 
   expect_s3_class(x, "a11ytable")
@@ -169,11 +169,11 @@ test_that("absence of note sheets doesn't prevent a11ytable formation", {
 
 test_that("tab_titles are unique", {
 
-  mtcars_df[mtcars_df$tab_title == "Table_2", "tab_title"] <- "Table_1"
+  mtcars_df3[mtcars_df3$tab_title == "Table_2", "tab_title"] <- "Table_1"
 
   expect_error(
     with(
-      mtcars_df,
+      mtcars_df3,
       create_a11ytable(
         tab_titles   = tab_title,
         sheet_types  = sheet_type,
@@ -209,13 +209,13 @@ test_that("input other than data.frame is intercepted during validation", {
 
   expect_error(.validate_a11ytable("x"))
 
-  x <- mtcars_df; x[, "table"] <- "x"
+  x <- mtcars_df3; x[, "table"] <- "x"
   expect_error(
     as_a11ytable(x),
     "Column 'table' must be a listcol of data.frame objects."
   )
 
-  y <- subset(mtcars_df, select = -table)
+  y <- subset(mtcars_df3, select = -table)
   y[, "table"] <- list(rep(list("x"), nrow(y)))
   expect_error(
     as_a11ytable(y),
@@ -227,11 +227,11 @@ test_that("input other than data.frame is intercepted during validation", {
 test_that("only one cover, contents, notes can be used", {
 
   cover_dupe <-
-    rbind(mtcars_df, mtcars_df[mtcars_df$sheet_type == "cover", ])
+    rbind(mtcars_df3, mtcars_df3[mtcars_df3$sheet_type == "cover", ])
   contents_dupe <-
-    rbind(mtcars_df, mtcars_df[mtcars_df$sheet_type == "contents", ])
+    rbind(mtcars_df3, mtcars_df3[mtcars_df3$sheet_type == "contents", ])
   notes_dupe <-
-    rbind(mtcars_df, mtcars_df[mtcars_df$sheet_type == "notes", ])
+    rbind(mtcars_df3, mtcars_df3[mtcars_df3$sheet_type == "notes", ])
 
   expect_error(as_a11ytable(cover_dupe))
   expect_error(as_a11ytable(contents_dupe))
@@ -241,10 +241,10 @@ test_that("only one cover, contents, notes can be used", {
 
 test_that("NAs in certain columns cause failure", {
 
-  tab_na   <- mtcars_df; tab_na$tab_title     <- NA_character_
-  type_na  <- mtcars_df; type_na$sheet_type   <- NA_character_
-  title_na <- mtcars_df; title_na$sheet_title <- NA_character_
-  table_na <- mtcars_df; table_na$table       <- NA_character_
+  tab_na   <- mtcars_df3; tab_na$tab_title     <- NA_character_
+  type_na  <- mtcars_df3; type_na$sheet_type   <- NA_character_
+  title_na <- mtcars_df3; title_na$sheet_title <- NA_character_
+  table_na <- mtcars_df3; table_na$table       <- NA_character_
 
   expect_error(as_a11ytable(tab_na))
   expect_error(as_a11ytable(type_na))
@@ -255,13 +255,13 @@ test_that("NAs in certain columns cause failure", {
 
 test_that("Note mismatch is caught", {
 
-  x <- mtcars_df[!mtcars_df$tab_title == "Table_1", ]
+  x <- mtcars_df3[!mtcars_df3$tab_title == "Table_1", ]
   x[x$sheet_type == "contents", "table"][[1]] <-
     list(data.frame(x = c("x", "y"), y = c("x", "y")))
 
   expect_warning(as_a11ytable(x), "You have a 'notes' sheet")
 
-  # y <- mtcars_df[!mtcars_df$tab_title == "Table_2", ]
+  # y <- mtcars_df3[!mtcars_df3$tab_title == "Table_2", ]
   # y[y$sheet_type == "contents", "table"][[1]] <-
   #   list(data.frame(x = c("x", "y"), y = c("x", "y")))
   # table_extra_note <- y[y$tab_title == "Table_1", "table"][[1]]
@@ -270,7 +270,7 @@ test_that("Note mismatch is caught", {
   #
   # expect_warning(as_a11ytable(y), "Some notes are in the tables")
 
-  z <- mtcars_df[!mtcars_df$tab_title == "Table_2", ]
+  z <- mtcars_df3[!mtcars_df3$tab_title == "Table_2", ]
   z[z$sheet_type == "contents", "table"][[1]] <-
     list(data.frame(x = c("x", "y"), y = c("x", "y")))
   z[z$sheet_type == "notes", "table"][[1]] <- list(
@@ -288,9 +288,9 @@ test_that("Note mismatch is caught", {
 
 test_that("warning is raised if a source statement is missing", {
 
-  mtcars_df[mtcars_df$tab_title == "Table_1", "source"] <- NA_character_
+  mtcars_df3[mtcars_df3$tab_title == "Table_1", "source"] <- NA_character_
   expect_warning(
-    as_a11ytable(mtcars_df),
+    as_a11ytable(mtcars_df3),
     "One of your tables is missing a source statement."
   )
 
@@ -298,9 +298,9 @@ test_that("warning is raised if a source statement is missing", {
 
 test_that("warning is raised if there's no blank cells but there is a reason", {
 
-  mtcars_df[mtcars_df$tab_title == "Table_2", "blank_cells"] <- "x"
+  mtcars_df3[mtcars_df3$tab_title == "Table_2", "blank_cells"] <- "x"
   expect_warning(
-    as_a11ytable(mtcars_df),
+    as_a11ytable(mtcars_df3),
     "There's no blank cells in these tables"
   )
 
@@ -329,11 +329,11 @@ test_that("tab titles are cleaned and warnings provided", {
   expect_warning(.clean_tab_titles("Table!@£#$%^&*(){}[]-=+;:'\"\\|<>,.~`/?1"))
   expect_warning(.clean_tab_titles(long_title))
 
-  x <- mtcars_df
+  x <- mtcars_df3
   x[1, "tab_title"] <- long_title
   expect_warning(as_a11ytable(x))
 
-  y <- mtcars_df
+  y <- mtcars_df3
   y[1, "tab_title"] <- "Cover!"
   expect_warning(as_a11ytable(y))
 
@@ -341,14 +341,14 @@ test_that("tab titles are cleaned and warnings provided", {
 
 test_that("input column names are okay", {
 
-  names(mtcars_df)[1] <- "x"
-  expect_error(as_a11ytable(mtcars_df))
+  names(mtcars_df3)[1] <- "x"
+  expect_error(as_a11ytable(mtcars_df3))
 
 })
 
 test_that("character class columns are caught if not character class", {
 
-  mtcars_df[, "sheet_type"] <- 1:nrow(mtcars_df)
-  expect_error(as_a11ytable(mtcars_df))
+  mtcars_df3[, "sheet_type"] <- 1:nrow(mtcars_df3)
+  expect_error(as_a11ytable(mtcars_df3))
 
 })
