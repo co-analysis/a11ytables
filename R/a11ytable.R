@@ -21,14 +21,13 @@
 #'     sentence to explain the reason for any blank cells in the sheet. Supply
 #'     as \code{NA_character_} if empty. Most likely to be used with sheet type
 #'     'tables'.
-#' @param sources Optional character vector, one value per sheet. The origin of
-#'     the data for a given sheet. Supply as \code{NA_character_} if empty. To
-#'     be used with sheet type 'tables'.
 #' @param custom_rows Optional list of character vectors. One list element per
 #'     sheet, one character vector element per row of pre-table metadata. Supply
 #'     as \code{NA_character_} if empty. To be used with sheet type 'tables',
-#'     but can also be used for sheet types 'contents' and 'notes'. Defaults to
-#'     \code{NULL}, meaning there are no custom rows to supply.
+#'     but can also be used for sheet types 'contents' and 'notes'.
+#' @param sources Optional character vector, one value per sheet. The origin of
+#'     the data for a given sheet. Supply as \code{NA_character_} if empty. To
+#'     be used with sheet type 'tables'.
 #' @param tables Required list of data.frames (though the cover sheet may be
 #'     supplied as a list), one per sheet. See details.
 #'
@@ -76,34 +75,25 @@
 #'         might want a row containing some preamble (no hyperlink), a cell
 #'         containing a phone number (no hyperlink) and a cell containing an
 #'         email address (hyperlinked).
-#'     \item To the 'source' argument for data tables.
+#'     \item To the 'source' argument for sheets that contain tables of data.
 #' }
 #'
 #' @return An object with classes 'a11ytable', 'tbl' and 'data.frame'.
 #'
 #' @examples
-#' # Create an a11ytable with in-built demo dataframe, mtcars_df2
+#' # Create an a11ytable with in-built demo dataframe, mtcars_df3
 #' x <- create_a11ytable(
-#'   tab_titles   = mtcars_df2$tab_title,
-#'   sheet_types  = mtcars_df2$sheet_type,
-#'   sheet_titles = mtcars_df2$sheet_title,
-#'   blank_cells  = mtcars_df2$blank_cells,
-#'   sources      = mtcars_df2$source,
-#'   custom_rows  = list(
-#'     NA_character_,
-#'     NA_character_,
-#'     NA_character_,
-#'     "A custom row for Table 1.",
-#'     c("A custom row for Table 2.", "A second custom row.")
-#'   ),
-#'   tables       = mtcars_df2$table
+#'   tab_titles   = mtcars_df3$tab_title,
+#'   sheet_types  = mtcars_df3$sheet_type,
+#'   sheet_titles = mtcars_df3$sheet_title,
+#'   blank_cells  = mtcars_df3$blank_cells,
+#'   sources      = mtcars_df3$source,
+#'   custom_rows  = mtcars_df3$custom_rows
+#'   tables       = mtcars_df3$table
 #' )
 #'
 #' # Test that 'a11ytable' is one of the object's classes
 #' is_a11ytable(x)
-#'
-#' # You can also use the RStudio Addin installed with the package to insert a
-#' # an example skeleton containing this function.
 #'
 #' @export
 create_a11ytable <- function(
@@ -143,10 +133,10 @@ create_a11ytable <- function(
 #'     a11ytable, otherwise \code{FALSE}.
 #'
 #' @examples
-#' # Create an a11ytable with in-built demo dataframe, mtcars_df2. We can use
+#' # Create an a11ytable with in-built demo dataframe, mtcars_df3. We can use
 #' # 'as_a11ytable' rather than 'create_a11ytable' because the data is already
 #' # in the right format.
-#' x <- as_a11ytable(mtcars_df2)
+#' x <- as_a11ytable(mtcars_df3)
 #'
 #' # Test the object's class
 #' is_a11ytable(x)
@@ -192,10 +182,10 @@ is_a11ytable <- function(x) {
 #' @param ... Other arguments to pass.
 #'
 #' @examples
-#' # Create an a11ytable with in-built demo dataframe, mtcars_df2. We can use
+#' # Create an a11ytable with in-built demo dataframe, mtcars_df3. We can use
 #' # 'as_a11ytable' rather than 'create_a11ytable' because the data is already
 #' # in the right format.
-#' x <- as_a11ytable(mtcars_df2)
+#' x <- as_a11ytable(mtcars_df3)
 #'
 #' # Print summary of a11ytable-class object
 #' summary(x)
@@ -238,18 +228,16 @@ NULL
 #' @return Named character vector.
 #'
 #' @examples
-#' \dontrun{
-#' # Create an a11ytable with in-built demo dataframe, mtcars_df2. We can use
+#' # Create an a11ytable with in-built demo dataframe, mtcars_df3. We can use
 #' # 'as_a11ytable' rather than 'create_a11ytable' because the data is already
 #' # in the right format.
-#' x <- as_a11ytable(mtcars_df2)
+#' x <- as_a11ytable(mtcars_df3)
 #'
 #' # Print description only
 #' tbl_sum(x)
 #'
 #' # Print with description
 #' print(x)
-#' }
 #'
 #' @export
 tbl_sum.a11ytable <- function(x, ...) {

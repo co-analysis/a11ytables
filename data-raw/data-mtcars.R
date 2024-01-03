@@ -80,7 +80,7 @@ mtcars_df <- tibble(
   table = list(cover_df, contents_df, notes_df, stats_df_1, stats_df_2)
 )
 
-# Using cover_list as the table input for the cover
+# Using cover_list as the table input for the cover, introduced in v0.2
 mtcars_df2 <- tibble(
   tab_title = c("Cover", "Contents", "Notes", "Table_1", "Table_2"),
   sheet_type = c("cover", "contents", "notes", "tables", "tables"),
@@ -100,6 +100,32 @@ mtcars_df2 <- tibble(
   table = list(cover_list, contents_df, notes_df, stats_df_1, stats_df_2)
 )
 
+# Using custom_rows, introduced in v0.3
+mtcars_df3 <- tibble(
+  tab_title = c("Cover", "Contents", "Notes", "Table_1", "Table_2"),
+  sheet_type = c("cover", "contents", "notes", "tables", "tables"),
+  sheet_title = c(
+    "The 'mtcars' Demo Dataset",
+    "Table of contents",
+    "Notes",
+    "Table 1: Car Road Tests 1",
+    "Table 2: Car Road Tests 2"
+  ),
+  blank_cells = c(
+    rep(NA_character_, 3),
+    "A blank cell in the Notes column indicates that there is no note for that row.",
+    NA_character_
+  ),
+  custom_rows = list(
+    NA_character_, NA_character_, NA_character_,
+    "A custom row for Table 1.",
+    c("A custom row for Table 2.", "A second custom row.")
+  ),
+  source = c(rep(NA_character_, 3), rep("Motor Trend (1974)", 2)),
+  table = list(cover_list, contents_df, notes_df, stats_df_1, stats_df_2)
+)
+
 # Write to data/
 usethis::use_data(mtcars_df, overwrite = TRUE)
 usethis::use_data(mtcars_df2, overwrite = TRUE)
+usethis::use_data(mtcars_df3, overwrite = TRUE)

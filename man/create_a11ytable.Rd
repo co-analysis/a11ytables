@@ -10,7 +10,7 @@ create_a11ytable(
   sheet_titles,
   blank_cells = NA_character_,
   sources = NA_character_,
-  custom_rows = NULL,
+  custom_rows = list(NA_character_),
   tables
 )
 }
@@ -41,8 +41,7 @@ be used with sheet type 'tables'.}
 \item{custom_rows}{Optional list of character vectors. One list element per
 sheet, one character vector element per row of pre-table metadata. Supply
 as \code{NA_character_} if empty. To be used with sheet type 'tables',
-but can also be used for sheet types 'contents' and 'notes'. Defaults to
-\code{NULL}, meaning there are no custom rows to supply.}
+but can also be used for sheet types 'contents' and 'notes'.}
 
 \item{tables}{Required list of data.frames (though the cover sheet may be
 supplied as a list), one per sheet. See details.}
@@ -100,32 +99,23 @@ section into hyperlinks. For example, in a 'Contact us' section you
 might want a row containing some preamble (no hyperlink), a cell
 containing a phone number (no hyperlink) and a cell containing an
 email address (hyperlinked).
-\item To the 'source' argument for data tables.
+\item To the 'source' argument for sheets that contain tables of data.
 }
 }
 }
 \examples{
-# Create an a11ytable with in-built demo dataframe, mtcars_df2
+# Create an a11ytable with in-built demo dataframe, mtcars_df3
 x <- create_a11ytable(
-  tab_titles   = mtcars_df2$tab_title,
-  sheet_types  = mtcars_df2$sheet_type,
-  sheet_titles = mtcars_df2$sheet_title,
-  blank_cells  = mtcars_df2$blank_cells,
-  sources      = mtcars_df2$source,
-  custom_rows  = list(
-    NA_character_,
-    NA_character_,
-    NA_character_,
-    "A custom row for Table 1.",
-    c("A custom row for Table 2.", "A second custom row.")
-  ),
-  tables       = mtcars_df2$table
+  tab_titles   = mtcars_df3$tab_title,
+  sheet_types  = mtcars_df3$sheet_type,
+  sheet_titles = mtcars_df3$sheet_title,
+  blank_cells  = mtcars_df3$blank_cells,
+  sources      = mtcars_df3$source,
+  custom_rows  = mtcars_df3$custom_rows
+  tables       = mtcars_df3$table
 )
 
 # Test that 'a11ytable' is one of the object's classes
 is_a11ytable(x)
-
-# You can also use the RStudio Addin installed with the package to insert a
-# an example skeleton containing this function.
 
 }

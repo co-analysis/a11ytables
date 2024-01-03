@@ -16,10 +16,10 @@ A concise result summary of an a11ytable-class object to see information about
 the sheet content.
 }
 \examples{
-# Create an a11ytable with in-built demo dataframe, mtcars_df2. We can use
+# Create an a11ytable with in-built demo dataframe, mtcars_df3. We can use
 # 'as_a11ytable' rather than 'create_a11ytable' because the data is already
 # in the right format.
-x <- as_a11ytable(mtcars_df2)
+x <- as_a11ytable(mtcars_df3)
 
 # Print summary of a11ytable-class object
 summary(x)
