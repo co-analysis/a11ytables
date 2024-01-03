@@ -99,10 +99,12 @@
     )
   }
 
-  # Class must be character for all columns except 'table'
-  if (
-    !all(unlist(lapply(subset(x, select = -c(table, custom_rows)), is.character)))
-  ) {
+  # Class must be character for all columns except 'table' and 'custom_rows'
+
+  char_cols <- x[, !names(x) %in% c("table", "custom_rows")]
+  are_char_cols <- unlist(lapply(char_cols, is.character))
+
+  if (!all(are_char_cols)) {
     stop(
       "All columns except 'table' and 'custom_rows' must be character class.",
       call. = FALSE

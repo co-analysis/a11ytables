@@ -88,7 +88,7 @@
 #'   sheet_titles = mtcars_df3$sheet_title,
 #'   blank_cells  = mtcars_df3$blank_cells,
 #'   sources      = mtcars_df3$source,
-#'   custom_rows  = mtcars_df3$custom_rows
+#'   custom_rows  = mtcars_df3$custom_rows,
 #'   tables       = mtcars_df3$table
 #' )
 #'
@@ -234,7 +234,7 @@ NULL
 #' x <- as_a11ytable(mtcars_df3)
 #'
 #' # Print description only
-#' tbl_sum(x)
+#' tibble::tbl_sum(x)
 #'
 #' # Print with description
 #' print(x)

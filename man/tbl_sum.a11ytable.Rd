@@ -24,7 +24,7 @@ A brief textual description of an a11ytable-class object.
 x <- as_a11ytable(mtcars_df3)
 
 # Print description only
-tbl_sum(x)
+tibble::tbl_sum(x)
 
 # Print with description
 print(x)

@@ -12,17 +12,17 @@
 #' @return A Workbook-class object.
 #'
 #' @examples
-#' # Create an a11ytable with in-built demo dataframe, mtcars_df2. We can use
+#' # Create an a11ytable with in-built demo dataframe, mtcars_df3. We can use
 #' # 'as_a11ytable' rather than 'create_a11ytable' because the data is already
 #' # in the right format.
-#' x <- as_a11ytable(mtcars_df2)
+#' x <- as_a11ytable(mtcars_df3)
 #'
 #' # Convert to a Workbook-class object
 #' y <- generate_workbook(x)
 #' class(y)
 #'
 #' # As above, using a base pipe
-#' z <- mtcars_df2 |>
+#' z <- mtcars_df3 |>
 #'   as_a11ytable() |>
 #'   generate_workbook()
 #'
@@ -36,7 +36,7 @@ generate_workbook <- function(a11ytable) {
     stop("The object passed to argument 'content' must have class 'a11ytable'.")
   }
 
-  # Create a table_name from tab_title (unqiue, no spaces, no punctuation)
+  # Create a table_name from tab_title (unique, no spaces, no punctuation)
   a11ytable[["table_name"]] <-
     gsub(" ", "_", tolower(trimws(a11ytable[["tab_title"]])))
   a11ytable[["table_name"]] <-
