@@ -177,13 +177,13 @@
   # Get the index of columns that are likely numeric, so styles can be applied
   num_cols_index <- which(names(table) %in% likely_num_cols)
 
-  if (sheet_type %in% c("cover", "contents", "notes")) {
-    table_header_row <- 3
-  }
-
-  if (sheet_type == "tables") {
+  # if (sheet_type %in% c("cover", "contents", "notes")) {
+  #   table_header_row <- 3
+  # }
+  #
+  # if (sheet_type == "tables") {
     table_header_row <- start_row
-  }
+  # }
 
   # Columns that should be wider than default
   wide_cells <- names(Filter(function(x) max(nchar(x)) > nchar_break, table))
@@ -247,31 +247,40 @@
 
 .style_contents <- function(wb, content, style_ref) {
 
-  tab_name <- content[content$sheet_type == "contents", "tab_title"][[1]]
+  tab_title <- content[content$sheet_type == "contents", "tab_title"][[1]]
   table <- content[content$sheet_type == "contents", "table"][[1]]
   table_height <- nrow(table)
   table_width <- ncol(table)
+
+  start_row <- .get_start_row_table(
+    content,
+    tab_title,
+    .has_notes(content, tab_title),
+    .has_blanks_message(content, tab_title),
+    .has_custom_rows(content, tab_title),
+    .has_source(content, tab_title)
+  )
 
   # Contents columns are SET-WIDTH, WRAPPED and LEFT ALIGNED
 
   openxlsx::setColWidths(
     wb = wb,
-    sheet = tab_name,
+    sheet = tab_title,
     cols = 1,
     widths = 16
   )
 
   openxlsx::setColWidths(
     wb = wb,
-    sheet = tab_name,
+    sheet = tab_title,
     cols = 2,
     widths = 56
   )
 
   openxlsx::addStyle(
     wb = wb,
-    sheet = tab_name,
-    rows = seq(table_height + 1) + 2,
+    sheet = tab_title,
+    rows = seq(start_row, table_height + start_row),
     cols = seq(table_width),
     gridExpand = TRUE,
     style = style_ref$wrap,
@@ -280,8 +289,8 @@
 
   openxlsx::addStyle(
     wb = wb,
-    sheet = tab_name,
-    rows = seq(table_height + 1) + 2,
+    sheet = tab_title,
+    rows = seq(start_row, table_height + start_row),
     cols = seq(table_width),
     gridExpand = TRUE,
     style = style_ref$lalign,
@@ -293,31 +302,40 @@
 
 .style_notes <- function(wb, content, style_ref) {
 
-  tab_name <- content[content$sheet_type == "notes", "tab_title"][[1]]
+  tab_title <- content[content$sheet_type == "notes", "tab_title"][[1]]
   table <- content[content$sheet_type == "notes", "table"][[1]]
   table_height <- nrow(table)
   table_width <- ncol(table)
+
+  start_row <- .get_start_row_table(
+    content,
+    tab_title,
+    .has_notes(content, tab_title),
+    .has_blanks_message(content, tab_title),
+    .has_custom_rows(content, tab_title),
+    .has_source(content, tab_title)
+  )
 
   # Notes columns are SET-WIDTH, WRAPPED and LEFT ALIGNED
 
   openxlsx::setColWidths(
     wb = wb,
-    sheet = tab_name,
+    sheet = tab_title,
     cols = 1,
     widths = 16
   )
 
   openxlsx::setColWidths(
     wb = wb,
-    sheet = tab_name,
+    sheet = tab_title,
     cols = 2,
     widths = 56
   )
 
   openxlsx::addStyle(
     wb = wb,
-    sheet = tab_name,
-    rows = seq(table_height + 1) + 2,
+    sheet = tab_title,
+    rows = seq(start_row, table_height + start_row),
     cols = seq(table_width),
     gridExpand = TRUE,
     style = style_ref$wrap,
@@ -326,8 +344,8 @@
 
   openxlsx::addStyle(
     wb = wb,
-    sheet = tab_name,
-    rows = seq(table_height + 1) + 2,
+    sheet = tab_title,
+    rows = seq(start_row, table_height + start_row),
     cols = seq(table_width),
     gridExpand = TRUE,
     style = style_ref$lalign,

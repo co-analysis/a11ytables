@@ -412,20 +412,14 @@
   sheet_type <- content[content$table_name == table_name, "sheet_type"][[1]]
   tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
 
-  if (sheet_type %in% c("contents", "notes")) {
-    start_row <- 3
-  }
-
-  if (sheet_type == "tables") {
-    start_row <- .get_start_row_table(
-      content,
-      tab_title,
-      .has_notes(content, tab_title),
-      .has_blanks_message(content, tab_title),
-      .has_custom_rows(content, tab_title),
-      .has_source(content, tab_title)
-    )
-  }
+  start_row <- .get_start_row_table(
+    content,
+    tab_title,
+    .has_notes(content, tab_title),
+    .has_blanks_message(content, tab_title),
+    .has_custom_rows(content, tab_title),
+    .has_source(content, tab_title)
+  )
 
   openxlsx::writeDataTable(
     wb = wb,
@@ -610,6 +604,7 @@
 
   .insert_title(wb, content, tab_title)
   .insert_table_count(wb, content, tab_title)
+  .insert_custom_rows(wb, content, tab_title)
   .insert_table(wb, content, table_name)
 
   styles <- .style_create()
@@ -632,6 +627,7 @@
 
   .insert_title(wb, content, tab_title)
   .insert_table_count(wb, content, tab_title)
+  .insert_custom_rows(wb, content, tab_title)
   .insert_table(wb, content, table_name)
 
   styles <- .style_create()
