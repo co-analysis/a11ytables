@@ -216,8 +216,7 @@
       sheet = tab_title,
       x = sheet_title,
       startCol = 1,
-      startRow = 1,
-      colNames = TRUE
+      startRow = 1
     )
 
   }
@@ -229,8 +228,7 @@
       sheet = tab_title,
       x = sheet_title,
       startCol = 1,
-      startRow = 1,
-      colNames = TRUE
+      startRow = 1
     )
 
   }
@@ -268,8 +266,7 @@
     sheet = tab_title,
     x = text,
     startCol = 1,
-    startRow = 2,  # table count will always be the second row
-    colNames = TRUE
+    startRow = 2  # table count will always be the second row
   )
 
   return(wb)
@@ -290,8 +287,7 @@
       sheet = tab_title,
       x = text,
       startCol = 1,
-      startRow = 3,  # notes will always go in row 3 if they exist
-      colNames = TRUE
+      startRow = 3  # notes will always go in row 3 if they exist
     )
 
   }
@@ -326,8 +322,7 @@
       sheet = tab_title,
       x = blanks_text,
       startCol = 1,
-      startRow = start_row,  # dependent on whether notes text present
-      colNames = TRUE
+      startRow = start_row
     )
 
   }
@@ -345,6 +340,8 @@
     custom_rows_text <-
       content[content$tab_title == tab_title, "custom_rows"][[1]]
 
+    custom_rows_text <- lapply(custom_rows_text, .make_hyperlink)
+
     has_notes <- .has_notes(content, tab_title)
     has_blanks <- .has_blanks_message(content, tab_title)
     start_row <- .get_start_row_custom_rows(has_notes, has_blanks)
@@ -354,10 +351,9 @@
       openxlsx::writeData(
         wb = wb,
         sheet = tab_title,
-        x = custom_rows_text[i],
+        x = custom_rows_text[[i]],
         startCol = 1,
-        startRow = start_row + (i - 1),
-        colNames = TRUE
+        startRow = start_row + (i - 1)
       )
 
     }
@@ -376,12 +372,7 @@
 
     source_text <- content[content$tab_title == tab_title, "source"][[1]]
     source_text <- paste("Source:", source_text)
-
-    source_has_hyperlink <- .detect_hyperlink(source_text)
-
-    if (source_has_hyperlink) {
-      source_text <- .make_hyperlink(source_text)
-    }
+    source_text <- .make_hyperlink(source_text)
 
     start_row <- .get_start_row_source(
       content,
@@ -396,8 +387,7 @@
       sheet = tab_title,
       x = source_text,
       startCol = 1,
-      startRow = start_row  # dependent on whether notes text present
-      # colNames = TRUE
+      startRow = start_row
     )
 
   }
@@ -427,8 +417,7 @@
     x = table,
     tableName = table_name,
     startCol = 1,
-    startRow = start_row,  # dependent on whether notes or source text present
-    colNames = TRUE,
+    startRow = start_row,
     tableStyle = "none",
     withFilter = FALSE,
     bandedRows = FALSE
@@ -522,7 +511,7 @@
   md_match <- regexpr(md_rx, string, perl = TRUE)
   md_extract <- regmatches(string, md_match)[[1]]
 
-  url_rx <- "(?<=\\()([[:graph:]]|[[:space:]])+(?=\\))"
+  url_rx <- "(?<=\\]\\()([[:graph:]]|[[:space:]])+(?=\\))"
   url_match <- regexpr(url_rx, md_extract, perl = TRUE)
   url_extract <- regmatches(md_extract, url_match)[[1]]
 
