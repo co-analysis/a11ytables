@@ -2,8 +2,13 @@
 
 ## New features
 
-* Added the `custom_rows` argument to `create_a11ytables()` function to supply arbitrary sentences to rows above a table (#74).
-* Added the dataset `mtcars_df3` to help demo the new `custom_rows` argument, superseding `mtcars_df` and `mtcars_df2` in the process.
+* Added the `custom_rows` argument to the `create_a11ytables()` function to supply arbitrary sentences to separate rows above a table in contents, cover and notes sheets (#74).
+* Allowed custom rows to be hyperlinks if the user provides them in Markdown-style (#74).
+* Added the dataset `mtcars_df3` to help demo the new `custom_rows` argument, superseding `mtcars_df` and `mtcars_df2`.
+
+## Bugfixes
+
+* Adjusted Markdown-link detection in cases where the text portion contained parentheses (#119).
 
 ## Documentation
 
@@ -14,7 +19,7 @@
 ## Miscellaneous
 
 * Updated tests to use `mtcars_df3`.
-* Update RStudio Addin given `custom_rows` and simplify only to {tibble} example.
+* Update RStudio Addin given `custom_rows` and simplified to {tibble} example only.
 
 # a11ytables 0.2.1
 
