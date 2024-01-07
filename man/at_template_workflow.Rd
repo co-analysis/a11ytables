@@ -2,12 +2,12 @@
 % Please edit documentation in R/addin.R
 \name{at_template_workflow}
 \alias{at_template_workflow}
-\title{Insert Full 'a11ytables' Template Workflow}
+\title{Insert Full Demo 'a11ytables' Template Workflow}
 \usage{
 at_template_workflow()
 }
 \description{
-Insert at the cursor templates for cover, contents and notes
-tables, and \code{\link{create_a11ytable}}, which are all pre-filled with
-example information.
+Insert at the cursor (a) demo templates for cover, contents and notes
+tables, and (b) a call to \code{\link{create_a11ytable}} pre-filled with
+demo data.
 }

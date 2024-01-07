@@ -1,4 +1,92 @@
-# This file generates and writes the dataset 'mtcars_df' and 'mtcars_df2'
+# This file generates and writes demo datasets
+
+
+# demo_df and demo_a11ytable (as of v0.3) ---------------------------------
+
+
+set.seed(1066)
+
+cover_list <- list(
+  "Section 1" = c("First row of Section 1.", "Second row of Section 1."),
+  "Section 2" = "The only row of Section 2.",
+  "Section 3" = c(
+    "[Website](https://co-analysis.github.io/a11ytables/)",
+    "[Email address](mailto:fake.address@a11ytables.com)"
+  )
+)
+
+contents_df <- data.frame(
+  "Sheet name" = c("Notes", "Table 1", "Table 2"),
+  "Sheet title" = c(
+    "Notes used in this workbook",
+    "First Example Sheet",
+    "Second Example Sheet"
+  ),
+  check.names = FALSE
+)
+
+notes_df <- data.frame(
+  "Note number" = paste("[note ", 1:2, "]"),
+  "Note text" = c("First note.", "Second note."),
+  check.names = FALSE
+)
+
+table_1_df <- data.frame(
+  Category = LETTERS[1:10],
+  Numeric = 1:10,
+  "Numeric suppressed" = c(1:4, "[c]", 6:9, "[x]"),
+  "Numeric thousands" = abs(round(rnorm(10), 4) * 1e5),
+  "Numeric decimal" = abs(round(rnorm(10), 5)),
+  "A column with a long name" = 1:10,
+  Notes = c("[note 1]", rep(NA_character_, 4), "[note 2]", rep(NA_character_, 4)),
+  check.names = FALSE
+)
+
+table_2_df <- data.frame(Category = LETTERS[1:10], Numeric = 1:10)
+
+demo_a11ytable <-
+  a11ytables::create_a11ytable(
+    tab_titles = c("Cover", "Contents", "Notes", "Table_1", "Table_2"),
+    sheet_types = c("cover", "contents", "notes", "tables", "tables"),
+    sheet_titles = c(
+      "The 'a11ytables' Demo Workbook",
+      "Table of contents",
+      "Notes",
+      "Table 1: First Example Sheet",
+      "Table 2: Second Example Sheet"
+    ),
+    blank_cells = c(
+      rep(NA_character_, 3),
+      "Blank cells indicate that there's no note in that row.",
+      NA_character_
+    ),
+    custom_rows = list(
+      NA_character_,
+      "A custom row in the Contents sheet.",
+      NA_character_,
+      c(
+        "First custom row for Table 1.",
+        "A second custom row [with a hyperlink.](https://co-analysis.github.io/a11ytables/)"
+      ),
+      "A custom row for Table 2"
+    ),
+    sources = c(
+      rep(NA_character_, 3),
+      "[The Source Material, 2024](https://co-analysis.github.io/a11ytables/)",
+      "The Source Material, 2024"
+    ),
+    tables = list(cover_list, contents_df, notes_df, table_1_df, table_2_df)
+  )
+
+demo_df <- as.data.frame(demo_a11ytable)
+
+# Write to data/
+usethis::use_data(demo_df, overwrite = TRUE)
+usethis::use_data(demo_a11ytable, overwrite = TRUE)
+
+
+# mtcars_df and mtcars_df2 (superseded in v0.3)  --------------------------
+
 
 library(tibble)
 
@@ -100,32 +188,6 @@ mtcars_df2 <- tibble(
   table = list(cover_list, contents_df, notes_df, stats_df_1, stats_df_2)
 )
 
-# Using custom_rows, introduced in v0.3
-mtcars_df3 <- tibble(
-  tab_title = c("Cover", "Contents", "Notes", "Table_1", "Table_2"),
-  sheet_type = c("cover", "contents", "notes", "tables", "tables"),
-  sheet_title = c(
-    "The 'mtcars' Demo Dataset",
-    "Table of contents",
-    "Notes",
-    "Table 1: Car Road Tests 1",
-    "Table 2: Car Road Tests 2"
-  ),
-  blank_cells = c(
-    rep(NA_character_, 3),
-    "A blank cell in the Notes column indicates that there is no note for that row.",
-    NA_character_
-  ),
-  custom_rows = list(
-    NA_character_, NA_character_, NA_character_,
-    "A custom row for Table 1.",
-    c("A custom row for Table 2.", "A second custom row.")
-  ),
-  source = c(rep(NA_character_, 3), rep("Motor Trend (1974)", 2)),
-  table = list(cover_list, contents_df, notes_df, stats_df_1, stats_df_2)
-)
-
 # Write to data/
 usethis::use_data(mtcars_df, overwrite = TRUE)
 usethis::use_data(mtcars_df2, overwrite = TRUE)
-usethis::use_data(mtcars_df3, overwrite = TRUE)

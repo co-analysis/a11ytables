@@ -18,12 +18,10 @@ Named character vector.
 A brief textual description of an a11ytable-class object.
 }
 \examples{
-# Create an a11ytable with in-built demo dataframe, mtcars_df3. We can use
-# 'as_a11ytable' rather than 'create_a11ytable' because the data is already
-# in the right format.
-x <- as_a11ytable(mtcars_df3)
+# Coerce a compliant data.frame to a11ytables-class
+x <- as_a11ytable(demo_df)
 
-# Print description only
+# Print description only (package 'tibble' must be installed)
 tibble::tbl_sum(x)
 
 # Print with description

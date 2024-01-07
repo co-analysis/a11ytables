@@ -1,10 +1,14 @@
 # a11ytables 0.3.0
 
+## Breaking changes
+
+* The new `custom_rows` argument is the third-to-last argument to `create_a11ytable()` (it's been inserted before `sources` and `tables`) so that the argument order reflects the order of the pre-table rows that appear above tables in the spreadsheet output; this will be a problem for users of {a11ytables} before v0.3 who might have previously specified arguments _by place_ rather than _by name_ (I assume most will have specified arguments by name, so this won't be much of a problem).
+
 ## New features
 
 * Added the `custom_rows` argument to the `create_a11ytables()` function to supply arbitrary sentences to separate rows above a table in contents, cover and notes sheets (#74).
 * Allowed custom rows to be hyperlinks if the user provides them in Markdown-style (#74).
-* Added the dataset `mtcars_df3` to help demo the new `custom_rows` argument, superseding `mtcars_df` and `mtcars_df2`.
+* Added the datasets `demo_df` ('data.frame' class) and `demo_a11ytable` ('a11ytables' class) to help demo the new `custom_rows` argument (and do a better job of showcasing other features of the package), superseding `mtcars_df` and `mtcars_df2`.
 
 ## Bugfixes
 
@@ -18,8 +22,8 @@
 
 ## Miscellaneous
 
-* Updated tests to use `mtcars_df3`.
-* Update RStudio Addin given `custom_rows` and simplified to {tibble} example only.
+* Updated tests to use `demo_df`.
+* Update RStudio Addin given `custom_rows` and simplified to data.frame example only.
 
 # a11ytables 0.2.1
 

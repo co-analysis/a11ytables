@@ -4,23 +4,9 @@ Description: Insert at the cursor a template for create_a11ytable() from the
 Binding: at_template_a11ytable
 Interactive: false
 
-Name: Insert Table Templates Using 'tibble'
-Description: Insert at the cursor templates for cover, contents and notes
-    tables, pre-filled with example information. Requires the 'tibble' package
-    to be installed.
-Binding: at_template_tibble
-Interactive: false
-
-Name: Insert Table Templates Using 'data.frame'
-Description: Insert at the cursor templates for cover, contents and notes
-    tables, pre-filled with example information. Uses \code{\link[data.frame}},
-    so isn't dependent on external packages.
-Binding: at_template_df
-Interactive: false
-
 Name: Insert Full 'a11ytables' Template Workflow
-Description: Insert at the cursor templates for cover, contents and notes
-    tables, and create_a11ytable(), which are all pre-filled with example
+Description: Insert at the cursor (a) templates for cover, contents and notes
+    tables, and (b) create_a11ytable(), which are all pre-filled with example
     information.
 Binding: at_template_workflow
 Interactive: false

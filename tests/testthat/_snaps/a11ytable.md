@@ -5,5 +5,5 @@
       <chr>     <chr>      <chr>       <chr>       <chr>  <list>      <list>        
     1 A         cover      A           <NA>        <NA>   <chr [1]>   <df [1 x 1]>  
     2 B         contents   B           <NA>        <NA>   <chr [1]>   <df [1 x 2]>  
-    3 C         tables     C           <NA>        x.     <chr [1]>   <df [32 x 11]>
+    3 C         tables     C           <NA>        Source <chr [1]>   <df [32 x 11]>
 

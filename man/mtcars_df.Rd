@@ -7,9 +7,9 @@
 \format{
 A data frame with 5 rows and 6 columns:
 \describe{
-\item{tab_title}{Character. Text to appear on the sheet's tab.}
+\item{tab_title}{Character. Text to appear on each sheet's tab.}
 \item{sheet_type}{Character. The content type for each sheet: 'cover', 'contents', 'notes', or 'tables'.}
-\item{sheet_title}{Character. The title that will appear in the top-left of each sheet.}
+\item{sheet_title}{Character. The title that will appear in cell A1 (top-left) of each sheet.}
 \item{blank_cells}{Character. An explanation for any blank cells in the table.}
 \item{source}{Character. The origin of the data, if relevant.}
 \item{table}{List-column of data.frames containing the statistical tables.}
@@ -23,7 +23,7 @@ mtcars_df
 }
 \description{
 Superseded. mtcars_df and \code{\link{mtcars_df2}} have been superseded in
-favour of \code{\link{mtcars_df3}}.
+favour of \code{\link{demo_df}}.
 
 A modified version of the mtcars dataset prepared into a data.frame structure
 ready for coercion to an a11ytables-class object with
@@ -35,7 +35,7 @@ Uses a data.frame as input to the cover table, whereas
 \code{\link{mtcars_df2}} uses a list as input to the cover table
 (implemented in version 0.2).
 
-Note that this dataset is superseded by \code{\link{mtcars_df3}} but is
+Note that this dataset is superseded by \code{\link{demo_df}} but is
 retained for backwards-compatibility with package versions prior to 0.3.
 }
 \keyword{datasets}

@@ -58,7 +58,7 @@ Basically, `as_a11ytable()` creates an S3-class object with classes 'data.frame'
 
 ```{r class-demo}
 library(a11ytables)
-my_a11ytable <- as_a11ytable(mtcars_df3)
+my_a11ytable <- as_a11ytable(demo_df)
 class(my_a11ytable)
 ```
 
@@ -79,7 +79,7 @@ Within `as_a11ytable()` itself are two major functions that help ensure proper c
 * `.validate_a11ytable()` will generate errors if basic structural expectations of an a11ytable aren't met (e.g. if 'cover', 'contents' or 'notes' have been provided more than once to the `sheet_type` argument)
 * `.warn_a11ytable()` checks for things that the user may have forgotten and prints warnings about them (e.g. if 5 notes are declared in the notes sheet but there are fewer in the tables themselves)
 
-Advanced users can create a correctly-formatted data.frame on the fly and convert it to an a11ytable with `as_a11ytable()` directly. The `as_a11ytable()` function mainly exists to make testing easier, i.e. you can pass to  the pre-prepared `mtcars_df3` dataset.
+Advanced users can create a correctly-formatted data.frame on the fly and convert it to an a11ytable with `as_a11ytable()` directly. The `as_a11ytable()` function mainly exists to make testing easier, i.e. you can pass to it the pre-prepared `demo_df` dataset.
 
 ### Methods
 

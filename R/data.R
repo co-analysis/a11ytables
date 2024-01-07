@@ -1,8 +1,43 @@
+#' A Demo 'a11ytables' Object
+#'
+#' A pre-created 'a11ytables' object ready to be converted to a Workbook-class
+#' object with \code{\link{generate_workbook}}.
+#'
+#' @format An a11ytable/data frame with 6 rows and 7 columns:
+#' \describe{
+#'   \item{tab_title}{Character. Text to appear on each sheet's tab.}
+#'   \item{sheet_type}{Character. The content type for each sheet: 'cover', 'contents', 'notes', or 'tables'.}
+#'   \item{sheet_title}{Character. The title that will appear in cell A1 (top-left) of each sheet.}
+#'   \item{blank_cells}{Character. An explanation for any blank cells in the table.}
+#'   \item{custom_rows}{List-column of character vectors. Additional arbitrary pre-table information provided by the user.}
+#'   \item{source}{Character. The origin of the data, if relevant.}
+#'   \item{table}{List-column of data.frames (apart from the cover, which is a list) containing the statistical tables.}
+#' }
+"demo_a11ytable"
+
+#' A Demo 'data.frame' Object for Coercion to 'a11ytables'
+#'
+#' A pre-created 'data.frame' object ready to be converted to an
+#' a11ytables-class with \code{\link{as_a11ytable}} and then a Workbook-class
+#' object with \code{\link{generate_workbook}}.
+#'
+#' @format A data frame with 6 rows and 7 columns:
+#' \describe{
+#'   \item{tab_title}{Character. Text to appear on each sheet's tab.}
+#'   \item{sheet_type}{Character. The content type for each sheet: 'cover', 'contents', 'notes', or 'tables'.}
+#'   \item{sheet_title}{Character. The title that will appear in cell A1 (top-left) of each sheet.}
+#'   \item{blank_cells}{Character. An explanation for any blank cells in the table.}
+#'   \item{custom_rows}{List-column of character vectors. Additional arbitrary pre-table information provided by the user.}
+#'   \item{source}{Character. The origin of the data, if relevant.}
+#'   \item{table}{List-column of data.frames (apart from the cover, which is a list) containing the statistical tables.}
+#' }
+"demo_df"
+
 #' Test Data: A Modified 'mtcars' Dataframe (Version 1)
 #'
-#'@description
+#' @description
 #' Superseded. mtcars_df and \code{\link{mtcars_df2}} have been superseded in
-#' favour of \code{\link{mtcars_df3}}.
+#' favour of \code{\link{demo_df}}.
 #'
 #' A modified version of the mtcars dataset prepared into a data.frame structure
 #' ready for coercion to an a11ytables-class object with
@@ -14,14 +49,14 @@
 #' \code{\link{mtcars_df2}} uses a list as input to the cover table
 #' (implemented in version 0.2).
 #'
-#' Note that this dataset is superseded by \code{\link{mtcars_df3}} but is
+#' Note that this dataset is superseded by \code{\link{demo_df}} but is
 #' retained for backwards-compatibility with package versions prior to 0.3.
 #'
 #' @format A data frame with 5 rows and 6 columns:
 #' \describe{
-#'   \item{tab_title}{Character. Text to appear on the sheet's tab.}
+#'   \item{tab_title}{Character. Text to appear on each sheet's tab.}
 #'   \item{sheet_type}{Character. The content type for each sheet: 'cover', 'contents', 'notes', or 'tables'.}
-#'   \item{sheet_title}{Character. The title that will appear in the top-left of each sheet.}
+#'   \item{sheet_title}{Character. The title that will appear in cell A1 (top-left) of each sheet.}
 #'   \item{blank_cells}{Character. An explanation for any blank cells in the table.}
 #'   \item{source}{Character. The origin of the data, if relevant.}
 #'   \item{table}{List-column of data.frames containing the statistical tables.}
@@ -34,7 +69,7 @@
 #'
 #' @description
 #' Superseded. \code{\link{mtcars_df}} and mtcars_df2 have been superseded in
-#' favour of \code{\link{mtcars_df3}}
+#' favour of \code{\link{demo_df}}
 #'
 #' A modified version of the mtcars dataset prepared into a data.frame structure
 #' ready for coercion to an a11ytables-class object with
@@ -44,14 +79,14 @@
 #' Uses a list as input to the cover table (implemented in version 0.2), whereas
 #' \code{\link{mtcars_df}} uses a data.frame as input to the cover table.
 #'
-#' Note that this dataset is superseded by \code{\link{mtcars_df3}} but is
+#' Note that this dataset is superseded by \code{\link{demo_df}} but is
 #' retained for backwards-compatibility with package versions starting 0.2.
 #'
 #' @format A data frame with 5 rows and 6 columns:
 #' \describe{
-#'   \item{tab_title}{Character. Text to appear on the sheet's tab.}
+#'   \item{tab_title}{Character. Text to appear on each sheet's tab.}
 #'   \item{sheet_type}{Character. The content type for each sheet: 'cover', 'contents', 'notes', or 'tables'.}
-#'   \item{sheet_title}{Character. The title that will appear in the top-left of each sheet.}
+#'   \item{sheet_title}{Character. The title that will appear in cell A1 (top-left) of each sheet.}
 #'   \item{blank_cells}{Character. An explanation for any blank cells in the table.}
 #'   \item{source}{Character. The origin of the data, if relevant.}
 #'   \item{table}{List-column of data.frames (apart from the cover, which is a list) containing the statistical tables.}
@@ -60,27 +95,4 @@
 #' @source \code{\link[datasets:mtcars]{mtcars}}
 "mtcars_df2"
 
-#' Test Data: A Modified 'mtcars' Dataframe  (Version 3)
-#'
-#' @description
-#' A modified version of the mtcars dataset prepared into a data.frame structure
-#' ready for coercion to an a11ytables-class object with
-#' \code{\link{as_a11ytable}}.
-#'
-#' @details
-#' This dataset supersedes \code{\link{mtcars_df}} and
-#' \code{\link{mtcars_df2}} as of package version 0.3.
-#'
-#' @format A data frame with 5 rows and 7 columns:
-#' \describe{
-#'   \item{tab_title}{Character. Text to appear on the sheet's tab.}
-#'   \item{sheet_type}{Character. The content type for each sheet: 'cover', 'contents', 'notes', or 'tables'.}
-#'   \item{sheet_title}{Character. The title that will appear in the top-left of each sheet.}
-#'   \item{blank_cells}{Character. An explanation for any blank cells in the table.}
-#'   \item{custom_rows}{List-column of character vectors. Arbitrary pre-table metadata provided by the user.}
-#'   \item{source}{Character. The origin of the data, if relevant.}
-#'   \item{table}{List-column of data.frames (apart from the cover, which is a list) containing the statistical tables.}
-#' }
-#'
-#' @source \code{\link[datasets:mtcars]{mtcars}}
-"mtcars_df3"
+

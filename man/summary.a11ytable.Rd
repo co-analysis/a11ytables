@@ -16,12 +16,13 @@ A concise result summary of an a11ytable-class object to see information about
 the sheet content.
 }
 \examples{
-# Create an a11ytable with in-built demo dataframe, mtcars_df3. We can use
-# 'as_a11ytable' rather than 'create_a11ytable' because the data is already
-# in the right format.
-x <- as_a11ytable(mtcars_df3)
+# Coerce a compliant data.frame to a11ytables-class
+x <- as_a11ytable(demo_df)
 
-# Print summary of a11ytable-class object
+# Print a summary of the a11ytable-class object
 summary(x)
+
+# Alternatively, look at the structure
+str(x, max.level = 2)
 
 }
