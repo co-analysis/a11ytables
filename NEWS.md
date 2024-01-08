@@ -2,7 +2,7 @@
 
 ## Breaking changes
 
-* The new `custom_rows` argument is the third-to-last argument to `create_a11ytable()` (it's been inserted before `sources` and `tables`) so that the argument order reflects the order of the pre-table rows that appear above tables in the spreadsheet output; this will be a problem for users of {a11ytables} before v0.3 who might have previously specified arguments _by place_ rather than _by name_ (I assume most will have specified arguments by name, so this won't be much of a problem).
+* The new `custom_rows` argument is the third-to-last argument to `create_a11ytable()` (it's been inserted before `sources` and `tables`) so that the argument order reflects the order of the pre-table rows that appear above tables in the spreadsheet output; this will be a problem for users of {a11ytables} before v0.3 who might have previously specified arguments _by place_ rather than _by name_ (I assume most will have specified arguments by name, so I expect this won't be much of a problem).
 
 ## New features
 
@@ -13,6 +13,7 @@
 ## Bugfixes
 
 * Adjusted Markdown-link detection in cases where the text portion contained parentheses (#119).
+* Ensured the summary method printed table dimensions of cover list items (#79).
 
 ## Documentation
 
@@ -22,8 +23,10 @@
 
 ## Miscellaneous
 
-* Updated tests to use `demo_df`.
-* Update RStudio Addin given `custom_rows` and simplified to data.frame example only.
+* Simplified the output of the summary method (#79).
+* Updated tests to use `demo_*` datasets.
+* Updated RStudio Addin given `custom_rows` and simplified to data.frame example only.
+* Added internal `.vector_to_sentence()` function to help construct comma-separated lists from a vector.
 
 # a11ytables 0.2.1
 

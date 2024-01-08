@@ -15,16 +15,13 @@
 Named character vector.
 }
 \description{
-A brief textual description of an a11ytable-class object.
+A brief text description of an a11ytable-class object.
 }
 \examples{
-# Coerce a compliant data.frame to a11ytables-class
-x <- as_a11ytable(demo_df)
+# Print with description
+print(demo_a11ytable)
 
 # Print description only (package 'tibble' must be installed)
-tibble::tbl_sum(x)
-
-# Print with description
-print(x)
+tibble::tbl_sum(demo_a11ytable)
 
 }

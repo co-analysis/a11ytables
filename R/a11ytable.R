@@ -204,9 +204,7 @@ create_a11ytable <- function(
 #'     a11ytable, otherwise \code{FALSE}.
 #'
 #' @examples
-#' # Coerce a compliant data.frame to a11ytables-class
-#' x <- as_a11ytable(demo_df)
-#' is_a11ytable(x)
+#' is_a11ytable(demo_a11ytable)
 #'
 #' @export
 as_a11ytable <- function(x) {
@@ -242,42 +240,60 @@ is_a11ytable <- function(x) {
 
 #' Summarise An 'a11ytable' Object
 #'
-#' A concise result summary of an a11ytable-class object to see information about
-#' the sheet content.
+#' A concise result summary of an a11ytable-class object to see information
+#' about the sheet content. Shows a numbered list of sheets with each tab title,
+#' sheet type and table dimensions.
 #'
 #' @param object An a11ytable-class object for which to get a summary.
 #' @param ... Other arguments to pass.
 #'
 #' @examples
-#' # Coerce a compliant data.frame to a11ytables-class
-#' x <- as_a11ytable(demo_df)
-#'
-#' # Print a summary of the a11ytable-class object
-#' summary(x)
+#' # Print a concise summary of the a11ytable-class object
+#' summary(demo_a11ytable)
 #'
 #' # Alternatively, look at the structure
-#' str(x, max.level = 2)
+#' str(demo_a11ytable, max.level = 2)
 #'
 #' @export
 summary.a11ytable <- function(object, ...) {
 
-  x_dims <- lapply(
-    lapply(object[["table"]], dim),
-    function(x) paste(x, collapse = " x ")
+  tables <- object[["table"]]
+
+  table_dims <- vector("list", length = length(tables))
+
+  for (i in seq_along(tables)) {
+
+    if (inherits(tables[[i]], "list")) {
+
+      list_length  <- length(tables[[i]])
+      list_lengths <- lengths(tables[[i]])
+
+      table_dims[[i]] <- paste0(
+        "list of length ", list_length,
+        " (element lengths ", .vector_to_sentence(list_lengths), ")"
+      )
+
+    }
+
+    if (is.data.frame(tables[[i]])) {
+      table_dims[[i]] <-
+        paste(paste(dim(tables[[i]]), collapse = " x "), "dataframe")
+    }
+
+  }
+
+  summary_string <- paste0(
+    "\n",
+    paste0(
+      paste0("  ", seq_along(tables), ") Tab '"),
+      object[["tab_title"]],
+      "' (sheet type '", object[["sheet_type"]], "') contains a ",
+      unlist(table_dims),
+      collapse = "\n"
+    )
   )
 
-  tab_title <- paste0("\n", paste("  -", object[["tab_title"]], collapse = "\n"))
-  sh_type   <- paste0("\n", paste("  -", object[["sheet_type"]], collapse = "\n"))
-  sh_title  <- paste0("\n", paste("  -", object[["sheet_title"]], collapse = "\n"))
-  tbl_dims  <- paste0("\n", paste("  -", unlist(x_dims), collapse = "\n"))
-
-  cat(
-    "# An a11ytable with", nrow(object), "sheets\n",
-    "* Tab titles:",   tab_title, "\n",
-    "* Sheet types:",  sh_type,   "\n",
-    "* Sheet titles:", sh_title,  "\n",
-    "* Table sizes:",  tbl_dims,  "\n"
-  )
+  cat("# An a11ytable with", nrow(object), "sheets:", summary_string)
 
   invisible(object)
 
@@ -288,7 +304,7 @@ NULL
 
 #' Provide A Succinct Summary Of An 'a11ytable' Object
 #'
-#' A brief textual description of an a11ytable-class object.
+#' A brief text description of an a11ytable-class object.
 #'
 #' @param x An a11ytable-class object to summarise.
 #' @param ... Other arguments to pass.
@@ -296,14 +312,11 @@ NULL
 #' @return Named character vector.
 #'
 #' @examples
-#' # Coerce a compliant data.frame to a11ytables-class
-#' x <- as_a11ytable(demo_df)
+#' # Print with description
+#' print(demo_a11ytable)
 #'
 #' # Print description only (package 'tibble' must be installed)
-#' tibble::tbl_sum(x)
-#'
-#' # Print with description
-#' print(x)
+#' tibble::tbl_sum(demo_a11ytable)
 #'
 #' @export
 tbl_sum.a11ytable <- function(x, ...) {

@@ -12,17 +12,15 @@
 \item{...}{Other arguments to pass.}
 }
 \description{
-A concise result summary of an a11ytable-class object to see information about
-the sheet content.
+A concise result summary of an a11ytable-class object to see information
+about the sheet content. Shows a numbered list of sheets with each tab title,
+sheet type and table dimensions.
 }
 \examples{
-# Coerce a compliant data.frame to a11ytables-class
-x <- as_a11ytable(demo_df)
-
-# Print a summary of the a11ytable-class object
-summary(x)
+# Print a concise summary of the a11ytable-class object
+summary(demo_a11ytable)
 
 # Alternatively, look at the structure
-str(x, max.level = 2)
+str(demo_a11ytable, max.level = 2)
 
 }

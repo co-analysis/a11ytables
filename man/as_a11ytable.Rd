@@ -21,8 +21,6 @@ a11ytable, otherwise \code{FALSE}.
 Functions to check if an object is an a11ytable, or coerce it if possible.
 }
 \examples{
-# Coerce a compliant data.frame to a11ytables-class
-x <- as_a11ytable(demo_df)
-is_a11ytable(x)
+is_a11ytable(demo_a11ytable)
 
 }
