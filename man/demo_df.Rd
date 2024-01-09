@@ -3,9 +3,9 @@
 \docType{data}
 \name{demo_df}
 \alias{demo_df}
-\title{A Demo 'data.frame' Object for Coercion to 'a11ytables'}
+\title{A Demo 'data.frame' Object}
 \format{
-A data frame with 6 rows and 7 columns:
+A data.frame with 6 rows and 7 columns:
 \describe{
 \item{tab_title}{Character. Text to appear on each sheet's tab.}
 \item{sheet_type}{Character. The content type for each sheet: 'cover', 'contents', 'notes', or 'tables'.}
@@ -20,8 +20,8 @@ A data frame with 6 rows and 7 columns:
 demo_df
 }
 \description{
-A pre-created 'data.frame' object ready to be converted to an
-a11ytables-class with \code{\link{as_a11ytable}} and then a Workbook-class
-object with \code{\link{generate_workbook}}.
+A pre-created data.frame ready to be converted to an a11ytables-class object
+with \code{\link{as_a11ytable}} and then an 'openxlsx' Workbook-class object
+with \code{\link{generate_workbook}}.
 }
 \keyword{datasets}

@@ -80,9 +80,12 @@ demo_a11ytable <-
 
 demo_df <- as.data.frame(demo_a11ytable)
 
+demo_workbook <- generate_workbook(demo_a11ytable)
+
 # Write to data/
 usethis::use_data(demo_df, overwrite = TRUE)
 usethis::use_data(demo_a11ytable, overwrite = TRUE)
+usethis::use_data(demo_workbook, overwrite = TRUE)
 
 
 # mtcars_df and mtcars_df2 (superseded in v0.3)  --------------------------

@@ -5,7 +5,7 @@
 \alias{demo_a11ytable}
 \title{A Demo 'a11ytables' Object}
 \format{
-An a11ytable/data frame with 6 rows and 7 columns:
+A data.frame with 6 rows and 7 columns:
 \describe{
 \item{tab_title}{Character. Text to appear on each sheet's tab.}
 \item{sheet_type}{Character. The content type for each sheet: 'cover', 'contents', 'notes', or 'tables'.}
@@ -20,7 +20,7 @@ An a11ytable/data frame with 6 rows and 7 columns:
 demo_a11ytable
 }
 \description{
-A pre-created 'a11ytables' object ready to be converted to a Workbook-class
-object with \code{\link{generate_workbook}}.
+A pre-created 'a11ytables' object ready to be converted to an 'openxlsx'
+Workbook-class object with \code{\link{generate_workbook}}.
 }
 \keyword{datasets}

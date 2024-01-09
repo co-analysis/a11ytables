@@ -23,7 +23,7 @@ mtcars_df2
 }
 \description{
 Superseded. \code{\link{mtcars_df}} and mtcars_df2 have been superseded in
-favour of \code{\link{demo_df}}
+favour of \code{\link{demo_df}}.
 
 A modified version of the mtcars dataset prepared into a data.frame structure
 ready for coercion to an a11ytables-class object with
