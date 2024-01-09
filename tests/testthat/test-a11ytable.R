@@ -128,8 +128,20 @@ test_that("class validation works", {
   expect_error(as_a11ytable(x))
 
   x <- demo_df
+  x$custom_rows <- NA_character_
+  expect_error(as_a11ytable(x))
+
+  x <- demo_df
+  x$custom_rows <- rep(list(1), nrow(x))
+  expect_error(as_a11ytable(x))
+
+  x <- demo_df
   x[x$tab_title == "Table_2", "tab_title"] <-
     "Lorem_ipsum_dolor_sit_amet__consectetur_adipiscing"
+  expect_warning(as_a11ytable(x))
+
+  x <- demo_df
+  x[x$tab_title == "Table_2", "tab_title"] <- "!?"
   expect_warning(as_a11ytable(x))
 
   x <- demo_df
