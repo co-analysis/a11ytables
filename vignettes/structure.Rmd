@@ -91,7 +91,7 @@ There's a few methods for a11ytables that are also found in `R/a11ytables.R`.
 is_a11ytable(my_a11ytable)
 ```
 
-The `summary()` method prints a very simple 'long' overview of a provided a11ytable.
+The `summary()` method prints a very simple overview of a provided a11ytable.
 
 ```{r summary-demo}
 summary(my_a11ytable)

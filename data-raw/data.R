@@ -26,19 +26,19 @@ contents_df <- data.frame(
 )
 
 notes_df <- data.frame(
-  "Note number" = paste("[note ", 1:2, "]"),
-  "Note text" = c("First note.", "Second note."),
+  "Note number" = paste0("[note ", 1:3, "]"),
+  "Note text" = c("First note.", "Second note.", "Third note."),
   check.names = FALSE
 )
 
 table_1_df <- data.frame(
   Category = LETTERS[1:10],
-  Numeric = 1:10,
+  "Numeric [note 1]" = 1:10,
   "Numeric suppressed" = c(1:4, "[c]", 6:9, "[x]"),
   "Numeric thousands" = abs(round(rnorm(10), 4) * 1e5),
   "Numeric decimal" = abs(round(rnorm(10), 5)),
-  "A column with a long name" = 1:10,
-  Notes = c("[note 1]", rep(NA_character_, 4), "[note 2]", rep(NA_character_, 4)),
+  "This column has a very long name that means that the column width needs to be widened" = 1:10,
+  Notes = c("[note 2]", rep(NA_character_, 4), "[note 3]", rep(NA_character_, 4)),
   check.names = FALSE
 )
 
@@ -52,8 +52,8 @@ demo_a11ytable <-
       "The 'a11ytables' Demo Workbook",
       "Table of contents",
       "Notes",
-      "Table 1: First Example Sheet",
-      "Table 2: Second Example Sheet"
+      "Table_1: First Example Sheet",
+      "Table_2: Second Example Sheet"
     ),
     blank_cells = c(
       rep(NA_character_, 3),
@@ -62,18 +62,18 @@ demo_a11ytable <-
     ),
     custom_rows = list(
       NA_character_,
-      "A custom row in the Contents sheet.",
       NA_character_,
+      "A custom row.",
       c(
-        "First custom row for Table 1.",
-        "A second custom row [with a hyperlink.](https://co-analysis.github.io/a11ytables/)"
+        "First custom row [with a hyperlink.](https://co-analysis.github.io/a11ytables/)",
+        "Second custom row."
       ),
-      "A custom row for Table 2"
+      "A custom row."
     ),
     sources = c(
       rep(NA_character_, 3),
-      "[The Source Material, 2024](https://co-analysis.github.io/a11ytables/)",
-      "The Source Material, 2024"
+      "[The Source Material, 2024.](https://co-analysis.github.io/a11ytables/)",
+      "The Source Material, 2024."
     ),
     tables = list(cover_list, contents_df, notes_df, table_1_df, table_2_df)
   )

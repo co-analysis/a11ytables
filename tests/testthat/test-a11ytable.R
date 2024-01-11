@@ -199,11 +199,11 @@ test_that("tbl output looks as intended", {
     sheet_type = c("cover", "contents", "tables"),
     sheet_titles = LETTERS[1:3],
     sources = c(NA_character_, NA_character_, "Source"),
-      tables = list(
-        data.frame(x = "x"),
-        data.frame(tab = "x", title = "x"),
-        mtcars
-      )
+    tables = list(
+      data.frame(x = "x"),
+      data.frame(tab = "x", title = "x"),
+      mtcars
+    )
   )
 
   expect_snapshot_output(as_a11ytable(x))
@@ -271,7 +271,7 @@ test_that("Note mismatch is caught", {
     list(data.frame(x = c("x", "y"), y = c("x", "y")))
   z[z$sheet_type == "notes", "table"][[1]] <- list(
     data.frame(
-      `Note number` = paste0("[note ", 1:3, "]"),
+      `Note number` = paste0("[note ", 1:4, "]"),
       `Note text` = "x",
       check.names = FALSE
     )
