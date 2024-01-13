@@ -35,7 +35,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">a11ytables</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/checklist.html">Accessibility guidance checklist</a>
-    <a class="dropdown-item" href="../articles/structure.html">Package structure (advanced)</a>
+    <a class="dropdown-item" href="../articles/structure.html">Package structure</a>
     <a class="dropdown-item" href="../articles/terminology.html">Spreadsheet terminology</a>
   </div>
 </li>
@@ -94,16 +94,16 @@
 
     
     
-<div class="section level3">
-<h3 id="purpose">Purpose<a class="anchor" aria-label="anchor" href="#purpose"></a>
-</h3>
+<div class="section level2">
+<h2 id="purpose">Purpose<a class="anchor" aria-label="anchor" href="#purpose"></a>
+</h2>
 <p>This vignette demonstrates how to use {a11ytables} to generate a
 spreadsheet output that automatically follows <a href="https://analysisfunction.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/" class="external-link">best
 practice</a>.</p>
 </div>
-<div class="section level3">
-<h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h3>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>Install the package <a href="https://github.com/co-analysis/a11ytables" class="external-link">from GitHub</a> using
 <a href="https://remotes.r-lib.org/" class="external-link">{remotes}</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -112,9 +112,9 @@ practice</a>.</p>
 <p>The package depends on <a href="https://ycphs.github.io/openxlsx/" class="external-link">{openxlsx}</a> and <a href="https://pillar.r-lib.org/" class="external-link">{pillar}</a>, which are also installed
 with {a11ytables}.</p>
 </div>
-<div class="section level3">
-<h3 id="workflow">Workflow<a class="anchor" aria-label="anchor" href="#workflow"></a>
-</h3>
+<div class="section level2">
+<h2 id="workflow">Workflow<a class="anchor" aria-label="anchor" href="#workflow"></a>
+</h2>
 <p>Having installed the {a11ytables} package, there are three steps to
 generating a compliant spreadsheet:</p>
 <ol style="list-style-type: decimal">
@@ -128,79 +128,86 @@ structure and styles</li>
 out to an xlsx file (or <code><a href="https://rdrr.io/pkg/openxlsx/man/openXL.html" class="external-link">openxlsx::openXL()</a></code> to open a
 temporary copy)</li>
 </ol>
-<p>The minimal demo below follows these steps using the example data
-from <a href="https://rdrr.io/r/datasets/mtcars.html" class="external-link">the classic mtcars
-dataset</a>.</p>
 <p>You can use the package’s <a href="https://rstudio.github.io/rstudioaddins/" class="external-link">RStudio Addin</a>, which
 is installed with {a11ytables}, to insert a pre-filled demo skeleton of
 this workflow (RStudio users only).</p>
-<div class="section level4">
-<h4 id="create-an-a11ytable">1. Create an a11ytable<a class="anchor" aria-label="anchor" href="#create-an-a11ytable"></a>
-</h4>
+<div class="section level3">
+<h3 id="create-an-a11ytable">1. Create an a11ytable<a class="anchor" aria-label="anchor" href="#create-an-a11ytable"></a>
+</h3>
 <p>Each argument to <code><a href="../reference/create_a11ytable.html">create_a11ytable()</a></code> provides the
 information needed to construct each sheet in the spreadsheet.</p>
 <table class="table">
 <colgroup>
 <col width="19%">
-<col width="19%">
 <col width="9%">
+<col width="19%">
 <col width="19%">
 <col width="33%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">Argument</th>
-<th align="left">Type</th>
 <th align="left">Required</th>
+<th align="left">Type</th>
 <th align="left">Accepted values</th>
 <th align="left">Explanation</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left"><code>tab_titles</code></td>
-<td align="left">Character vector</td>
 <td align="left">Yes</td>
+<td align="left">Character vector</td>
 <td align="left"></td>
 <td align="left">The name that will appear on each sheet’s tab in the
 output spreadsheet</td>
 </tr>
 <tr class="even">
 <td align="left"><code>sheet_types</code></td>
-<td align="left">Character vector</td>
 <td align="left">Yes</td>
-<td align="left">‘contents’, ‘cover’, ‘notes’, ‘tables’</td>
+<td align="left">Character vector</td>
+<td align="left">‘cover’, ‘contents’, ‘notes’, ‘tables’</td>
 <td align="left">The kind of information that the sheet holds, which is
 needed so that the correct structure and formatting can be applied
 later</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>sheet_titles</code></td>
-<td align="left">Character vector</td>
 <td align="left">Yes</td>
+<td align="left">Character vector</td>
 <td align="left"></td>
 <td align="left">The main heading of each sheet, which will appear in
 cell A1</td>
 </tr>
 <tr class="even">
 <td align="left"><code>blank_cells</code></td>
-<td align="left">Character vector</td>
 <td align="left">No</td>
+<td align="left">Character vector</td>
 <td align="left"></td>
 <td align="left">A sentence that explains the reason for any blank cells
 in the sheet (if applicable)</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>sources</code></td>
-<td align="left">Character vector</td>
+<td align="left"><code>custom_rows</code></td>
 <td align="left">No</td>
+<td align="left">List of character vectors</td>
+<td align="left"></td>
+<td align="left">Arbitrary rows of text that the user wants to insert
+above a table, one list-item per sheet (contents, notes and tables
+sheets), one vector element per row</td>
+</tr>
+<tr class="even">
+<td align="left"><code>sources</code></td>
+<td align="left">No</td>
+<td align="left">Character vector</td>
 <td align="left"></td>
 <td align="left">A sentence provides the source of the data found in
 each table (if applicable, likely only needed for sheets with
 <code>sheet_types</code> of ‘table’)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>tables</code></td>
-<td align="left">List of dataframes (cover can be a list)</td>
 <td align="left">Yes</td>
+<td align="left">List of dataframes (although the cover sheet content
+can be provided as a list object)</td>
 <td align="left"></td>
 <td align="left">The main content for each sheet, expressed as flat (<a href="https://www.jstatsoft.org/article/view/v059i10" class="external-link">probably tidy</a>)
 dataframes of rows and columns (though the cover can be a list)</td>
@@ -209,12 +216,12 @@ dataframes of rows and columns (though the cover can be a list)</td>
 </table>
 <p>You can read more about these arguments and their requirements in the
 function’s help pages, which you can access by running
-<code><a href="../reference/create_a11ytable.html">?create_a11ytable</a></code>. See also the <a href="https://co-analysis.github.io/a11ytables/articles/terminology">terminology
+<code><a href="../reference/create_a11ytable.html">?create_a11ytable</a></code> in the R console. See also the <a href="https://co-analysis.github.io/a11ytables/articles/terminology">terminology
 vignette</a>, <code><a href="../articles/terminology.html">vignette("terminology", "a11ytables")</a></code>, for
 these terms and more.</p>
-<div class="section level5">
-<h5 id="pre-prepare-tables">Pre-prepare tables<a class="anchor" aria-label="anchor" href="#pre-prepare-tables"></a>
-</h5>
+<div class="section level4">
+<h4 id="pre-prepare-tables">Pre-prepare tables<a class="anchor" aria-label="anchor" href="#pre-prepare-tables"></a>
+</h4>
 <p>Rather than pass a big list of dataframes directly to the
 <code>tables</code> argument of <code><a href="../reference/create_a11ytable.html">create_a11ytable()</a></code>, it’s
 preferable to prepare them first into their own named objects.</p>
@@ -226,9 +233,9 @@ want.</p>
 <p>Note that you can use the RStudio Addin ‘Insert table templates using
 ’tibble’’ and ‘Insert table templates using ’data.frame’’ to insert a
 demo skeleton into your R script.</p>
-<div class="section level6">
-<h6 id="meta-sheets">Meta-sheets<a class="anchor" aria-label="anchor" href="#meta-sheets"></a>
-</h6>
+<div class="section level5">
+<h5 id="meta-sheets">Meta-sheets<a class="anchor" aria-label="anchor" href="#meta-sheets"></a>
+</h5>
 <p>The cover can accept either a list or a data.frane (the latter was
 the only acceptable input prior to version 0.2.0). We recommend a list
 so that you can have multiple rows per section on the cover. This also
@@ -236,180 +243,223 @@ means you can dedicate certain rows to be hyperlinks to web URLs or
 mailto links that will open an email client. Here’s a demo list for the
 contents page (required):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cover_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span> </span>
-<span>  <span class="st">"Description"</span> <span class="op">=</span> <span class="st">"Aspects of automobile design and performance."</span>,</span>
-<span>  <span class="st">"Properties"</span> <span class="op">=</span> <span class="st">"Suppressed values are replaced with the value '[c]'."</span>,</span>
-<span>  <span class="st">"Contact"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>    <span class="st">"Contact the mtcars Team."</span>,</span>
-<span>    <span class="st">"Telephone 0123456789."</span>,</span>
-<span>    <span class="st">"Email us at [invented_email@not_real.com](mailto:invented_email@not_real.com)."</span></span>
+<code class="sourceCode R"><span><span class="va">cover_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"Section 1"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"First row of Section 1."</span>, <span class="st">"Second row of Section 1."</span><span class="op">)</span>,</span>
+<span>  <span class="st">"Section 2"</span> <span class="op">=</span> <span class="st">"The only row of Section 2."</span>,</span>
+<span>  <span class="st">"Section 3"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"[Website](https://co-analysis.github.io/a11ytables/)"</span>,</span>
+<span>    <span class="st">"[Email address](mailto:fake.address@a11ytables.com)"</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<details><summary>
-Click for an alternative data.frame input for the cover.
-</summary><p>Instead of a list, you could provide a data.frame that contains
-information for the cover sheet. The limitation with this approach is
-that—for each section on the cover sheet—you are restricted to one cell
-for the header and one cell for body content. That might not be ideal if
-you want to dedicate some cells within a section to be hyperlinks.</p>
-<p>Here’s a demo data.frame for the cover that has a column for
-sub-headings and a column for the content of each one:</p>
+<p>Note: a list is the preferred method of input for the cover.
+Previously, a data.frame was the only way to supply the data for the
+cover sheet in version 0.1 of the package.</p>
+<p>Here’s a demo table for the contents page (required):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cover_df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span> </span>
-<span>  <span class="op">~</span><span class="st">"subsection_title"</span>,  <span class="op">~</span><span class="st">"subsection_content"</span>,</span>
-<span>  <span class="st">"Description"</span>, <span class="st">"Aspects of automobile design and performance."</span>,</span>
-<span>  <span class="st">"Properties"</span>,  <span class="st">"Suppressed values are replaced with the value '[c]'."</span>,</span>
-<span>  <span class="st">"Contact"</span>,     <span class="st">"The mtcars Team, telephone 0123456789."</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</details><p>Here’s a demo table for the contents page (required):</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">contents_df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span>  <span class="op">~</span><span class="st">"Sheet name"</span>, <span class="op">~</span><span class="st">"Sheet title"</span>,</span>
-<span>  <span class="st">"Notes"</span>,       <span class="st">"Notes used in this workbook"</span>,</span>
-<span>  <span class="st">"Table 1"</span>,     <span class="st">"Car Road Tests (demo)"</span></span>
+<code class="sourceCode R"><span><span class="va">contents_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  <span class="st">"Sheet name"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Notes"</span>, <span class="st">"Table_1"</span>, <span class="st">"Table_2"</span><span class="op">)</span>,</span>
+<span>  <span class="st">"Sheet title"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Notes used in this workbook"</span>,</span>
+<span>    <span class="st">"First Example Sheet"</span>,</span>
+<span>    <span class="st">"Second Example Sheet"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  check.names <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>And here’s a demo table for the notes page (not required if there’s
 no notes in your tables), which has a column for the note number in the
-form ‘[note x]’ and and column for the note itself:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">notes_df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span>  <span class="op">~</span><span class="st">"Note number"</span>, <span class="op">~</span><span class="st">"Note text"</span>,</span>
-<span>  <span class="st">"[note 1]"</span>,     <span class="st">"US gallons."</span>,</span>
-<span>  <span class="st">"[note 2]"</span>,     <span class="st">"Retained to enable comparisons with previous analyses."</span></span>
+form ‘[note x]’ and a column for the note itself:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">notes_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  <span class="st">"Note number"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"[note "</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="st">"]"</span><span class="op">)</span>,</span>
+<span>  <span class="st">"Note text"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"First note."</span>, <span class="st">"Second note."</span>, <span class="st">"Third note."</span><span class="op">)</span>,</span>
+<span>  check.names <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <details><summary>
-Click to preview these tables
-</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+Click to preview these objects
+</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cover_list</span></span>
-<span><span class="co"># $Description</span></span>
-<span><span class="co"># [1] "Aspects of automobile design and performance."</span></span>
+<span><span class="co"># $`Section 1`</span></span>
+<span><span class="co"># [1] "First row of Section 1."  "Second row of Section 1."</span></span>
 <span><span class="co"># </span></span>
-<span><span class="co"># $Properties</span></span>
-<span><span class="co"># [1] "Suppressed values are replaced with the value '[c]'."</span></span>
+<span><span class="co"># $`Section 2`</span></span>
+<span><span class="co"># [1] "The only row of Section 2."</span></span>
 <span><span class="co"># </span></span>
-<span><span class="co"># $Contact</span></span>
-<span><span class="co"># [1] "Contact the mtcars Team."                                                      </span></span>
-<span><span class="co"># [2] "Telephone 0123456789."                                                         </span></span>
-<span><span class="co"># [3] "Email us at [invented_email@not_real.com](mailto:invented_email@not_real.com)."</span></span>
+<span><span class="co"># $`Section 3`</span></span>
+<span><span class="co"># [1] "[Website](https://co-analysis.github.io/a11ytables/)"</span></span>
+<span><span class="co"># [2] "[Email address](mailto:fake.address@a11ytables.com)"</span></span>
 <span><span class="va">contents_df</span></span>
-<span><span class="co"># <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
-<span><span class="co">#   `Sheet name` `Sheet title`              </span></span>
-<span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      </span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">1</span> Notes        Notes used in this workbook</span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">2</span> Table 1      Car Road Tests (demo)</span></span>
+<span><span class="co">#   Sheet name                 Sheet title</span></span>
+<span><span class="co"># 1      Notes Notes used in this workbook</span></span>
+<span><span class="co"># 2    Table_1         First Example Sheet</span></span>
+<span><span class="co"># 3    Table_2        Second Example Sheet</span></span>
 <span><span class="va">notes_df</span></span>
-<span><span class="co"># <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
-<span><span class="co">#   `Note number` `Note text`                                           </span></span>
-<span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                 </span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">1</span> [note 1]      US gallons.                                           </span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">2</span> [note 2]      Retained to enable comparisons with previous analyses.</span></span></code></pre></div>
+<span><span class="co">#   Note number    Note text</span></span>
+<span><span class="co"># 1    [note 1]  First note.</span></span>
+<span><span class="co"># 2    [note 2] Second note.</span></span>
+<span><span class="co"># 3    [note 3]  Third note.</span></span></code></pre></div>
 </details>
 </div>
-<div class="section level6">
-<h6 id="statistical-tables">Statistical tables<a class="anchor" aria-label="anchor" href="#statistical-tables"></a>
-</h6>
-<p>This code generates a demo dataframe that we’re going to pretend is
-the statistical data that we want to publish:</p>
+<div class="section level5">
+<h5 id="statistical-tables">Statistical tables<a class="anchor" aria-label="anchor" href="#statistical-tables"></a>
+</h5>
+<p>The code below generates a demo data.frame that we’re going to
+pretend is the statistical data that we want to publish. It has columns
+with different sorts of data that we might want to publish. It also has
+suppressed values (e.g. ‘[c]’ meaning ‘confidential’ data) and includes
+notes (in the form ‘[note x]’).</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">table_1_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  Category <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>,</span>
+<span>  <span class="st">"Numeric [note 1]"</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,</span>
+<span>  <span class="st">"Numeric suppressed"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="st">"[c]"</span>, <span class="fl">6</span><span class="op">:</span><span class="fl">9</span>, <span class="st">"[x]"</span><span class="op">)</span>,</span>
+<span>  <span class="st">"Numeric thousands"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>, <span class="fl">4</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1e5</span><span class="op">)</span>,</span>
+<span>  <span class="st">"Numeric decimal"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="st">"This column has a very long name that means that the column width needs to be widened"</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,</span>
+<span>  Notes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[note 1]"</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA_character_</span>, <span class="fl">4</span><span class="op">)</span>, <span class="st">"[note 2]"</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA_character_</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  check.names <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>We’ll create a second, simpler table as well, which will go on a
+separate sheet:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">stats_df</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">rownames_to_column</a></span><span class="op">(</span><span class="st">"car"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"car"</span>, <span class="st">"cyl"</span>, <span class="st">"mpg"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">stats_df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="st">"Car"</span>,</span>
-<span>  <span class="st">"Cylinder count"</span>,</span>
-<span>  <span class="st">"Miles per gallon [note 1]"</span>  <span class="co"># notes go in headers, not cells</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">stats_df</span><span class="op">$</span><span class="va">Notes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>  <span class="co"># add 'Notes' column</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"[note 2]"</span>, <span class="fl">2</span><span class="op">)</span>, </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA_character_</span>, <span class="fl">4</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">stats_df</span><span class="op">[</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"[c]"</span>  <span class="co"># suppressed (confidential) data</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">table_2_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Category <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>, Numeric <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <details><summary>
-Click to preview this table
+Click to preview these tables of statistical data
 </summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">stats_df</span></span>
-<span><span class="co">#                 Car Cylinder count Miles per gallon [note 1]    Notes</span></span>
-<span><span class="co"># 1         Mazda RX4              6                        21 [note 2]</span></span>
-<span><span class="co"># 2     Mazda RX4 Wag              6                        21 [note 2]</span></span>
-<span><span class="co"># 3        Datsun 710            [c]                       [c]     &lt;NA&gt;</span></span>
-<span><span class="co"># 4    Hornet 4 Drive              6                      21.4     &lt;NA&gt;</span></span>
-<span><span class="co"># 5 Hornet Sportabout              8                      18.7     &lt;NA&gt;</span></span>
-<span><span class="co"># 6           Valiant              6                      18.1     &lt;NA&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">table_1_df</span></span>
+<span><span class="co">#    Category Numeric [note 1] Numeric suppressed Numeric thousands</span></span>
+<span><span class="co"># 1         A                1                  1             40240</span></span>
+<span><span class="co"># 2         B                2                  2             11090</span></span>
+<span><span class="co"># 3         C                3                  3             43850</span></span>
+<span><span class="co"># 4         D                4                  4             46720</span></span>
+<span><span class="co"># 5         E                5                [c]            139920</span></span>
+<span><span class="co"># 6         F                6                  6            140350</span></span>
+<span><span class="co"># 7         G                7                  7             83550</span></span>
+<span><span class="co"># 8         H                8                  8             55690</span></span>
+<span><span class="co"># 9         I                9                  9            129680</span></span>
+<span><span class="co"># 10        J               10                [x]            251320</span></span>
+<span><span class="co">#    Numeric decimal</span></span>
+<span><span class="co"># 1          0.81229</span></span>
+<span><span class="co"># 2          0.58027</span></span>
+<span><span class="co"># 3          1.07187</span></span>
+<span><span class="co"># 4          1.43551</span></span>
+<span><span class="co"># 5          0.38847</span></span>
+<span><span class="co"># 6          0.05795</span></span>
+<span><span class="co"># 7          0.24725</span></span>
+<span><span class="co"># 8          0.00814</span></span>
+<span><span class="co"># 9          1.01013</span></span>
+<span><span class="co"># 10         0.04864</span></span>
+<span><span class="co">#    This column has a very long name that means that the column width needs to be widened</span></span>
+<span><span class="co"># 1                                                                                      1</span></span>
+<span><span class="co"># 2                                                                                      2</span></span>
+<span><span class="co"># 3                                                                                      3</span></span>
+<span><span class="co"># 4                                                                                      4</span></span>
+<span><span class="co"># 5                                                                                      5</span></span>
+<span><span class="co"># 6                                                                                      6</span></span>
+<span><span class="co"># 7                                                                                      7</span></span>
+<span><span class="co"># 8                                                                                      8</span></span>
+<span><span class="co"># 9                                                                                      9</span></span>
+<span><span class="co"># 10                                                                                    10</span></span>
+<span><span class="co">#       Notes</span></span>
+<span><span class="co"># 1  [note 1]</span></span>
+<span><span class="co"># 2      &lt;NA&gt;</span></span>
+<span><span class="co"># 3      &lt;NA&gt;</span></span>
+<span><span class="co"># 4      &lt;NA&gt;</span></span>
+<span><span class="co"># 5      &lt;NA&gt;</span></span>
+<span><span class="co"># 6  [note 2]</span></span>
+<span><span class="co"># 7      &lt;NA&gt;</span></span>
+<span><span class="co"># 8      &lt;NA&gt;</span></span>
+<span><span class="co"># 9      &lt;NA&gt;</span></span>
+<span><span class="co"># 10     &lt;NA&gt;</span></span>
+<span><span class="va">table_2_df</span></span>
+<span><span class="co">#    Category Numeric</span></span>
+<span><span class="co"># 1         A       1</span></span>
+<span><span class="co"># 2         B       2</span></span>
+<span><span class="co"># 3         C       3</span></span>
+<span><span class="co"># 4         D       4</span></span>
+<span><span class="co"># 5         E       5</span></span>
+<span><span class="co"># 6         F       6</span></span>
+<span><span class="co"># 7         G       7</span></span>
+<span><span class="co"># 8         H       8</span></span>
+<span><span class="co"># 9         I       9</span></span>
+<span><span class="co"># 10        J      10</span></span></code></pre></div>
 </details><p>See <a href="https://analysisfunction.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/" class="external-link">the
 best practice guidance</a> for more information on how to present data
 in these tables.</p>
 </div>
 </div>
-<div class="section level5">
-<h5 id="create-a11ytable">Create a11ytable<a class="anchor" aria-label="anchor" href="#create-a11ytable"></a>
-</h5>
+<div class="section level4">
+<h4 id="create-a11ytable">Create a11ytable<a class="anchor" aria-label="anchor" href="#create-a11ytable"></a>
+</h4>
 <p>Now we can construct an a11ytable by passing the required sheet
-elements as character vectors with <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>, or a
-<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> in the case of the <code>tables</code> argument, to
-the <code><a href="../reference/create_a11ytable.html">create_a11ytable()</a></code> function. You can use
-<code>NA_character_</code> wherever an element isn’t required.</p>
-<p>Note that you can use the RStudio Addin ‘Insert ’a11ytable’ Template’
-to insert a demo skeleton into your R script.</p>
+elements as character vectors with <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>—or a
+<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> in the case of the <code>tables</code> and
+<code>custom_rows</code> arguments—to the
+<code><a href="../reference/create_a11ytable.html">create_a11ytable()</a></code> function.</p>
+<p>Note that:</p>
+<ul>
+<li>the element index of the object supplied to each argument is the
+sheet that it will be applied to (e.g. the tab title of the first sheet
+will be ‘Cover’, the sheet type of the second sheet will be ‘contents’
+and the fourth sheet will contain the <code>table_1_df</code>
+table)</li>
+<li>you must use <code>NA_character_</code> wherever an element isn’t
+required (e.g. there is no information about blank cells nor sources for
+the first three sheets)</li>
+<li>you can insert a template of this demo using the package’s RStudio
+Addin</li>
+</ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_a11ytable</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">a11ytables</span><span class="fu">::</span><span class="fu"><a href="../reference/create_a11ytable.html">create_a11ytable</a></span><span class="op">(</span></span>
-<span>    tab_titles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>      <span class="st">"Cover"</span>,</span>
-<span>      <span class="st">"Contents"</span>,</span>
-<span>      <span class="st">"Notes"</span>,</span>
-<span>      <span class="st">"Table 1"</span></span>
-<span>    <span class="op">)</span>,</span>
-<span>    sheet_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>      <span class="st">"cover"</span>,</span>
-<span>      <span class="st">"contents"</span>,</span>
-<span>      <span class="st">"notes"</span>,</span>
-<span>      <span class="st">"tables"</span></span>
-<span>    <span class="op">)</span>,</span>
+<span>    tab_titles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cover"</span>, <span class="st">"Contents"</span>, <span class="st">"Notes"</span>, <span class="st">"Table 1"</span>, <span class="st">"Table_2"</span><span class="op">)</span>,</span>
+<span>    sheet_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cover"</span>, <span class="st">"contents"</span>, <span class="st">"notes"</span>, <span class="st">"tables"</span>, <span class="st">"tables"</span><span class="op">)</span>,</span>
 <span>    sheet_titles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>      <span class="st">"The 'mtcars' Demo Datset"</span>,</span>
+<span>      <span class="st">"The 'a11ytables' Demo Workbook"</span>,</span>
 <span>      <span class="st">"Table of contents"</span>,</span>
 <span>      <span class="st">"Notes"</span>,</span>
-<span>      <span class="st">"Table 1: Car Road Tests"</span></span>
+<span>      <span class="st">"Table 1: First Example Sheet"</span>,</span>
+<span>      <span class="st">"Table 2: Second Example Sheet"</span></span>
 <span>    <span class="op">)</span>,</span>
 <span>    blank_cells <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA_character_</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>      <span class="st">"Blank cells indicate that there's no note in that row."</span>,</span>
+<span>      <span class="cn">NA_character_</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    custom_rows <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>      <span class="cn">NA_character_</span>,</span>
 <span>      <span class="cn">NA_character_</span>,</span>
-<span>      <span class="cn">NA_character_</span>, </span>
-<span>      <span class="st">"Blank cells indicate that there's no note in that row"</span></span>
+<span>      <span class="st">"A custom row."</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>        <span class="st">"First custom row [with a hyperlink.](https://co-analysis.github.io/a11ytables/)"</span>,</span>
+<span>        <span class="st">"Second custom row."</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      <span class="st">"A custom row."</span></span>
 <span>    <span class="op">)</span>,</span>
 <span>    sources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>      <span class="cn">NA_character_</span>,</span>
-<span>      <span class="cn">NA_character_</span>,</span>
-<span>      <span class="cn">NA_character_</span>, </span>
-<span>      <span class="st">"Motor Trend (1974)"</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA_character_</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>      <span class="st">"[The Source Material., 2024](https://co-analysis.github.io/a11ytables/)"</span>,</span>
+<span>      <span class="st">"The Source Material, 2024."</span></span>
 <span>    <span class="op">)</span>,</span>
-<span>    tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>      <span class="va">cover_list</span>,</span>
-<span>      <span class="va">contents_df</span>,</span>
-<span>      <span class="va">notes_df</span>,</span>
-<span>      <span class="va">stats_df</span></span>
-<span>    <span class="op">)</span></span>
+<span>    tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">cover_list</span>, <span class="va">contents_df</span>, <span class="va">notes_df</span>, <span class="va">table_1_df</span>, <span class="va">table_2_df</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co"># Warning: These tab_titles have been cleaned automatically: Table 1 (now</span></span>
-<span><span class="co"># Table_1).</span></span></code></pre></div>
+<span><span class="co"># Table_1).</span></span>
+<span><span class="co"># Warning: Some notes are in the notes sheet (3) but are missing from the tables.</span></span></code></pre></div>
 <p>The function will return errors or warnings if anything is missing or
 seems odd. For example, we were warned that a value we supplied to
 <code>tab_title</code> had to be cleaned from ‘Table 1’ to ‘Table_1’,
-since blank spaces are not allowed.</p>
+since blank spaces are not allowed in tab names.</p>
 <p>Here’s a preview of the object that was created:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_a11ytable</span></span>
-<span><span class="co"># <span style="color: #949494;"># a11ytable: 4 x 6</span></span></span>
-<span><span class="co">#   tab_title sheet_type sheet_title              blank_cells  source table       </span></span>
-<span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>      </span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">1</span> Cover     cover      The 'mtcars' Demo Datset <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">&lt;named list&gt;</span></span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">2</span> Contents  contents   Table of contents        <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">3</span> Notes     notes      Notes                    <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">4</span> Table_1   tables     Table 1: Car Road Tests  Blank cells… Motor… <span style="color: #949494;">&lt;df [6 × 4]&gt;</span></span></span></code></pre></div>
+<span><span class="co"># <span style="color: #949494;"># a11ytable: 5 x 7</span></span></span>
+<span><span class="co">#   tab_title sheet_type sheet_title   blank_cells source custom_rows table       </span></span>
+<span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>      </span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">1</span> Cover     cover      The 'a11ytab… <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">&lt;chr [1]&gt;</span>   <span style="color: #949494;">&lt;named list&gt;</span></span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">2</span> Contents  contents   Table of con… <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">&lt;chr [1]&gt;</span>   <span style="color: #949494;">&lt;df [3 × 2]&gt;</span></span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">3</span> Notes     notes      Notes         <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>     <span style="color: #949494;">&lt;chr [1]&gt;</span>   <span style="color: #949494;">&lt;df [3 × 2]&gt;</span></span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">4</span> Table_1   tables     Table 1: Fir… Blank cell… [The … <span style="color: #949494;">&lt;chr [2]&gt;</span>   <span style="color: #949494;">&lt;df&gt;</span>        </span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">5</span> Table_2   tables     Table 2: Sec… <span style="color: #BB0000;">NA</span>          The S… <span style="color: #949494;">&lt;chr [1]&gt;</span>   <span style="color: #949494;">&lt;df&gt;</span></span></span></code></pre></div>
 <p>You can immediately tell that this is an a11ytable because it’s the
 first word that’s printed with the output.</p>
 <p>So our a11ytable is basically just a table with one row per sheet and
@@ -419,15 +469,12 @@ a11ytable class with <code><a href="../reference/as_a11ytable.html">is_a11ytable
 <p>Note that <code><a href="../reference/create_a11ytable.html">create_a11ytable()</a></code> is the preferred method for
 generating a11ytable-class objects, but it’s also possible to convert a
 correctly-formatted, pre-built data.frame or tibble directly to an
-a11ytable with <code><a href="../reference/as_a11ytable.html">as_a11ytable()</a></code>. You can try this using the
-<code>mtcars_df</code> data.frame that’s provided with {a11ytables},
-which is a specially-prepared subset of <a href="https://rdrr.io/r/datasets/mtcars.html" class="external-link">the mtcars
-dataset</a>.</p>
+a11ytable with <code><a href="../reference/as_a11ytable.html">as_a11ytable()</a></code>.</p>
 </div>
 </div>
-<div class="section level4">
-<h4 id="convert-to-a-workbook">2. Convert to a workbook<a class="anchor" aria-label="anchor" href="#convert-to-a-workbook"></a>
-</h4>
+<div class="section level3">
+<h3 id="convert-to-a-workbook">2. Convert to a workbook<a class="anchor" aria-label="anchor" href="#convert-to-a-workbook"></a>
+</h3>
 <p>We can use <code><a href="../reference/generate_workbook.html">generate_workbook()</a></code> to convert our a11ytable
 to an <a href="https://ycphs.github.io/openxlsx/" class="external-link">{openxlsx}</a>
 Workbook-class object.</p>
@@ -450,7 +497,7 @@ styling.</p>
 <span><span class="co">#  Sheet 1: "Cover"</span></span>
 <span><span class="co">#  </span></span>
 <span><span class="co">#   Custom row heights (row: height)</span></span>
-<span><span class="co">#    2: 34, 4: 34, 6: 34 </span></span>
+<span><span class="co">#    2: 34, 5: 34, 7: 34 </span></span>
 <span><span class="co">#   Custom column widths (column: width)</span></span>
 <span><span class="co">#     1: 72 </span></span>
 <span><span class="co">#  </span></span>
@@ -470,18 +517,24 @@ styling.</p>
 <span><span class="co">#  Sheet 4: "Table_1"</span></span>
 <span><span class="co">#  </span></span>
 <span><span class="co">#   Custom column widths (column: width)</span></span>
-<span><span class="co">#     1: 16, 2: 16, 3: 16, 4: 16 </span></span>
+<span><span class="co">#     1: 16, 2: 16, 3: 16, 4: 16, 5: 16, 6: 32, 7: 16 </span></span>
+<span><span class="co">#  </span></span>
+<span><span class="co"># </span></span>
+<span><span class="co">#  Sheet 5: "Table_2"</span></span>
+<span><span class="co">#  </span></span>
+<span><span class="co">#   Custom column widths (column: width)</span></span>
+<span><span class="co">#     1: 16, 2: 16 </span></span>
 <span><span class="co">#  </span></span>
 <span><span class="co"># </span></span>
 <span><span class="co">#  </span></span>
-<span><span class="co">#  Worksheet write order: 1, 2, 3, 4</span></span>
+<span><span class="co">#  Worksheet write order: 1, 2, 3, 4, 5</span></span>
 <span><span class="co">#  Active Sheet 1: "Cover" </span></span>
 <span><span class="co">#   Position: 1</span></span></code></pre></div>
 </details>
 </div>
-<div class="section level4">
-<h4 id="write-to-file">3. Write to file<a class="anchor" aria-label="anchor" href="#write-to-file"></a>
-</h4>
+<div class="section level3">
+<h3 id="write-to-file">3. Write to file<a class="anchor" aria-label="anchor" href="#write-to-file"></a>
+</h3>
 <p>Finally, you can use <a href="https://ycphs.github.io/openxlsx/reference/saveWorkbook.html" class="external-link">the
 <code>saveWorkbook()</code> function from {openxlsx}</a> to write your
 workbook object to an xlsx file (set the filename argument to a location
@@ -491,10 +544,11 @@ suitable for your work).</p>
 <p>You could also open a temporary copy of the workbook with
 <code><a href="https://rdrr.io/pkg/openxlsx/man/openXL.html" class="external-link">openxlsx::openXL()</a></code>, which is convenient during the
 development process.</p>
-<div class="section level5">
-<h5 id="output">Output<a class="anchor" aria-label="anchor" href="#output"></a>
-</h5>
-<p>The content of the output spreadsheet will look like this:</p>
+<div class="section level4">
+<h4 id="output">Output<a class="anchor" aria-label="anchor" href="#output"></a>
+</h4>
+<p>The content of your output spreadsheet will end up looking something
+like this:</p>
 <div class="figure">
 <p><img src="../reference/figures/vignette-workbook.gif" alt="Gif of a simple Excel workbook created using the a11ytables package, revealing tabs for cover, contents, notes and a table." width="100%"></p>
 </div>
@@ -505,32 +559,31 @@ applied throughout.</p>
 <p>Note also that two ‘pre-table’ meta-elements were created
 automatically in the sheets that contain statistical tables, which you
 didn’t need to supply to <code><a href="../reference/create_a11ytable.html">create_a11ytable()</a></code>: (1) the number
-of tables and (2) the presence of notes.</p>
+of tables and (2) the presence of notes. These are required for
+accessibility good practice.</p>
 </div>
-<div class="section level5">
-<h5 id="final-tweaks">Final tweaks<a class="anchor" aria-label="anchor" href="#final-tweaks"></a>
-</h5>
+<div class="section level4">
+<h4 id="final-tweaks">Final tweaks<a class="anchor" aria-label="anchor" href="#final-tweaks"></a>
+</h4>
 <p>It’s your responsibility to check and amend the output from
-{a11ytables} to ensure it meets user’s accessibility needs.</p>
+{a11ytables} to ensure it meets users’ accessibility needs.</p>
 <p>You can apply some final tweaks to the output xlsx file if the
 defaults don’t quite meet your requirements (e.g. some column widths),
 though it’s advisable to keep changes to a minimum for reproducibility
 purposes and because you may undo some of the compliant structuring and
 formatting that {a11ytables} provides.</p>
-<p>At time of writing (v0.2.0) you might want to address manually some
+<p>At time of writing (v0.3.0) you might want to address manually some
 other <a href="https://analysisfunction.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/" class="external-link">accessibility
 requirements</a> that are not yet covered by the package:</p>
 <ol style="list-style-type: decimal">
 <li>Fill in the document properties, which you are likely to find under
 ‘File’ then ‘Properties’ in your spreadsheet software</li>
-<li>Convert text to hyperlinks, where required</li>
 <li>Convert to an ODS file rather than the proprietary xlsx format</li>
 <li>Various number-formatting issues, like padding decimal places with
 zeroes</li>
 </ol>
-<p>Please <a href="https://github.com/co-analysis/a11ytables/issues" class="external-link">see
-the issues on GitHub</a>; we’re trying to address a number of these
-limitations.</p>
+<p>We’re trying to address a number of these limitations. Please <a href="https://github.com/co-analysis/a11ytables/issues" class="external-link">see the issues
+on GitHub</a> for the current status.</p>
 </div>
 </div>
 </div>

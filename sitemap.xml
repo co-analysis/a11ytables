@@ -49,16 +49,19 @@
     <loc>https://co-analysis.github.io/a11ytables/reference/at_template_a11ytable.html</loc>
   </url>
   <url>
-    <loc>https://co-analysis.github.io/a11ytables/reference/at_template_df.html</loc>
-  </url>
-  <url>
-    <loc>https://co-analysis.github.io/a11ytables/reference/at_template_tibble.html</loc>
-  </url>
-  <url>
     <loc>https://co-analysis.github.io/a11ytables/reference/at_template_workflow.html</loc>
   </url>
   <url>
     <loc>https://co-analysis.github.io/a11ytables/reference/create_a11ytable.html</loc>
+  </url>
+  <url>
+    <loc>https://co-analysis.github.io/a11ytables/reference/demo_a11ytable.html</loc>
+  </url>
+  <url>
+    <loc>https://co-analysis.github.io/a11ytables/reference/demo_df.html</loc>
+  </url>
+  <url>
+    <loc>https://co-analysis.github.io/a11ytables/reference/demo_workbook.html</loc>
   </url>
   <url>
     <loc>https://co-analysis.github.io/a11ytables/reference/generate_workbook.html</loc>

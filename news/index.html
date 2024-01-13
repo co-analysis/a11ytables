@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">a11ytables</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,7 +28,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/checklist.html">Accessibility guidance checklist</a>
-    <a class="dropdown-item" href="../articles/structure.html">Package structure (advanced)</a>
+    <a class="dropdown-item" href="../articles/structure.html">Package structure</a>
     <a class="dropdown-item" href="../articles/terminology.html">Spreadsheet terminology</a>
   </div>
 </li>
@@ -55,6 +55,37 @@
       <small>Source: <a href="https://github.com/co-analysis/a11ytables/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.3.0" id="a11ytables-030">a11ytables 0.3.0<a class="anchor" aria-label="anchor" href="#a11ytables-030"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-0-3-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-3-0"></a></h3>
+<ul><li>The new <code>custom_rows</code> argument is the third-to-last argument to <code><a href="../reference/create_a11ytable.html">create_a11ytable()</a></code> (it’s been inserted before <code>sources</code> and <code>tables</code>) so that the argument order reflects the order of the pre-table rows that appear above tables in the spreadsheet output; this will be a problem for users of {a11ytables} before v0.3 who might have previously specified arguments <em>by place</em> rather than <em>by name</em> (I assume most will have specified arguments by name, so I expect this won’t be much of a problem).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-0-3-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-3-0"></a></h3>
+<ul><li>Added the <code>custom_rows</code> argument to the <code>create_a11ytables()</code> function to supply arbitrary sentences to separate rows above a table in contents, cover and notes sheets (<a href="https://github.com/co-analysis/a11ytables/issues/74" class="external-link">#74</a>).</li>
+<li>Allowed custom rows to be hyperlinks if the user provides them in Markdown-style (<a href="https://github.com/co-analysis/a11ytables/issues/74" class="external-link">#74</a>).</li>
+<li>Added the datasets <code>demo_df</code> (‘data.frame’ class) and <code>demo_a11ytable</code> (‘a11ytables’ class) to help demo the new <code>custom_rows</code> argument (and do a better job of showcasing other features of the package), superseding <code>mtcars_df</code> and <code>mtcars_df2</code>.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bugfixes-0-3-0">Bugfixes<a class="anchor" aria-label="anchor" href="#bugfixes-0-3-0"></a></h3>
+<ul><li>Adjusted Markdown-link detection in cases where the text portion contained parentheses (<a href="https://github.com/co-analysis/a11ytables/issues/119" class="external-link">#119</a>).</li>
+<li>Ensured the summary method printed table dimensions of cover list items (<a href="https://github.com/co-analysis/a11ytables/issues/79" class="external-link">#79</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-0-3-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-3-0"></a></h3>
+<ul><li>Updated {roxygen2} function documentation given the introduction of <code>custom_rows</code>.</li>
+<li>Updated vignettes to include detail on how to use <code>custom_rows</code>.</li>
+<li>Updated accessibility checklist vignette to include ‘sensible column width’ item (<a href="https://github.com/co-analysis/a11ytables/issues/117" class="external-link">#117</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="miscellaneous-0-3-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-0-3-0"></a></h3>
+<ul><li>Simplified the output of the summary method (<a href="https://github.com/co-analysis/a11ytables/issues/79" class="external-link">#79</a>).</li>
+<li>Updated tests to use <code>demo_*</code> datasets.</li>
+<li>Updated RStudio Addin given <code>custom_rows</code> and simplified to data.frame example only.</li>
+<li>Added internal <code>.vector_to_sentence()</code> function to help construct comma-separated lists from a vector.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.1" id="a11ytables-021">a11ytables 0.2.1<a class="anchor" aria-label="anchor" href="#a11ytables-021"></a></h2>
 <ul><li>Bugfix: corrected spelling error in installation instructions in README (<a href="https://github.com/co-analysis/a11ytables/issues/111" class="external-link">#111</a>).</li>
