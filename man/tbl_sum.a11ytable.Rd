@@ -15,20 +15,13 @@
 Named character vector.
 }
 \description{
-A brief textual description of an a11ytable-class object.
+A brief text description of an a11ytable-class object.
 }
 \examples{
-\dontrun{
-# Create an a11ytable with in-built demo dataframe, mtcars_df2. We can use
-# 'as_a11ytable' rather than 'create_a11ytable' because the data is already
-# in the right format.
-x <- as_a11ytable(mtcars_df2)
-
-# Print description only
-tbl_sum(x)
-
 # Print with description
-print(x)
-}
+print(demo_a11ytable)
+
+# Print description only (package 'tibble' must be installed)
+tibble::tbl_sum(demo_a11ytable)
 
 }

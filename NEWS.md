@@ -1,3 +1,33 @@
+# a11ytables 0.3.0
+
+## Breaking changes
+
+* The new `custom_rows` argument is the third-to-last argument to `create_a11ytable()` (it's been inserted before `sources` and `tables`) so that the argument order reflects the order of the pre-table rows that appear above tables in the spreadsheet output; this will be a problem for users of {a11ytables} before v0.3 who might have previously specified arguments _by place_ rather than _by name_ (I assume most will have specified arguments by name, so I expect this won't be much of a problem).
+
+## New features
+
+* Added the `custom_rows` argument to the `create_a11ytables()` function to supply arbitrary sentences to separate rows above a table in contents, cover and notes sheets (#74).
+* Allowed custom rows to be hyperlinks if the user provides them in Markdown-style (#74).
+* Added the datasets `demo_df` ('data.frame' class) and `demo_a11ytable` ('a11ytables' class) to help demo the new `custom_rows` argument (and do a better job of showcasing other features of the package), superseding `mtcars_df` and `mtcars_df2`.
+
+## Bugfixes
+
+* Adjusted Markdown-link detection in cases where the text portion contained parentheses (#119).
+* Ensured the summary method printed table dimensions of cover list items (#79).
+
+## Documentation
+
+* Updated {roxygen2} function documentation given the introduction of `custom_rows`.
+* Updated vignettes to include detail on how to use `custom_rows`.
+* Updated accessibility checklist vignette to include 'sensible column width' item (#117).
+
+## Miscellaneous
+
+* Simplified the output of the summary method (#79).
+* Updated tests to use `demo_*` datasets.
+* Updated RStudio Addin given `custom_rows` and simplified to data.frame example only.
+* Added internal `.vector_to_sentence()` function to help construct comma-separated lists from a vector.
+
 # a11ytables 0.2.1
 
 * Bugfix: corrected spelling error in installation instructions in README (#111).

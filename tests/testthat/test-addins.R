@@ -4,9 +4,5 @@ test_that("string_create_a11ytable skeleton is okay", {
 })
 
 test_that("string_tables_tibble skeleton is okay", {
-  expect_snapshot_output(string_tables_tibble())
-})
-
-test_that("string_tables_df skeleton is okay", {
-  expect_snapshot_output(string_tables_df())
+  expect_snapshot_output(string_tables())
 })

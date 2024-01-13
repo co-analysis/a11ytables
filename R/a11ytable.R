@@ -1,9 +1,9 @@
 
 #' Create An 'a11ytable' Object
 #'
-#' Create a new a11ytable-class object, which is a dataframe that contains all
-#' the information needed in your output spreadsheet. In turn, the object
-#' created by  this function can be used to populate an 'openxlsx'
+#' Create a new a11ytable-class object, which is a special data.frame that
+#' contains all the information needed in your output spreadsheet. In turn, the
+#' object created by this function can be used to populate an 'openxlsx'
 #' Workbook-class object with the function \code{\link{generate_workbook}}.
 #'
 #' @param tab_titles Required character vector, one value per sheet. Each title
@@ -18,8 +18,14 @@
 #' @param sheet_titles Required character vector, one value per sheet. The main
 #'     title for each sheet, which will appear in cell A1 (top-left corner).
 #' @param blank_cells Optional character vector, one value per sheet. A short
-#'     sentence to explain the reason for any blank cells in the sheet. Most
-#'     likely to be used with sheet type 'tables'.
+#'     sentence to explain the reason for any blank cells in the sheet. Supply
+#'     as \code{NA_character_} if empty. Most likely to be used with sheet type
+#'     'tables'.
+#' @param custom_rows Optional list of character vectors. One list element per
+#'     sheet, one character vector element per row of pre-table metadata. Supply
+#'     a list element as \code{NA_character_} if empty. To be used with sheet
+#'     type 'tables', but can also be used for sheet types 'contents' and
+#'     'notes'.
 #' @param sources Optional character vector, one value per sheet. The origin of
 #'     the data for a given sheet. Supply as \code{NA_character_} if empty. To
 #'     be used with sheet type 'tables'.
@@ -44,9 +50,10 @@
 #'         telephone number. You can use linebreaks (i.e. '\\n') to separate
 #'         text into paragraphs.
 #'     \item Sheet type 'contents': one row per sheet, two columns suggested at
-#'         least ('Tab title' and 'Worksheet title').
-#'     \item Sheet type 'notes': one row per note, two columns suggested ('Note
-#'         number', 'Note text'), where notes are in the form '\[note 1\]'.
+#'         least (named 'Tab title' and 'Worksheet title').
+#'     \item Sheet type 'notes': one row per note, two columns suggested (named
+#'         'Note number', 'Note text'), where notes are in the form
+#'         '\[note 1\]'.
 #'     \item Sheet type 'tables': a tidy, rectangular data.frame containing the
 #'         data to be published. It's the user's responsibility to add notes in
 #'         the form '\[note 1\]' to column headers, or in a special 'Notes' row.
@@ -60,37 +67,104 @@
 #' output spreadsheet. Note that whole cells will become hyperlinks; there is no
 #' support for selected words in a sentence to be rendered as a hyperlink.
 #'
-#' Hyperlinks can be supplied in two locations:
+#' Hyperlinks can be supplied in the character strings to three arguments:
 #'
 #' \itemize{
 #'     \item To the 'tables' argument for sheet type 'cover' only. It's
 #'         recommended to supply the cover information as a list rather than a
 #'         data.frame, which will allow you to make specific rows within a
-#'         section into hyperlinks. For example, in a 'Contact us' section you
-#'         might want a row containing some preamble (no hyperlink), a cell
-#'         containing a phone number (no hyperlink) and a cell containing an
-#'         email address (hyperlinked).
-#'     \item To the 'source' argument for data tables.
+#'         section (e.g. 'contact us') into hyperlinks.
+#'     \item To the 'custom_rows' argument for sheets of type 'contents, 'notes'
+#'        and 'tables'.
+#'     \item To the 'source' argument for sheets of type 'table' only.
 #' }
 #'
 #' @return An object with classes 'a11ytable', 'tbl' and 'data.frame'.
 #'
 #' @examples
-#' # Create an a11ytable with in-built demo dataframe, mtcars_df2
-#' x <- create_a11ytable(
-#'   tab_titles   = mtcars_df2$tab_title,
-#'   sheet_types  = mtcars_df2$sheet_type,
-#'   sheet_titles = mtcars_df2$sheet_title,
-#'   blank_cells  = mtcars_df2$blank_cells,
-#'   sources      = mtcars_df2$source,
-#'    tables       = mtcars_df2$table
+#' # Prepare some demo tables of information
+#'
+#' set.seed(1066)
+#'
+#' cover_list <- list(
+#'   "Section 1" = c("First row of Section 1.", "Second row of Section 1."),
+#'   "Section 2" = "The only row of Section 2.",
+#'   "Section 3" = c(
+#'     "[Website](https://co-analysis.github.io/a11ytables/)",
+#'     "[Email address](mailto:fake.address@a11ytables.com)"
+#'   )
 #' )
+#'
+#' contents_df <- data.frame(
+#'   "Sheet name" = c("Notes", "Table_1", "Table_2"),
+#'   "Sheet title" = c(
+#'     "Notes used in this workbook",
+#'     "First Example Sheet",
+#'     "Second Example Sheet"
+#'   ),
+#'   check.names = FALSE
+#' )
+#'
+#' notes_df <- data.frame(
+#'   "Note number" = paste0("[note ", 1:3, "]"),
+#'   "Note text" = c("First note.", "Second note.", "Third note."),
+#'   check.names = FALSE
+#' )
+#'
+#' table_1_df <- data.frame(
+#'   Category = LETTERS[1:10],
+#'   "Numeric [note 1]" = 1:10,
+#'   "Numeric suppressed" = c(1:4, "[c]", 6:9, "[x]"),
+#'   "Numeric thousands" = abs(round(rnorm(10), 4) * 1e5),
+#'   "Numeric decimal" = abs(round(rnorm(10), 5)),
+#'   "This column has a very long name that means that the column width needs to be widened" = 1:10,
+#'   Notes = c("[note 1]", rep(NA_character_, 4), "[note 2]", rep(NA_character_, 4)),
+#'   check.names = FALSE
+#' )
+#'
+#' table_2_df <- data.frame(Category = LETTERS[1:10], Numeric = 1:10)
+#'
+#' # Create 'a11ytables' object
+#'
+#' x <-
+#'   a11ytables::create_a11ytable(
+#'     tab_titles = c("Cover", "Contents", "Notes", "Table_1", "Table_2"),
+#'     sheet_types = c("cover", "contents", "notes", "tables", "tables"),
+#'     sheet_titles = c(
+#'       "The 'a11ytables' Demo Workbook",
+#'       "Table of contents",
+#'       "Notes",
+#'       "Table 1: First Example Sheet",
+#'       "Table 2: Second Example Sheet"
+#'     ),
+#'     blank_cells = c(
+#'       rep(NA_character_, 3),
+#'       "Blank cells indicate that there's no note in that row.",
+#'       NA_character_
+#'     ),
+#'     custom_rows = list(
+#'       NA_character_,
+#'       NA_character_,
+#'       "A custom row.",
+#'       c(
+#'         "First custom row [with a hyperlink.](https://co-analysis.github.io/a11ytables/)",
+#'         "Second custom row."
+#'       ),
+#'       "A custom row."
+#'     ),
+#'     sources = c(
+#'       rep(NA_character_, 3),
+#'       "[The Source Material, 2024.](https://co-analysis.github.io/a11ytables/)",
+#'       "The Source Material, 2024."
+#'     ),
+#'     tables = list(cover_list, contents_df, notes_df, table_1_df, table_2_df)
+#'   )
 #'
 #' # Test that 'a11ytable' is one of the object's classes
 #' is_a11ytable(x)
 #'
-#' # You can also use the RStudio Addin installed with the package to insert a
-#' # an example skeleton containing this function.
+#' # Look at the structure of the object
+#' str(x, max.level = 2)
 #'
 #' @export
 create_a11ytable <- function(
@@ -99,6 +173,7 @@ create_a11ytable <- function(
     sheet_titles,
     blank_cells = NA_character_,
     sources = NA_character_,
+    custom_rows = list(NA_character_),
     tables
 ) {
 
@@ -111,6 +186,7 @@ create_a11ytable <- function(
     stringsAsFactors = FALSE  # because default is TRUE prior to R v4
   )
 
+  x[["custom_rows"]] <- custom_rows
   x[["table"]] <- tables
 
   as_a11ytable(x)
@@ -128,13 +204,7 @@ create_a11ytable <- function(
 #'     a11ytable, otherwise \code{FALSE}.
 #'
 #' @examples
-#' # Create an a11ytable with in-built demo dataframe, mtcars_df2. We can use
-#' # 'as_a11ytable' rather than 'create_a11ytable' because the data is already
-#' # in the right format.
-#' x <- as_a11ytable(mtcars_df2)
-#'
-#' # Test the object's class
-#' is_a11ytable(x)
+#' is_a11ytable(demo_a11ytable)
 #'
 #' @export
 as_a11ytable <- function(x) {
@@ -170,41 +240,60 @@ is_a11ytable <- function(x) {
 
 #' Summarise An 'a11ytable' Object
 #'
-#' A concise result summary of an a11ytable-class object to see information about
-#' the sheet content.
+#' A concise result summary of an a11ytable-class object to see information
+#' about the sheet content. Shows a numbered list of sheets with each tab title,
+#' sheet type and table dimensions.
 #'
 #' @param object An a11ytable-class object for which to get a summary.
 #' @param ... Other arguments to pass.
 #'
 #' @examples
-#' # Create an a11ytable with in-built demo dataframe, mtcars_df2. We can use
-#' # 'as_a11ytable' rather than 'create_a11ytable' because the data is already
-#' # in the right format.
-#' x <- as_a11ytable(mtcars_df2)
+#' # Print a concise summary of the a11ytable-class object
+#' summary(demo_a11ytable)
 #'
-#' # Print summary of a11ytable-class object
-#' summary(x)
+#' # Alternatively, look at the structure
+#' str(demo_a11ytable, max.level = 2)
 #'
 #' @export
 summary.a11ytable <- function(object, ...) {
 
-  x_dims <- lapply(
-    lapply(object[["table"]], dim),
-    function(x) paste(x, collapse = " x ")
+  tables <- object[["table"]]
+
+  table_dims <- vector("list", length = length(tables))
+
+  for (i in seq_along(tables)) {
+
+    if (inherits(tables[[i]], "list")) {
+
+      list_length  <- length(tables[[i]])
+      list_lengths <- lengths(tables[[i]])
+
+      table_dims[[i]] <- paste0(
+        "list of length ", list_length,
+        " (element lengths ", .vector_to_sentence(list_lengths), ")"
+      )
+
+    }
+
+    if (is.data.frame(tables[[i]])) {
+      table_dims[[i]] <-
+        paste(paste(dim(tables[[i]]), collapse = " x "), "dataframe")
+    }
+
+  }
+
+  summary_string <- paste0(
+    "\n",
+    paste0(
+      paste0("  ", seq_along(tables), ") Tab '"),
+      object[["tab_title"]],
+      "' (sheet type '", object[["sheet_type"]], "') contains a ",
+      unlist(table_dims),
+      collapse = "\n"
+    )
   )
 
-  tab_title <- paste0("\n", paste("  -", object[["tab_title"]], collapse = "\n"))
-  sh_type   <- paste0("\n", paste("  -", object[["sheet_type"]], collapse = "\n"))
-  sh_title  <- paste0("\n", paste("  -", object[["sheet_title"]], collapse = "\n"))
-  tbl_dims  <- paste0("\n", paste("  -", unlist(x_dims), collapse = "\n"))
-
-  cat(
-    "# An a11ytable with", nrow(object), "sheets\n",
-    "* Tab titles:",   tab_title, "\n",
-    "* Sheet types:",  sh_type,   "\n",
-    "* Sheet titles:", sh_title,  "\n",
-    "* Table sizes:",  tbl_dims,  "\n"
-  )
+  cat("# An a11ytable with", nrow(object), "sheets:", summary_string)
 
   invisible(object)
 
@@ -215,7 +304,7 @@ NULL
 
 #' Provide A Succinct Summary Of An 'a11ytable' Object
 #'
-#' A brief textual description of an a11ytable-class object.
+#' A brief text description of an a11ytable-class object.
 #'
 #' @param x An a11ytable-class object to summarise.
 #' @param ... Other arguments to pass.
@@ -223,18 +312,11 @@ NULL
 #' @return Named character vector.
 #'
 #' @examples
-#' \dontrun{
-#' # Create an a11ytable with in-built demo dataframe, mtcars_df2. We can use
-#' # 'as_a11ytable' rather than 'create_a11ytable' because the data is already
-#' # in the right format.
-#' x <- as_a11ytable(mtcars_df2)
-#'
-#' # Print description only
-#' tbl_sum(x)
-#'
 #' # Print with description
-#' print(x)
-#' }
+#' print(demo_a11ytable)
+#'
+#' # Print description only (package 'tibble' must be installed)
+#' tibble::tbl_sum(demo_a11ytable)
 #'
 #' @export
 tbl_sum.a11ytable <- function(x, ...) {

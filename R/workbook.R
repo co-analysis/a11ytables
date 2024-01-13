@@ -12,22 +12,14 @@
 #' @return A Workbook-class object.
 #'
 #' @examples
-#' # Create an a11ytable with in-built demo dataframe, mtcars_df2. We can use
-#' # 'as_a11ytable' rather than 'create_a11ytable' because the data is already
-#' # in the right format.
-#' x <- as_a11ytable(mtcars_df2)
+#' # Convert an a11ytable to a Workbook-class object
+#' x <- generate_workbook(demo_a11ytable)
+#' class(x)
 #'
-#' # Convert to a Workbook-class object
-#' y <- generate_workbook(x)
-#' class(y)
-#'
-#' # As above, using a base pipe
-#' z <- mtcars_df2 |>
+#' # As above, using a compliant data.frame and the base pipe
+#' y <- demo_df |>
 #'   as_a11ytable() |>
 #'   generate_workbook()
-#'
-#' # You can also use the RStudio Addin installed with the package to insert a
-#' # an example skeleton containing this function.
 #'
 #' @export
 generate_workbook <- function(a11ytable) {
@@ -36,7 +28,7 @@ generate_workbook <- function(a11ytable) {
     stop("The object passed to argument 'content' must have class 'a11ytable'.")
   }
 
-  # Create a table_name from tab_title (unqiue, no spaces, no punctuation)
+  # Create a table_name from tab_title (unique, no spaces, no punctuation)
   a11ytable[["table_name"]] <-
     gsub(" ", "_", tolower(trimws(a11ytable[["tab_title"]])))
   a11ytable[["table_name"]] <-

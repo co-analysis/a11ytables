@@ -45,6 +45,18 @@
 
 }
 
+.has_custom_rows <- function(content, tab_title) {
+
+  custom_rows <- content[content$tab_title == tab_title, "custom_rows"][[1]]
+
+  if (any(!is.na(custom_rows))) {
+    TRUE
+  } else {
+    FALSE
+  }
+
+}
+
 .has_notes <- function(content, tab_title) {
 
   table_names <- names(content[content$tab_title == tab_title, "table"][[1]])
@@ -113,7 +125,7 @@
 
 }
 
-.get_start_row_source <- function(
+.get_start_row_custom_rows <- function(
     has_notes,
     has_blanks_message,
     start_row = 3
@@ -131,9 +143,38 @@
 
 }
 
-.get_start_row_table <- function(
+.get_start_row_source <- function(
+    content,
+    tab_title,
     has_notes,
     has_blanks_message,
+    has_custom_rows,
+    start_row = 3
+) {
+
+  if (has_notes) {
+    start_row <- start_row + 1
+  }
+
+  if (has_blanks_message) {
+    start_row <- start_row + 1
+  }
+
+  if (has_custom_rows) {
+    custom_rows <- content[content$tab_title == tab_title, "custom_rows"][[1]]
+    start_row <- start_row + length(custom_rows)
+  }
+
+  return(start_row)
+
+}
+
+.get_start_row_table <- function(
+    content,
+    tab_title,
+    has_notes,
+    has_blanks_message,
+    has_custom_rows,
     has_source,
     start_row = 3
 ) {
@@ -144,6 +185,11 @@
 
   if (has_blanks_message) {
     start_row <- start_row + 1
+  }
+
+  if (has_custom_rows) {
+    custom_rows <- content[content$tab_title == tab_title, "custom_rows"][[1]]
+    start_row <- start_row + length(custom_rows)
   }
 
   if (has_source) {
@@ -170,8 +216,7 @@
       sheet = tab_title,
       x = sheet_title,
       startCol = 1,
-      startRow = 1,
-      colNames = TRUE
+      startRow = 1
     )
 
   }
@@ -183,8 +228,7 @@
       sheet = tab_title,
       x = sheet_title,
       startCol = 1,
-      startRow = 1,
-      colNames = TRUE
+      startRow = 1
     )
 
   }
@@ -222,8 +266,7 @@
     sheet = tab_title,
     x = text,
     startCol = 1,
-    startRow = 2,  # table count will always be the second row
-    colNames = TRUE
+    startRow = 2  # table count will always be the second row
   )
 
   return(wb)
@@ -244,8 +287,7 @@
       sheet = tab_title,
       x = text,
       startCol = 1,
-      startRow = 3,  # notes will always go in row 3 if they exist
-      colNames = TRUE
+      startRow = 3  # notes will always go in row 3 if they exist
     )
 
   }
@@ -280,9 +322,41 @@
       sheet = tab_title,
       x = blanks_text,
       startCol = 1,
-      startRow = start_row,  # dependent on whether notes text present
-      colNames = TRUE
+      startRow = start_row
     )
+
+  }
+
+  return(wb)
+
+}
+
+.insert_custom_rows <- function(wb, content, tab_title) {
+
+  has_custom_rows <- .has_custom_rows(content, tab_title)
+
+  if (has_custom_rows) {
+
+    custom_rows_text <-
+      content[content$tab_title == tab_title, "custom_rows"][[1]]
+
+    custom_rows_text <- lapply(custom_rows_text, .make_hyperlink)
+
+    has_notes <- .has_notes(content, tab_title)
+    has_blanks <- .has_blanks_message(content, tab_title)
+    start_row <- .get_start_row_custom_rows(has_notes, has_blanks)
+
+    for (i in seq_along(custom_rows_text)) {
+
+      openxlsx::writeData(
+        wb = wb,
+        sheet = tab_title,
+        x = custom_rows_text[[i]],
+        startCol = 1,
+        startRow = start_row + (i - 1)
+      )
+
+    }
 
   }
 
@@ -298,24 +372,22 @@
 
     source_text <- content[content$tab_title == tab_title, "source"][[1]]
     source_text <- paste("Source:", source_text)
+    source_text <- .make_hyperlink(source_text)
 
-    source_has_hyperlink <- .detect_hyperlink(source_text)
-
-    if (source_has_hyperlink) {
-      source_text <- .make_hyperlink(source_text)
-    }
-
-    has_notes <- .has_notes(content, tab_title)
-    has_blanks_message <- .has_blanks_message(content, tab_title)
-    start_row <- .get_start_row_source(has_notes, has_blanks_message)
+    start_row <- .get_start_row_source(
+      content,
+      tab_title,
+      .has_notes(content, tab_title),
+      .has_blanks_message(content, tab_title),
+      .has_custom_rows(content, tab_title)
+    )
 
     openxlsx::writeData(
       wb = wb,
       sheet = tab_title,
       x = source_text,
       startCol = 1,
-      startRow = start_row  # dependent on whether notes text present
-      # colNames = TRUE
+      startRow = start_row
     )
 
   }
@@ -330,21 +402,14 @@
   sheet_type <- content[content$table_name == table_name, "sheet_type"][[1]]
   tab_title <- content[content$table_name == table_name, "tab_title"][[1]]
 
-  has_notes <- .has_notes(content, tab_title)
-  has_blanks_message <- .has_blanks_message(content, tab_title)
-  has_source <- .has_source(content, tab_title)
-
-  if (sheet_type %in% c("contents", "notes")) {
-    start_row <- 3
-  }
-
-  if (sheet_type == "tables") {
-    start_row <- .get_start_row_table(
-      has_notes,
-      has_blanks_message,
-      has_source
-    )
-  }
+  start_row <- .get_start_row_table(
+    content,
+    tab_title,
+    .has_notes(content, tab_title),
+    .has_blanks_message(content, tab_title),
+    .has_custom_rows(content, tab_title),
+    .has_source(content, tab_title)
+  )
 
   openxlsx::writeDataTable(
     wb = wb,
@@ -352,8 +417,7 @@
     x = table,
     tableName = table_name,
     startCol = 1,
-    startRow = start_row,  # dependent on whether notes or source text present
-    colNames = TRUE,
+    startRow = start_row,
     tableStyle = "none",
     withFilter = FALSE,
     bandedRows = FALSE
@@ -447,7 +511,7 @@
   md_match <- regexpr(md_rx, string, perl = TRUE)
   md_extract <- regmatches(string, md_match)[[1]]
 
-  url_rx <- "(?<=\\()([[:graph:]]|[[:space:]])+(?=\\))"
+  url_rx <- "(?<=\\]\\()([[:graph:]]|[[:space:]])+(?=\\))"
   url_match <- regexpr(url_rx, md_extract, perl = TRUE)
   url_extract <- regmatches(md_extract, url_match)[[1]]
 
@@ -529,6 +593,7 @@
 
   .insert_title(wb, content, tab_title)
   .insert_table_count(wb, content, tab_title)
+  .insert_custom_rows(wb, content, tab_title)
   .insert_table(wb, content, table_name)
 
   styles <- .style_create()
@@ -551,6 +616,7 @@
 
   .insert_title(wb, content, tab_title)
   .insert_table_count(wb, content, tab_title)
+  .insert_custom_rows(wb, content, tab_title)
   .insert_table(wb, content, table_name)
 
   styles <- .style_create()
@@ -574,6 +640,7 @@
   .insert_source(wb, content, tab_title)
   .insert_notes_statement(wb, content, tab_title)
   .insert_blanks_message(wb, content, tab_title)
+  .insert_custom_rows(wb, content, tab_title)
   .insert_table(wb, content, table_name)
 
   styles <- .style_create()

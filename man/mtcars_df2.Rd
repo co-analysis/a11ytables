@@ -3,13 +3,13 @@
 \docType{data}
 \name{mtcars_df2}
 \alias{mtcars_df2}
-\title{Test Data: A Modified 'mtcars' Dataframe}
+\title{Test Data: A Modified 'mtcars' Dataframe  (Version 2)}
 \format{
-A data frame with 5 rows and 7 columns:
+A data frame with 5 rows and 6 columns:
 \describe{
-\item{tab_title}{Character. Text to appear on the sheet's tab.}
+\item{tab_title}{Character. Text to appear on each sheet's tab.}
 \item{sheet_type}{Character. The content type for each sheet: 'cover', 'contents', 'notes', or 'tables'.}
-\item{sheet_title}{Character. The title that will appear in the top-left of each sheet.}
+\item{sheet_title}{Character. The title that will appear in cell A1 (top-left) of each sheet.}
 \item{blank_cells}{Character. An explanation for any blank cells in the table.}
 \item{source}{Character. The origin of the data, if relevant.}
 \item{table}{List-column of data.frames (apart from the cover, which is a list) containing the statistical tables.}
@@ -22,9 +22,18 @@ A data frame with 5 rows and 7 columns:
 mtcars_df2
 }
 \description{
+Superseded. \code{\link{mtcars_df}} and mtcars_df2 have been superseded in
+favour of \code{\link{demo_df}}.
+
 A modified version of the mtcars dataset prepared into a data.frame structure
 ready for coercion to an a11ytables-class object with
-\code{\link{as_a11ytable}}. Uses a list as input to the cover table;
-\code{\link{mtcars_df}} uses a dataframe as input to the cover table.
+\code{\link{as_a11ytable}}.
+}
+\details{
+Uses a list as input to the cover table (implemented in version 0.2), whereas
+\code{\link{mtcars_df}} uses a data.frame as input to the cover table.
+
+Note that this dataset is superseded by \code{\link{demo_df}} but is
+retained for backwards-compatibility with package versions starting 0.2.
 }
 \keyword{datasets}

@@ -51,7 +51,13 @@
 .validate_a11ytable <- function(x) {
 
   names_req <- c(
-    "tab_title", "sheet_type", "sheet_title", "blank_cells", "source", "table"
+    "tab_title",
+    "sheet_type",
+    "sheet_title",
+    "blank_cells",
+    "source",
+    "custom_rows",
+    "table"
   )
   names_count <- length(names_req)
   names_in <- names(x)
@@ -85,16 +91,39 @@
     )
   }
 
-  # Class must be character for all columns except 'table'
-  if (!all(unlist(lapply(subset(x, select = -table), is.character)))) {
-    stop("All columns except 'table' must be character class.", call. = FALSE)
+  # 'custom_row' column class must be listcol
+  if (!inherits(x[["custom_rows"]], "list")) {
+    stop(
+      "Column 'table' must be a listcol of character vectors",
+      call. = FALSE
+    )
   }
 
-  # Content of listcol column must be single data.frame objects (or cover list)
+  # Class must be character for all columns except 'table' and 'custom_rows'
+
+  char_cols <- x[, !names(x) %in% c("table", "custom_rows")]
+  are_char_cols <- unlist(lapply(char_cols, is.character))
+
+  if (!all(are_char_cols)) {
+    stop(
+      "All columns except 'table' and 'custom_rows' must be character class.",
+      call. = FALSE
+    )
+  }
+
+  # Content of 'table' listcol must be single data.frame objects (or cover list)
   if (!all(unlist(lapply(x[["table"]], is.list)))) {
     stop(
       "List-column 'table' must contain data.frame objects only. ",
       "The cover can also be of class 'list'.",
+      call. = FALSE
+    )
+  }
+
+  # Content of 'custom_row' listcol must be character
+  if (!all(unlist(lapply(x[["custom_rows"]], is.character)))) {
+    stop(
+      "List-column 'custom_rows' must contain character vectors only. ",
       call. = FALSE
     )
   }
@@ -146,7 +175,6 @@
   if (length(x[["tab_title"]]) != length(unique(tolower(x[["tab_title"]])))) {
     stop("Each 'tab_title' must be unique (case-insensitive).", call. = FALSE)
   }
-
 
 }
 

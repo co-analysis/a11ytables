@@ -2,11 +2,11 @@
 % Please edit documentation in R/addin.R
 \name{at_template_a11ytable}
 \alias{at_template_a11ytable}
-\title{Insert 'a11ytable' Template}
+\title{Insert Demo 'create_a11ytable' Template}
 \usage{
 at_template_a11ytable()
 }
 \description{
 Insert at the cursor a template for \code{\link{create_a11ytable}} from the
-'a11ytable' package, pre-filled with example information.
+'a11ytable' package, pre-filled with demo data.
 }

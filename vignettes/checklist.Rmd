@@ -44,6 +44,7 @@ There are several self-assessed indicators used in the 'status' column of the ta
 | Avoid adding filters and freeze panes | No | Met | Filters and freezing aren't supported by {a11ytables} |
 | Only leave cells with no data empty in certain circumstances | Yes | User's responsibility | The user should describe why there are blank cells in the `blank_cells` column of their a11ytables object |
 | Avoid hiding rows or columns | No | Met | Hiding isn't supported by {a11ytables} |
+| Columns should be a sensible width | No | Partly | {a11ytables} uses a fixed default column width for data tables (16), which is doubled (32) if the length of the content exceeds a threshold number of characters (50) |
 
 ### Footnotes
 
@@ -58,7 +59,7 @@ There are several self-assessed indicators used in the 'status' column of the ta
 
 | Description | Essential? | Status | Explanation |
 | :-- | :- | :- | :---- |
-| All written content needs to meet the accessibility guidelines | | User's responsibility | {a11ytables} does not check the validity of user-supplied text |
+| All written content needs to meet the accessibility guidelines | No | User's responsibility | {a11ytables} does not check the validity of user-supplied text |
 | Links must be accessible | Yes | User's responsibility | {a11ytables} does not check the validity of user-supplied text |
 | Format text to make it accessible | No | Met | `generate_workbook()` auto-formats the text |
 | All worksheets should have descriptive titles which are properly tagged and formatted | Yes | Partly/user’s responsibility | {a11ytables} does not check user-supplied text nor data; the package handles formatting but not yet mark-up for headings |

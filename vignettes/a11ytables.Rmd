@@ -37,24 +37,23 @@ Having installed the {a11ytables} package, there are three steps to generating a
 1. Pass the output to `generate_workbook()` to convert the a11ytable to {openxlsx}'s 'Workbook' class, which adds spreadsheet structure and styles
 1. Pass the output to `openxlsx::saveWorkbook()` to write out to an xlsx file (or `openxlsx::openXL()` to open a temporary copy)
 
-The minimal demo below follows these steps using the example data from [the classic mtcars dataset](https://rdrr.io/r/datasets/mtcars.html).
-
 You can use the package's [RStudio Addin](https://rstudio.github.io/rstudioaddins/), which is installed with {a11ytables}, to insert a pre-filled demo skeleton of this workflow (RStudio users only).
 
 ### 1. Create an a11ytable
 
 Each argument to `create_a11ytable()` provides the information needed to construct each sheet in the spreadsheet.
 
-| Argument | Type | Required | Accepted values | Explanation |
-| :--- | :--- | :- | :--- | :------ |
-| `tab_titles` | Character vector | Yes | | The name that will appear on each sheet's tab in the output spreadsheet |
-| `sheet_types` | Character vector | Yes | 'contents', 'cover', 'notes', 'tables' | The kind of information that the sheet holds, which is needed so that the correct structure and formatting can be applied later |
-| `sheet_titles` | Character vector | Yes | | The main heading of each sheet, which will appear in cell A1 |
-| `blank_cells` | Character vector | No | | A sentence that explains the reason for any blank cells in the sheet (if applicable) |
-| `sources` | Character vector | No | | A sentence provides the source of the data found in each table (if applicable, likely only needed for sheets with `sheet_types` of 'table') |
-| `tables` | List of dataframes (cover can be a list) | Yes | | The main content for each sheet, expressed as flat ([probably tidy](https://www.jstatsoft.org/article/view/v059i10)) dataframes of rows and columns (though the cover can be a list) |
+| Argument | Required | Type | Accepted values | Explanation |
+| :--- | :- | :--- | :--- | :------ |
+| `tab_titles` | Yes | Character vector | | The name that will appear on each sheet's tab in the output spreadsheet |
+| `sheet_types` | Yes | Character vector | 'cover', 'contents', 'notes', 'tables' | The kind of information that the sheet holds, which is needed so that the correct structure and formatting can be applied later |
+| `sheet_titles` | Yes | Character vector | | The main heading of each sheet, which will appear in cell A1 |
+| `blank_cells` | No | Character vector | | A sentence that explains the reason for any blank cells in the sheet (if applicable) |
+| `custom_rows` | No | List of character vectors | | Arbitrary rows of text that the user wants to insert above a table, one list-item per sheet (contents, notes and tables sheets), one vector element per row |
+| `sources` | No | Character vector | | A sentence provides the source of the data found in each table (if applicable, likely only needed for sheets with `sheet_types` of 'table') |
+| `tables` | Yes | List of dataframes (although the cover sheet content can be provided as a list object) | | The main content for each sheet, expressed as flat ([probably tidy](https://www.jstatsoft.org/article/view/v059i10)) dataframes of rows and columns (though the cover can be a list) |
 
-You can read more about these arguments and their requirements in the function's help pages, which you can access by running `?create_a11ytable`. See also the [terminology vignette](https://co-analysis.github.io/a11ytables/articles/terminology), `vignette("terminology", "a11ytables")`, for these terms and more.
+You can read more about these arguments and their requirements in the function's help pages, which you can access by running `?create_a11ytable` in the R console. See also the [terminology vignette](https://co-analysis.github.io/a11ytables/articles/terminology), `vignette("terminology", "a11ytables")`, for these terms and more.
 
 #### Pre-prepare tables
 
@@ -69,55 +68,43 @@ Note that you can use the RStudio Addin 'Insert table templates using 'tibble'' 
 The cover can accept either a list or a data.frane (the latter was the only acceptable input prior to version 0.2.0). We recommend a list so that you can have multiple rows per section on the cover. This also means you can dedicate certain rows to be hyperlinks to web URLs or mailto links that will open an email client. Here's a demo list for the contents page (required):
 
 ```{r tables-cover-list}
-cover_list <- list( 
-  "Description" = "Aspects of automobile design and performance.",
-  "Properties" = "Suppressed values are replaced with the value '[c]'.",
-  "Contact" = c(
-    "Contact the mtcars Team.",
-    "Telephone 0123456789.",
-    "Email us at [invented_email@not_real.com](mailto:invented_email@not_real.com)."
+cover_list <- list(
+  "Section 1" = c("First row of Section 1.", "Second row of Section 1."),
+  "Section 2" = "The only row of Section 2.",
+  "Section 3" = c(
+    "[Website](https://co-analysis.github.io/a11ytables/)",
+    "[Email address](mailto:fake.address@a11ytables.com)"
   )
 )
 ```
 
-<details><summary>Click for an alternative data.frame input for the cover.</summary>
-
-Instead of a list, you could provide a data.frame that contains information for the cover sheet. The limitation with this approach is that---for each section on the cover sheet---you are restricted to one cell for the header and one cell for body content. That might not be ideal if you want to dedicate some cells within a section to be hyperlinks. 
-
-Here's a demo data.frame for the cover that has a column for sub-headings and a column for the content of each one:
-
-```{r tables-cover-df, eval=FALSE}
-cover_df <- tibble::tribble( 
-  ~"subsection_title",  ~"subsection_content",
-  "Description", "Aspects of automobile design and performance.",
-  "Properties",  "Suppressed values are replaced with the value '[c]'.",
-  "Contact",     "The mtcars Team, telephone 0123456789."
-)
-```
-
-</details>
+Note: a list is the preferred method of input for the cover. Previously, a data.frame was the only way to supply the data for the cover sheet in version 0.1 of the package.
 
 Here's a demo table for the contents page (required):
 
 ```{r tables-contents}
-contents_df <- tibble::tribble(
-  ~"Sheet name", ~"Sheet title",
-  "Notes",       "Notes used in this workbook",
-  "Table 1",     "Car Road Tests (demo)"
+contents_df <- data.frame(
+  "Sheet name" = c("Notes", "Table_1", "Table_2"),
+  "Sheet title" = c(
+    "Notes used in this workbook",
+    "First Example Sheet",
+    "Second Example Sheet"
+  ),
+  check.names = FALSE
 )
 ```
 
-And here's a demo table for the notes page (not required if there's no notes in your tables), which has a column for the note number in the form '[note x]' and and column for the note itself:
+And here's a demo table for the notes page (not required if there's no notes in your tables), which has a column for the note number in the form '[note x]' and a column for the note itself:
 
 ```{r tables-notes}
-notes_df <- tibble::tribble(
-  ~"Note number", ~"Note text",
-  "[note 1]",     "US gallons.",
-  "[note 2]",     "Retained to enable comparisons with previous analyses."
+notes_df <- data.frame(
+  "Note number" = paste0("[note ", 1:3, "]"),
+  "Note text" = c("First note.", "Second note.", "Third note."),
+  check.names = FALSE
 )
 ```
 
-<details><summary>Click to preview these tables</summary>
+<details><summary>Click to preview these objects</summary>
 ```{r tables-meta-expand}
 cover_list
 contents_df
@@ -127,31 +114,31 @@ notes_df
 
 ##### Statistical tables
 
-This code generates a demo dataframe that we're going to pretend is the statistical data that we want to publish:
+The code below generates a demo data.frame that we're going to pretend is the statistical data that we want to publish. It has columns with different sorts of data that we might want to publish. It also has suppressed values (e.g. '[c]' meaning 'confidential' data) and includes notes (in the form '[note x]').
 
-```{r}
-stats_df <- mtcars |>
-  head() |>
-  tibble::rownames_to_column("car") |>
-  subset(select = c("car", "cyl", "mpg"))
-
-names(stats_df) <- c(
-  "Car",
-  "Cylinder count",
-  "Miles per gallon [note 1]"  # notes go in headers, not cells
+```{r stats-df-1}
+table_1_df <- data.frame(
+  Category = LETTERS[1:10],
+  "Numeric [note 1]" = 1:10,
+  "Numeric suppressed" = c(1:4, "[c]", 6:9, "[x]"),
+  "Numeric thousands" = abs(round(rnorm(10), 4) * 1e5),
+  "Numeric decimal" = abs(round(rnorm(10), 5)),
+  "This column has a very long name that means that the column width needs to be widened" = 1:10,
+  Notes = c("[note 1]", rep(NA_character_, 4), "[note 2]", rep(NA_character_, 4)),
+  check.names = FALSE
 )
-
-stats_df$Notes <- c(  # add 'Notes' column
-  rep("[note 2]", 2), 
-  rep(NA_character_, 4)
-)
-
-stats_df[3, 2:3] <- "[c]"  # suppressed (confidential) data
 ```
 
-<details><summary>Click to preview this table</summary>
+We'll create a second, simpler table as well, which will go on a separate sheet:
+
+```{r stats-df-2}
+table_2_df <- data.frame(Category = LETTERS[1:10], Numeric = 1:10)
+```
+
+<details><summary>Click to preview these tables of statistical data</summary>
 ```{r table-stat-expand}
-stats_df
+table_1_df
+table_2_df
 ```
 </details>
 
@@ -159,53 +146,51 @@ See [the best practice guidance](https://analysisfunction.civilservice.gov.uk/po
 
 #### Create a11ytable
 
-Now we can construct an a11ytable by passing the required sheet elements as character vectors with `c()`, or a `list()` in the case of the `tables` argument, to the `create_a11ytable()` function. You can use `NA_character_` wherever an element isn't required.
+Now we can construct an a11ytable by passing the required sheet elements as character vectors with `c()`—or a `list()` in the case of the `tables` and `custom_rows` arguments—to the `create_a11ytable()` function. 
 
-Note that you can use the RStudio Addin 'Insert 'a11ytable' Template' to insert a demo skeleton into your R script.
+Note that:
+
+* the element index of the object supplied to each argument is the sheet that it will be applied to (e.g. the tab title of the first sheet will be 'Cover', the sheet type of the second sheet will be 'contents' and the fourth sheet will contain the `table_1_df` table)
+* you must use `NA_character_` wherever an element isn't required (e.g. there is no information about blank cells nor sources for the first three sheets)
+* you can insert a template of this demo using the package's RStudio Addin
 
 ```{r new-a11ytable}
 my_a11ytable <- 
   a11ytables::create_a11ytable(
-    tab_titles = c(
-      "Cover",
-      "Contents",
-      "Notes",
-      "Table 1"
-    ),
-    sheet_types = c(
-      "cover",
-      "contents",
-      "notes",
-      "tables"
-    ),
+    tab_titles = c("Cover", "Contents", "Notes", "Table 1", "Table_2"),
+    sheet_types = c("cover", "contents", "notes", "tables", "tables"),
     sheet_titles = c(
-      "The 'mtcars' Demo Datset",
+      "The 'a11ytables' Demo Workbook",
       "Table of contents",
       "Notes",
-      "Table 1: Car Road Tests"
+      "Table 1: First Example Sheet",
+      "Table 2: Second Example Sheet"
     ),
     blank_cells = c(
+      rep(NA_character_, 3),
+      "Blank cells indicate that there's no note in that row.",
+      NA_character_
+    ),
+    custom_rows = list(
       NA_character_,
       NA_character_,
-      NA_character_, 
-      "Blank cells indicate that there's no note in that row"
+      "A custom row.",
+      c(
+        "First custom row [with a hyperlink.](https://co-analysis.github.io/a11ytables/)",
+        "Second custom row."
+      ),
+      "A custom row."
     ),
     sources = c(
-      NA_character_,
-      NA_character_,
-      NA_character_, 
-      "Motor Trend (1974)"
+      rep(NA_character_, 3),
+      "[The Source Material., 2024](https://co-analysis.github.io/a11ytables/)",
+      "The Source Material, 2024."
     ),
-    tables = list(
-      cover_list,
-      contents_df,
-      notes_df,
-      stats_df
-    )
+    tables = list(cover_list, contents_df, notes_df, table_1_df, table_2_df)
   )
 ```
 
-The function will return errors or warnings if anything is missing or seems odd. For example, we were warned that a value we supplied to `tab_title` had to be cleaned from 'Table 1' to 'Table_1', since blank spaces are not allowed.
+The function will return errors or warnings if anything is missing or seems odd. For example, we were warned that a value we supplied to `tab_title` had to be cleaned from 'Table 1' to 'Table_1', since blank spaces are not allowed in tab names.
 
 Here's a preview of the object that was created:
 
@@ -217,7 +202,7 @@ You can immediately tell that this is an a11ytable because it's the first word t
 
 So our a11ytable is basically just a table with one row per sheet and one column per sheet element. In fact, it has class 'data.frame'/'tbl' along with 'a11ytable'. For convenience, you can also check for the a11ytable class with `is_a11ytable()`.
 
-Note that `create_a11ytable()` is the preferred method for generating a11ytable-class objects, but it's also possible to convert a correctly-formatted, pre-built data.frame or tibble directly to an a11ytable with `as_a11ytable()`. You can try this using the `mtcars_df` data.frame that's provided with {a11ytables}, which is a specially-prepared subset of [the mtcars dataset](https://rdrr.io/r/datasets/mtcars.html).
+Note that `create_a11ytable()` is the preferred method for generating a11ytable-class objects, but it's also possible to convert a correctly-formatted, pre-built data.frame or tibble directly to an a11ytable with `as_a11ytable()`.
 
 ### 2. Convert to a workbook
 
@@ -250,7 +235,7 @@ You could also open a temporary copy of the workbook with `openxlsx::openXL()`, 
 
 #### Output
 
-The content of the output spreadsheet will look like this:
+The content of your output spreadsheet will end up looking something like this:
 
 <div class="figure">
 <img src="../man/figures/vignette-workbook.gif" alt="Gif of a simple Excel workbook created using the a11ytables package, revealing tabs for cover, contents, notes and a table." width="100%"/>
@@ -258,23 +243,22 @@ The content of the output spreadsheet will look like this:
 
 You'll notice that various best-practice formatting (e.g. Arial size 12 font for body text) and mark-up (e.g. tables, donated by a marker in the lower-right corner of the lower-right cell of each one) have been applied throughout.
 
-Note also that two 'pre-table' meta-elements were created automatically in the sheets that contain statistical tables, which you didn't need to supply to `create_a11ytable()`: (1) the number of tables and (2) the presence of notes.
+Note also that two 'pre-table' meta-elements were created automatically in the sheets that contain statistical tables, which you didn't need to supply to `create_a11ytable()`: (1) the number of tables and (2) the presence of notes. These are required for accessibility good practice.
 
 #### Final tweaks
 
-It's your responsibility to check and amend the output from {a11ytables} to ensure it meets user's accessibility needs.
+It's your responsibility to check and amend the output from {a11ytables} to ensure it meets users' accessibility needs.
 
 You can apply some final tweaks to the output xlsx file if the defaults don't quite meet your requirements (e.g. some column widths), though it's advisable to keep changes to a minimum for reproducibility purposes and because you may undo some of the compliant structuring and formatting that {a11ytables} provides.
 
-At time of writing (v0.2.0) you might want to address manually some other [accessibility requirements](https://analysisfunction.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/) that are not yet covered by the package:
+At time of writing (v0.3.0) you might want to address manually some other [accessibility requirements](https://analysisfunction.civilservice.gov.uk/policy-store/releasing-statistics-in-spreadsheets/) that are not yet covered by the package:
 
 1. Fill in the document properties, which you are likely to find under 'File' then 'Properties' in your spreadsheet software
-2. Convert text to hyperlinks, where required
 3. Convert to an ODS file rather than the proprietary xlsx format
 4. Various number-formatting issues, like padding decimal places with zeroes
 
-Please [see the issues on GitHub](https://github.com/co-analysis/a11ytables/issues); we're trying to address a number of these limitations.
+We're trying to address a number of these limitations. Please [see the issues on GitHub](https://github.com/co-analysis/a11ytables/issues) for the current status.
 
-# Contribute
+## Contribute
 
 To contribute, please add [an issue](https://github.com/co-analysis/a11ytables/issues) or [a pull request](https://github.com/co-analysis/a11ytables/pulls) after reading [the code of conduct](https://github.com/co-analysis/a11ytables/blob/main/CODE_OF_CONDUCT.md) and [contributing](https://github.com/co-analysis/a11ytables/blob/main/.github/CONTRIBUTING.md) guidance. 
