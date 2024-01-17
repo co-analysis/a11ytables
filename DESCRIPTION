@@ -1,6 +1,6 @@
 Package: a11ytables
 Title: Create Spreadsheet Publications Following Best Practice
-Version: 0.3
+Version: 0.3.0.9001
 Authors@R: c(
     person(given = "Matt", family = "Dray", role = c("aut", "cre"), email = "mwdray@gmail.com"),
     person(given = "Tim", family = "Taylor", role = "ctb"),
