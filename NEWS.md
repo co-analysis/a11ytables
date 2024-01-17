@@ -1,3 +1,7 @@
+# a11ytables 0.3.0.9001
+
+* Reduce gif file size, include additional frame (#121).
+
 # a11ytables 0.3.0
 
 ## Breaking changes
