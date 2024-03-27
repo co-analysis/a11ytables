@@ -8,9 +8,9 @@
 #'
 #' @param tab_titles Required character vector, one value per sheet. Each title
 #'     will appear literally on each tab of the final spreadsheet output. Keep
-#'     brief. Letters and numbers only; use underscores for spaces. For example:
-#'     'Cover', 'Contents', 'Notes', 'Table_1'. Will be corrected automatically
-#'     if non-conforming.
+#'     brief. Letters and numbers only; do not start with a number; use
+#'     underscores for spaces. For example: 'Cover', 'Contents', 'Notes',
+#'     'Table_1'. Will be corrected automatically unless there's an error.
 #' @param sheet_types Required character vector, one value per sheet. Sheets
 #'     that don't contain publication tables ('meta' sheets) should be of type
 #'     'contents', 'cover' or 'notes'. Sheets that contain statistical tables of
@@ -210,6 +210,7 @@ create_a11ytable <- function(
 as_a11ytable <- function(x) {
 
   if (any(names(x) %in% "tab_title")) {
+    .check_tab_titles(x[["tab_title"]])
     x[["tab_title"]] <- .clean_tab_titles(x[["tab_title"]])
   }
 
