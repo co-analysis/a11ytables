@@ -174,6 +174,44 @@ test_that("absence of note sheets doesn't prevent a11ytable formation", {
 
 })
 
+test_that("tab_titles with starting numeral will error", {
+
+  demo_df[demo_df$tab_title == "Table_2", "tab_title"] <- "2_Table"
+
+  expect_error(
+    with(
+      demo_df,
+      create_a11ytable(
+        tab_titles   = tab_title,
+        sheet_types  = sheet_type,
+        sheet_titles = sheet_title,
+        tables       = table
+      )
+    ),
+    "Elements in tab_titles must not begin with a numeral \\(change 2_Table\\)\\."
+  )
+
+})
+
+test_that("non-conforming tab_titles are cleaned", {
+
+  expect_warning(
+    create_a11ytable(
+      tab_titles   = c("cover", "contents", "Table 2"),
+      sheet_types  = c("cover", "contents", "tables"),
+      sheet_titles = c("Cover", "Contents", "Table"),
+      source = "Source",
+      tables       = list(
+        demo_df[["table"]][[1]],
+        demo_df[["table"]][[2]][3, ],
+        mtcars
+      )
+    ),
+    "These tab_titles have been cleaned automatically: Table 2 \\(now Table_2\\)"
+  )
+
+})
+
 test_that("tab_titles are unique", {
 
   demo_df[demo_df$tab_title == "Table_2", "tab_title"] <- "Table_1"
@@ -317,21 +355,54 @@ test_that("period added to end of text if needed", {
 
 test_that("tab titles are cleaned and warnings provided", {
 
-  long_title <- "12345678901234567890123456789012"
+  long_title <- "X12345678901234567890123456789012"
 
-  expect_warning(.clean_tab_titles("Table 1"))
-  expect_warning(.clean_tab_titles(c("Table 1", "Table 2")))
-  expect_warning(.clean_tab_titles(c("Table_1", "Table 2")))
-  expect_warning(.clean_tab_titles("Table!@£#$%^&*(){}[]-=+;:'\"\\|<>,.~`/?1"))
-  expect_warning(.clean_tab_titles(long_title))
+  expect_warning(
+    .clean_tab_titles("Table 1"),
+    "These tab_titles have been cleaned automatically: Table 1 \\(now Table_1\\)\\."
+  )
+
+  expect_warning(
+    .clean_tab_titles(c("Table 1", "Table 2")),
+    "These tab_titles have been cleaned automatically: Table 1, Table 2 \\(now Table_1, Table_2\\)\\."
+  )
+
+  expect_warning(
+    .clean_tab_titles(c("Table_1", "Table 2")),
+    "These tab_titles have been cleaned automatically: Table 2 \\(now Table_2\\)\\."
+  )
+
+  expect_warning(
+    .clean_tab_titles("Table!@£#$%^&*(){}[]-=+;:'\"\\|<>,.~`/?1"),
+    "These tab_titles have been cleaned automatically:.+now Table1\\)\\."
+  )
+
+  expect_warning(
+    .clean_tab_titles(long_title),
+    "These tab_titles have been cleaned automatically: X12345678901234567890123456789012 \\(now X123456789012345678901234567890\\)\\."
+  )
 
   x <- demo_df
   x[1, "tab_title"] <- long_title
   expect_warning(as_a11ytable(x))
 
-  y <- demo_df
-  y[1, "tab_title"] <- "Cover!"
-  expect_warning(as_a11ytable(y))
+  x <- demo_df
+  x[1, "tab_title"] <- "Cover!"
+  expect_warning(as_a11ytable(x))
+
+  x <- demo_df
+  x["tab_title"][5, ] <- long_title
+  expect_warning(
+    .warn_a11ytable(x),
+    "Each tab_title must be shorter than 31 characters."
+  )
+
+  x <- demo_df
+  x["tab_title"][5, ] <- "Table-1!"
+  expect_warning(
+    .warn_a11ytable(x),
+    "Each tab_title must contain only letters, numbers or underscores."
+  )
 
 })
 

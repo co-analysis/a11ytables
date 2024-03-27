@@ -1,3 +1,19 @@
+#' Clean Sheet Tab Titles
+#' @param tab_titles Character vector. Names of tabs in the workbook.
+#' @noRd
+.check_tab_titles <- function(tab_titles) {
+
+  tab_title_num_start <- grep("^\\d", unlist(tab_titles))
+
+  if (length(tab_title_num_start) > 0) {
+    stop(
+      "Elements in tab_titles must not begin with a numeral (change ",
+      .vector_to_sentence(tab_titles[tab_title_num_start]), ").",
+      call. = FALSE
+    )
+  }
+
+}
 
 #' Clean Sheet Tab Titles
 #' @param tab_titles Character vector. Names of tabs in the workbook.

@@ -1,5 +1,6 @@
-# a11ytables 0.3.0.9001
+# a11ytables 0.3.1
 
+* Bug fix: make it an error if tab names are started with a numeric value (#124).
 * Reduce gif file size, include additional frame (#121).
 
 # a11ytables 0.3.0
