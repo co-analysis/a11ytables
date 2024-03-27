@@ -190,7 +190,7 @@ my_a11ytable <-
   )
 ```
 
-The function will return errors or warnings if anything is missing or seems odd. For example, we were warned that a value we supplied to `tab_title` had to be cleaned from 'Table 1' to 'Table_1', since blank spaces are not allowed in tab names.
+The function will return errors or warnings if anything is missing or seems odd. For example, we were warned that a value we supplied to `tab_title` had to be cleaned from 'Table 1' to 'Table_1', since blank spaces are not allowed in tab names. Note that there will be an error if there are any tab titles that start with a numeral.
 
 Here's a preview of the object that was created:
 
