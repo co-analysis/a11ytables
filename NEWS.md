@@ -1,6 +1,6 @@
 # a11ytables 0.3.2
 
-* Bug fix: ensured factors are converted to character before assessing the need for a column-header linebreak with `nchar()` (a function that doesn't accept factors) (#110).
+* Bug fix: ensured factors are converted to character before assessing whether the column needs to be widened (#110, #113).
 
 # a11ytables 0.3.1
 
