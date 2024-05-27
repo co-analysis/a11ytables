@@ -1,7 +1,11 @@
+# a11ytables 0.3.2
+
+* Bug fix: ensured factors are converted to character before assessing the need for a column-header linebreak with `nchar()` (a function that doesn't accept factors) (#110).
+
 # a11ytables 0.3.1
 
-* Bug fix: make it an error if tab names are started with a numeric value (#124).
-* Reduce gif file size, include additional frame (#121).
+* Bug fix: made it an error if tab names are started with a numeric value (#124).
+* Reduced gif file size, include additional frame (#121).
 
 # a11ytables 0.3.0
 
