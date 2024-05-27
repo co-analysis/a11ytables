@@ -94,7 +94,9 @@
   likely_num_cols <- names(Filter(isTRUE, cols_numeric))  # return names of columns that are most likely numeric
   num_cols_index <- which(names(table) %in% likely_num_cols)  # get the index of columns that are likely numeric, so styles can be applied
 
-  # Columns that should be wider than default
+  # Find indices of columns that should be wider than default
+  is_factor_column <- sapply(table, is.factor)   # nchar (below) fails on factors
+  table[is_factor_column] <- lapply(table[is_factor_column], as.character)
   wide_cells <- names(Filter(function(x) max(nchar(x)) > nchar_break, table))
   wide_cells_index <- which(names(table) %in% wide_cells)
   wide_headers_index <- which(nchar(names(table)) > nchar_break)
